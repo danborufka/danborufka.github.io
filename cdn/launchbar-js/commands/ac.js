@@ -79,7 +79,7 @@ var lookup_table =
 		}
 	}
 
-	$('textarea, :text').not('#launchbar *').on('keyup', function(e)
+	$(document).on('keyup', 'textarea:not("#launchbar *"), :text:not("#launchbar *")', function(e)
 	{
 		switch(e.which)
 		{
