@@ -1,6 +1,7 @@
 /* autocomplete command palette */
 
-var lookup_table = 
+var lookup_table = {};
+	/*
 	{ 	i18n: 	'internationalization',
 		uawg: 	'Um Antwort wird gebeten',
 		lmfao: 	'laughing my fucking ass off',
@@ -13,7 +14,7 @@ var lookup_table =
 		'^2': 	'²',
 		'==>': 	'⇒'
 	};
-
+	*/
 
 (function($) 
 {
@@ -43,8 +44,6 @@ var lookup_table =
 
 	    return this;
 	};
-
-	console.log('init w/ lookup_table', lookup_table);
 
 	function autochange()
 	{
@@ -82,7 +81,7 @@ var lookup_table =
 	};
 
 	$(document)
-		.on('keyup', 'textarea:not("#launchbar *"), :text:not("#launchbar *")', function(e)
+		.on('keyup', 'textarea, :text:not("#launchbar *"), input[type=email]', function(e)
 		{
 			switch(e.which)
 			{
