@@ -36,10 +36,11 @@ var lookup_table =
                 self.setSelectionRange(caretPos, caretPos);
             }
             else
+            {
                 self.focus();
 	        }
-	    };
-	    
+	    }
+
 	    return this;
 	};
 
