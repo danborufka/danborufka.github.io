@@ -42,6 +42,8 @@ var lookup_table =
 	    return this;
 	}
 
+	console.log('init w/ lookup_table', lookup_table);
+
 	function autochange()
 	{
 		var $this 		= $(this),
