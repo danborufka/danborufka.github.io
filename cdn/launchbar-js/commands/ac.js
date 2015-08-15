@@ -18,7 +18,7 @@ var lookup_table =
 (function($) 
 {
 	lookup_table = $.extend(true, lookup_table, LAUNCHBAR.storage['ac.dict']);
-	
+
     $.fn.setCaret = function(caretPos) 
 	{
 		var self = this.get(0);
@@ -49,6 +49,8 @@ var lookup_table =
 			textparts 	= val.split( /([\s\,\.\;\!\?\:\"\'])/ ),
 			replaced 	= false,
 			caretPos, i;
+
+		console.log('autochanging??');
 
 		(function()	// function wrapper so we can exit for-loop using return
 		{
@@ -112,6 +114,8 @@ LAUNCHBAR.install({
 				}
 				LAUNCHBAR.storage['ac.dict'][shortcut] = by;
 				LAUNCHBAR.storage.save();
+
+				lookup_table[shortcut] = by;
 
 			}
 		}
