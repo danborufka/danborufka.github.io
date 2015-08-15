@@ -14,8 +14,11 @@ var lookup_table =
 		'==>': 	'⇒'
 	};
 
+
 (function($) 
 {
+	lookup_table = $.extend(true, lookup_table, LAUNCHBAR.storage['ac.dict']);
+	
     $.fn.setCaret = function(caretPos) 
 	{
 		var self = this.get(0);
