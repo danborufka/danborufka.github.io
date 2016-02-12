@@ -146,7 +146,7 @@ jQuery(function($)
             url:        'https://api.github.com/repos/workflow/dropz/issues',
             dataType:   'json',
             headers: {
-                "Authorization": "Basic " + btoa('danborufka:g1t579#0a')
+                "Authorization": "Basic " + btoa('danborufka:******')
             },
             data: data,
             success: function(results)
