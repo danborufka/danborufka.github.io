@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Letter test</title>
+	<style type="text/css">
+		html,
+		body {
+		    margin: 0;
+		    overflow: hidden;
+		    height: 100%;
+		}
+		body {
+			background: #ddf;
+		}
+		canvas[resize] {
+			width: 	calc(100% - 4px);
+			height: calc(100% - 4px);
+		}
+		
+		#mainCanvas {
+			background: radial-gradient(ellipse at center, #f9f2e5 45%,#fcdec9 100%);
+			border: 2px solid #AAA;
+			cursor: -webkit-grab;
+			cursor: grab;
+		}
+
+		#mainCanvas:active {
+			border: 1px solid orange;
+			cursor: -webkit-grabbing;
+			cursor: grabbing;
+			width: 	calc(100% - 2px);
+			height: calc(100% - 2px);
+		}
+	</style>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
+	<canvas id="mainCanvas" resize></canvas>
+	<script src="js/paper-full.min.js"></script>
+	<script src="js/main.js" type="text/paperscript" canvas="mainCanvas"></script>
+</body>
+</html>
