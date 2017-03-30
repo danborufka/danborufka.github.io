@@ -1,1 +1,213 @@
-<svg id="scene" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 177.14 297.74"><defs><style>.cls-1,.cls-3{fill:#a66b5f;}.cls-10,.cls-2,.cls-7{fill:none;}.cls-2{stroke:#484038;stroke-width:0.5px;}.cls-3{stroke:#594a42;}.cls-10,.cls-3,.cls-7{stroke-miterlimit:10;}.cls-4{fill:#423836;}.cls-5{fill:#fff;}.cls-6{opacity:0;}.cls-7{stroke:#010101;}.cls-8{opacity:0.1;}.cls-9{fill:url(#linear-gradient);}.cls-10{stroke:#000;stroke-width:0.71px;stroke-dasharray:2.88 2.88;}</style><linearGradient id="linear-gradient" x1="49.87" y1="165.02" x2="112.21" y2="165.02" gradientUnits="userSpaceOnUse"><stop offset="0.05" stop-color="#f1f0f0" stop-opacity="0"/><stop offset="1" stop-color="#f1f0f0" stop-opacity="0"/></linearGradient><symbol id="fur_row" data-name="fur_row" viewBox="0 0 30.7 40.14"><g id="_1" data-name="1"><path class="cls-1" d="M20.35,30.6l-0.13,0c2.85-1.27,6,.13,8.93-0.32-3,2.72-1.81,8.18-6.22,9.59"/><path class="cls-1" d="M19.12,28.13l0,0c1.73-2.41,1.24-6.25,3.8-8-2.67.5-7.06-.38-9.24,1.21l0,0"/><path class="cls-1" d="M5.9,12.82c1.14-1,3.42-1.91,7.76-2.28-1.54,2-1.81,5.12-2.74,6.87"/><path class="cls-1" d="M0.09,3.61c3-1.13,7.78-1.23,9-2.05L9.15,1.61c-1.73.15-3,4-4.67,6.61"/><path class="cls-2" d="M20.35,30.6l-0.13,0c2.85-1.27,6,.13,8.93-0.32-3,2.72-1.81,8.18-6.22,9.59"/><path class="cls-2" d="M20.35,30.6l-0.13,0c2.85-1.27,6,.13,8.93-0.32-3,2.72-1.81,8.18-6.22,9.59"/><path class="cls-2" d="M19.12,28.13l0,0c1.73-2.41,1.24-6.25,3.8-8-2.67.5-7.06-.38-9.24,1.21l0,0"/><path class="cls-2" d="M19.12,28.13l0,0c1.73-2.41,1.24-6.25,3.8-8-2.67.5-7.06-.38-9.24,1.21l0,0"/><path class="cls-2" d="M5.9,12.82c1.14-1,3.42-1.91,7.76-2.28-1.54,2-1.81,5.12-2.74,6.87"/><path class="cls-2" d="M5.9,12.82c1.14-1,3.42-1.91,7.76-2.28-1.54,2-1.81,5.12-2.74,6.87"/><path class="cls-2" d="M0.09,3.61c3-1.13,7.78-1.23,9-2.05L9.15,1.61c-1.73.15-3,4-4.67,6.61"/><path class="cls-2" d="M0.09,3.61c3-1.13,7.78-1.23,9-2.05L9.15,1.61c-1.73.15-3,4-4.67,6.61"/></g></symbol></defs><title>purrly</title><g id="purrly"><g id="body"><path class="cls-3" d="M210.61,201.9l0.37-.12,0.46-.15,0.29-.09h0l0.41-.17,0.56-.25,0.74-.36c1.14-.56,2.8-1.49,5.71-3.09,1.46-.79,3.25-1.74,5.59-2.78,1.9-.83,3.76-1.57,5.51-2.26a79.31,79.31,0,0,0,8.68-3.75l0.87-.51,1.22-.74c0.81-.5,1.63-1,2.45-1.58,1.64-1.09,3.3-2.26,4.93-3.52q1.23-.94,2.45-1.95l1.32-1.11,1.28-1.11c1.74-1.53,3.4-3.08,4.87-4.61,0.74-.77,1.43-1.53,2.06-2.28q0.48-.56.91-1.11l1.21-1.57a71,71,0,0,0,4.08-5.86c0.54-.89,1-1.71,1.35-2.45l0.24-.53,0.1-.25,0.05-.12-0.06.15,0.06-.14,0.22-.57,0.11-.28,0-.11,0.16-.45a32.28,32.28,0,0,0,1.38-6c0.15-1.1.26-2.25,0.32-3.42v-0.33c0-.37,0,0.39,0,0.25l0-.65v-0.32c0-.07,0-0.08,0-0.07h0c0-.16,0-0.62-0.07-1a32,32,0,0,0-1.48-6.31c-0.21-.65-0.44-1.34-0.69-2.05l-0.35-1-0.21-.51a28.17,28.17,0,0,0-1.42-2.93,34.83,34.83,0,0,0-1.89-3c-0.36-.51-0.73-1-1.13-1.54l-1.48-1.86a72.47,72.47,0,0,0-5.86-6.8c-0.41-.41-0.8-0.75-1.18-1.08l-0.56-.46-0.27-.21-0.13-.11,0.09,0.07-0.15-.11-0.57-.41-0.14-.09-0.6-.39c-0.5-.3-1-0.63-1.65-1-2.46-1.37-5.86-3-9.74-4.86a68.43,68.43,0,0,0-8.62-3.26l-6.1-2-1.66-.59-1.88-.71-3.13-1.25c-1.94-.79-3.52-1.42-4.91-1.92-0.67-.23-1.32-0.45-1.88-0.61-0.3-.09-0.55-0.15-0.82-0.23l-0.37-.09-0.19,0,0.13,0-0.19,0-0.71-.15-0.15,0-0.79-.12c-0.62-.09-1.37-0.16-2.17-0.24l-6-.45c-1.14-.09-2.4-0.2-3.68-0.33l-2-.24-1.83-.25-6.45-1c-2-.32-3.81-0.59-5.53-0.8-0.85-.1-1.69-0.2-2.49-0.27l-0.6-.05-0.3,0h-0.15l0.38,0-0.78,0-0.39,0,0.12,0h0.23c-0.05,0-.09,0-0.13,0a1.72,1.72,0,0,0-.24.06,2.73,2.73,0,0,0-.67.31,5.74,5.74,0,0,0-.49.36l-0.14.12-0.07.06,0,0c0.12-.11-0.31.29,0.25-0.24l-0.56.55-0.14.14-0.1.1,0,0,0,0-0.11.14c-0.08.09-.13,0.17-0.21,0.25s-0.21.3-.27,0.42a2.27,2.27,0,0,0-.2.48,1.44,1.44,0,0,0,0,.19s0,0.09,0,.13l0,1.51-0.33,24.91-0.1,6.17,0,1.54v1.4l0,1.11,0,1.27c0.1,3.49.43,7.78,0.48,12.69v2l0,1.7c0,1.38-.09,2.45-0.15,3.61l-0.4,6.16c-0.12,1.86-.22,3.55-0.25,5.08l0,2.53,0,2.74c0,3.73.16,7.76,0.14,12l0,2.67,0,2.61,0.12,5.62c0.1,3.89.1,8.33,0,12.27s-0.31,7.49-.39,10.75l0,2.28V224l0,1c0,1.4.15,3,.27,4.69s0.21,3.64.29,5.7c0,1,.05,2.11.06,3.22l0,1.72,0,1.34c-0.13,4-.39,7.34-0.58,10.47l-0.29,4.39-0.26,4.58L173,270.3l-0.25,4.46c-0.07,1.47-.08,2.92-0.17,4.35l-0.43,8.37-0.21,4-0.05,1.19-0.08,1L171.74,295c0,0.51-.09.86-0.14,1.28-0.4,3.21-.94,5.92-1.38,8.16l-1,5.25,0,0.12c0-.09,0,0,0,0V310l0,0.41-0.08.79-0.14,1.43-0.23,2.93-0.42,5.75c-0.14,1.89-.29,3.76-0.46,5.63l-0.52,4.15a36.42,36.42,0,0,0-.34,6.33,40.9,40.9,0,0,1-.35,5.63l-0.24,1.73a10.62,10.62,0,0,1-20.83,1.13l-0.28-1.13-0.33-1.35a29.42,29.42,0,0,0-1-3.29l-0.2-.54c-0.07-.19-0.15-0.41-0.23-0.69-0.17-.51-0.37-1.22-0.56-2-0.38-1.54-.67-3.22-0.95-4.86-0.14-.83-0.26-1.7-0.39-2.6s-0.25-1.52-.35-2.43l-0.74-4.76c-0.28-1.77-.61-3.72-0.85-5.83l-0.38-3.29-0.18-1.79L139,310.5l0-.41V310a1.18,1.18,0,0,1,0-.17l0-.3a74,74,0,0,1,.05-8.54c0.11-2.5.2-4.69,0.12-6.56L138.2,279.1c-0.09-1.43-.1-2.88-0.15-4.35l0-4.46,0-4.56c0-1.54.06-3.09,0.08-4.66l0.09-4.93c0-1.82.1-3.58,0.23-5.29l0.65-9.52,0.12-2.09c0-.63,0-1.28,0-2,0-1.42,0-3-.1-4.77s-0.14-3.7-.16-5.8V225c0-.6,0-1.3,0-1.67L139,221.8l0.07-1.47c0.19-3.89.55-7.58,0.73-11.09s0.25-6.67.15-10.36l-0.2-5.76L139.68,190l0-3.05c-0.09-3.53-.34-7.31-0.53-11.39-0.06-1-.08-2.06-0.14-3.12l-0.08-1.61-0.06-1.71c-0.07-2.35-.05-4.58,0-6.68s0-4.07,0-5.87c0-.88-0.06-1.83-0.11-2.52l-0.09-1.35c0-.09,0,0.11,0,0v-0.15l0-.3-0.06-.61c-0.31-3.31-.91-7.12-1.38-11.72l-0.16-1.77-0.14-1.91,0-.38v-0.19a3.15,3.15,0,0,1,0-.32l0-.77L136.62,133l-0.31-6.17c-0.44-8.25-.81-16.56-1-24.91l0-1.62c0-1,0-2,.08-3a41.28,41.28,0,0,1,.82-6,40.44,40.44,0,0,1,4.19-11.22,44.81,44.81,0,0,1,3.13-4.86c0.57-.75,1.15-1.5,1.75-2.21L146.21,72c0.34-.38.74-0.81,1.12-1.2l0.58-.6,0.32-.32,0.56-.55,0.54-.51,0.26-.23,0.52-.46c0.34-.31.69-0.61,1.06-0.91a45.59,45.59,0,0,1,4.59-3.35,42.9,42.9,0,0,1,10.75-4.91,41.9,41.9,0,0,1,5.91-1.31c1-.13,2-0.27,3-0.32,0.51,0,1-.07,1.53-0.09l1.85,0h0.91l0.39,0,0.78,0,1.51,0.1,1,0.08c1.29,0.11,2.53.24,3.76,0.38,2.43,0.29,4.74.62,6.88,0.95l5.91,0.88,0.77,0.11,0.49,0.06,1.09,0.12c0.78,0.07,1.59.14,2.52,0.2,1.81,0.13,4,.24,6.43.43,1.26,0.11,2.57.23,4,.42l1.1,0.15,1.2,0.19,1.39,0.25,0.81,0.16,0.71,0.15L221,62l1.14,0.27c0.73,0.19,1.48.38,2.18,0.59,1.43,0.41,2.75.84,4,1.28,2.5,0.87,4.73,1.77,6.59,2.5l2.56,1,1,0.35,1.21,0.42,5.46,1.74a103.9,103.9,0,0,1,14,5.34c3.28,1.59,7.1,3.28,11.58,5.72,1.11,0.61,2.28,1.28,3.47,2l0.91,0.57,1,0.64,1.09,0.75,0.62,0.44L278.31,86l0.45,0.34,0.9,0.69c0.58,0.46,1.16.93,1.72,1.4,1.1,1,2.17,1.92,3.15,2.88a109,109,0,0,1,9.26,10.56l0.9,1.13,1.14,1.47q1.13,1.48,2.21,3a75.78,75.78,0,0,1,4.06,6.51,69.1,69.1,0,0,1,3.43,7.07c0.24,0.56.55,1.37,0.82,2.06l0.59,1.61c0.35,1,.7,2,1,3.11a72,72,0,0,1,3.21,14.62c0.14,1.41.23,2.71,0.27,4.32V149l0,0.65-0.05,1.23c-0.12,2.29-.33,4.57-0.65,6.85a73.09,73.09,0,0,1-3.2,13.62c-0.17.52-.45,1.26-0.68,1.88l-0.51,1.32-0.42,1-0.38.88-0.78,1.69c-1.06,2.19-2.16,4.16-3.27,6A110.23,110.23,0,0,1,295,193.5l-1.54,2q-1,1.21-1.93,2.33c-1.29,1.5-2.57,2.88-3.84,4.18-2.54,2.6-5,4.84-7.36,6.89l-1.79,1.53-1.74,1.45q-1.85,1.51-3.68,2.89c-2.44,1.84-4.85,3.51-7.2,5.05-1.18.77-2.34,1.5-3.49,2.21l-1.71,1-0.92.54-1.12.63a77.12,77.12,0,0,1-7.79,3.68c-2.26.93-4.17,1.65-5.84,2.29s-3,1.17-4.12,1.62c-0.64.25-1.58,0.69-2.63,1.24-2.1,1.09-4.69,2.52-7.09,3.66l-1.77.82-1.67.71-1.51.6-1.59.57-0.68.23-0.31.09-0.46.14-0.37.11-0.32.1A20,20,0,0,1,210.61,201.9Z" transform="translate(-134.83 -56.68)"/></g><g id="head"><g id="brow_right"><path d="M201.62,217.72l0.27-.15a3,3,0,0,1,2-.22,3.45,3.45,0,0,1,1.24.57,3.19,3.19,0,0,1,1.23,2.17,2.61,2.61,0,0,1-.1,1.13v-0.31a3.65,3.65,0,0,0-.08-0.79,3.35,3.35,0,0,0-3.46-2.63,4,4,0,0,0-.79.13Z" transform="translate(-134.83 -56.68)"/></g><g id="brow_left"><path d="M213.51,225.35a2.76,2.76,0,0,1,.32-0.22,3.41,3.41,0,0,1,2.42-.41,3.68,3.68,0,0,1,.79.27,3.58,3.58,0,0,1,.74.47,3.61,3.61,0,0,1,1.11,3.82l-0.14.36,0.08-.38a4.34,4.34,0,0,0,0-1,3.7,3.7,0,0,0-1.3-2.57,3.31,3.31,0,0,0-.65-0.44,3.39,3.39,0,0,0-.73-0.27,3.63,3.63,0,0,0-1.38-.07,4,4,0,0,0-1,.27Z" transform="translate(-134.83 -56.68)"/></g><g id="mouth"><path class="cls-4" d="M202.27,226.25a4.16,4.16,0,0,0,1.42,1.27,1.27,1.27,0,0,0,.41.13,0.58,0.58,0,0,0,.2,0,0.84,0.84,0,0,0,.2,0,1.1,1.1,0,0,0,.37-0.15,3.12,3.12,0,0,0,.34-0.25l0.13-.08h0.07l0.31,0.06a1.79,1.79,0,0,1,.24.15,1.66,1.66,0,0,1,.3.35,4.67,4.67,0,0,1,.38.7c0.22,0.46.41,0.91,0.66,1.32a4.77,4.77,0,0,0,.4.59,3.63,3.63,0,0,0,.5.5,3,3,0,0,0,.62.36,4.53,4.53,0,0,0,.71.23,2.77,2.77,0,0,1-.77,0,2.51,2.51,0,0,1-.75-0.25,3.1,3.1,0,0,1-.65-0.48,4,4,0,0,1-.52-0.61,9.31,9.31,0,0,1-.76-1.34c-0.11-.22-0.22-0.45-0.34-0.63a1.09,1.09,0,0,0-.18-0.23l-0.08-.06-0.06,0,0.19-.07a2.8,2.8,0,0,1-.48.3,1.65,1.65,0,0,1-.56.17,1.06,1.06,0,0,1-.3,0,1,1,0,0,1-.29-0.05,1.7,1.7,0,0,1-.51-0.23,2.67,2.67,0,0,1-.74-0.74A3.83,3.83,0,0,1,202.27,226.25Z" transform="translate(-134.83 -56.68)"/></g><path id="nose" class="cls-4" d="M205.41,227.46s-0.63-3.22.54-2.75S209.92,225.84,205.41,227.46Z" transform="translate(-134.83 -56.68)"/><g id="eyes"><path class="cls-4" d="M218.64,229.71c-0.78,1.3-2.58,1.51-4,.47a3.36,3.36,0,0,1-1.23-4.25c0.78-1.3,2.58-1.51,4-.47A3.36,3.36,0,0,1,218.64,229.71Z" transform="translate(-134.83 -56.68)"/><circle class="cls-5" cx="217.47" cy="227.69" r="0.91" transform="translate(-208.01 292.05) rotate(-68.93)"/><circle class="cls-5" cx="215.35" cy="226.91" r="0.48" transform="translate(-208.65 289.58) rotate(-68.93)"/><path class="cls-4" d="M206.06,220.72c-0.5,1-2,1.19-3.36.47s-2-2.1-1.54-3.07,2-1.19,3.36-.47S206.56,219.74,206.06,220.72Z" transform="translate(-134.83 -56.68)"/><circle class="cls-5" cx="204.57" cy="219.11" r="0.91" transform="translate(-208.28 274.52) rotate(-68.93)"/><ellipse class="cls-5" cx="203.22" cy="218.12" rx="0.48" ry="0.4" transform="translate(-208.22 272.63) rotate(-68.93)"/></g></g></g><use width="30.7" height="40.14" transform="translate(35.64 255.07) rotate(114.58) scale(0.67)" xlink:href="#fur_row"/><use id="fur_row-5" data-name="fur_row" width="30.7" height="40.14" transform="translate(35.88 245.62) rotate(115.61) scale(0.68)" xlink:href="#fur_row"/><use id="fur_row-8" data-name="fur_row" width="30.7" height="40.14" transform="translate(36.29 235.99) rotate(116.25) scale(0.68)" xlink:href="#fur_row"/><use id="fur_row-11" data-name="fur_row" width="30.7" height="40.14" transform="translate(36.79 226.19) rotate(116.51) scale(0.69)" xlink:href="#fur_row"/><use id="fur_row-14" data-name="fur_row" width="30.7" height="40.14" transform="translate(37.34 216.22) rotate(116.39) scale(0.69)" xlink:href="#fur_row"/><use id="fur_row-17" data-name="fur_row" width="30.7" height="40.14" transform="translate(37.86 206.1) rotate(115.92) scale(0.7)" xlink:href="#fur_row"/><use id="fur_row-20" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.29 195.83) rotate(115.09) scale(0.7)" xlink:href="#fur_row"/><use id="fur_row-23" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.56 185.42) rotate(113.9) scale(0.71)" xlink:href="#fur_row"/><use id="fur_row-26" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.63 175.04) rotate(112.95) scale(0.71)" xlink:href="#fur_row"/><use id="fur_row-29" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.76 165.08) rotate(113.37) scale(0.71)" xlink:href="#fur_row"/><use id="fur_row-32" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.95 155.09) rotate(113.5) scale(0.72)" xlink:href="#fur_row"/><use id="fur_row-35" data-name="fur_row" width="30.7" height="40.14" transform="translate(39.17 145.08) rotate(113.34) scale(0.72)" xlink:href="#fur_row"/><use id="fur_row-38" data-name="fur_row" width="30.7" height="40.14" transform="translate(39.35 135.02) rotate(112.88) scale(0.73)" xlink:href="#fur_row"/><use id="fur_row-41" data-name="fur_row" width="30.7" height="40.14" transform="translate(39.44 124.91) rotate(112.11) scale(0.73)" xlink:href="#fur_row"/><use id="fur_row-44" data-name="fur_row" width="30.7" height="40.14" transform="translate(39.38 114.74) rotate(111.04) scale(0.74)" xlink:href="#fur_row"/><use id="fur_row-47" data-name="fur_row" width="30.7" height="40.14" transform="matrix(-0.25, 0.7, -0.7, -0.25, 39.13, 104.51)" xlink:href="#fur_row"/><use id="fur_row-50" data-name="fur_row" width="30.7" height="40.14" transform="matrix(-0.24, 0.71, -0.71, -0.24, 38.65, 94.35)" xlink:href="#fur_row"/><use id="fur_row-53" data-name="fur_row" width="30.7" height="40.14" transform="translate(38.1 84.4) rotate(108.02) scale(0.75)" xlink:href="#fur_row"/><use id="fur_row-56" data-name="fur_row" width="30.7" height="40.14" transform="matrix(-0.24, 0.72, -0.72, -0.24, 37.63, 74.59)" xlink:href="#fur_row"/><use id="fur_row-59" data-name="fur_row" width="30.7" height="40.14" transform="translate(37.35 64.94) rotate(109.6) scale(0.76)" xlink:href="#fur_row"/><use id="fur_row-62" data-name="fur_row" width="30.7" height="40.14" transform="translate(37.4 55.48) rotate(111.55) scale(0.77)" xlink:href="#fur_row"/><use id="fur_row-65" data-name="fur_row" width="30.7" height="40.14" transform="translate(37.89 46.26) rotate(114.28) scale(0.77)" xlink:href="#fur_row"/><use id="fur_row-68" data-name="fur_row" width="30.7" height="40.14" transform="translate(39.04 37.85) rotate(121.32) scale(0.78)" xlink:href="#fur_row"/><use id="fur_row-71" data-name="fur_row" width="30.7" height="40.14" transform="translate(41.1 36.68) rotate(142.68) scale(0.78)" xlink:href="#fur_row"/><use id="fur_row-74" data-name="fur_row" width="30.7" height="40.14" transform="translate(43.97 38.34) rotate(166.25) scale(0.79)" xlink:href="#fur_row"/><use id="fur_row-77" data-name="fur_row" width="30.7" height="40.14" transform="translate(48.01 39.65) rotate(-175.11) scale(0.79)" xlink:href="#fur_row"/><use id="fur_row-80" data-name="fur_row" width="30.7" height="40.14" transform="translate(54.27 40.43) rotate(-163.07) scale(0.8)" xlink:href="#fur_row"/><use id="fur_row-83" data-name="fur_row" width="30.7" height="40.14" transform="translate(62.61 41.01) rotate(-155.81) scale(0.8)" xlink:href="#fur_row"/><use id="fur_row-86" data-name="fur_row" width="30.7" height="40.14" transform="translate(72.34 42.42) rotate(-151.68) scale(0.81)" xlink:href="#fur_row"/><use id="fur_row-89" data-name="fur_row" width="30.7" height="40.14" transform="matrix(-0.7, -0.42, 0.42, -0.7, 82.57, 44.37)" xlink:href="#fur_row"/><use id="fur_row-92" data-name="fur_row" width="30.7" height="40.14" transform="translate(90.9 46.87) rotate(-144.42) scale(0.82)" xlink:href="#fur_row"/><use id="fur_row-95" data-name="fur_row" width="30.7" height="40.14" transform="translate(99.35 50.11) rotate(-139.91) scale(0.82)" xlink:href="#fur_row"/><use id="fur_row-98" data-name="fur_row" width="30.7" height="40.14" transform="translate(107.38 54.03) rotate(-135.32) scale(0.83)" xlink:href="#fur_row"/><use id="fur_row-101" data-name="fur_row" width="30.7" height="40.14" transform="matrix(-0.54, -0.63, 0.63, -0.54, 114.82, 58.55)" xlink:href="#fur_row"/><use id="fur_row-104" data-name="fur_row" width="30.7" height="40.14" transform="translate(121.46 63.58) rotate(-125.31) scale(0.84)" xlink:href="#fur_row"/><use id="fur_row-107" data-name="fur_row" width="30.7" height="40.14" transform="translate(127.11 69.11) rotate(-119.55) scale(0.84)" xlink:href="#fur_row"/><use id="fur_row-110" data-name="fur_row" width="30.7" height="40.14" transform="translate(131.62 75.28) rotate(-113.06) scale(0.85)" xlink:href="#fur_row"/><use id="fur_row-113" data-name="fur_row" width="30.7" height="40.14" transform="translate(134.83 81.6) rotate(-105.64) scale(0.85)" xlink:href="#fur_row"/><use id="fur_row-116" data-name="fur_row" width="30.7" height="40.14" transform="translate(136.68 87.92) rotate(-97.16) scale(0.86)" xlink:href="#fur_row"/><use id="fur_row-119" data-name="fur_row" width="30.7" height="40.14" transform="translate(137.18 94.06) rotate(-87.61) scale(0.86)" xlink:href="#fur_row"/><use id="fur_row-122" data-name="fur_row" width="30.7" height="40.14" transform="matrix(0.2, -0.84, 0.84, 0.2, 136.39, 100)" xlink:href="#fur_row"/><use id="fur_row-125" data-name="fur_row" width="30.7" height="40.14" transform="translate(134.9 105.31) rotate(-63.03) scale(0.87)" xlink:href="#fur_row"/><use id="fur_row-128" data-name="fur_row" width="30.7" height="40.14" transform="translate(132.58 109.2) rotate(-50.25) scale(0.88)" xlink:href="#fur_row"/><use id="fur_row-131" data-name="fur_row" width="30.7" height="40.14" transform="translate(129.11 113.18) rotate(-39.47) scale(0.88)" xlink:href="#fur_row"/><use id="fur_row-134" data-name="fur_row" width="30.7" height="40.14" transform="translate(124.34 117.43) rotate(-30.89) scale(0.89)" xlink:href="#fur_row"/><use id="fur_row-137" data-name="fur_row" width="30.7" height="40.14" transform="translate(117.89 122) rotate(-24.25) scale(0.89)" xlink:href="#fur_row"/><use id="fur_row-140" data-name="fur_row" width="30.7" height="40.14" transform="translate(110.49 126.56) rotate(-19.13) scale(0.9)" xlink:href="#fur_row"/><use id="fur_row-143" data-name="fur_row" width="30.7" height="40.14" transform="matrix(0.87, -0.24, 0.24, 0.87, 102.41, 130.98)" xlink:href="#fur_row"/><use id="fur_row-146" data-name="fur_row" width="30.7" height="40.14" transform="matrix(0.88, -0.19, 0.19, 0.88, 93.94, 135.16)" xlink:href="#fur_row"/><use id="fur_row-149" data-name="fur_row" width="30.7" height="40.14" transform="translate(85.38 139.01) rotate(-9.84) scale(0.91)" xlink:href="#fur_row"/><use id="fur_row-152" data-name="fur_row" width="30.7" height="40.14" transform="translate(77.05 142.49) rotate(-8.14) scale(0.92)" xlink:href="#fur_row"/><g id="strokes" class="cls-6"><path id="path" class="cls-7" d="M218.27,222.69c31.71-18.64,81.85-36.7,73-82.85-6.95-36.06-53.51-58.67-86.41-64.08-58.35-9.59-52,41.93-50.91,86.23,1.46,60.28-.73,120,1.14,182.75" transform="translate(-134.83 -56.68)"/></g><g id="A" class="cls-8"><circle class="cls-9" cx="81.04" cy="165.02" r="31.17"/><circle class="cls-10" cx="81.04" cy="165.02" r="31.17"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="scene_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 180.1 287.3" style="enable-background:new 0 0 180.1 287.3;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#36302A;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st1{fill:none;stroke:#423B34;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st2{fill:none;stroke:#4A413A;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st3{fill:none;stroke:#52483F;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st4{opacity:0.6;fill:none;stroke:#36302A;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st5{opacity:0.6;fill:none;stroke:#423B34;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st6{opacity:0.6;fill:none;stroke:#4A413A;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st7{opacity:0.6;fill:none;stroke:#52483F;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;}
+	.st8{fill:none;}
+	.st9{fill:#A66B5F;}
+	.st10{fill:#423836;}
+	.st11{fill:#FFFFFF;}
+	.st12{opacity:0;}
+	.st13{fill:none;stroke:#010101;stroke-miterlimit:10;}
+	.st14{fill:#F79159;}
+	.st15{fill:none;stroke:#000000;stroke-width:0.5914;stroke-miterlimit:10;stroke-dasharray:2.3988,2.3988;}
+	.st16{display:none;fill:none;stroke:#EB5300;stroke-miterlimit:10;}
+</style>
+<symbol  id="fur-1" viewBox="-15.1 -19.4 29.6 38.8">
+	<g id="_1_3_">
+		<path class="st0" d="M5.4,9.9H5.3c2.9-1.3,6,0.1,8.9-0.3c-3,2.7-1.8,8.2-6.2,9.6"/>
+		<path class="st1" d="M4.2,7.5L4.2,7.5c1.7-2.4,1.2-6.2,3.8-8C5.3,0,0.9-0.9-1.3,0.7l0,0"/>
+		<path class="st2" d="M-9.1-7.9c1.1-1,3.4-1.9,7.8-2.3C-2.8-8.1-3.1-5-4-3.3"/>
+		<path class="st3" d="M-14.9-17.1c3-1.1,7.8-1.2,9-2.1l0.1,0.1c-1.7,0.1-3,4-4.7,6.6"/>
+	</g>
+</symbol>
+<symbol  id="fur-2" viewBox="-11.8 -15.5 35.9 39.3">
+	<g id="_1_4_">
+		<path class="st4" d="M11.8,14.1c2.9-1.3,9.6-0.7,12.1-2.6c-1.2,3.5-3.4,8.8-8.9,12.1"/>
+		<path class="st5" d="M10.7,11.6c0.1-1.5,4.3-6.6,8.5-9.2c-1.6,1-10.4,1.7-14,2.4"/>
+		<path class="st6" d="M-2.5-3.7C-1.4-4.7,7-5.5,11-5.8c-3,2.2-7.6,5-8.5,6.7"/>
+		<path class="st7" d="M-8.3-12.9c5.7-4.4,11.1-1.1,13.6-1.1c0,0-6.6,1.8-9.2,5.8"/>
+	</g>
+	<circle class="st8" cx="-5.8" cy="-9.4" r="6"/>
+</symbol>
+<g id="purrly">
+	<g id="body">
+		<path class="st9" d="M5.6,260.5L5.4,260c-0.1-0.3-0.3-0.7-0.5-1.1l-0.2-0.7l-0.1-0.5l-0.2-0.8l-0.2-0.8c-0.5-2.2-0.8-4.4-1-6.7
+			c-0.4-4.7,0.5-10.6,0.5-17.9s0.3-16,0.8-26c0.2-5,0.5-10.3,0.8-15.8l0.3-4.2l0.1-2.2l0.1-2c0.1-1.5,0.1-2.8,0.2-4.1l0.1-4.2
+			c0.3-11.8-0.7-24.7-0.9-38.4s-0.6-28-1.4-42.8L3.1,80.6c-0.3-3.7-0.5-7.5-0.9-11.2l-0.5-5.6C1.4,62,1.2,60.1,1,58.3l-0.7-6
+			l-0.1-2.1c-0.1-0.7-0.1-1.4-0.1-2c0-1.3-0.1-2.7,0-4.2c0.1-6.4,1.5-12.7,4.1-18.6C7.2,18.7,12.1,13,18.2,8.9
+			C23.6,5.4,29.5,3,35.7,1.7C40.8,0.7,46,0.1,51.2,0c9,0,18,0.6,26.9,1.9l3,0.4l1.7,0.2l1.9,0.3c2.4,0.4,4.6,0.9,6.9,1.4
+			c4.5,1,8.8,2.2,13.1,3.6c8.6,2.8,16.9,6.3,24.8,10.5c8.2,4.3,15.8,9.5,22.7,15.6c3.5,3.1,6.8,6.6,9.9,10.2
+			c3.1,3.7,5.8,7.7,8.2,11.9c4.7,8.3,7.8,17.5,9.1,27c0.6,4.5,0.9,9,0.7,13.5c0,1.1-0.1,2.2-0.1,3.2l-0.1,1.6v0.4v0.2l-0.1,0.7
+			l-0.1,0.6l-0.1,1.2l-0.1,0.6l-0.2,1l-0.3,2l-0.2,1l-0.2,0.9c-1,4.5-2.5,8.9-4.4,13.1c-1.8,3.9-3.9,7.7-6.4,11.2
+			c-4.4,6.2-9.6,11.8-15.4,16.6c-4.9,4-10.1,7.7-15.5,10.9c-8.3,4.8-17,9-26.1,12.4c-7.3,2.8-13,4.6-16.9,5.8l-6,1.8
+			c-11.1,3.3-22.8-3.1-26.1-14.2s3.1-22.8,14.2-26.1l0,0l0.3-0.1l0.6-0.1L82,140c3.3-0.9,8.2-2.4,14.1-4.5c6.9-2.4,13.6-5.5,20-9
+			c3.6-2,7-4.3,10.2-6.8c3.1-2.4,5.9-5.3,8.3-8.5c2.2-2.9,3.8-6.2,4.6-9.8l0.1-0.3v-0.2c0-0.1,0-0.3,0.1-0.4l0.1-0.2l0.1-0.6
+			l0.2-1.2l0.1-0.6c0-0.2-0.1,0.9,0,0.4v-0.1v-0.2L140,97c0.1-0.6,0.1-1.2,0.1-1.8c0.1-2.3,0-4.6-0.2-6.9c-0.5-4.6-2-9.1-4.2-13.2
+			c-2.5-4.6-5.9-8.8-9.8-12.4c-8.4-7.8-20.4-14.4-33.4-18.9c-3.2-1.1-6.6-2.1-9.8-2.9c-1.6-0.4-3.3-0.8-4.9-1.1l-1.1-0.2l-1.3-0.2
+			L72.7,39c-7-1.2-14.1-1.9-21.1-2.1c-2.8,0-5.7,0.2-8.4,0.7c-1.7,0.3-3.4,0.8-4.9,1.6c-0.6,0.3-1.1,0.8-1.4,1.4c-0.6,1.5-1,3-1,4.6
+			c0,0.6,0,1.2,0,1.8V48v0.8l0.5,5.7c0.2,2,0.4,4.1,0.6,6.1l0.5,6c0.3,4,0.5,8,0.7,11.9l0.5,11.7c0.5,15.4,0.7,30.2,0.6,44.2
+			s0.6,27.3,0.1,39.6l-0.2,4.8c-0.1,1.6-0.2,3.2-0.3,4.6l-0.2,2.3l-0.2,2.1l-0.3,4.1c-0.4,5.4-0.8,10.5-1.1,15.4
+			c-0.6,9.6-1,18-1.2,24.8s-1.1,12-1,14.8c0.1,1.4,0.2,2.2,0.2,1.9l-0.1-0.4l-0.1-0.2l-0.2-0.4c-0.1-0.3-0.2-0.5-0.3-0.7
+			s0-0.1,0-0.1v0.1v0.1v0.1l0.1,0.2c2.7,8.4-1.9,17.3-10.2,20.1C17.2,269.9,9.4,266.9,5.6,260.5z"/>
+	</g>
+	<g id="face">
+		<g id="brow_right">
+			<path d="M66.9,156l0.3-0.1c0.7-0.2,1.4-0.2,2,0.1c0.4,0.2,0.8,0.4,1.1,0.8c0.6,0.6,0.9,1.5,0.9,2.3c0,0.4-0.1,0.8-0.3,1.1
+				l0.1-0.3c0-0.3,0-0.5,0-0.8c-0.1-1.6-1.4-3-3-3.1c-0.3,0-0.5,0-0.8,0L66.9,156z"/>
+		</g>
+		<g id="brow_left">
+			<path d="M77.5,165.4c0.1-0.1,0.2-0.1,0.4-0.2c0.8-0.3,1.7-0.3,2.5,0c0.3,0.1,0.5,0.2,0.7,0.4c0.2,0.2,0.5,0.4,0.6,0.6
+				c1,1.1,1.2,2.7,0.5,4l-0.2,0.3l0.1-0.4c0.1-0.3,0.2-0.7,0.2-1c0.1-1-0.2-2-0.9-2.8c-0.2-0.2-0.4-0.4-0.6-0.5
+				c-0.2-0.2-0.4-0.3-0.7-0.4c-0.4-0.2-0.9-0.3-1.4-0.3c-0.3,0-0.7,0-1,0.1L77.5,165.4z"/>
+		</g>
+		<g id="mouth">
+			<path class="st10" d="M66.2,164.5c0.3,0.6,0.7,1.1,1.2,1.5c0.1,0.1,0.2,0.1,0.4,0.2c0.1,0,0.1,0,0.2,0c0.1,0,0.1,0,0.2,0
+				c0.1,0,0.3,0,0.4-0.1c0.1-0.1,0.3-0.1,0.4-0.2l0.1-0.1h0.1l0.3,0.1c0.1,0.1,0.1,0.1,0.2,0.2c0.1,0.1,0.2,0.2,0.2,0.4
+				c0.1,0.2,0.2,0.5,0.3,0.8c0.1,0.5,0.3,1,0.4,1.4c0.1,0.2,0.2,0.4,0.3,0.6c0.1,0.2,0.3,0.4,0.4,0.6c0.2,0.2,0.3,0.3,0.6,0.5
+				c0.2,0.1,0.4,0.2,0.7,0.3c-0.3,0-0.5-0.1-0.8-0.2c-0.3-0.1-0.5-0.2-0.7-0.4c-0.2-0.2-0.4-0.4-0.6-0.6c-0.2-0.2-0.3-0.4-0.4-0.7
+				c-0.2-0.5-0.4-1-0.5-1.4c-0.1-0.2-0.1-0.5-0.2-0.7c0-0.1-0.1-0.2-0.1-0.2l-0.1,0h-0.1h0.2c-0.2,0.1-0.3,0.2-0.5,0.2
+				c-0.2,0.1-0.4,0.1-0.6,0.1c-0.1,0-0.2,0-0.3,0c-0.1,0-0.2-0.1-0.3-0.1c-0.2-0.1-0.3-0.2-0.5-0.3c-0.3-0.2-0.5-0.5-0.6-0.9
+				C66.4,165.2,66.3,164.9,66.2,164.5z"/>
+		</g>
+		<path id="nose" class="st10" d="M69.2,166.2c0,0-0.1-3.3,1-2.6S73.8,165.3,69.2,166.2z"/>
+		<g id="eyes">
+			<path class="st10" d="M81.8,170.5c-1,1.2-2.8,1.1-4.1-0.2c-1.3-1.1-1.5-3-0.5-4.4c1-1.2,2.8-1.1,4.1,0.2
+				C82.6,167.3,82.8,169.1,81.8,170.5z"/>
+			
+				<ellipse transform="matrix(0.5047 -0.8633 0.8633 0.5047 -105.2535 153.3357)" class="st11" cx="81" cy="168.4" rx="0.9" ry="0.9"/>
+			
+				<ellipse transform="matrix(0.5047 -0.8633 0.8633 0.5047 -105.2777 151.0846)" class="st11" cx="79" cy="167.3" rx="0.5" ry="0.5"/>
+			<path class="st10" d="M70.9,159.7c-0.6,0.9-2.2,0.9-3.4-0.1s-1.7-2.4-1-3.3s2.2-0.9,3.4,0.1S71.5,158.8,70.9,159.7z"/>
+			
+				<ellipse transform="matrix(0.5047 -0.8633 0.8633 0.5047 -101.7855 138.306)" class="st11" cx="69.6" cy="157.9" rx="0.9" ry="0.9"/>
+			
+				<ellipse transform="matrix(0.5047 -0.8633 0.8633 0.5047 -101.3361 136.6982)" class="st11" cx="68.5" cy="156.7" rx="0.5" ry="0.4"/>
+		</g>
+	</g>
+</g>
+<g id="fur">
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" x="-15.1" y="-19.4" transform="matrix(-0.2787 0.6092 -0.6092 -0.2787 19.8379 257.9115)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-5" x="-15.1" y="-19.4" transform="matrix(-0.293 0.6136 -0.6136 -0.293 19.7888 248.2068)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-8" x="-15.1" y="-19.4" transform="matrix(-0.2989 0.6107 -0.6107 -0.2989 20.1561 238.3801)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-11" x="-15.1" y="-19.4" transform="matrix(-0.3 0.61 -0.61 -0.3 20.6551 228.5082)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-14" x="-15.1" y="-19.4" transform="matrix(-0.303 0.6199 -0.6199 -0.303 20.9575 218.5977)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-17" x="-15.1" y="-19.4" transform="matrix(-0.3 0.63 -0.63 -0.3 21.3165 208.6474)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-20" x="-15.1" y="-19.4" transform="matrix(-0.29 0.64 -0.64 -0.29 21.6817 198.7014)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-23" x="-15.1" y="-19.4" transform="matrix(-0.2807 0.6521 -0.6521 -0.2807 21.8345 188.6335)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-26" x="-15.1" y="-19.4" transform="matrix(-0.2691 0.657 -0.657 -0.2691 21.9638 178.5432)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-29" x="-15.1" y="-19.4" transform="matrix(-0.2728 0.6554 -0.6554 -0.2728 22.0676 168.4364)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-32" x="-15.1" y="-19.4" transform="matrix(-0.2773 0.6644 -0.6644 -0.2773 22.0166 158.455)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-35" x="-15.1" y="-19.4" transform="matrix(-0.28 0.67 -0.67 -0.28 22.0683 148.4348)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-38" x="-15.1" y="-19.4" transform="matrix(-0.2716 0.6776 -0.6776 -0.2716 22.2167 138.6324)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-41" x="-15.1" y="-19.4" transform="matrix(-0.2615 0.6815 -0.6815 -0.2615 22.3607 128.7475)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-44" x="-15.1" y="-19.4" transform="matrix(-0.251 0.6961 -0.6961 -0.251 22.1442 118.9787)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-47" x="-15.1" y="-19.4" transform="matrix(-0.2331 0.7023 -0.7023 -0.2331 22.002 109.1703)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-50" x="-15.1" y="-19.4" transform="matrix(-0.2194 0.7171 -0.7171 -0.2194 21.408 99.4986)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-53" x="-15.1" y="-19.4" transform="matrix(-0.22 0.7199 -0.7199 -0.22 20.7845 89.5491)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-56" x="-15.1" y="-19.4" transform="matrix(-0.22 0.7299 -0.7299 -0.22 20.1101 79.8487)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-59" x="-15.1" y="-19.4" transform="matrix(-0.2351 0.7227 -0.7227 -0.2351 19.7656 69.7363)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-62" x="-15.1" y="-19.4" transform="matrix(-0.26 0.7199 -0.7199 -0.26 19.5159 59.6817)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-65" x="-15.1" y="-19.4" transform="matrix(-0.3 0.71 -0.71 -0.3 19.6516 49.4447)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-68" x="-15.1" y="-19.4" transform="matrix(-0.39 0.67 -0.67 -0.39 20.3822 38.6869)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-71" x="-15.1" y="-19.4" transform="matrix(-0.6101 0.486 -0.486 -0.6101 23.1948 30.7156)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-74" x="-15.1" y="-19.4" transform="matrix(-0.7627 0.2057 -0.2057 -0.7627 29.4582 25.0136)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-77" x="-15.1" y="-19.4" transform="matrix(-0.7887 -4.492175e-02 4.492175e-02 -0.7887 38.4899 21.8789)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-80" x="-15.1" y="-19.4" transform="matrix(-0.7699 -0.21 0.21 -0.7699 48.6183 20.3924)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-83" x="-15.1" y="-19.4" transform="matrix(-0.7399 -0.3 0.3 -0.7399 59.4164 20.3686)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-86" x="-15.1" y="-19.4" transform="matrix(-0.7299 -0.35 0.35 -0.7299 70.4278 21.3247)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-89" x="-15.1" y="-19.4" transform="matrix(-0.7104 -0.3891 0.3891 -0.7104 81.6708 23.14)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-92" x="-15.1" y="-19.4" transform="matrix(-0.6861 -0.449 0.449 -0.6861 92.1682 25.3554)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-95" x="-15.1" y="-19.4" transform="matrix(-0.65 -0.5 0.5 -0.65 101.6803 28.6748)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-98" x="-15.1" y="-19.4" transform="matrix(-0.6153 -0.557 0.557 -0.6153 111.2764 32.5652)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-101" x="-15.1" y="-19.4" transform="matrix(-0.57 -0.61 0.61 -0.57 120.3953 37.3434)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-104" x="-15.1" y="-19.4" transform="matrix(-0.51 -0.66 0.66 -0.51 128.9449 42.9912)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-107" x="-15.1" y="-19.4" transform="matrix(-0.4482 -0.7104 0.7104 -0.4482 136.499 49.0872)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-110" x="-15.1" y="-19.4" transform="matrix(-0.3698 -0.7653 0.7653 -0.3698 143.28 55.8294)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-113" x="-15.1" y="-19.4" transform="matrix(-0.27 -0.8099 0.8099 -0.27 148.9018 63.6709)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-116" x="-15.1" y="-19.4" transform="matrix(-0.1483 -0.8471 0.8471 -0.1483 153.3044 72.0706)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-119" x="-15.1" y="-19.4" transform="matrix(-9.999303e-03 -0.8599 0.8599 -9.999303e-03 156.0945 81.0158)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-122" x="-15.1" y="-19.4" transform="matrix(0.1576 -0.8555 0.8555 0.1576 157.6577 90.6399)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-125" x="-15.1" y="-19.4" transform="matrix(0.344 -0.7991 0.7991 0.344 157.6584 101.1267)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-128" x="-15.1" y="-19.4" transform="matrix(0.5046 -0.7209 0.7209 0.5046 155.8532 110.3884)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-131" x="-15.1" y="-19.4" transform="matrix(0.62 -0.62 0.62 0.62 151.768 118.3914)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-134" x="-15.1" y="-19.4" transform="matrix(0.71 -0.53 0.53 0.71 146.3457 126.2474)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-137" x="-15.1" y="-19.4" transform="matrix(0.7699 -0.44 0.44 0.7699 139.3945 133.4203)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-140" x="-15.1" y="-19.4" transform="matrix(0.8245 -0.3607 0.3607 0.8245 131.4903 140.0663)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-143" x="-15.1" y="-19.4" transform="matrix(0.8543 -0.283 0.283 0.8543 122.486 145.7183)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-146" x="-15.1" y="-19.4" transform="matrix(0.8853 -0.2104 0.2104 0.8853 113.2987 150.6275)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-149" x="-15.1" y="-19.4" transform="matrix(0.9001 -0.1332 0.1332 0.9001 103.8011 154.4211)" style="overflow:visible;"/>
+	
+		<use xlink:href="#fur-1"  width="29.6" height="38.8" id="fur_row-152" x="-15.1" y="-19.4" transform="matrix(0.9186 -4.942839e-02 4.942839e-02 0.9186 94.6186 157.3446)" style="overflow:visible;"/>
+</g>
+<g id="strokes" class="st12">
+	<path id="_x32_" class="st13" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
+	<path id="path" class="st13" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3C7.5,4.5,19,60.2,20.1,104.5
+		c1.5,60.3,1.9,87-0.9,148.8"/>
+</g>
+<g id="A" class="st12">
+	<circle class="st14" cx="97.1" cy="157" r="26"/>
+	<circle class="st15" cx="97.1" cy="157" r="26"/>
+</g>
+<path id="_x32__1_" class="st16" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
+<use xlink:href="#fur-2"  width="35.9" height="39.3" id="XMLID_1_" x="-11.8" y="-15.5" transform="matrix(1 0 0 -1 -43.2066 38.9287)" style="display:none;overflow:visible;"/>
+</svg>
