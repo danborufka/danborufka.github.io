@@ -6,7 +6,8 @@
 	// TODO: config file support w/ separate sound file
 
 	var SOUNDS = {
-		PURR: new Howl({ src: ['audio/purr.m4a'], vol: .2 })
+		PURR: 		new Howl({ src: ['audio/purr.m4a'], volume: 1 }),
+		PURR_LOOP: 	new Howl({ src: ['audio/purr.m4a'], volume: 0.2, loop: true })
 	};
 
 	var GOAL = 1;
@@ -169,8 +170,8 @@
 
 	    	if(!muted) {
 				// init sound:
-	    		sound = SOUNDS.PURR.play();
-	    		SOUNDS.PURR.stop(sound);
+	    		sound = SOUNDS.PURR_LOOP.play();
+	    		SOUNDS.PURR_LOOP.fade(0, .2, 600, sound);
 	    	}
 		}
 		scene.A.onMouseMove = function(data) {
@@ -189,18 +190,15 @@
 
 					direction = lastOffset - newOffset;
 
-					// kill last sound playback
-					clearTimeout(soundTimeout);
+
+					SOUNDS.PURR_LOOP.volume(Math.max(newOffset, .2) * .6);
 
 					if(!muted)
-						if(newOffset > .07) {
-							soundTimeout = setTimeout(function() {
-								SOUNDS.PURR.stop(sound);
-							}, 1000);
-
-							// playback sound from current position (path acts as "scrubber")
-							var duration = SOUNDS.PURR.duration();
-							SOUNDS.PURR.seek(duration * newOffset, sound).play(sound);
+						if(newOffset > .07 && Math.abs(direction) < 0.1) {
+							setTimeout(function() {
+								//SOUNDS.PURR_LOOP.stop(sound);
+								SOUNDS.PURR_LOOP.fade(.6, 0, 600, sound);
+							}, 300);
 						}
 
 					// if jump is too big ("cheating") or if user moved against the path's direction
@@ -226,12 +224,14 @@
 		}
 		scene.A.onMouseUp = function(data) {
 			var newOffset = path.data.newOffset;
+
+			SOUNDS.PURR_LOOP.stop(sound);
+
 			if(newOffset === 1) {
 				// all strokes done
 				if(steps === GOAL) {
 					//alert('Yeah! you rock.');
 					container.getItem({ name: 'mouth.open' }).visible = true;
-					SOUNDS.PURR.stop(sound);
 					setTimeout(function() { SOUNDS.PURR.play(); }, 800);
 
 					scene.UI.visible = true;
