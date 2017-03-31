@@ -12,321 +12,333 @@
 	.st5{fill:none;stroke:#BA9387;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
 	.st6{fill:#BA9387;}
 	.st7{opacity:0.5;fill:url(#SVGID_1_);}
-	.st8{fill:#A66B5F;stroke:#473C3C;stroke-width:0.5;stroke-miterlimit:10;}
+	.st8{fill:#A66B5F;stroke:#473C3C;stroke-miterlimit:10;}
 	.st9{fill:#423836;}
 	.st10{fill:#FFFFFF;}
-	.st11{opacity:0.5;}
-	.st12{opacity:0;}
-	.st13{fill:none;stroke:#010101;stroke-miterlimit:10;}
-	.st14{fill:#F79159;}
-	.st15{fill:none;stroke:#000000;stroke-width:0.5914;stroke-miterlimit:10;stroke-dasharray:2.3988,2.3988;}
-	.st16{display:none;fill:none;stroke:#EB5300;stroke-miterlimit:10;}
-	.st17{fill:#FFFFFF;stroke:#736868;stroke-width:3;stroke-miterlimit:10;}
-	.st18{font-family:'MyriadPro-Regular';}
-	.st19{font-size:39.3259px;}
+	.st11{display:none;fill:#423836;}
+	.st12{opacity:0.5;}
+	.st13{opacity:0;}
+	.st14{fill:none;stroke:#010101;stroke-miterlimit:10;}
+	.st15{fill:#F79159;}
+	.st16{fill:none;stroke:#000000;stroke-width:0.5914;stroke-miterlimit:10;stroke-dasharray:2.3988,2.3988;}
+	.st17{display:none;fill:none;stroke:#EB5300;stroke-miterlimit:10;}
+	.st18{fill:#FFFFFF;stroke:#736868;stroke-width:3;stroke-miterlimit:10;}
+	.st19{font-family:'MyriadPro-Regular';}
+	.st20{font-size:39.3259px;}
 </style>
-<symbol  id="fur-1" viewBox="-18.6 -22.3 35.7 42.9">
-	<polygon class="st0" points="-0.5,20.6 -5.6,16 -7.3,5.5 -18.6,-10 -8.7,-19.4 4.1,-22.3 13.9,-9.8 17.1,10 14.6,17.2 	"/>
+<symbol  id="fur-1" viewBox="-16.7 -19.6 31.6 40.9">
+	<polygon class="st0" points="-5.9,21.2 -9.8,15.5 -9.2,4.9 -16.7,-12.6 -5,-19.6 8.2,-19.6 14.9,-5.2 13.6,14.7 9.6,21.2 	"/>
 	<g>
 		<g>
 			<g>
-				<path class="st1" d="M-2.3-12.9c-0.6,0.1-1.1,0.5-1.7,0.2c-0.6-0.2-0.8,0.2-1.2,0.4"/>
+				<path class="st1" d="M-2.5-11.5c-0.6,0.1-1.1,0.4-1.7,0.1c-0.5-0.2-0.8,0.2-1.3,0.3"/>
 				<g>
 					
-						<ellipse transform="matrix(8.958979e-02 -0.996 0.996 8.958979e-02 7.4733 -16.3347)" class="st2" cx="-5.2" cy="-12.3" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(3.231567e-03 -1 1 3.231567e-03 5.7425 -16.4994)" class="st2" cx="-5.4" cy="-11.1" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st1" d="M-8.1-11.6c-0.1,0.1-0.3,0.1-0.4,0.2"/>
-				<g>
-					<circle class="st2" cx="-8.5" cy="-11.5" r="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M3.9-8L3.9-8C3.6-8,3.3-8,3-7.9C2.7-7.7,2.3-7.5,1.9-7.4"/>
-				<g>
-					<ellipse transform="matrix(0.1063 -0.9943 0.9943 0.1063 9.2041 -4.6923)" class="st4" cx="2" cy="-7.5" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st3" d="M11.5-9.6c-0.3,0.1-0.5-0.2-0.8-0.2c-0.3,0-0.5,0.2-0.8,0.3C9.3-9.3,8.7-9.1,8.1-9C7.6-9,7-8.9,6.5-8.6
-					C6.3-8.6,6.2-8.5,6.1-8.5"/>
+				<path class="st1" d="M-8.3-10.8c-0.2,0.1-0.3,0.1-0.5,0.2"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2342 -0.9722 0.9722 0.2342 13.0229 -0.5031)" class="st4" cx="6.2" cy="-8.5" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st3" d="M-2.1-6.7c0.1,0,0.2,0,0.3,0"/>
-				<g>
-					<ellipse transform="matrix(0.215 -0.9766 0.9766 0.215 5.0967 -7.1082)" class="st4" cx="-1.9" cy="-6.7" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.9963 -8.580974e-02 8.580974e-02 0.9963 0.8793 -0.7871)" class="st2" cx="-8.7" cy="-10.6" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st5" d="M-6.6,0.9c0.3-0.1,0.5-0.4,0.8-0.5c0.3-0.1,0.6,0.1,0.9,0.1c0.1,0,0.3,0,0.4-0.1"/>
+				<path class="st3" d="M3.3-6.1L3.3-6.1C3-6.1,2.7-6.1,2.4-6C2-5.9,1.7-5.8,1.3-5.7"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2802 -0.9599 0.9599 0.2802 -3.7334 -4.0509)" class="st6" cx="-4.6" cy="0.5" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(1.999643e-02 -0.9998 0.9998 1.999643e-02 7.0546 -4.2792)" class="st4" cx="1.3" cy="-5.7" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st5" d="M5.9-2.2C5.6-2.2,5.4-1.9,5.1-1.9C4.5-1.7,3.9-1.8,3.4-1.8c-1.2,0-2.2,0.6-3.3,1.1
-					c-0.4,0.2-0.9,0.1-1.3,0.1"/>
-				<g>
-					<ellipse transform="matrix(0.311 -0.9504 0.9504 0.311 -0.1709 -1.4759)" class="st6" cx="-1.1" cy="-0.6" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st1" d="M6-5.4c-0.3,0.1-0.6,0-0.9,0.1C4.8-5.2,4.6-4.8,4.3-4.8C4-4.7,3.8-4.9,3.5-4.9C3.1-5,2.9-4.7,2.6-4.6
-					C2.1-4.4,1.5-4.4,0.9-4.3c-0.6,0.2-1,0.5-1.6,0.5c-1.1,0.1-2.5-0.1-3.5,0.5C-4.3-3.1-4.4-3.1-4.5-3"/>
+				<path class="st3" d="M11-7c-0.3,0-0.5-0.2-0.8-0.3C9.9-7.4,9.6-7.2,9.3-7.1C8.8-6.9,8.2-6.8,7.6-6.8C7-6.8,6.4-6.7,5.9-6.5
+					c-0.1,0-0.2,0.1-0.3,0.1"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2938 -0.9559 0.9559 0.2938 -0.1966 -6.4161)" class="st2" cx="-4.4" cy="-3.1" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.1494 -0.9888 0.9888 0.1494 11.1316 9.310218e-02)" class="st4" cx="5.6" cy="-6.4" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				
-					<ellipse transform="matrix(0.2872 -0.9579 0.9579 0.2872 -4.2611 -9.3304)" class="st2" cx="-8.4" cy="-1.8" rx="1.5" ry="1.5"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M13.9-0.6c-0.1,0-0.1,0-0.2,0"/>
-			</g>
-			<g>
-				<path class="st3" d="M10.8,0c-0.1,0-0.2,0-0.3-0.1C9.3-0.3,8.2,0.7,7.1,0.8C6.5,0.9,6,1.3,5.4,1.3c-0.1,0-0.2,0-0.3,0"/>
+				<path class="st3" d="M-2.8-5.3c0.1,0,0.2,0,0.3,0"/>
 				<g>
-					<ellipse transform="matrix(0.294 -0.9558 0.9558 0.294 2.4512 5.9048)" class="st4" cx="5.2" cy="1.3" rx="1.5" ry="1.5"/>
+					<ellipse transform="matrix(0.1299 -0.9915 0.9915 0.1299 3.0514 -7.189)" class="st4" cx="-2.6" cy="-5.3" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st3" d="M9,3.5C8.4,3.6,7.8,3.8,7.2,3.8C6.6,3.9,6.1,4.4,5.5,4.3C5.2,4.3,4.9,4.2,4.6,4.4C4.5,4.5,4.5,4.6,4.4,4.6"
+				<path class="st5" d="M-8,1.9c0.3,0,0.5-0.4,0.9-0.4c0.3,0,0.6,0.2,0.9,0.2c0.1,0,0.3,0,0.4,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.1962 -0.9806 0.9806 0.1962 -6.2875 -4.4786)" class="st6" cx="-5.9" cy="1.6" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st5" d="M4.8-0.2c-0.3,0-0.6,0.2-0.9,0.3C3.4,0.2,2.8,0.1,2.2,0C1.1,0,0,0.5-1.1,0.8c-0.4,0.2-0.9,0-1.3,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.2278 -0.9737 0.9737 0.2278 -2.5934 -1.6397)" class="st6" cx="-2.3" cy="0.8" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st1" d="M5.2-3.3c-0.3,0-0.6,0-0.9,0C3.9-3.2,3.7-2.9,3.4-2.9C3.1-2.8,2.9-3,2.6-3.1C2.3-3.1,2-2.9,1.7-2.8
+					C1.2-2.7,0.6-2.8,0-2.6c-0.6,0.1-1.1,0.4-1.7,0.4c-1.1,0-2.5-0.3-3.5,0.2C-5.3-2-5.4-1.9-5.5-1.9"/>
+				<g>
+					
+						<ellipse transform="matrix(0.2102 -0.9777 0.9777 0.2102 -2.4232 -6.8372)" class="st2" cx="-5.4" cy="-1.9" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<ellipse transform="matrix(0.2034 -0.9791 0.9791 0.2034 -6.5937 -10.0896)" class="st2" cx="-9.5" cy="-1" rx="1.5" ry="1.5"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M12.6,2.1c-0.1,0-0.1,0-0.2,0"/>
+			</g>
+			<g>
+				<path class="st3" d="M9.4,2.4c-0.1,0-0.2-0.1-0.3-0.1C8,2.1,6.9,3,5.7,3C5.1,3,4.6,3.4,4,3.3c-0.1,0-0.2,0-0.3,0"/>
+				<g>
+					<ellipse transform="matrix(0.2104 -0.9776 0.9776 0.2104 -0.1885 6.3018)" class="st4" cx="3.8" cy="3.3" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M7.4,5.8C6.8,5.8,6.2,6,5.6,6C4.9,6,4.4,6.4,3.8,6.3C3.5,6.2,3.2,6.1,3,6.3C2.9,6.4,2.8,6.5,2.7,6.5"/>
+				<g>
+					
+						<ellipse transform="matrix(3.774608e-02 -0.9993 0.9993 3.774608e-02 -3.8046 8.9761)" class="st4" cx="2.8" cy="6.5" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st3" d="M0.7,6.5c-0.1,0-0.2,0-0.3,0C-0.2,6.7-0.7,6.9-1.3,7c-0.1,0-0.3,0-0.4,0"/>
+				<g>
+					
+						<ellipse transform="matrix(5.713510e-02 -0.9984 0.9984 5.713510e-02 -8.5706 4.9425)" class="st4" cx="-1.7" cy="7" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M6.5,9.2c-0.3,0-0.6,0.2-0.9,0.2C5.3,9.4,5,9.2,4.7,9.2C4.4,9.3,4.2,9.5,4,9.6C3.7,9.7,3.4,9.7,3.1,9.8
+					c-0.3,0-0.6,0-0.9-0.1C1.9,9.7,1.7,9.9,1.4,10c-0.3,0.2-0.5,0.1-0.8,0C0.2,10,0,10-0.4,10c-0.6,0.1-1.1,0.2-1.7,0.2
+					c-0.3,0-0.6,0-0.8,0.2c-0.3,0.2-0.5,0.4-0.8,0.4c-0.7,0.1-1.4,0.2-2.1,0.3"/>
+				<g>
+					
+						<ellipse transform="matrix(0.1471 -0.9891 0.9891 0.1471 -15.8801 3.8507)" class="st4" cx="-5.7" cy="11.1" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st5" d="M13.3,11.3c-0.3,0-0.5,0.2-0.8,0.3c-0.5,0.2-1.1,0.2-1.7,0.2c-0.3,0-0.6,0-0.9,0.1"/>
+				<g>
+					<ellipse transform="matrix(0.2463 -0.9692 0.9692 0.2463 -3.9855 18.6236)" class="st6" cx="10" cy="11.9" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st5" d="M6.9,12.4c-1,0-2,0.1-2.9,0.3c-0.5,0.1-1.1,0.3-1.6,0.4c-0.2,0-0.3,0-0.5,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.9981 -6.083957e-02 6.083957e-02 0.9981 -0.7965 0.1444)" class="st6" cx="2" cy="13.2" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M-2.6,16.9c-0.5,0.1-1.1,0.3-1.6,0.3c-0.2,0-0.3,0-0.5,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.9996 -2.964574e-02 2.964574e-02 0.9996 -0.5128 -0.1301)" class="st4" cx="-4.6" cy="17.2" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st3" d="M6,15.8c-0.6,0.1-1.1,0.1-1.7,0.1c-0.6,0-1.2-0.1-1.8,0.1c-0.5,0.2-1.1,0.2-1.7,0.3c-0.1,0-0.2,0-0.3,0.1"
 					/>
 				<g>
-					<ellipse transform="matrix(0.1239 -0.9923 0.9923 0.1239 -0.6301 8.4217)" class="st4" cx="4.5" cy="4.6" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st3" d="M2.4,4.8c-0.1,0-0.2,0-0.3,0.1C1.5,5,1,5.3,0.4,5.4C0.3,5.5,0.2,5.5,0,5.5"/>
-				<g>
-					<ellipse transform="matrix(0.1432 -0.9897 0.9897 0.1432 -5.3588 4.7969)" class="st4" cx="0.1" cy="5.5" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M8.4,6.9C8.1,7,7.8,7.2,7.5,7.2c-0.3,0-0.6-0.1-0.9,0c-0.3,0-0.5,0.3-0.7,0.4C5.7,7.8,5.4,7.8,5.1,7.8
-					c-0.3,0.1-0.6,0-0.9,0C3.9,7.8,3.7,8,3.4,8.3C3.1,8.5,2.9,8.4,2.6,8.3c-0.4-0.1-0.6,0-0.9,0C1.1,8.5,0.5,8.7-0.1,8.8
-					C-0.3,8.8-0.6,8.8-0.9,9c-0.3,0.2-0.4,0.4-0.8,0.5C-2.3,9.6-3,9.8-3.7,10"/>
-				<g>
-					<ellipse transform="matrix(0.232 -0.9727 0.9727 0.232 -12.4266 4.1641)" class="st4" cx="-3.6" cy="10" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st5" d="M15.4,8.5c-0.3,0.1-0.5,0.3-0.8,0.4c-0.5,0.2-1.1,0.2-1.7,0.3c-0.3,0-0.6,0.1-0.9,0.2"/>
-				<g>
-					<ellipse transform="matrix(0.329 -0.9443 0.9443 0.329 -0.6845 17.7052)" class="st6" cx="12.1" cy="9.3" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st5" d="M9.1,10.1c-1,0.1-1.9,0.3-2.9,0.6c-0.5,0.2-1,0.4-1.6,0.5c-0.2,0-0.3,0.1-0.5,0.1"/>
-				<g>
 					
-						<ellipse transform="matrix(2.559854e-02 -0.9997 0.9997 2.559854e-02 -7.1552 15.2579)" class="st6" cx="4.2" cy="11.3" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.1349 -0.9909 0.9909 0.1349 -15.7984 14.7256)" class="st4" cx="0.5" cy="16.4" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st3" d="M0,15.4c-0.5,0.2-1,0.4-1.6,0.5c-0.1,0-0.3,0-0.5,0"/>
-				<g>
-					
-						<ellipse transform="matrix(5.679783e-02 -0.9984 0.9984 5.679783e-02 -17.7852 13.0382)" class="st4" cx="-2" cy="15.9" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st3" d="M8.5,13.6c-0.6,0.1-1.1,0.2-1.7,0.3c-0.6,0-1.2,0-1.8,0.3c-0.5,0.3-1.1,0.3-1.7,0.4c-0.1,0-0.2,0.1-0.3,0.1
-					"/>
-				<g>
-					<ellipse transform="matrix(0.22 -0.9755 0.9755 0.22 -11.8941 14.4639)" class="st4" cx="3.1" cy="14.7" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st1" d="M6.9,17.2c-0.6,0.1-1.3-0.2-1.8,0.1c-0.3,0.2-0.4,0.4-0.8,0.4c-0.3,0-0.6-0.1-0.9,0c-0.7,0.2-1.3,0.4-2,0.6
+				<path class="st1" d="M4.1,19.2c-0.6,0.1-1.2-0.3-1.8,0c-0.3,0.2-0.5,0.3-0.8,0.3c-0.3,0-0.6-0.2-0.9-0.1c-0.7,0.1-1.4,0.3-2,0.4
 					"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2628 -0.9648 0.9648 0.2628 -16.4544 14.8501)" class="st2" cx="1.5" cy="18.2" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.1785 -0.9839 0.9839 0.1785 -20.5904 14.9022)" class="st2" cx="-1.4" cy="19.8" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st1" d="M12.3,15.9c-0.6,0.2-1.3,0.3-2,0.5"/>
+				<path class="st1" d="M9.6,18.4c-0.7,0.1-1.3,0.2-2,0.3"/>
 				<g>
 					
-						<ellipse transform="matrix(0.1047 -0.9945 0.9945 0.1047 -6.983 24.9751)" class="st2" cx="10.4" cy="16.4" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(1.838492e-02 -0.9998 0.9998 1.838492e-02 -11.2244 26.026)" class="st2" cx="7.6" cy="18.7" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 	</g>
 </symbol>
-<symbol  id="fur-2" viewBox="-16.4 -26.5 39.2 52">
-	<polygon class="st0" points="1.7,17.3 -3.3,12.6 -5.1,2.1 -16.4,-13.3 -6.5,-22.7 6.4,-25.6 16.1,-13.1 19.3,6.6 16.9,13.8 	"/>
+<symbol  id="fur-2" viewBox="-21.4 -37.5 39.2 52">
+	<polygon class="st0" points="-6.8,8.9 -10.7,3.3 -10,-7.3 -17.6,-24.9 -5.9,-31.9 7.3,-31.9 14,-17.5 12.7,2.5 8.8,8.9 	"/>
+	
+		<radialGradient id="SVGID_1_" cx="-1469.3616" cy="-1827.2793" r="23.0245" gradientTransform="matrix(0.98 -0.1991 0.1991 0.98 1801.8987 1486.7863)" gradientUnits="userSpaceOnUse">
+		<stop  offset="0" style="stop-color:#302520;stop-opacity:0.3"/>
+		<stop  offset="1" style="stop-color:#2B201C;stop-opacity:0"/>
+	</radialGradient>
+	<path class="st7" d="M17.1-15.3C14.2-29.5,3.4-39.3-7-37.2c-10.4,2.1-16.5,15.4-13.6,29.6S-7,16.4,3.4,14.3S20-1.1,17.1-15.3z"/>
 	<g>
 		<g>
 			<g>
-				<path class="st1" d="M-1.1-14.2c-0.6,0.1-1.1,0.5-1.7,0.2c-0.6-0.2-0.8,0.2-1.2,0.4"/>
+				<path class="st1" d="M-4.8-25.6c-0.6,0.1-1.1,0.4-1.7,0.1c-0.5-0.2-0.8,0.2-1.3,0.3"/>
 				<g>
 					
-						<ellipse transform="matrix(8.958979e-02 -0.996 0.996 8.958979e-02 9.9334 -16.3479)" class="st2" cx="-4" cy="-13.6" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(7.837972e-03 -1 1 7.837972e-03 17.5595 -32.71)" class="st2" cx="-7.7" cy="-25.2" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st1" d="M-6.9-13c-0.1,0.1-0.3,0.1-0.4,0.2"/>
-				<g>
-					<circle class="st2" cx="-7.2" cy="-12.8" r="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M5.1-9.4L5.1-9.4c-0.3,0-0.6,0-0.9,0.2C3.9-9,3.5-8.9,3.1-8.8"/>
-				<g>
-					<ellipse transform="matrix(0.1063 -0.9943 0.9943 0.1063 11.6415 -4.685)" class="st4" cx="3.2" cy="-8.8" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st3" d="M12.7-10.9c-0.3,0.1-0.5-0.2-0.8-0.2c-0.3,0-0.5,0.2-0.8,0.3c-0.6,0.2-1.1,0.4-1.7,0.5
-					c-0.6,0-1.2,0.2-1.7,0.4C7.6-9.9,7.5-9.9,7.3-9.8"/>
-			</g>
-			<g>
-				<path class="st3" d="M-0.9-8.1c0.1,0,0.2,0,0.3,0"/>
-				<g>
-					<ellipse transform="matrix(0.215 -0.9766 0.9766 0.215 7.3772 -6.9755)" class="st4" cx="-0.7" cy="-8.1" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st5" d="M-5.4-0.4C-5.1-0.5-4.9-0.9-4.6-1C-4.3-1-4-0.8-3.7-0.8c0.1,0,0.3,0,0.4-0.1"/>
+				<path class="st1" d="M-10.6-24.8c-0.2,0.1-0.3,0.1-0.5,0.2"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2802 -0.9599 0.9599 0.2802 -1.5551 -3.8505)" class="st6" cx="-3.3" cy="-0.9" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st5" d="M7.2-3.6C6.8-3.5,6.6-3.3,6.3-3.2C5.7-3.1,5.2-3.2,4.6-3.1c-1.2,0-2.2,0.6-3.3,1.1C0.9-1.9,0.5-2,0-2"/>
-				<g>
-					<ellipse transform="matrix(0.311 -0.9504 0.9504 0.311 1.9567 -1.2454)" class="st6" cx="0.1" cy="-2" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.9967 -8.121935e-02 8.121935e-02 0.9967 1.9682 -0.9759)" class="st2" cx="-11" cy="-24.7" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st1" d="M7.3-6.7C7-6.6,6.6-6.7,6.3-6.6C6-6.5,5.8-6.2,5.5-6.1C5.2-6.1,5-6.3,4.7-6.3C4.4-6.3,4.1-6.1,3.8-6
-					C3.3-5.8,2.7-5.8,2.2-5.6c-0.6,0.2-1,0.5-1.6,0.5C-0.6-5-2-5.2-3-4.5c-0.1,0.1-0.2,0.1-0.3,0.2"/>
-			</g>
-			<g>
-				<ellipse transform="matrix(0.2872 -0.9579 0.9579 0.2872 -2.0942 -9.123)" class="st2" cx="-7.2" cy="-3.2" rx="1.5" ry="1.5"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M15.1-2c-0.1,0-0.1,0-0.2,0"/>
-			</g>
-			<g>
-				<path class="st3" d="M12-1.4c-0.1,0-0.2,0-0.3-0.1c-1.2-0.2-2.2,0.8-3.4,0.9C7.7-0.5,7.3,0,6.7-0.1c-0.1,0-0.2,0-0.3,0"/>
-				<g>
-					<ellipse transform="matrix(0.294 -0.9558 0.9558 0.294 4.6069 6.1189)" class="st4" cx="6.4" cy="-0.1" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M10.2,2.1C9.6,2.2,9,2.4,8.4,2.5C7.8,2.5,7.3,3.1,6.7,3C6.4,2.9,6.1,2.8,5.9,3C5.8,3.1,5.7,3.2,5.6,3.3"/>
-			</g>
-			<g>
-				<path class="st3" d="M3.7,3.4c-0.1,0-0.2,0-0.3,0.1C2.8,3.7,2.3,4,1.7,4.1c-0.1,0-0.3,0.1-0.4,0.1"/>
-				<g>
-					<ellipse transform="matrix(0.1432 -0.9897 0.9897 0.1432 -2.9727 4.8485)" class="st4" cx="1.3" cy="4.1" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st3" d="M9.6,5.6C9.3,5.6,9.1,5.8,8.8,5.9c-0.3,0-0.6-0.1-0.9,0c-0.3,0-0.5,0.3-0.7,0.4C6.9,6.4,6.6,6.4,6.3,6.5
-					c-0.3,0.1-0.6,0-0.9,0c-0.4,0-0.6,0.2-0.9,0.4C4.3,7.1,4.1,7.1,3.8,7c-0.4-0.1-0.6,0-0.9,0C2.3,7.2,1.7,7.3,1.2,7.4
-					C0.9,7.5,0.6,7.5,0.4,7.7C0.1,7.9-0.1,8.1-0.4,8.1c-0.7,0.1-1.4,0.3-2,0.5"/>
-				<g>
-					<ellipse transform="matrix(0.232 -0.9727 0.9727 0.232 -10.1721 4.315)" class="st4" cx="-2.4" cy="8.6" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-		</g>
-		<g>
-			<g>
-				<path class="st5" d="M16.6,7.1c-0.3,0.1-0.5,0.3-0.8,0.4c-0.5,0.2-1.1,0.2-1.7,0.3c-0.3,0-0.6,0.1-0.9,0.2"/>
-				<g>
-					<ellipse transform="matrix(0.329 -0.9443 0.9443 0.329 1.4129 17.9526)" class="st6" cx="13.3" cy="8" rx="1.5" ry="1.5"/>
-				</g>
-			</g>
-			<g>
-				<path class="st5" d="M10.3,8.8c-1,0.1-1.9,0.3-2.9,0.6c-0.5,0.2-1,0.4-1.6,0.5C5.7,9.9,5.6,10,5.4,10"/>
+				<path class="st3" d="M1-20.2L1-20.2c-0.3,0-0.6,0-0.9,0.1C-0.2-20-0.6-19.9-1-19.8"/>
 				<g>
 					
-						<ellipse transform="matrix(2.559854e-02 -0.9997 0.9997 2.559854e-02 -4.6119 15.1627)" class="st6" cx="5.5" cy="9.9" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(2.460175e-02 -0.9997 0.9997 2.460175e-02 18.9302 -20.284)" class="st4" cx="-0.9" cy="-19.8" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st3" d="M8.7-21.2c-0.3,0-0.5-0.2-0.8-0.3c-0.3-0.1-0.5,0.1-0.8,0.2c-0.6,0.2-1.1,0.3-1.7,0.3
+					c-0.6,0-1.2,0.1-1.7,0.3c-0.1,0-0.2,0.1-0.3,0.1"/>
+			</g>
+			<g>
+				<path class="st3" d="M-5.1-19.4c0.1,0,0.2,0,0.3,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.1344 -0.9909 0.9909 0.1344 15.052 -21.6077)" class="st4" cx="-4.8" cy="-19.4" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st3" d="M1.2,14.1c-0.5,0.2-1,0.4-1.6,0.5c-0.1,0-0.3,0-0.5,0"/>
+				<path class="st5" d="M-10.2-12.2c0.3,0,0.5-0.4,0.9-0.5c0.3,0,0.6,0.2,0.9,0.2c0.1,0,0.3,0,0.4,0"/>
 				<g>
 					
-						<ellipse transform="matrix(5.679783e-02 -0.9984 0.9984 5.679783e-02 -15.2818 12.9836)" class="st4" cx="-0.8" cy="14.6" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(0.2007 -0.9796 0.9796 0.2007 5.7351 -17.9219)" class="st6" cx="-8.1" cy="-12.5" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st3" d="M9.7,12.3c-0.6,0.1-1.1,0.2-1.7,0.3c-0.6,0-1.2,0-1.8,0.3c-0.5,0.3-1.1,0.3-1.7,0.4c-0.1,0-0.2,0.1-0.3,0.1
-					"/>
+				<path class="st5" d="M2.6-14.3c-0.3,0-0.6,0.2-0.9,0.3c-0.5,0.1-1.1,0-1.7-0.1c-1.2-0.1-2.3,0.4-3.3,0.8c-0.4,0.2-0.9,0-1.3,0"
+					/>
 				<g>
-					<ellipse transform="matrix(0.22 -0.9755 0.9755 0.22 -9.6213 14.602)" class="st4" cx="4.3" cy="13.3" rx="1.5" ry="1.5"/>
+					
+						<ellipse transform="matrix(0.2323 -0.9727 0.9727 0.2323 9.3979 -14.6392)" class="st6" cx="-4.6" cy="-13.3" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 		<g>
 			<g>
-				<path class="st1" d="M8.1,15.8c-0.6,0.1-1.3-0.2-1.8,0.1c-0.3,0.2-0.4,0.4-0.8,0.4c-0.3,0-0.6-0.1-0.9,0c-0.7,0.2-1.3,0.4-2,0.6
-					"/>
+				<path class="st1" d="M2.9-17.4c-0.3,0-0.6,0-0.9,0C1.7-17.3,1.4-17,1.1-17c-0.3,0-0.5-0.2-0.8-0.2c-0.3,0-0.6,0.2-0.9,0.3
+					c-0.5,0.2-1.1,0.1-1.7,0.2c-0.6,0.1-1.1,0.4-1.7,0.4c-1.1,0-2.5-0.3-3.5,0.3C-7.6-16-7.7-16-7.8-16"/>
+			</g>
+			<g>
+				
+					<ellipse transform="matrix(0.2079 -0.9782 0.9782 0.2079 5.4121 -23.4119)" class="st2" cx="-11.7" cy="-15" rx="1.5" ry="1.5"/>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M10.4-12c-0.1,0-0.1,0-0.2,0"/>
+			</g>
+			<g>
+				<path class="st3" d="M7.2-11.7c-0.1,0-0.2-0.1-0.3-0.1c-1.2-0.3-2.3,0.6-3.4,0.6c-0.6,0-1.1,0.4-1.7,0.3c-0.1,0-0.2,0-0.3,0"/>
+				<g>
+					<ellipse transform="matrix(0.2149 -0.9766 0.9766 0.2149 11.8312 -6.98)" class="st4" cx="1.6" cy="-10.8" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M5.2-8.3C4.6-8.3,4-8.2,3.3-8.2c-0.6,0-1.1,0.5-1.8,0.3C1.3-7.9,1-8,0.7-7.8C0.6-7.7,0.6-7.7,0.5-7.6"/>
+			</g>
+			<g>
+				<path class="st3" d="M-1.5-7.6c-0.1,0-0.2,0-0.3,0c-0.6,0.2-1.1,0.4-1.7,0.5c-0.1,0-0.3,0-0.4,0"/>
 				<g>
 					
-						<ellipse transform="matrix(0.2628 -0.9648 0.9648 0.2628 -14.2483 15.0331)" class="st2" cx="2.7" cy="16.8" rx="1.5" ry="1.5"/>
+						<ellipse transform="matrix(6.173343e-02 -0.9981 0.9981 6.173343e-02 3.4246 -10.5214)" class="st4" cx="-3.9" cy="-7.1" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M4.3-5C4-4.9,3.7-4.8,3.4-4.8c-0.3,0-0.6-0.1-0.9-0.1C2.2-4.9,2-4.6,1.8-4.5C1.5-4.4,1.2-4.4,0.9-4.3
+					c-0.3,0-0.6,0-0.9-0.1c-0.4-0.1-0.6,0.1-0.9,0.3c-0.3,0.2-0.5,0.1-0.8,0c-0.3-0.1-0.6-0.1-0.9,0C-3.1-4-3.7-3.9-4.3-3.8
+					c-0.3,0-0.6,0-0.8,0.2c-0.3,0.2-0.5,0.4-0.8,0.4C-6.6-3.2-7.3-3-8-2.9"/>
+				<g>
+					
+						<ellipse transform="matrix(0.1517 -0.9884 0.9884 0.1517 -3.7999 -10.3053)" class="st4" cx="-7.9" cy="-2.9" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st5" d="M11.1-2.8c-0.3,0-0.5,0.2-0.8,0.3C9.8-2.4,9.2-2.4,8.7-2.4c-0.3,0-0.6,0-0.9,0.1"/>
+				<g>
+					<ellipse transform="matrix(0.2507 -0.9681 0.9681 0.2507 8.0333 5.8378)" class="st6" cx="7.8" cy="-2.3" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 			<g>
-				<path class="st1" d="M13.5,14.6c-0.6,0.2-1.3,0.3-2,0.5"/>
+				<path class="st5" d="M4.7-1.7c-1,0-2,0.2-2.9,0.3C1.3-1.3,0.7-1.1,0.2-1c-0.2,0-0.3,0-0.5,0"/>
 				<g>
-					<ellipse transform="matrix(0.1047 -0.9945 0.9945 0.1047 -4.5434 24.9805)" class="st2" cx="11.6" cy="15" rx="1.5" ry="1.5"/>
+					
+						<ellipse transform="matrix(0.9984 -5.624099e-02 5.624099e-02 0.9984 5.340015e-02 -1.356660e-02)" class="st6" cx="-0.2" cy="-1" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st3" d="M-4.8,2.8C-5.3,3-5.9,3.1-6.4,3.2c-0.2,0-0.3,0-0.5,0"/>
+				<g>
+					
+						<ellipse transform="matrix(0.9997 -2.504099e-02 2.504099e-02 0.9997 -8.104505e-02 -0.1696)" class="st4" cx="-6.8" cy="3.2" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st3" d="M3.8,1.7C3.2,1.8,2.6,1.8,2.1,1.8C1.4,1.8,0.9,1.7,0.3,2c-0.5,0.2-1.1,0.2-1.7,0.3c-0.1,0-0.2,0-0.3,0.1"/>
+				<g>
+					<ellipse transform="matrix(0.1395 -0.9902 0.9902 0.1395 -3.6961 0.3654)" class="st4" cx="-1.6" cy="2.3" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+		</g>
+		<g>
+			<g>
+				<path class="st1" d="M1.9,5.1c-0.6,0.1-1.2-0.3-1.8,0c-0.3,0.2-0.5,0.3-0.8,0.3c-0.3,0-0.6-0.2-0.9-0.1c-0.7,0.2-1.4,0.3-2,0.4"
+					/>
+				<g>
+					<ellipse transform="matrix(0.183 -0.9831 0.9831 0.183 -8.4751 1.1808)" class="st2" cx="-3.5" cy="5.7" rx="1.5" ry="1.5"/>
+				</g>
+			</g>
+			<g>
+				<path class="st1" d="M7.4,4.3c-0.7,0.1-1.3,0.2-2,0.3"/>
+				<g>
+					
+						<ellipse transform="matrix(2.299041e-02 -0.9997 0.9997 2.299041e-02 0.7608 9.9691)" class="st2" cx="5.5" cy="4.6" rx="1.5" ry="1.5"/>
 				</g>
 			</g>
 		</g>
 	</g>
-	
-		<radialGradient id="SVGID_1_" cx="-1466.6512" cy="-1815.5042" r="23.0245" gradientTransform="matrix(0.98 -0.1991 0.1991 0.98 1801.8987 1486.7863)" gradientUnits="userSpaceOnUse">
-		<stop  offset="0" style="stop-color:#302520;stop-opacity:0.3"/>
-		<stop  offset="1" style="stop-color:#2B201C;stop-opacity:0"/>
-	</radialGradient>
-	<path class="st7" d="M22.1-4.3C19.2-18.5,8.4-28.3-2-26.2S-18.5-10.8-15.7,3.4S-2,27.4,8.4,25.3S25,9.9,22.1-4.3z"/>
 </symbol>
 <g id="purrly">
 	<g id="body">
@@ -379,128 +391,129 @@
 			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -97.8993 192.2907)" class="st10" cx="68" cy="155.7" rx="0.9" ry="0.9"/>
 			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -98.3817 190.2162)" class="st10" cx="66.5" cy="155" rx="0.5" ry="0.4"/>
 		</g>
+		<path id="mouth.open" class="st11" d="M68.5,164.6c0,0,0.9,4.3,2.9,4.3s1.3-2.2,2.1-2l-2.9-2.9L68.5,164.6z"/>
 	</g>
 </g>
-<g id="fur" class="st11">
+<g id="fur" class="st12">
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" x="-18.6" y="-22.3" transform="matrix(-0.2787 0.6092 -0.6092 -0.2787 18.8379 257.9115)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" x="-16.7" y="-19.6" transform="matrix(3.672248e-02 0.6689 -0.6689 3.672248e-02 18.6552 257.4017)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-5" x="-18.6" y="-22.3" transform="matrix(-0.293 0.6136 -0.6136 -0.293 18.7888 248.2068)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-5" x="-16.7" y="-19.6" transform="matrix(-0.1827 0.6549 -0.6549 -0.1827 18.7547 248.0078)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-8" x="-18.6" y="-22.3" transform="matrix(-0.2989 0.6107 -0.6107 -0.2989 19.1561 238.3801)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-8" x="-16.7" y="-19.6" transform="matrix(-0.2246 0.6418 -0.6418 -0.2246 19.1348 238.2422)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-11" x="-18.6" y="-22.3" transform="matrix(-0.3 0.61 -0.61 -0.3 19.6551 228.5082)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-11" x="-16.7" y="-19.6" transform="matrix(-0.2328 0.6386 -0.6386 -0.2328 19.6362 228.3829)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-14" x="-18.6" y="-22.3" transform="matrix(-0.303 0.6199 -0.6199 -0.303 19.9575 218.5977)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-14" x="-16.7" y="-19.6" transform="matrix(-0.303 0.6199 -0.6199 -0.303 19.9575 218.5977)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-17" x="-18.6" y="-22.3" transform="matrix(-0.3 0.63 -0.63 -0.3 20.3165 208.6474)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-17" x="-16.7" y="-19.6" transform="matrix(-0.3 0.63 -0.63 -0.3 20.3165 208.6474)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-20" x="-18.6" y="-22.3" transform="matrix(-0.29 0.64 -0.64 -0.29 20.6817 198.7014)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-20" x="-16.7" y="-19.6" transform="matrix(-0.29 0.64 -0.64 -0.29 20.6817 198.7014)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-23" x="-18.6" y="-22.3" transform="matrix(-0.2807 0.6521 -0.6521 -0.2807 20.8345 188.6335)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-23" x="-16.7" y="-19.6" transform="matrix(-0.2807 0.6521 -0.6521 -0.2807 20.8345 188.6335)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-26" x="-18.6" y="-22.3" transform="matrix(-0.2691 0.657 -0.657 -0.2691 20.9638 178.5432)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-26" x="-16.7" y="-19.6" transform="matrix(-0.1496 0.694 -0.694 -0.1496 20.8958 178.3475)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-29" x="-18.6" y="-22.3" transform="matrix(-0.2728 0.6554 -0.6554 -0.2728 21.0676 168.4364)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-29" x="-16.7" y="-19.6" transform="matrix(-0.2728 0.6554 -0.6554 -0.2728 21.0676 168.4364)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-32" x="-18.6" y="-22.3" transform="matrix(-0.2773 0.6644 -0.6644 -0.2773 21.0166 158.455)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-32" x="-16.7" y="-19.6" transform="matrix(-0.2773 0.6644 -0.6644 -0.2773 21.0166 158.455)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-35" x="-18.6" y="-22.3" transform="matrix(-0.28 0.67 -0.67 -0.28 21.0683 148.4348)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-35" x="-16.7" y="-19.6" transform="matrix(-0.28 0.67 -0.67 -0.28 21.0683 148.4348)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-38" x="-18.6" y="-22.3" transform="matrix(-0.2716 0.6776 -0.6776 -0.2716 21.2167 138.6324)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-38" x="-16.7" y="-19.6" transform="matrix(-0.213 0.6982 -0.6982 -0.213 21.1848 138.5348)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-41" x="-18.6" y="-22.3" transform="matrix(-0.2615 0.6815 -0.6815 -0.2615 21.3607 128.7475)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-41" x="-16.7" y="-19.6" transform="matrix(-0.2615 0.6815 -0.6815 -0.2615 21.3607 128.7475)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-44" x="-18.6" y="-22.3" transform="matrix(-0.251 0.6961 -0.6961 -0.251 21.1442 118.9787)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-44" x="-16.7" y="-19.6" transform="matrix(-0.1659 0.7211 -0.7211 -0.1659 21.0787 118.8468)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-47" x="-18.6" y="-22.3" transform="matrix(-0.2331 0.7023 -0.7023 -0.2331 21.002 109.1703)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-47" x="-16.7" y="-19.6" transform="matrix(-0.2331 0.7023 -0.7023 -0.2331 21.002 109.1703)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-50" x="-18.6" y="-22.3" transform="matrix(-0.2194 0.7171 -0.7171 -0.2194 20.408 99.4986)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-50" x="-16.7" y="-19.6" transform="matrix(-0.2194 0.7171 -0.7171 -0.2194 20.408 99.4986)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-53" x="-18.6" y="-22.3" transform="matrix(-0.22 0.7199 -0.7199 -0.22 19.7845 89.5491)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-53" x="-16.7" y="-19.6" transform="matrix(-8.196764e-02 0.7483 -0.7483 -8.196764e-02 19.1312 89.2423)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-56" x="-18.6" y="-22.3" transform="matrix(-0.22 0.7299 -0.7299 -0.22 19.1101 79.8487)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-56" x="-16.7" y="-19.6" transform="matrix(-0.22 0.7299 -0.7299 -0.22 19.1101 79.8487)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-59" x="-18.6" y="-22.3" transform="matrix(-0.2351 0.7227 -0.7227 -0.2351 18.7656 69.7363)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-59" x="-16.7" y="-19.6" transform="matrix(-0.2351 0.7227 -0.7227 -0.2351 18.7656 69.7363)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-62" x="-18.6" y="-22.3" transform="matrix(-0.26 0.7199 -0.7199 -0.26 18.5159 59.6817)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-62" x="-16.7" y="-19.6" transform="matrix(-0.26 0.7199 -0.7199 -0.26 18.5159 59.6817)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-65" x="-18.6" y="-22.3" transform="matrix(-0.3 0.71 -0.71 -0.3 18.6516 49.4447)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-65" x="-16.7" y="-19.6" transform="matrix(-0.3 0.71 -0.71 -0.3 18.6516 49.4447)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-68" x="-18.6" y="-22.3" transform="matrix(-0.39 0.67 -0.67 -0.39 19.3822 38.6869)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-68" x="-16.7" y="-19.6" transform="matrix(-0.39 0.67 -0.67 -0.39 19.3822 38.6869)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-71" x="-18.6" y="-22.3" transform="matrix(-0.6101 0.486 -0.486 -0.6101 23.1948 30.7156)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-71" x="-16.7" y="-19.6" transform="matrix(-0.6101 0.486 -0.486 -0.6101 23.1948 30.7156)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-74" x="-18.6" y="-22.3" transform="matrix(-0.7627 0.2057 -0.2057 -0.7627 29.4582 25.0136)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-74" x="-16.7" y="-19.6" transform="matrix(-0.7627 0.2057 -0.2057 -0.7627 29.4582 25.0136)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-77" x="-18.6" y="-22.3" transform="matrix(-0.7887 -4.492175e-02 4.492175e-02 -0.7887 38.4899 21.8789)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-77" x="-16.7" y="-19.6" transform="matrix(-0.7887 -4.492175e-02 4.492175e-02 -0.7887 38.4899 21.8789)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-80" x="-18.6" y="-22.3" transform="matrix(-0.7699 -0.21 0.21 -0.7699 48.6183 20.3924)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-80" x="-16.7" y="-19.6" transform="matrix(-0.7699 -0.21 0.21 -0.7699 48.6183 20.3924)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-83" x="-18.6" y="-22.3" transform="matrix(-0.7399 -0.3 0.3 -0.7399 59.4164 20.3686)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-83" x="-16.7" y="-19.6" transform="matrix(-0.7399 -0.3 0.3 -0.7399 59.4164 20.3686)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-86" x="-18.6" y="-22.3" transform="matrix(-0.7299 -0.35 0.35 -0.7299 70.4278 21.3247)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-86" x="-16.7" y="-19.6" transform="matrix(-0.7868 -0.1906 0.1906 -0.7868 70.7129 21.27)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-89" x="-18.6" y="-22.3" transform="matrix(-0.7104 -0.3891 0.3891 -0.7104 81.6708 23.14)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-89" x="-16.7" y="-19.6" transform="matrix(-0.7104 -0.3891 0.3891 -0.7104 81.6708 23.14)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-92" x="-18.6" y="-22.3" transform="matrix(-0.6861 -0.449 0.449 -0.6861 92.1682 25.3554)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-92" x="-16.7" y="-19.6" transform="matrix(-0.6861 -0.449 0.449 -0.6861 92.1682 25.3554)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-95" x="-18.6" y="-22.3" transform="matrix(-0.65 -0.5 0.5 -0.65 101.6803 28.6748)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-95" x="-16.7" y="-19.6" transform="matrix(-0.65 -0.5 0.5 -0.65 101.6803 28.6748)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-98" x="-18.6" y="-22.3" transform="matrix(-0.6153 -0.557 0.557 -0.6153 111.2764 32.5652)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-98" x="-16.7" y="-19.6" transform="matrix(-0.6153 -0.557 0.557 -0.6153 111.2764 32.5652)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-101" x="-18.6" y="-22.3" transform="matrix(-0.57 -0.61 0.61 -0.57 119.3953 36.3434)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-101" x="-16.7" y="-19.6" transform="matrix(-0.7193 -0.4237 0.4237 -0.7193 119.4655 36.2881)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-104" x="-18.6" y="-22.3" transform="matrix(-0.51 -0.66 0.66 -0.51 127.945 41.9912)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-104" x="-16.7" y="-19.6" transform="matrix(-0.51 -0.66 0.66 -0.51 127.945 41.9912)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-107" x="-18.6" y="-22.3" transform="matrix(-0.4482 -0.7104 0.7104 -0.4482 135.499 48.0872)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-107" x="-16.7" y="-19.6" transform="matrix(-0.4482 -0.7104 0.7104 -0.4482 135.499 48.0872)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-110" x="-18.6" y="-22.3" transform="matrix(-0.3698 -0.7653 0.7653 -0.3698 142.28 54.8294)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-110" x="-16.7" y="-19.6" transform="matrix(-0.3698 -0.7653 0.7653 -0.3698 142.28 54.8294)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-113" x="-18.6" y="-22.3" transform="matrix(-0.27 -0.8099 0.8099 -0.27 147.9018 62.6709)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-113" x="-16.7" y="-19.6" transform="matrix(-0.27 -0.8099 0.8099 -0.27 147.9018 62.6709)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-116" x="-18.6" y="-22.3" transform="matrix(-0.1483 -0.8471 0.8471 -0.1483 152.3044 71.0706)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-116" x="-16.7" y="-19.6" transform="matrix(-0.1483 -0.8471 0.8471 -0.1483 152.3044 71.0706)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-119" x="-18.6" y="-22.3" transform="matrix(-9.999303e-03 -0.8599 0.8599 -9.999303e-03 155.0945 80.0158)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-119" x="-16.7" y="-19.6" transform="matrix(-0.1913 -0.8385 0.8385 -0.1913 154.9236 80.1825)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-122" x="-18.6" y="-22.3" transform="matrix(0.1576 -0.8555 0.8555 0.1576 156.6577 89.6399)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-122" x="-16.7" y="-19.6" transform="matrix(0.1576 -0.8555 0.8555 0.1576 156.6577 89.6399)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-125" x="-18.6" y="-22.3" transform="matrix(0.344 -0.7991 0.7991 0.344 155.6584 98.1267)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-125" x="-16.7" y="-19.6" transform="matrix(0.344 -0.7991 0.7991 0.344 155.6584 98.1267)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-128" x="-18.6" y="-22.3" transform="matrix(0.5046 -0.7209 0.7209 0.5046 153.8532 107.3884)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-128" x="-16.7" y="-19.6" transform="matrix(0.5046 -0.7209 0.7209 0.5046 153.8532 107.3884)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-131" x="-18.6" y="-22.3" transform="matrix(0.62 -0.62 0.62 0.62 149.768 115.3914)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-131" x="-16.7" y="-19.6" transform="matrix(0.7338 -0.4799 0.4799 0.7338 149.7355 115.295)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-134" x="-18.6" y="-22.3" transform="matrix(0.71 -0.53 0.53 0.71 144.3457 123.2474)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-134" x="-16.7" y="-19.6" transform="matrix(0.71 -0.53 0.53 0.71 144.3457 123.2474)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-137" x="-18.6" y="-22.3" transform="matrix(0.7699 -0.44 0.44 0.7699 137.3945 130.4203)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-137" x="-16.7" y="-19.6" transform="matrix(0.7699 -0.44 0.44 0.7699 137.3945 130.4203)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-140" x="-18.6" y="-22.3" transform="matrix(0.8245 -0.3607 0.3607 0.8245 129.4903 137.0663)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-140" x="-16.7" y="-19.6" transform="matrix(0.8245 -0.3607 0.3607 0.8245 129.4903 137.0663)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-143" x="-18.6" y="-22.3" transform="matrix(0.8543 -0.283 0.283 0.8543 120.486 142.7183)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-143" x="-16.7" y="-19.6" transform="matrix(0.8543 -0.283 0.283 0.8543 120.486 142.7183)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-146" x="-18.6" y="-22.3" transform="matrix(0.8853 -0.2104 0.2104 0.8853 111.2987 147.6275)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-146" x="-16.7" y="-19.6" transform="matrix(0.8853 -0.2104 0.2104 0.8853 111.2987 147.6275)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-149" x="-18.6" y="-22.3" transform="matrix(0.9001 -0.1332 0.1332 0.9001 101.8011 151.4211)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-149" x="-16.7" y="-19.6" transform="matrix(0.9001 -0.1332 0.1332 0.9001 103.8011 151.4211)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="35.7" height="42.9" id="fur_row-152" x="-18.6" y="-22.3" transform="matrix(0.9186 -4.942839e-02 4.942839e-02 0.9186 92.6186 154.3446)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-152" x="-16.7" y="-19.6" transform="matrix(0.8425 -0.3695 0.3695 0.8425 97.3048 152.9987)" style="overflow:visible;"/>
 </g>
-<g id="strokes" class="st12">
-	<path id="_x32_" class="st13" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
-	<path id="path_1_" class="st13" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3
+<g id="strokes" class="st13">
+	<path id="_x32_" class="st14" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
+	<path id="path_1_" class="st14" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3
 		C7.5,4.5,19,60.2,20.1,104.5c1.3,53.9,1.8,81-0.1,130.4"/>
 </g>
-<g id="A" class="st12">
-	<circle class="st14" cx="97.1" cy="157" r="26"/>
+<g id="A" class="st13">
 	<circle class="st15" cx="97.1" cy="157" r="26"/>
+	<circle class="st16" cx="97.1" cy="157" r="26"/>
 </g>
-<path id="_x32__1_" class="st16" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
-<use xlink:href="#fur-2"  width="39.2" height="52" id="XMLID_1_" x="-16.4" y="-26.5" transform="matrix(1 0 0 -1 -43.2066 38.9287)" style="display:none;overflow:visible;"/>
+<path id="_x32__1_" class="st17" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
+<use xlink:href="#fur-2"  width="39.2" height="52" id="XMLID_1_" x="-21.4" y="-37.5" transform="matrix(1 0 0 -1 -43.2066 38.9287)" style="display:none;overflow:visible;"/>
 <g id="UI">
 	<g id="phonetics">
-		<path class="st17" d="M133.8,268.3H76.8c-6.1,0-11.1-5-11.1-11.1v-37.7c0-6.1,5-11.1,11.1-11.1h56.9c6.1,0,11.1,5,11.1,11.1v37.7
+		<path class="st18" d="M133.8,268.3H76.8c-6.1,0-11.1-5-11.1-11.1v-37.7c0-6.1,5-11.1,11.1-11.1h56.9c6.1,0,11.1,5,11.1,11.1v37.7
 			C144.9,263.4,139.9,268.3,133.8,268.3z"/>
-		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st18 st19">[ r ]</text>
+		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st19 st20">[ r ]</text>
 	</g>
 </g>
 </svg>

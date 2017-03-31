@@ -165,6 +165,8 @@
 		scene.A.onMouseDown = function() {
 	    	dragging = true;
 
+	    	container.getItem({ name: 'mouth.open' }).visible = false;
+
 	    	if(!muted) {
 				// init sound:
 	    		sound = SOUNDS.PURR.play();
@@ -192,9 +194,9 @@
 
 					if(!muted)
 						if(newOffset > .07) {
-							soundTimeout = setTimeout(function(){
+							soundTimeout = setTimeout(function() {
 								SOUNDS.PURR.stop(sound);
-							}, 800);
+							}, 1000);
 
 							// playback sound from current position (path acts as "scrubber")
 							var duration = SOUNDS.PURR.duration();
@@ -228,12 +230,15 @@
 				// all strokes done
 				if(steps === GOAL) {
 					//alert('Yeah! you rock.');
+					container.getItem({ name: 'mouth.open' }).visible = true;
 					SOUNDS.PURR.stop(sound);
 					setTimeout(function() { SOUNDS.PURR.play(); }, 800);
 
 					scene.UI.visible = true;
 					scene.UI.children.phonetics.opacity = 0;
 					scene.UI.children.phonetics.animate('opacity', 0,1, .3, 'reverse', 1);
+
+					setTimeout(function(){ container.getItem({ name: 'mouth.open' }).visible = false; }, 2200)
 				} else {
 					clearTimeout(winTimeout);
 					winTimeout = setTimeout(function(){
