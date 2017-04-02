@@ -195,8 +195,8 @@
 
 					if(!muted)
 						if(newOffset > .07 && Math.abs(direction) < 0.1) {
+							navigator && navigator.vibrate(300);
 							setTimeout(function() {
-								//SOUNDS.PURR_LOOP.stop(sound);
 								SOUNDS.PURR_LOOP.fade(.6, 0, 600, sound);
 							}, 300);
 						}
