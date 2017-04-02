@@ -11,22 +11,27 @@
 	.st4{fill:#735249;}
 	.st5{fill:none;stroke:#BA9387;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;}
 	.st6{fill:#BA9387;}
-	.st7{opacity:0.5;fill:url(#SVGID_1_);}
-	.st8{fill:#A66B5F;stroke:#473C3C;stroke-miterlimit:10;}
-	.st9{fill:#423836;}
-	.st10{fill:#FFFFFF;}
-	.st11{display:none;fill:#423836;}
-	.st12{opacity:0.5;}
-	.st13{opacity:0;}
-	.st14{fill:none;stroke:#010101;stroke-miterlimit:10;}
-	.st15{fill:#F79159;}
-	.st16{fill:none;stroke:#000000;stroke-width:0.5914;stroke-miterlimit:10;stroke-dasharray:2.3988,2.3988;}
-	.st17{display:none;fill:none;stroke:#EB5300;stroke-miterlimit:10;}
-	.st18{fill:#FFFFFF;stroke:#736868;stroke-width:3;stroke-miterlimit:10;}
-	.st19{font-family:'MyriadPro-Regular';}
-	.st20{font-size:39.3259px;}
+	.st7{display:none;fill:none;stroke:#010101;stroke-miterlimit:10;}
+	.st8{opacity:0.5;fill:url(#SVGID_1_);}
+	.st9{display:none;fill:none;stroke:#E75E00;stroke-miterlimit:10;}
+	.st10{fill:#A66B5F;stroke:#473C3C;stroke-miterlimit:10;}
+	.st11{fill:#423836;}
+	.st12{display:none;}
+	.st13{display:inline;fill:#423836;}
+	.st14{fill:#FFFFFF;}
+	.st15{display:none;fill:#423836;}
+	.st16{display:inline;}
+	.st17{opacity:0.5;}
+	.st18{opacity:0;}
+	.st19{fill:#F79159;}
+	.st20{display:none;fill:none;stroke:#EB5300;stroke-miterlimit:10;}
+	.st21{fill:#FFFFFF;stroke:#736868;stroke-width:3;stroke-miterlimit:10;}
+	.st22{font-family:'MyriadPro-Regular';}
+	.st23{font-size:39.3259px;}
+	.st24{opacity:0.23;}
+	.st25{fill:none;stroke:#010101;stroke-miterlimit:10;}
 </style>
-<symbol  id="fur-1" viewBox="-16.7 -19.6 31.6 40.9">
+<symbol  id="fur-1" viewBox="-16.7 -19.6 33.6 40.9">
 	<polygon class="st0" points="-5.9,21.2 -9.8,15.5 -9.2,4.9 -16.7,-12.6 -5,-19.6 8.2,-19.6 14.9,-5.2 13.6,14.7 9.6,21.2 	"/>
 	<g>
 		<g>
@@ -185,6 +190,7 @@
 			</g>
 		</g>
 	</g>
+	<circle class="st7" cx="1.4" cy="5.1" r="14.9"/>
 </symbol>
 <symbol  id="fur-2" viewBox="-21.4 -37.5 39.2 52">
 	<polygon class="st0" points="-6.8,8.9 -10.7,3.3 -10,-7.3 -17.6,-24.9 -5.9,-31.9 7.3,-31.9 14,-17.5 12.7,2.5 8.8,8.9 	"/>
@@ -193,7 +199,7 @@
 		<stop  offset="0" style="stop-color:#302520;stop-opacity:0.3"/>
 		<stop  offset="1" style="stop-color:#2B201C;stop-opacity:0"/>
 	</radialGradient>
-	<path class="st7" d="M17.1-15.3C14.2-29.5,3.4-39.3-7-37.2c-10.4,2.1-16.5,15.4-13.6,29.6S-7,16.4,3.4,14.3S20-1.1,17.1-15.3z"/>
+	<path class="st8" d="M17.1-15.3C14.2-29.5,3.4-39.3-7-37.2c-10.4,2.1-16.5,15.4-13.6,29.6S-7,16.4,3.4,14.3S20-1.1,17.1-15.3z"/>
 	<g>
 		<g>
 			<g>
@@ -339,10 +345,11 @@
 			</g>
 		</g>
 	</g>
+	<circle class="st9" cx="0.6" cy="-7.2" r="14.9"/>
 </symbol>
 <g id="purrly">
 	<g id="body">
-		<path class="st8" d="M5.6,260.5L5.4,260c-0.1-0.3-0.3-0.7-0.5-1.1l-0.2-0.7l-0.1-0.5l-0.2-0.8l-0.2-0.8c-0.5-2.2-0.8-4.4-1-6.7
+		<path class="st10" d="M5.6,260.5L5.4,260c-0.1-0.3-0.3-0.7-0.5-1.1l-0.2-0.7l-0.1-0.5l-0.2-0.8l-0.2-0.8c-0.5-2.2-0.8-4.4-1-6.7
 			c-0.4-4.7,0.5-10.6,0.5-17.9s0.3-16,0.8-26c0.2-5,0.5-10.3,0.8-15.8l0.3-4.2l0.1-2.2l0.1-2c0.1-1.5,0.1-2.8,0.2-4.1l0.1-4.2
 			c0.3-11.8-0.7-24.7-0.9-38.4s-0.6-28-1.4-42.8L3.1,80.6c-0.3-3.7-0.5-7.5-0.9-11.2l-0.5-5.6C1.4,62,1.2,60.1,1,58.3l-0.7-6
 			l-0.1-2.1c-0.1-0.7-0.1-1.4-0.1-2c0-1.3-0.1-2.7,0-4.2c0.1-6.4,1.5-12.7,4.1-18.6C7.2,18.7,12.1,13,18.2,8.9
@@ -372,7 +379,7 @@
 				c-0.3-0.1-0.5-0.1-0.8-0.1c-0.5,0-0.9,0-1.4,0.2c-0.3,0.1-0.6,0.3-0.9,0.4L77.9,160.3z"/>
 		</g>
 		<g id="mouth">
-			<path class="st9" d="M67,163.1c0.5,0.5,1,0.8,1.6,1c0.1,0,0.3,0.1,0.4,0.1c0.1,0,0.1,0,0.2-0.1c0.1,0,0.1,0,0.2-0.1
+			<path class="st11" d="M67,163.1c0.5,0.5,1,0.8,1.6,1c0.1,0,0.3,0.1,0.4,0.1c0.1,0,0.1,0,0.2-0.1c0.1,0,0.1,0,0.2-0.1
 				c0.1,0,0.2-0.1,0.3-0.2c0.1-0.1,0.2-0.2,0.3-0.3l0.1-0.1l0.1,0l0.3,0c0.1,0,0.2,0.1,0.3,0.1c0.1,0.1,0.3,0.2,0.4,0.3
 				c0.2,0.2,0.3,0.4,0.5,0.6c0.3,0.4,0.6,0.9,0.9,1.2c0.2,0.2,0.3,0.3,0.5,0.5c0.2,0.2,0.4,0.3,0.6,0.4c0.2,0.1,0.4,0.2,0.7,0.3
 				c0.2,0.1,0.5,0.1,0.7,0.1c-0.2,0.1-0.5,0.1-0.8,0.1c-0.3,0-0.5,0-0.8-0.1c-0.3-0.1-0.5-0.2-0.7-0.4c-0.2-0.1-0.4-0.3-0.6-0.5
@@ -380,140 +387,159 @@
 				c-0.2,0.1-0.3,0.2-0.5,0.3c-0.1,0-0.2,0.1-0.3,0.1c-0.1,0-0.2,0-0.3,0c-0.2,0-0.4-0.1-0.5-0.1c-0.3-0.1-0.6-0.3-0.9-0.6
 				C67.4,163.8,67.2,163.5,67,163.1z"/>
 		</g>
-		<path id="nose" class="st9" d="M70.3,163.8c0,0-1.2-3.1,0.1-2.8S74.5,161.4,70.3,163.8z"/>
+		<g id="mouth.mad" class="st12">
+			<path class="st13" d="M69,166.2c0,0,0-0.1,0-0.3c0-0.2,0-0.5,0.1-0.9c0.1-0.2,0.1-0.4,0.2-0.6c0.1-0.2,0.3-0.4,0.5-0.5
+				c0.3-0.1,0.6-0.1,0.8,0c0.2,0.1,0.5,0.2,0.7,0.4c0.4,0.3,0.7,0.7,0.9,1.2c0.2,0.4,0.3,0.8,0.4,1.2c0.1,0.4,0,0.7,0,0.9
+				c0,0.2-0.1,0.3-0.1,0.3s0-0.1,0-0.3c0-0.2-0.1-0.5-0.2-0.8c-0.2-0.6-0.6-1.5-1.3-2c-0.2-0.1-0.3-0.2-0.5-0.3
+				c-0.2-0.1-0.3-0.1-0.5-0.1c-0.3,0.1-0.5,0.5-0.7,0.8C69.1,165.7,69,166.2,69,166.2z"/>
+		</g>
+		<path id="nose" class="st11" d="M70.3,163.8c0,0-1.2-3.1,0.1-2.8S74.5,161.4,70.3,163.8z"/>
 		<g id="eyes">
-			<path class="st9" d="M83.7,163.7c-0.6,1.4-2.3,1.9-3.9,1.2c-1.5-0.7-2.4-2.4-1.9-4c0.6-1.4,2.3-1.9,3.9-1.2
+			<path class="st11" d="M83.7,163.7c-0.6,1.4-2.3,1.9-3.9,1.2c-1.5-0.7-2.4-2.4-1.9-4c0.6-1.4,2.3-1.9,3.9-1.2
 				C83.3,160.4,84.2,162.1,83.7,163.7z"/>
 			
-				<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -92.5702 211.2342)" class="st10" cx="82.2" cy="161.9" rx="0.9" ry="0.9"/>
-			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -93.9767 208.7301)" class="st10" cx="80" cy="161.5" rx="0.5" ry="0.5"/>
-			<path class="st9" d="M69.8,157c-0.3,1.1-1.8,1.5-3.2,1s-2.4-1.7-2-2.8c0.4-1.1,1.8-1.5,3.2-1C69.2,154.7,70.1,156,69.8,157z"/>
-			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -97.8993 192.2907)" class="st10" cx="68" cy="155.7" rx="0.9" ry="0.9"/>
-			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -98.3817 190.2162)" class="st10" cx="66.5" cy="155" rx="0.5" ry="0.4"/>
+				<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -92.5702 211.2342)" class="st14" cx="82.2" cy="161.9" rx="0.9" ry="0.9"/>
+			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -93.9767 208.7301)" class="st14" cx="80" cy="161.5" rx="0.5" ry="0.5"/>
+			<path class="st11" d="M69.8,157c-0.3,1.1-1.8,1.5-3.2,1s-2.4-1.7-2-2.8c0.4-1.1,1.8-1.5,3.2-1C69.2,154.7,70.1,156,69.8,157z"/>
+			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -97.8993 192.2907)" class="st14" cx="68" cy="155.7" rx="0.9" ry="0.9"/>
+			<ellipse transform="matrix(0.1938 -0.981 0.981 0.1938 -98.3817 190.2162)" class="st14" cx="66.5" cy="155" rx="0.5" ry="0.4"/>
 		</g>
-		<path id="mouth.open" class="st11" d="M68.5,164.6c0,0,0.9,4.3,2.9,4.3s1.3-2.2,2.1-2l-2.9-2.9L68.5,164.6z"/>
+		<path id="mouth.open" class="st15" d="M68.5,164.6c0,0,0.9,4.3,2.9,4.3s1.3-2.2,2.1-2l-2.9-2.9L68.5,164.6z"/>
+		<g id="frown" class="st12">
+			<g class="st16">
+				<path class="st11" d="M75.7,158.6c0,0,0.1,0.1,0.3,0.2c0.2,0.1,0.6,0.3,1,0.3c0.4,0,0.9-0.1,1.4-0.3c0.2-0.1,0.5-0.2,0.8-0.3
+					c0.3-0.1,0.6-0.2,0.8-0.3c2.3-0.7,4.5-1.4,4.5-1.4c0.5-0.2,1.1,0.1,1.3,0.7s-0.1,1.1-0.7,1.3c-0.1,0-0.1,0-0.2,0
+					c0,0-2.3,0.2-4.7,0.4c-0.3,0-0.6,0.1-0.9,0.1c-0.3,0-0.5,0.1-0.8,0.1c-0.6,0.1-1.1,0.1-1.6,0c-0.5-0.1-0.8-0.3-1-0.5
+					C75.8,158.8,75.7,158.6,75.7,158.6z"/>
+			</g>
+			<g class="st16">
+				<path class="st11" d="M67,150.6C67,150.6,67,150.7,67,150.6c0,0.1,0,0.1,0,0.2c0,0.1,0.1,0.3,0.2,0.6c0.2,0.3,0.4,0.7,0.7,1.1
+					c0.3,0.4,0.6,0.8,0.9,1.3c0.3,0.5,0.5,0.9,0.8,1.4c0.2,0.5,0.3,0.9,0.5,1.2c0.2,0.3,0.5,0.5,0.7,0.6c0.2,0.1,0.3,0.1,0.3,0.1
+					s-0.1,0-0.4,0c-0.2,0-0.6-0.2-0.9-0.4c-0.3-0.3-0.6-0.7-0.8-1.1c-0.3-0.4-0.6-0.7-1-1.1c-0.4-0.3-0.7-0.7-1.1-1
+					c-0.4-0.3-0.7-0.6-1-0.9c-0.3-0.3-0.6-0.7-0.7-1c-0.1-0.1-0.1-0.3-0.1-0.4c0-0.1,0-0.1,0-0.1c-0.2-0.5,0.1-1.1,0.7-1.3
+					s1.1,0.1,1.3,0.7C67,150.5,67,150.5,67,150.6z"/>
+			</g>
+		</g>
 	</g>
 </g>
-<g id="fur" class="st12">
+<g id="fur" class="st17">
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" x="-16.7" y="-19.6" transform="matrix(3.672248e-02 0.6689 -0.6689 3.672248e-02 18.6552 257.4017)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" x="-16.7" y="-19.6" transform="matrix(3.672248e-02 0.6689 -0.6689 3.672248e-02 18.6552 257.4017)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-5" x="-16.7" y="-19.6" transform="matrix(-0.1827 0.6549 -0.6549 -0.1827 18.7547 248.0078)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-5" x="-16.7" y="-19.6" transform="matrix(-0.1827 0.6549 -0.6549 -0.1827 18.7547 248.0078)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-8" x="-16.7" y="-19.6" transform="matrix(-0.2246 0.6418 -0.6418 -0.2246 19.1348 238.2422)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-8" x="-16.7" y="-19.6" transform="matrix(-0.2246 0.6418 -0.6418 -0.2246 19.1348 238.2422)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-11" x="-16.7" y="-19.6" transform="matrix(-0.2328 0.6386 -0.6386 -0.2328 19.6362 228.3829)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-11" x="-16.7" y="-19.6" transform="matrix(-0.2328 0.6386 -0.6386 -0.2328 19.6362 228.3829)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-14" x="-16.7" y="-19.6" transform="matrix(-0.303 0.6199 -0.6199 -0.303 19.9575 218.5977)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-14" x="-16.7" y="-19.6" transform="matrix(-0.303 0.6199 -0.6199 -0.303 19.9575 218.5977)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-17" x="-16.7" y="-19.6" transform="matrix(-0.3 0.63 -0.63 -0.3 20.3165 208.6474)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-17" x="-16.7" y="-19.6" transform="matrix(-0.3 0.63 -0.63 -0.3 20.3165 208.6474)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-20" x="-16.7" y="-19.6" transform="matrix(-0.29 0.64 -0.64 -0.29 20.6817 198.7014)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-20" x="-16.7" y="-19.6" transform="matrix(-0.29 0.64 -0.64 -0.29 20.6817 198.7014)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-23" x="-16.7" y="-19.6" transform="matrix(-0.2807 0.6521 -0.6521 -0.2807 20.8345 188.6335)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-23" x="-16.7" y="-19.6" transform="matrix(-0.2807 0.6521 -0.6521 -0.2807 20.8345 188.6335)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-26" x="-16.7" y="-19.6" transform="matrix(-0.1496 0.694 -0.694 -0.1496 20.8958 178.3475)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-26" x="-16.7" y="-19.6" transform="matrix(-0.1496 0.694 -0.694 -0.1496 20.8958 178.3475)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-29" x="-16.7" y="-19.6" transform="matrix(-0.2728 0.6554 -0.6554 -0.2728 21.0676 168.4364)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-29" x="-16.7" y="-19.6" transform="matrix(-0.2728 0.6554 -0.6554 -0.2728 21.0676 168.4364)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-32" x="-16.7" y="-19.6" transform="matrix(-0.2773 0.6644 -0.6644 -0.2773 21.0166 158.455)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-32" x="-16.7" y="-19.6" transform="matrix(-0.2773 0.6644 -0.6644 -0.2773 21.0166 158.455)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-35" x="-16.7" y="-19.6" transform="matrix(-0.28 0.67 -0.67 -0.28 21.0683 148.4348)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-35" x="-16.7" y="-19.6" transform="matrix(-0.28 0.67 -0.67 -0.28 21.0683 148.4348)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-38" x="-16.7" y="-19.6" transform="matrix(-0.213 0.6982 -0.6982 -0.213 21.1848 138.5348)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-38" x="-16.7" y="-19.6" transform="matrix(-0.213 0.6982 -0.6982 -0.213 21.1848 138.5348)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-41" x="-16.7" y="-19.6" transform="matrix(-0.2615 0.6815 -0.6815 -0.2615 21.3607 128.7475)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-41" x="-16.7" y="-19.6" transform="matrix(-0.2615 0.6815 -0.6815 -0.2615 21.3607 128.7475)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-44" x="-16.7" y="-19.6" transform="matrix(-0.1659 0.7211 -0.7211 -0.1659 21.0787 118.8468)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-44" x="-16.7" y="-19.6" transform="matrix(-0.1659 0.7211 -0.7211 -0.1659 21.0787 118.8468)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-47" x="-16.7" y="-19.6" transform="matrix(-0.2331 0.7023 -0.7023 -0.2331 21.002 109.1703)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-47" x="-16.7" y="-19.6" transform="matrix(-0.2331 0.7023 -0.7023 -0.2331 21.002 109.1703)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-50" x="-16.7" y="-19.6" transform="matrix(-0.2194 0.7171 -0.7171 -0.2194 20.408 99.4986)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-50" x="-16.7" y="-19.6" transform="matrix(-0.2194 0.7171 -0.7171 -0.2194 20.408 99.4986)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-53" x="-16.7" y="-19.6" transform="matrix(-8.196764e-02 0.7483 -0.7483 -8.196764e-02 19.1312 89.2423)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-53" x="-16.7" y="-19.6" transform="matrix(-8.196764e-02 0.7483 -0.7483 -8.196764e-02 19.1312 89.2423)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-56" x="-16.7" y="-19.6" transform="matrix(-0.22 0.7299 -0.7299 -0.22 19.1101 79.8487)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-56" x="-16.7" y="-19.6" transform="matrix(-0.22 0.7299 -0.7299 -0.22 19.1101 79.8487)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-59" x="-16.7" y="-19.6" transform="matrix(-0.2351 0.7227 -0.7227 -0.2351 18.7656 69.7363)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-59" x="-16.7" y="-19.6" transform="matrix(-0.2351 0.7227 -0.7227 -0.2351 18.7656 69.7363)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-62" x="-16.7" y="-19.6" transform="matrix(-0.26 0.7199 -0.7199 -0.26 18.5159 59.6817)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-62" x="-16.7" y="-19.6" transform="matrix(-0.26 0.7199 -0.7199 -0.26 18.5159 59.6817)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-65" x="-16.7" y="-19.6" transform="matrix(-0.3 0.71 -0.71 -0.3 18.6516 49.4447)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-65" x="-16.7" y="-19.6" transform="matrix(-0.3 0.71 -0.71 -0.3 18.6516 49.4447)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-68" x="-16.7" y="-19.6" transform="matrix(-0.39 0.67 -0.67 -0.39 19.3822 38.6869)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-68" x="-16.7" y="-19.6" transform="matrix(-0.39 0.67 -0.67 -0.39 19.3822 38.6869)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-71" x="-16.7" y="-19.6" transform="matrix(-0.6101 0.486 -0.486 -0.6101 23.1948 30.7156)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-71" x="-16.7" y="-19.6" transform="matrix(-0.6101 0.486 -0.486 -0.6101 23.1948 30.7156)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-74" x="-16.7" y="-19.6" transform="matrix(-0.7627 0.2057 -0.2057 -0.7627 29.4582 25.0136)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-74" x="-16.7" y="-19.6" transform="matrix(-0.7627 0.2057 -0.2057 -0.7627 29.4582 25.0136)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-77" x="-16.7" y="-19.6" transform="matrix(-0.7887 -4.492175e-02 4.492175e-02 -0.7887 38.4899 21.8789)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-77" x="-16.7" y="-19.6" transform="matrix(-0.7887 -4.492175e-02 4.492175e-02 -0.7887 38.4899 21.8789)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-80" x="-16.7" y="-19.6" transform="matrix(-0.7699 -0.21 0.21 -0.7699 48.6183 20.3924)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-80" x="-16.7" y="-19.6" transform="matrix(-0.7699 -0.21 0.21 -0.7699 48.6183 20.3924)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-83" x="-16.7" y="-19.6" transform="matrix(-0.7399 -0.3 0.3 -0.7399 59.4164 20.3686)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-83" x="-16.7" y="-19.6" transform="matrix(-0.7399 -0.3 0.3 -0.7399 59.4164 20.3686)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-86" x="-16.7" y="-19.6" transform="matrix(-0.7868 -0.1906 0.1906 -0.7868 70.7129 21.27)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-86" x="-16.7" y="-19.6" transform="matrix(-0.7868 -0.1906 0.1906 -0.7868 70.7129 21.27)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-89" x="-16.7" y="-19.6" transform="matrix(-0.7104 -0.3891 0.3891 -0.7104 81.6708 23.14)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-89" x="-16.7" y="-19.6" transform="matrix(-0.7104 -0.3891 0.3891 -0.7104 81.6708 23.14)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-92" x="-16.7" y="-19.6" transform="matrix(-0.6861 -0.449 0.449 -0.6861 92.1682 25.3554)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-92" x="-16.7" y="-19.6" transform="matrix(-0.6861 -0.449 0.449 -0.6861 92.1682 25.3554)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-95" x="-16.7" y="-19.6" transform="matrix(-0.65 -0.5 0.5 -0.65 101.6803 28.6748)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-95" x="-16.7" y="-19.6" transform="matrix(-0.65 -0.5 0.5 -0.65 101.6803 28.6748)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-98" x="-16.7" y="-19.6" transform="matrix(-0.6153 -0.557 0.557 -0.6153 111.2764 32.5652)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-98" x="-16.7" y="-19.6" transform="matrix(-0.6153 -0.557 0.557 -0.6153 111.2764 32.5652)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-101" x="-16.7" y="-19.6" transform="matrix(-0.7193 -0.4237 0.4237 -0.7193 119.4655 36.2881)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-101" x="-16.7" y="-19.6" transform="matrix(-0.7193 -0.4237 0.4237 -0.7193 119.4655 36.2881)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-104" x="-16.7" y="-19.6" transform="matrix(-0.51 -0.66 0.66 -0.51 127.945 41.9912)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-104" x="-16.7" y="-19.6" transform="matrix(-0.51 -0.66 0.66 -0.51 127.945 41.9912)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-107" x="-16.7" y="-19.6" transform="matrix(-0.4482 -0.7104 0.7104 -0.4482 135.499 48.0872)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-107" x="-16.7" y="-19.6" transform="matrix(-0.4482 -0.7104 0.7104 -0.4482 135.499 48.0872)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-110" x="-16.7" y="-19.6" transform="matrix(-0.3698 -0.7653 0.7653 -0.3698 142.28 54.8294)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-110" x="-16.7" y="-19.6" transform="matrix(-0.3698 -0.7653 0.7653 -0.3698 142.28 54.8294)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-113" x="-16.7" y="-19.6" transform="matrix(-0.27 -0.8099 0.8099 -0.27 147.9018 62.6709)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-113" x="-16.7" y="-19.6" transform="matrix(-0.27 -0.8099 0.8099 -0.27 147.9018 62.6709)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-116" x="-16.7" y="-19.6" transform="matrix(-0.1483 -0.8471 0.8471 -0.1483 152.3044 71.0706)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-116" x="-16.7" y="-19.6" transform="matrix(-0.1483 -0.8471 0.8471 -0.1483 152.3044 71.0706)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-119" x="-16.7" y="-19.6" transform="matrix(-0.1913 -0.8385 0.8385 -0.1913 154.9236 80.1825)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-119" x="-16.7" y="-19.6" transform="matrix(-0.1913 -0.8385 0.8385 -0.1913 154.9236 80.1825)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-122" x="-16.7" y="-19.6" transform="matrix(0.1576 -0.8555 0.8555 0.1576 156.6577 89.6399)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-122" x="-16.7" y="-19.6" transform="matrix(0.1576 -0.8555 0.8555 0.1576 156.6577 89.6399)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-125" x="-16.7" y="-19.6" transform="matrix(0.344 -0.7991 0.7991 0.344 155.6584 98.1267)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-125" x="-16.7" y="-19.6" transform="matrix(0.344 -0.7991 0.7991 0.344 155.6584 98.1267)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-128" x="-16.7" y="-19.6" transform="matrix(0.5046 -0.7209 0.7209 0.5046 153.8532 107.3884)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-128" x="-16.7" y="-19.6" transform="matrix(0.5046 -0.7209 0.7209 0.5046 153.8532 107.3884)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-131" x="-16.7" y="-19.6" transform="matrix(0.7338 -0.4799 0.4799 0.7338 149.7355 115.295)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-131" x="-16.7" y="-19.6" transform="matrix(0.7338 -0.4799 0.4799 0.7338 149.7355 115.295)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-134" x="-16.7" y="-19.6" transform="matrix(0.71 -0.53 0.53 0.71 144.3457 123.2474)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-134" x="-16.7" y="-19.6" transform="matrix(0.71 -0.53 0.53 0.71 144.3457 123.2474)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-137" x="-16.7" y="-19.6" transform="matrix(0.7699 -0.44 0.44 0.7699 137.3945 130.4203)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-137" x="-16.7" y="-19.6" transform="matrix(0.7699 -0.44 0.44 0.7699 137.3945 130.4203)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-140" x="-16.7" y="-19.6" transform="matrix(0.8245 -0.3607 0.3607 0.8245 129.4903 137.0663)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-140" x="-16.7" y="-19.6" transform="matrix(0.8245 -0.3607 0.3607 0.8245 129.4903 137.0663)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-143" x="-16.7" y="-19.6" transform="matrix(0.8543 -0.283 0.283 0.8543 120.486 142.7183)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-143" x="-16.7" y="-19.6" transform="matrix(0.8543 -0.283 0.283 0.8543 120.486 142.7183)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-146" x="-16.7" y="-19.6" transform="matrix(0.8853 -0.2104 0.2104 0.8853 111.2987 147.6275)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-146" x="-16.7" y="-19.6" transform="matrix(0.8853 -0.2104 0.2104 0.8853 111.2987 147.6275)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-149" x="-16.7" y="-19.6" transform="matrix(0.9001 -0.1332 0.1332 0.9001 103.8011 151.4211)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-149" x="-16.7" y="-19.6" transform="matrix(0.9001 -0.1332 0.1332 0.9001 103.8011 151.4211)" style="overflow:visible;"/>
 	
-		<use xlink:href="#fur-1"  width="31.6" height="40.9" id="fur_row-152" x="-16.7" y="-19.6" transform="matrix(0.8425 -0.3695 0.3695 0.8425 97.3048 152.9987)" style="overflow:visible;"/>
+		<use xlink:href="#fur-1"  width="33.6" height="40.9" id="fur_row-152" x="-16.7" y="-19.6" transform="matrix(0.8425 -0.3695 0.3695 0.8425 97.3048 152.9987)" style="overflow:visible;"/>
 </g>
-<g id="strokes" class="st13">
-	<path id="_x32_" class="st14" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
-	<path id="path_1_" class="st14" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3
-		C7.5,4.5,19,60.2,20.1,104.5c1.3,53.9,1.8,81-0.1,130.4"/>
+<g id="control" class="st18">
+	<circle class="st19" cx="97.1" cy="157" r="26"/>
 </g>
-<g id="A" class="st13">
-	<circle class="st15" cx="97.1" cy="157" r="26"/>
-	<circle class="st16" cx="97.1" cy="157" r="26"/>
-</g>
-<path id="_x32__1_" class="st17" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
+<path id="_x32__1_" class="st20" d="M76.7,211.9c0,0-12.1,15,1.9,21.5s77.5,0.5,64,24.5"/>
 <use xlink:href="#fur-2"  width="39.2" height="52" id="XMLID_1_" x="-21.4" y="-37.5" transform="matrix(1 0 0 -1 -43.2066 38.9287)" style="display:none;overflow:visible;"/>
 <g id="UI">
 	<g id="phonetics">
-		<path class="st18" d="M133.8,268.3H76.8c-6.1,0-11.1-5-11.1-11.1v-37.7c0-6.1,5-11.1,11.1-11.1h56.9c6.1,0,11.1,5,11.1,11.1v37.7
+		<path class="st21" d="M133.8,268.3H76.8c-6.1,0-11.1-5-11.1-11.1v-37.7c0-6.1,5-11.1,11.1-11.1h56.9c6.1,0,11.1,5,11.1,11.1v37.7
 			C144.9,263.4,139.9,268.3,133.8,268.3z"/>
-		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st19 st20">[ r ]</text>
+		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st22 st23">[ r ]</text>
 	</g>
+</g>
+<g id="strokes" class="st24">
+	<path id="_x31_" class="st25" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3C7.5,4.5,19,60.2,20.1,104.5
+		c1.3,53.9,1.8,81-0.1,130.4"/>
 </g>
 </svg>

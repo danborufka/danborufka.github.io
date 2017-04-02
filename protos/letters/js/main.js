@@ -1,65 +1,53 @@
 //jQuery(document).ready(function($) {
 
-	// TODO: multistroke support
-	// TODO: make fur agnostic
-	// TODO: dot support (arabic strokes e.g.)
+	// TODO: make fur/eye/mouth/etc agnostic
 	// TODO: config file support w/ separate sound file
+	// TODO: perfect centering for xs devices
 
 	var SOUNDS = {
+		HISS: 		new Howl({ src: ['audio/hiss.m4a']}),
 		PURR: 		new Howl({ src: ['audio/purr.m4a'], volume: 1 }),
 		PURR_LOOP: 	new Howl({ src: ['audio/purr.m4a'], volume: 0.2, loop: true })
 	};
 
-	var GOAL = 1;
+	var REPETITIONS 	= 1;
 	var TOLERANCE  	  	= 20;
 	var STATE_RANGE   	= 3;
 
 	var symbols 	  	= {};
-	var animatables   	= [];
+
 	var muted 		  	= false;
+	var dragging 	  	= false;
 
 	var lastOffset 	  	= 0;
 	var direction 	  	= 0;
-	var steps 		  	= 1;
-	var dragging 	  	= false;
+	var step 		  	= 1;
+	var currentStroke 	= 0;
 	var lastStateOffset = -1;
+	var currentScene;
 
-	var container;
-	var scene;
-	var path;
+	var strokes;
+	var stroke;
 	var sound;
 
 	var win;
 	var winTimeout;
 	var eyes;
 
-	function _limit(nr, mi, ma) {
-		if(mi > ma) {
-			mi = mi ^ ma;
-			ma = mi ^ ma;
-			mi = mi ^ ma;
-		}
-		return Math.max(Math.min(nr, ma), mi);
-	}
-
-	function _reset() {
-		scene.A.onMouseMove({ point: scene.A.position });
+	function _reset(scene) {
 		dragging = false;
 		lastOffset = 0;
-		scene.A.position = path.segments[0].point;
+		scene.control.position = strokes[currentStroke].segments[0].point;
+		scene.control.onMouseMove({ point: scene.control.position });
 	}
 
-	function _blink(closed) {
-		eyes.visible = closed ? 0 : 100;
-	}
-
-	function _changeState(ratio) {
+	function _changeState(ratio, scene) {
 		var states = scene.fur.children;
 		var range  = [parseInt(-STATE_RANGE/2), parseInt(STATE_RANGE/2)];
 		var stateOffset = states.length - (ratio * states.length);
 		
 		for(var i=range[0]; i <=range[1]; i++) {
-			var current = _limit(parseInt(stateOffset) + i, 0, states.length-1);
+			var current = limit(parseInt(stateOffset) + i, 0, states.length-1);
 			
 			if(states[current].data.aniTimeout) {
 				clearTimeout(states[current].data.aniTimeout);
@@ -71,10 +59,9 @@
 				states[current].definition = project.symbolDefinitions[0];
 			}, 300);
 
-			
 			// reset the old ones
 			if(lastStateOffset >= 0) {
-				var last = _limit(parseInt(lastStateOffset) + i, 0, states.length-1);
+				var last = limit(parseInt(lastStateOffset) + i, 0, states.length-1);
 				setTimeout(function(){
 					states[last].definition = project.symbolDefinitions[0];
 				}, 200);
@@ -83,69 +70,27 @@
 		lastStateOffset = stateOffset;
 	}
 
-	Item.prototype.animate = function(property, fr, to, duration, done, delay) {
-		var item = this;
-		setTimeout(function(){
-			animatables.push({
-			item: 		item,
-			property: 	property,
-			duration: 	duration || 1,
-			from: 		fr,
-			to: 		to,
-			delay: 		delay,
-			done: 		done
-			});
-		}, (delay || 0) * 1000);
-	}
-
-	onResize = function(event) {
-		if(scene) {
-			container.position = event.size/2;
-		}
-	}
-
 	onFrame = function(event) {
-		if(scene) {
+		if(eyes)
 			if(dragging) {
-				_blink(true);
+				eyes.visible = false;
 			} else {
-				_blink(event.count % 90 < 10);
+				eyes.visible = !(event.count % 90 < 10);
 			}
 
-			_.each(animatables, function(animatable, index){
-				var item = animatable.item;
-				var ascending = animatable.to > animatable.from;
-				var value = item[animatable.property];
-				var isDone = ascending ? 
-								value >= animatable.to : 
-								value <= animatable.to;
+		animate.frame(event);
+	};
 
-				if(isDone) {
-					animatables = _.without(animatables, animatable);
-					value = animatable.to;
-					animatable.value = value;
-					if(animatable.done) { 
-						if(animatable.done === 'reverse') {
-							item.animate(animatable.property, animatable.to, animatable.from, animatable.duration, null, animatable.delay || 0);
-						} else animatable.done(animatable);
-					};
-				} else {
-					value += (animatable.to - animatable.from) * event.delta;
-					value = _limit(value, animatable.from, animatable.to);
-				}
-				item[animatable.property] = value;
-			});
-		}
-	}
+	var strokeGame = new Game(project, 'purrly', function(scene, container) {
 
-	project.importSVG('svg/purrly.svg', function (item) {
+		currentScene 	= container; 
+		strokes 		= scene.strokes.children;
+		stroke 			= strokes[currentStroke];
+		eyes 			= container.getItem({ name: 'eyes' });
 
-		container 		= item;
-		scene 			= container.children;
-		path 			= scene.strokes.children[scene.strokes.children.length-1];
-		eyes 			= item.getItem({ name: 'eyes' });
+		onResize({size: view.viewSize});
 
-		scene.UI.visible = false;
+		container.position = view.center;
 
 		// let's get closer!
 		view.zoom = 1.5;
@@ -155,27 +100,32 @@
 
 		var soundTimeout = 0;
 
-		_.each(project.symbolDefinitions, function(definition){
+		_.each(project.symbolDefinitions, function(definition) {
 			if(definition.item.name)
 				symbols[definition.item.name] = definition.item;
 		});
-		/*
-		scene.A.onMouseEnter = function() {		this.opacity = 0.4;		}
-		scene.A.onMouseLeave = function() { 	this.opacity = 0.1;		}
-		*/
-		scene.A.onMouseDown = function() {
+
+		scene.control.onMouseDown = function() {
 	    	dragging = true;
 
 	    	container.getItem({ name: 'mouth.open' }).visible = false;
+
+	    	if(stroke.segments.length === 1) {
+	    		stroke.data.newOffset = 1;
+	    	} else {
+	    		stroke.data.newOffset = 0;
+	    	}
 
 	    	if(!muted) {
 				// init sound:
 	    		sound = SOUNDS.PURR_LOOP.play();
 	    		SOUNDS.PURR_LOOP.fade(0, .2, 600, sound);
 	    	}
-		}
-		scene.A.onMouseMove = function(data) {
-			if(dragging) {
+		};
+
+		scene.control.onMouseMove = _.throttle(function(data) {
+			if(dragging && stroke.segments.length > 1) {
+
 				var hits = project.hitTest(data.point, { 
 					class: 		Path,
 					fill: 		false,
@@ -184,12 +134,11 @@
 					tolerance: 	TOLERANCE
 				});
 
-				if(hits && hits.item == path) {
-					var location  = path.getNearestLocation(data.point);
-					var newOffset = location.offset / path.length;
+				if(hits && hits.item == stroke) {
+					var location  = stroke.getNearestLocation(data.point);
+					var newOffset = location.offset / stroke.length;
 
 					direction = lastOffset - newOffset;
-
 
 					SOUNDS.PURR_LOOP.volume(Math.max(newOffset, .2) * .6);
 
@@ -201,55 +150,69 @@
 							}, 300);
 						}
 
+					var wrongDirection = direction >= 0.008;
+
 					// if jump is too big ("cheating") or if user moved against the path's direction
-					if(Math.abs(lastOffset - newOffset) >= 0.2 || direction >= 0.008) {
+					if(Math.abs(lastOffset - newOffset) >= 0.4 || wrongDirection) {
 						dragging = false;
-						_reset();
+						_reset(scene);
+
+						if(wrongDirection) {
+							container.getItem({ name: 'frown' 		}).visible = true;
+							container.getItem({ name: 'mouth.open'  }).visible = true;
+							SOUNDS.HISS.play();
+
+							setTimeout(function(){
+								container.getItem({ name: 'frown' 	   }).visible = false;
+								container.getItem({ name: 'mouth.open' }).visible = false;
+							}, 1000);
+						}
 					} else {
-						scene.A.position = location.point;
-
-						var test = scene.fur.hitTestAll(data.point, {
-							className: 	Path,
-							fill: 		true,
-							stroke: 	true,
-							segments: 	false,
-							tolerance: 	TOLERANCE
-						});
-
-						_changeState(newOffset);
-						path.data.newOffset = lastOffset = newOffset;
+						scene.control.position = location.point;
+						_changeState(newOffset, scene);
+						stroke.data.newOffset = lastOffset = newOffset;
 					}
-				} else _reset();
+				} else _reset(scene);
 			}
-		}
-		scene.A.onMouseUp = function(data) {
-			var newOffset = path.data.newOffset;
+		}, 100);
+
+		scene.control.onMouseUp = function(data) {
+			var newOffset = stroke.data.newOffset;
 
 			SOUNDS.PURR_LOOP.stop(sound);
 
 			if(newOffset === 1) {
-				// all strokes done
-				if(steps === GOAL) {
-					//alert('Yeah! you rock.');
-					container.getItem({ name: 'mouth.open' }).visible = true;
-					setTimeout(function() { SOUNDS.PURR.play(); }, 800);
+				if(currentStroke === strokes.length - 1) {
+					// all strokes done
+					if(step === REPETITIONS) {
+						//alert('Yeah! you rock.');
+						container.getItem({ name: 'mouth.open' }).visible = true;
+						setTimeout(function() { SOUNDS.PURR.play(); }, 800);
 
-					scene.UI.visible = true;
-					scene.UI.children.phonetics.opacity = 0;
-					scene.UI.children.phonetics.animate('opacity', 0,1, .3, 'reverse', 1);
+						scene.UI.visible = true;
+						scene.UI.children.phonetics.opacity = 0;
+						animate(scene.UI.children.phonetics, 'opacity', 0,1, .3, 'reverse', 1);
 
-					setTimeout(function(){ container.getItem({ name: 'mouth.open' }).visible = false; }, 2200)
-				} else {
-					clearTimeout(winTimeout);
-					winTimeout = setTimeout(function(){
-						steps++;
-					}, 100);
+						setTimeout(function(){ container.getItem({ name: 'mouth.open' }).visible = false; }, 2200)
+					} else {
+						clearTimeout(winTimeout);
+						winTimeout = setTimeout(function(){
+							step++;
+						}, 100);
+					}
 				}
+
+				currentStroke = ++currentStroke % strokes.length;
+				stroke 		  = strokes[currentStroke];
 			}
-			_reset();
+			_reset(scene);
 		};
-		onResize({size: view.viewSize});
-		_reset();
+
+		_reset(scene);
 	});
+
+	onResize = function(event) {
+		strokeGame.resize(event);
+	}
 
 //});

@@ -19,17 +19,13 @@
 		
 		#mainCanvas {
 			background: radial-gradient(ellipse at center, #f9f2e5 45%,#fcdec9 100%);
-			border: 2px solid #AAA;
 			cursor: -webkit-grab;
 			cursor: grab;
 		}
 
 		#mainCanvas:active {
-			border: 1px solid orange;
 			cursor: -webkit-grabbing;
 			cursor: grabbing;
-			width: 	calc(100% - 2px);
-			height: calc(100% - 2px);
 		}
 	</style>
 </head>
@@ -37,8 +33,9 @@
 	<canvas id="mainCanvas" resize></canvas>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
-	<script src="js/underscore-min.js"></script>
+	<script src="js/underscore-min.jss"></script>
 	<script src="js/paper-full.min.js"></script>
+	<script src="js/engine.js" type="text/javascript"></script>
 	<script src="js/main.js" type="text/paperscript" canvas="mainCanvas"></script>
 </body>
 </html>
