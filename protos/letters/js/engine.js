@@ -1,6 +1,7 @@
+// animation and game engine
+
 var animatables   	= [];
 var events 			= {};
-var self 			= this;
 
 function limit(nr, mi, ma) {
 	if(mi > ma) {
@@ -10,15 +11,6 @@ function limit(nr, mi, ma) {
 	}
 	return Math.max(Math.min(nr, ma), mi);
 }
-
-/*
-function _reset() {
-	scene.A.onMouseMove({ point: scene.A.position });
-	dragging = false;
-	lastOffset = 0;
-	scene.A.position = strokes[currentStroke].segments[0].point;
-}
-*/
 
 animate = function(item, property, fr, to, duration, done, delay) {
 	setTimeout(function(){
@@ -37,7 +29,8 @@ animate = function(item, property, fr, to, duration, done, delay) {
 animate.frame = function(event) {
 	_.each(animatables, function(animatable, index){
 		var item 	  = animatable.item;
-		var ascending = animatable.to > animatable.from;
+		var fromv 	  = isNaN(animatable.from) ? value:  animatable.from;
+		var ascending = animatable.to > fromv;
 		var value 	  = item[animatable.property];
 		var isDone 	  = ascending ? 
 						value >= animatable.to : 
@@ -49,32 +42,53 @@ animate.frame = function(event) {
 			animatable.value = value;
 			if(animatable.done) { 
 				if(animatable.done === 'reverse') {
-					animate(item, animatable.property, animatable.to, animatable.from, animatable.duration, null, animatable.delay || 0);
+					animate(item, animatable.property, animatable.to, fromv, animatable.duration, null, animatable.delay || 0);
 				} else animatable.done(animatable);
 			};
 		} else {
-			value += (animatable.to - animatable.from) * event.delta;
-			value = limit(value, animatable.from, animatable.to);
+			value += (animatable.to - fromv) * event.delta;
+			value = limit(value, fromv, animatable.to);
 		}
 		item[animatable.property] = value;
 	});
 }
 
-Game = function(project, name, onLoad) {
+Game = function(project, name, options, onLoad) {
 
 	var self 			= this;
-	self._name 			= name;
-	self._file 			= 'svg/' + name + '.svg';
+	self.name 			= name;
+	self.type 			= options.type;
+	self.file 			= 'games/' + self.type + '/' + name + '.svg';
+	self.project 		= project;
+	self.options 		= options;
+	self.symbols 		= [];
 
-	self.resize 		= function(event) {
-		if(self.scene)
-			self.scene.position = event.size/2;
+	self.resize = function(event) {
+		if(self.container)
+			self.container.position = project.view.center;
 	};
 
-	project.importSVG(self._file, function(item) {
+	self.reset = function() {
+		self.dragging = false;
+	}
+
+	project.importSVG(self.file, function(item) {
 		self.container 		= item;
 		self.scene 			= self.container.children;
-		self.scene.UI.visible = false;
+		
+		_.each(project.symbolDefinitions, function(definition) {
+			if(definition.item.name)
+				self.symbols[definition.item.name] = definition;
+		});
+
+		_.each(self.scene.UI.children, function(ui) {
+			if(ui.name !== 'explainer' && ui.name !== 'demo') {
+				ui.visible = false;
+			}
+		});
+
+		self.resize({size: project.view.viewSize});
+		item.position = project.view.center;
 
 		if(onLoad) onLoad(self.scene, self.container);
 	});

@@ -28,8 +28,10 @@
 	.st21{fill:#FFFFFF;stroke:#736868;stroke-width:3;stroke-miterlimit:10;}
 	.st22{font-family:'MyriadPro-Regular';}
 	.st23{font-size:39.3259px;}
-	.st24{opacity:0.23;}
-	.st25{fill:none;stroke:#010101;stroke-miterlimit:10;}
+	.st24{fill:#474141;}
+	.st25{font-size:9px;}
+	.st26{fill:none;stroke:#474141;stroke-miterlimit:10;stroke-dasharray:2.399,2.3988;}
+	.st27{fill:none;stroke:#010101;stroke-width:30;stroke-linecap:round;stroke-miterlimit:10;}
 </style>
 <symbol  id="fur-1" viewBox="-16.7 -19.6 33.6 40.9">
 	<polygon class="st0" points="-5.9,21.2 -9.8,15.5 -9.2,4.9 -16.7,-12.6 -5,-19.6 8.2,-19.6 14.9,-5.2 13.6,14.7 9.6,21.2 	"/>
@@ -537,9 +539,20 @@
 			C144.9,263.4,139.9,268.3,133.8,268.3z"/>
 		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st22 st23">[ r ]</text>
 	</g>
+	<g id="explainer">
+		<text transform="matrix(1 0 0 1 122.9671 198.5)" class="st24 st22 st25">  start stroking here</text>
+		<g>
+			<g>
+				<path class="st26" d="M119.4,192.7c-5.6-1.6-15.9-6.2-23.6-19.8"/>
+				<g>
+					<polygon class="st24" points="101,173.7 100.7,174.6 96,173.3 95,178.1 94,177.9 95.2,172 					"/>
+				</g>
+			</g>
+		</g>
+	</g>
 </g>
-<g id="strokes" class="st24">
-	<path id="_x31_" class="st25" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3C7.5,4.5,19,60.2,20.1,104.5
+<g id="strokes" class="st18">
+	<path id="_x31_" class="st27" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3C7.5,4.5,19,60.2,20.1,104.5
 		c1.3,53.9,1.8,81-0.1,130.4"/>
 </g>
 </svg>
