@@ -12,10 +12,9 @@
 
 var tracks   		= {};
 var events 			= {};
-var sounds 			= {};
 
 var QUERY;
-var GAME;
+var currentGame;
 
 var TIME_FACTOR 	= 10;
 
@@ -170,7 +169,7 @@ function _resetSelection() {
 		.find('#layer-' + selectionId).removeClass('open').parentsUntil('ul.main').removeClass('open');
 
 	selectionId = false;
-	GAME.project.deselectAll();
+	currentGame.project.deselectAll();
 	_anchorViz.visible = false;
 	$('#properties')
 		.find('.type').text('').end()
@@ -309,7 +308,7 @@ jQuery(function($){
 		/* layer-specific events */
 		.on('click', '.panel .layer', function(event) {
 			$(this).trigger($.Event('selected', {
-				item: GAME.find($(this).data('id'))
+				item: currentGame.find($(this).data('id'))
 			}));
 
 			event.preventDefault();
@@ -375,7 +374,7 @@ jQuery(function($){
 			var hidden 	= !$layer.is('.hidden');
 
 			$layer.toggleClass('hidden');
-			GAME.findAndModify(id, { visible: !hidden });
+			currentGame.findAndModify(id, { visible: !hidden });
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -418,7 +417,7 @@ jQuery(function($){
 							return Math.abs(curr - t) < Math.abs(prev - t) ? curr : prev;
 						});
 					}
-					GAME && GAME.setTime(t, $this);
+					currentGame && currentGame.setTime(t, $this);
 				}
 		})
 		.on('dblclick', '#keyframes .keyframe', function(event) {
@@ -429,7 +428,7 @@ jQuery(function($){
 			$('#layers').find('#layer-' + item.id).trigger($.Event('selected', {item: item}));
 			$('#properties').find('input[data-prop="' + prop + '"]').focus();
 
-			GAME.setTime($this.data('time'));
+			currentGame.setTime($this.data('time'));
 
 			event.stopImmediatePropagation();
 		})
@@ -439,10 +438,10 @@ jQuery(function($){
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
 
-			Danimator(item, prop, value, value, -1, { delay: GAME.time });
+			Danimator(item, prop, value, value, -1, { delay: currentGame.time });
 		})
 		.on('click', '#keyframes .animate-btn', function(event) {
-			var item = GAME.find(selectionId);
+			var item = currentGame.find(selectionId);
 			var track = {
 				item: 		item,
 				properties: {
@@ -468,7 +467,7 @@ jQuery(function($){
 			var prop  = $this.data('prop');
 			var index = 0;
 			var props = {};
-			var item  = GAME.find(selectionId);
+			var item  = currentGame.find(selectionId);
 
 			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
 
@@ -545,12 +544,12 @@ jQuery(function($){
 						if(playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
-								if(GAME.time >= Danimator.maxDuration) {
+								if(currentGame.time >= Danimator.maxDuration) {
 									clearInterval(playInterval);
-									GAME.setTime(0);
+									currentGame.setTime(0);
 								} else {
 									var delta = ((new Date).getTime() - lastTime) / 1000;
-									GAME.setTime(GAME.time + delta);
+									currentGame.setTime(currentGame.time + delta);
 									lastTime = (new Date).getTime();
 								}
 							}, 1000/12);
@@ -560,34 +559,34 @@ jQuery(function($){
 						return false;
 					/* prevFrame */
 					case ',':
-						GAME.setTime( Danimator.limit(GAME.time - 1/12, 0, Danimator.maxDuration) );
+						currentGame.setTime( Danimator.limit(currentGame.time - 1/12, 0, Danimator.maxDuration) );
 						return false;
 					/* nextFrame */
 					case '.':
-						GAME.setTime( Danimator.limit(GAME.time + 1/12, 0, Danimator.maxDuration) );
+						currentGame.setTime( Danimator.limit(currentGame.time + 1/12, 0, Danimator.maxDuration) );
 						return false;
 					/* prevFrame * 10 */
 					case ';':
-						GAME.setTime( Danimator.limit(GAME.time - 1/2, 0, Danimator.maxDuration) );
+						currentGame.setTime( Danimator.limit(currentGame.time - 1/2, 0, Danimator.maxDuration) );
 						return false;
 					/* nextFrame * 10 */
 					case ':':
-						GAME.setTime( Danimator.limit(GAME.time + 1/2, 0, Danimator.maxDuration) );
+						currentGame.setTime( Danimator.limit(currentGame.time + 1/2, 0, Danimator.maxDuration) );
 						return false;	
 					/* zoomIn */
 					case '+':
-						GAME.project.view.zoom += .1;
+						currentGame.project.view.zoom += .1;
 						_anchorViz.scale(0.9);
 						return false;
 					/* zoomOut */
 					case '-':
-						GAME.project.view.zoom -= .1;
+						currentGame.project.view.zoom -= .1;
 						_anchorViz.scale(1.1);
 						return false;
 					/* zoomReset */
 					case '0':
 						if(event.ctrlKey || event.metaKey) {
-							GAME.project.view.zoom = 1.5;
+							currentGame.project.view.zoom = 1.5;
 							_anchorViz.scale(1);
 							return false;
 						}
@@ -620,7 +619,7 @@ jQuery(function($){
 				var delta = { x: event.originalEvent.deltaX, y: event.originalEvent.deltaY };
 
 				if(Math.abs(delta.x) > 0.1) {
-					GAME.setTime(GAME.time + delta.x * 1/24);
+					currentGame.setTime(currentGame.time + delta.x * 1/24);
 				}
 
 				event.preventDefault();
@@ -896,11 +895,10 @@ function _createAudio() {
 	var audioTmpl 	= _.template(_.unescape(audioTemplate));
 	var wave 		= false;
 
-	_.each(GAME.sounds, function(sound, name) {
-
+	_.each(Danimator.sounds, function(sound, name) {
 		var $sound = $(audioTmpl({
 			name: name,
-			slug: slug(name)
+			id: 'audio_' + slug(name)
 		}));
 
 		$sounds.append($sound);
@@ -908,41 +906,35 @@ function _createAudio() {
 		wave = WaveSurfer.create({
 			container: 		'#audio_' + slug(name),
 			cursorColor: 	'crimson',
+			fillParent: 	false,
 			height: 		40,
+			minPxPerSec: 	80,
 			normalize: 		true,
 			progressColor: 	'crimson',
 			waveColor: 		'white'
 		});
+
+		var currentWave = wave;
+		wave.on('finish', function() { currentWave.seekTo(0); });
 		wave.load('audio/' + name);
+
 		$sound.data('wave', wave);
 	});
 
-	wave.on('ready', function() { wave.play(); }); // play last created wave
+	if(wave) {
+		wave.on('ready', function() { wave.play(); }); // play last created wave
+	}
 }
 
+Danimator.onSound = _.debounce(_createAudio, 100);
+
 /* game engine for loading SVG skeletons, extended to editing capabilities */
-Game = function(project, name, options, onLoad) {
+Game.onLoad = function(project, name, options, scene, container) {
 
-	var self 			= this;
-	self.name 			= name;
-	self.type 			= options.type;
-	self.file 			= 'games/' + self.type + '/' + name + '.svg';
-	self.project 		= project;
-	self.options 		= options || {};
-	self.symbols 		= [];
-	self.sounds 		= {};
-	self.time 			= 0;
+	var self = this;
+	currentGame = self;
 
-	GAME = self;
-
-	self.resize = function(event) {
-		if(self.container)
-			self.container.position = project.view.center;
-	};
-
-	self.reset = function() {
-		self.dragging = false;
-	}
+	self.time 	= 0;
 
 	self.setTime = function(seconds, $target) {
 		var time = Math.max(seconds, 0);
@@ -1022,165 +1014,150 @@ Game = function(project, name, options, onLoad) {
 		self.time = time;
 	}
 
-	project.importSVG(self.file, function(item) {
-		self.container 		= item;
-		self.scene 			= self.container.children;
+	self.find = function(id) {
+		return self.container.getItem({ id: id });
+	};
 
-		self.find = function(id) {
-			return self.container.getItem({ id: id });
-		};
+	self.findAndModify  = function(id, props) {
+		return self.find(id).set(props);
+	};
 
-		self.findAndModify  = function(id, props) {
-			return self.find(id).set(props);
-		};
+	var layers = self.scene.slice(0).reverse();
+	var $borderDummy = $('#border-dummy');
 
-		_.each(project.symbolDefinitions, function(definition) {
-			if(definition.item.name)
-				self.symbols[definition.item.name] = definition;
-		});
-
-		var layers = self.scene.slice(0).reverse();
-		var $borderDummy = $('#border-dummy');
-
-		self.resize({size: project.view.viewSize});
-		item.position = project.view.center;
-
-		// selection of elements (by clicking them)
-		project.view.onMouseDown = function onCanvasMouseDown(event) {
-			if(!(event.event.altKey || event.event.metaKey)) {
-				if(!isNaN(event.target.id)) {
-					$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
-				}
-				else _resetSelection();
-			} else {
-				event.event.preventDefault();
-				event.event.stopImmediatePropagation();
+	// selection of elements (by clicking them)
+	project.view.onMouseDown = function onCanvasMouseDown(event) {
+		if(!(event.event.altKey || event.event.metaKey)) {
+			if(!isNaN(event.target.id)) {
+				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
-		};
-		// allow moving of canvas when commandKey is held
-		project.view.onMouseDrag = function onCanvasMouseDrag(event) {
-			if(event.event.metaKey) {
-				if(selectionId) {
-					var selectedItem = self.find(selectionId);
-					selectedItem.position = selectedItem.position.add(event.delta);
+			else _resetSelection();
+		} else {
+			event.event.preventDefault();
+			event.event.stopImmediatePropagation();
+		}
+	};
+	// allow moving of canvas when commandKey is held
+	project.view.onMouseDrag = function onCanvasMouseDrag(event) {
+		if(event.event.metaKey) {
+			if(selectionId) {
+				var selectedItem = self.find(selectionId);
+				selectedItem.position = selectedItem.position.add(event.delta);
 
-					if(selectedItem.pivot) {
-						//_changeProp('pivot.x', selectedItem.pivot.x);
-						//_changeProp('pivot.y', selectedItem.pivot.y);
-						_anchorViz.position = selectedItem.pivot;
-					} else {
-						_anchorViz.position = selectedItem.bounds.center;
-					}
-
-					_changeProp('position.x', selectedItem.position.x);
-					_changeProp('position.y', selectedItem.position.y);
+				if(selectedItem.pivot) {
+					//_changeProp('pivot.x', selectedItem.pivot.x);
+					//_changeProp('pivot.y', selectedItem.pivot.y);
+					_anchorViz.position = selectedItem.pivot;
 				} else {
-					item.position = item.position.add(event.delta);
+					_anchorViz.position = selectedItem.bounds.center;
 				}
 
-				event.event.preventDefault();
-				event.event.stopImmediatePropagation();
+				_changeProp('position.x', selectedItem.position.x);
+				_changeProp('position.y', selectedItem.position.y);
+			} else {
+				item.position = item.position.add(event.delta);
 			}
-		};
 
-		if(onLoad) onLoad(self.scene, self.container);
+			event.event.preventDefault();
+			event.event.stopImmediatePropagation();
+		}
+	};
 
-		_anchorViz = new paper.Group([
-			new paper.Path.Circle({
-				center: 		project.view.center,
-				radius: 		2,
-				strokeWidth: 	2.5,
-				strokeColor: 	'rgba(127,127,127,.4)',
-				fillColor: 		'rgba(255,255,255,.4)',
-			}),
-			new paper.Path.Circle({
-				center: 		project.view.center,
-				radius: 		2,
-				strokeColor: 	'cyan'
-			}),
-			new paper.Path.Line({
-				from: 	project.view.center.subtract(new paper.Point(0, 2)), 
-				to: 	project.view.center.subtract(new paper.Point(0, 4)),
-				strokeColor: 	'cyan'
-			}),
-			new paper.Path.Line({
-				from: 	project.view.center.add(new paper.Point(0, 2)), 
-				to: 	project.view.center.add(new paper.Point(0, 4)),
-				strokeColor: 	'cyan'
-			}),
-			new paper.Path.Line({
-				from: 	project.view.center.subtract(new paper.Point(2, 0)), 
-				to: 	project.view.center.subtract(new paper.Point(4, 0)),
-				strokeColor: 	'cyan'
-			}),
-			new paper.Path.Line({
-				from: 	project.view.center.add(new paper.Point(2, 0)), 
-				to: 	project.view.center.add(new paper.Point(4, 0)),
-				strokeColor: 	'cyan'
-			})
-		]);
+	_anchorViz = new paper.Group([
+		new paper.Path.Circle({
+			center: 		project.view.center,
+			radius: 		2,
+			strokeWidth: 	2.5,
+			strokeColor: 	'rgba(127,127,127,.4)',
+			fillColor: 		'rgba(255,255,255,.4)',
+		}),
+		new paper.Path.Circle({
+			center: 		project.view.center,
+			radius: 		2,
+			strokeColor: 	'cyan'
+		}),
+		new paper.Path.Line({
+			from: 	project.view.center.subtract(new paper.Point(0, 2)), 
+			to: 	project.view.center.subtract(new paper.Point(0, 4)),
+			strokeColor: 	'cyan'
+		}),
+		new paper.Path.Line({
+			from: 	project.view.center.add(new paper.Point(0, 2)), 
+			to: 	project.view.center.add(new paper.Point(0, 4)),
+			strokeColor: 	'cyan'
+		}),
+		new paper.Path.Line({
+			from: 	project.view.center.subtract(new paper.Point(2, 0)), 
+			to: 	project.view.center.subtract(new paper.Point(4, 0)),
+			strokeColor: 	'cyan'
+		}),
+		new paper.Path.Line({
+			from: 	project.view.center.add(new paper.Point(2, 0)), 
+			to: 	project.view.center.add(new paper.Point(4, 0)),
+			strokeColor: 	'cyan'
+		})
+	]);
 
-		_anchorViz.visible = false;
+	_anchorViz.visible = false;
 
-		_anchorViz.onMouseDown = function(event) {
-			if(event.event.altKey) {
-				this.data.oldPosition = event.point; 
-			}
-		};
+	_anchorViz.onMouseDown = function(event) {
+		if(event.event.altKey) {
+			this.data.oldPosition = event.point; 
+		}
+	};
 
-		_anchorViz.onMouseDrag = function(event) {
-			if(event.event.altKey) {
-				this.position = event.point;
-				GAME.findAndModify(selectionId, { pivot: this.position });
-			}
-		};
+	_anchorViz.onMouseDrag = function(event) {
+		if(event.event.altKey) {
+			this.position = event.point;
+			currentGame.findAndModify(selectionId, { pivot: this.position });
+		}
+	};
 
-		_anchorViz.onMouseUp = function(event) {
-			var item = this;
+	_anchorViz.onMouseUp = function(event) {
+		var item = this;
 
-			if(event.event.altKey)
-				new Undoable(function(){ 
-					item.position = event.point;
-					GAME.findAndModify(selectionId, { pivot: item.position });
-				}, function(){ 
-					if(item.data.oldPosition) {
-						item.position = item.data.oldPosition;
-						GAME.findAndModify(selectionId, { pivot: item.position });
+		if(event.event.altKey)
+			new Undoable(function(){ 
+				item.position = event.point;
+				currentGame.findAndModify(selectionId, { pivot: item.position });
+			}, function(){ 
+				if(item.data.oldPosition) {
+					item.position = item.data.oldPosition;
+					currentGame.findAndModify(selectionId, { pivot: item.position });
+				}
+			}, 'Setting pivot of ' + currentGame.find(selectionId).name, true);
+	};
+
+	self.container.appendTop(_anchorViz);
+
+	_createLayers(layers, $('.panel#layers ul').empty());
+
+	/* initialize panels! */
+	$('.panel').each(function() {
+		var $panel = $(this);
+		var collapsed = localStorage.getItem('editor-panels-' + this.id + '-collapsed');
+
+		$panel
+			.draggable({ 
+				handle: 		'>label', 
+				containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()],
+				drag: function(event, ui) {
+
+					$borderDummy.prop('class', '');
+
+					if(ui.position.left < PANEL_TOLERANCE) {
+						$borderDummy.addClass('snappable-left');
+					} else if($panel.right() > $(window).width() - PANEL_TOLERANCE) {
+						$borderDummy.addClass('snappable-right');
+					} else if(ui.position.top < PANEL_TOLERANCE) {
+						$borderDummy.addClass('snappable-top');
+					} else if($panel.bottom() > $(window).height() - PANEL_TOLERANCE) {
+						$borderDummy.addClass('snappable-bottom');
 					}
-				}, 'Setting pivot of ' + GAME.find(selectionId).name, true);
-		};
-
-		self.container.appendTop(_anchorViz);
-
-		_createLayers(layers, $('.panel#layers ul').empty());
-
-		/* initialize panels! */
-		$('.panel').each(function() {
-			var $panel = $(this);
-			var collapsed = localStorage.getItem('editor-panels-' + this.id + '-collapsed');
-
-			$panel
-				.draggable({ 
-					handle: 		'>label', 
-					containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()],
-					drag: function(event, ui) {
-
-						$borderDummy.prop('class', '');
-
-						if(ui.position.left < PANEL_TOLERANCE) {
-							$borderDummy.addClass('snappable-left');
-						} else if($panel.right() > $(window).width() - PANEL_TOLERANCE) {
-							$borderDummy.addClass('snappable-right');
-						} else if(ui.position.top < PANEL_TOLERANCE) {
-							$borderDummy.addClass('snappable-top');
-						} else if($panel.bottom() > $(window).height() - PANEL_TOLERANCE) {
-							$borderDummy.addClass('snappable-bottom');
-						}
-					},
-					stop: function() { $borderDummy.prop('class', ''); }
-				})
-				.toggleClass('collapsed', collapsed == 'true');
-		});
+				},
+				stop: function() { $borderDummy.prop('class', ''); }
+			})
+			.toggleClass('collapsed', collapsed == 'true');
 	});
 
 	return this;

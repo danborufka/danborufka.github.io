@@ -282,11 +282,13 @@ Danimator.playSound = function(name, options) {
 	}, options);
 	var sound  = _.get(Danimator.sounds, name);
 
+	/* add default path + file extension if not supplied */
 	config.src = _.map(config.src, function(src) {
 		if(!src.match(/.*\/.+$/i)) {
 			src = 'audio/' + src;
 		}
 		if(!src.match(/.*\.[^\.]+$/i)) {
+			name += '.m4a';
 			return src + '.m4a';
 		}
 		return src;
@@ -297,13 +299,19 @@ Danimator.playSound = function(name, options) {
 			source: new Howl(config)
 		};
 	}
-	return sound.instance = sound.source.play();
+
+	if(Danimator.onSound) {
+		Danimator.onSound(name, options);
+	}
+	if(!Danimator.interactive) {
+		return sound.instance = sound.source.play();
+	}
 };
 Danimator.stopSound = function(name) {
 	Danimator.sounds[name].source.stop(Danimator.sounds[name].instance);
 }
 
-Danimator.sounds 		= [];
+Danimator.sounds 		= {};
 Danimator.interactive 	= false;	// interactive mode suppresses checks of animationEnd and thus never removes them from stack
 Danimator.startTime 	= (new Date).getTime();
 
@@ -346,6 +354,7 @@ Game = function(project, name, options, onLoad) {
 		item.position = project.view.center;
 
 		if(onLoad) onLoad(self.scene, self.container);
+		if(Game.onLoad) Game.onLoad.call(self, project, name, options);
 	});
 
 	return this;
