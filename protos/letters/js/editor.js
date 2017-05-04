@@ -935,27 +935,6 @@ Game = function(project, name, options, onLoad) {
 
 	GAME = self;
 
-	self.playSound = function(name, options) {
-		var config = _.extend({ name: name, src: [name] }, options);
-		var sound  = _.get(self.sounds, name);
-
-		config.src = _.map(config.src, function(src) {
-			if(!src.match(/.*\.[^\.]+$/i)) {
-				name += '.m4a';
-				return 'audio/' + src + '.m4a';
-			}
-			return src;
-		});
-
-		if(!sound) {
-			sound = self.sounds[name] = {
-				source: new Howl(config)
-			};
-		}
-		_createAudio();
-	};
-	self.stopSound = noop;
-
 	self.resize = function(event) {
 		if(self.container)
 			self.container.position = project.view.center;
