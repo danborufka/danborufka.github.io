@@ -1,0 +1,416 @@
+$ami-snap-color: #349DC2;
+
+html,body { 
+	margin: 0;
+    overflow: hidden;
+    width: 	100%;
+    height: 100%;
+}
+
+/* snap & drag'n'drop helper */
+#dummy 					{
+							border: 				4px solid transparent;
+							//pointer-events: 		none;
+							display: 				none;
+							position: 				absolute;
+							left: 					0;
+							top: 					0;
+							right: 					0;
+							bottom: 				0;
+							z-index: 				100000;
+	&.snappable-left 	{
+							border-left-color: 		$ami-snap-color;
+	}
+	&.snappable-top 	{
+							border-top-color: 		$ami-snap-color;
+	}
+	&.snappable-right 	{
+							border-right-color: 	$ami-snap-color;
+	}
+	&.snappable-bottom 	{
+							border-bottom-color: 	$ami-snap-color;
+	}
+
+	&.dropping 			{
+							border: 				3px dashed #FB4307;
+							display: 				block;
+	}
+}
+
+#dropzone input			{
+							background-color: 		#FB4307;
+							opacity: 				.1;
+							height: 				100%;
+							width: 					100%;
+}
+
+canvas[resize] 			{
+							height: 				100%;
+							width: 					100%;
+}
+
+.ui-draggable-handle 	{ 
+							-ms-touch-action: 		none; 
+							touch-action: 			none;
+}
+
+/* initial panel positions */
+#properties,
+#layers 				{
+							top: 					20px;
+}
+#audio,
+#layers 				{
+							left: 					20px;
+}
+#audio 					{
+							top: 					400px;
+}
+
+/* panel style */
+.panel 					{
+							-moz-user-select: 		none;
+							-webkit-user-select: 	none;
+							-ms-user-select: 		none;
+							background-color: 		#fff;
+							border: 				1px solid #ccc;
+							border-radius: 			2px;
+							box-shadow: 			rgba(0,0,0,.1) 2px 2px 10px;
+							font-family: 			Roboto, Helvetica, Arial, sans-serif;
+							font-size: 				12px;
+							max-width: 				500px;
+							min-height: 			22px;
+							min-width: 				200px;
+							overflow: 				hidden;
+							position: 				absolute;
+							top: 					10%;
+
+	&.collapsed 		{
+							height: 				22px;
+
+		> label .toggle::after {
+							content: 				"+";
+		}
+	}
+
+	&.ui-draggable-dragging 
+						{
+							z-index: 				1000;
+	}
+
+	&:active > label 	{
+							cursor: 				-webkit-grabbing;
+							cursor: 				grabbing;
+	}
+
+	> label 			{
+							background-color: 	#666;
+							color: 				#fff;
+							cursor: 			-webkit-grab;
+							cursor: 			grab;
+							display: 			block;
+							font-size: 			10px;
+							padding: 			5px;
+							text-transform: 	uppercase;
+							width: 				calc(100% - 10px);
+		.toggle 		{
+							cursor: 				pointer;
+							float: 					right;
+							margin-top: 			-4px;
+							padding: 				3px;
+			&::after 	{
+							content: 				"_";
+							display: 				inline-block;
+			}					
+		}
+	}
+
+	p 					{
+							margin-top: 			2px;
+	}
+
+	ul 					{
+							padding: 				0;
+		&.main 			{
+							max-height: 		400px;
+							overflow: 			auto;
+			> li > label{
+							padding-left: 			10px;
+			}
+							
+			ul 			{	display: 				none;	
+			}
+		}
+	}
+
+	&#properties 		{	left: 					240px;
+		ul.main 		{
+							border-top: 		1px solid #ccc;
+							border-bottom: 		1px solid #ccc;
+			li 			{
+							padding: 			0;	
+							margin-bottom: 		-1px;
+							margin-top: 		-1px;
+				> input {
+							border: 			1px solid #fff;
+							border-left: 		1px solid #ccc;
+							margin-top: -		1px;
+							padding-left: 		5px;
+							padding-top: 		1px;
+							padding-bottom: 	1px;
+							width: 				calc(50% - 3px);
+				}
+
+				&.prop  {
+					> label 
+					{
+							display: 			inline-block;
+							width: 				calc(50% - 10px);
+					}
+				}			
+			}
+		}
+
+		input 			{
+			&[type=checkbox]{
+							margin: 				0;
+
+			}
+			&[type="color"] {
+							-webkit-appearance: 	none;
+							border: 				1px solid #666;
+							float: 					right;
+							height: 				12px;
+							margin-top: 			2.5px;			
+							padding: 				0;
+							width: 					12px;
+
+				&::-webkit-color-swatch-wrapper {
+							padding: 				0;
+				}
+				&::-webkit-color-swatch {
+							border: 				none;
+				}
+			}
+		}
+
+		select 			{
+							width: 					calc(50% - 3px);
+		}
+
+		.animated 		{
+			input, 
+			select 		{
+							background-color: 		#FEBEC1;
+			}
+		&.keyed 
+			input, 
+			select 		{
+							background-color: 		#FC7580;
+			}
+		}
+
+		.triggered 			{
+			input, select 	{
+								background-color: 	#E4ACFE;
+			}
+		&.keyed 
+			input, select 	{
+								background-color: 	#C653FF;
+			}
+		}
+	}
+							
+	&#keyframes 		{
+							min-width: 				300px;
+							right: 					20px;
+							top: 					20px;
+		.animate-btn 	{
+							color: 					red;
+							display: 				none;
+							margin-top: 			-1px;
+			&:before 	{
+							content: 				"&bullet;";
+							color: 					red;
+							display: 				inline;
+							font-size: 				21px;
+			}
+		}
+
+		&.hasSelection 
+			.animate-btn{
+							display: 				block;
+							height: 				19px;
+		}
+
+		li 				{
+							padding-left: 			5px;
+		}
+	}
+
+	li.audio 				{		
+		background-color: 		#444;
+		height: 				40px;
+	wave {		
+		overflow: 				hidden!important;
+	}
+	> label {
+		background-color: 		#000;
+		color: 					#fff;
+		font-size: 				80%;
+		margin-top: 			2px;
+		opacity: 				.5;
+		padding: 				2px 4px;
+		position: 				absolute;
+		right: 					3px;
+		z-index: 				2;
+	}
+	}
+}
+
+.panel .toggleGroup 	{
+							cursor: 		pointer;
+							float: 			right;
+							margin-right: 	0px;
+						    margin-top: 	2px;
+						    padding: 		0 6px;
+	&::before 			{
+							content: 		"\f0da";
+	}
+}
+.panel li.open > .toggleGroup:before {
+	content: "\f0d7";
+}
+
+.panel .visible:before {
+							content: 		"\f06e";
+							display: 		inline-block;
+							padding: 		0 5px;
+}
+
+.panel .layer {
+							cursor: 		pointer;
+	&.hidden 			{
+							opacity: 		.5;
+		.visible:before {
+							content: 		"\f070";
+		}
+	}
+}
+
+.panel li.open > ul {
+	background-color: rgba(0,0,0,.2);
+	display: block;
+	margin-top: 3px;
+	margin-left: 10px;
+}
+.panel li 				{
+							list-style: 	none;
+							padding-top: 	2px;
+							padding-bottom: 2px;
+							padding-left: 	2px;
+							background-color: rgba(245, 235, 225, 0.77);
+							border-top: 1px solid #D2CAC1;
+							border-bottom: 1px solid #D2CAC1;
+							margin-bottom: 1px;
+							transition: .1s all;
+	&.selected 			{
+							background-color: #A78F78;
+							color: #fff;
+	}
+	li 					{
+							margin-bottom: -1px;
+	}
+}
+
+.panel .timeline {
+		background-color: #444;
+		color: #CCC;
+		height: 20px;
+	    padding-top: 0;
+	    position: relative;
+	> label {
+		clear: 		both;	
+		display: 	block;
+		float: 		left;
+		width: 		120px;
+		margin-top: 2px;
+	}
+    .time {
+		color: 			#666;
+		display: 		none;
+		position: 		absolute;
+		margin-left: 	10px;
+		top: 			0;
+	}
+	.keyframe {
+		background-color: #666;
+		border: 1px solid #AAA;
+		display: inline-block;
+		margin-top: 8px;
+		margin-left: -3px;
+		position: absolute;
+		width: 4px;
+		height: 4px;
+
+		transform: rotate(45deg);
+		z-index: 1;
+		
+		&.active {
+			border-color: 		#fff566;
+		}
+
+		&:active,
+		&.ui-draggable-dragging { 
+			background: 	red!important; 
+			cursor: 			pointer;
+		}
+
+		&.triggered {
+			background-color: 	#6F3682;
+		}
+	}
+	.track {
+		cursor: 	pointer;
+		float: 		left;
+		width: 		calc(100% - 120px);
+		height: 	22px;
+		display: 	block;
+		position: 	relative;
+	}
+	.range {
+		height: 	100%;
+		position: 	absolute;
+
+		&:nth-child(even) {
+			background: rgba(255,255,255,.1);
+		}
+		&[rel=tween] {
+			background-color: rgba(127,127,127,.06);
+		}
+	}
+
+	.scrubber {
+		display: 			inline-block;
+		background-color: 	crimson;
+		position: 			absolute;
+		width: 				1px;
+		height: 			22px;
+		top: 				0;
+	}
+	.scrubber:active,
+	.track:active {
+		cursor: ew-resize;
+	}
+}
+
+
+.panel .description .animate-btn {
+	float: right;
+	margin-right: 5px;
+}
+
+.panel .description output {
+	float: right;
+	margin-right: 10px;
+}

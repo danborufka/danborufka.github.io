@@ -1,22 +1,23 @@
 // strokeGame
-
+var currentStroke 	= 0;
 var lastOffset 	  	= 0;
 var direction 	  	= 0;
 var step 		  	= 1;
-var currentStroke 	= 0;
 
 var stepTimeout;
-
 var strokes;
 var stroke;
 
 function _reset(game) {
 	lastOffset = 0;
 	game.dragging = false;
+
 	if(game.scene) {
-		var position = strokes[currentStroke].segments[0].point;
+		var position = strokes[currentStroke].firstSegment.point;
 		game.scene.control.position = position;
 		game.scene.control.onMouseMove({ point: position });
+
+		game.onReset && game.onReset(currentStroke);
 	}
 }
 
@@ -25,6 +26,7 @@ function strokeGame(project, level, options, onLoad) {
 
 		strokes 		= scene.strokes.children;
 		stroke 			= strokes[currentStroke];
+		self.stroke   	= stroke;
 
 		// let's get closer!
 		project.view.zoom = 1.5;
@@ -32,89 +34,110 @@ function strokeGame(project, level, options, onLoad) {
 		// remove all clippingMasks
 		project.getItem({ clipMask: true }).remove();
 
+
 		scene.control.onMouseDown = function(data) {
-	    	self.dragging = true;
+			if(!self.locked) {
+		    	self.dragging = true;
 
-	    	if(stroke.segments.length === 1) {
-	    		stroke.data.newOffset = 1;
-	    	} else {
-	    		stroke.data.newOffset = 0;
-	    	}
+		    	if(stroke.segments.length === 1) {
+		    		stroke.data.newOffset = 1;
+		    	} else {
+		    		stroke.data.newOffset = 0;
+		    	}
 
-	    	self.onStrokeStart && self.onStrokeStart(data, self);
+		    	self.onStrokeStart && self.onStrokeStart(data, currentStroke, self);
+			}
 		};
 
 		scene.control.onMouseMove = _.throttle(function(data) {
-			if(self.dragging && stroke.segments.length > 1) {
+			if(!self.locked)
+				if(self.dragging && stroke.segments.length > 1) {
 
-				var hits = project.hitTest(data.point, { 
-					class: 		paper.Path,
-					fill: 		false,
-					stroke: 	true,
-					segments: 	true,
-				});
+					scene.control.position = data.point;
 
-				if(hits && hits.item == stroke) {
-					var location  = stroke.getNearestLocation(data.point);
-					var newOffset = location.offset / stroke.length;
+					var hits = project.hitTest(data.point, { 
+						class: 		paper.Path,
+						fill: 		false,
+						stroke: 	true,
+						segments: 	true,
+						tolerance: 	options.strokeTolerance || 20,
+					});
 
-					direction = lastOffset - newOffset;
+					if(hits && hits.item == stroke) {
+						var location  = stroke.getNearestLocation(data.point);
+						var newOffset = location.offset / stroke.length;
 
-					var wrongDirection = direction >= 0.008;
-					var cheating 	   = Math.abs(lastOffset - newOffset) >= 0.4;
+						data.location = location;
 
-					// if jump is too big ("cheating") or if user moved against the path's direction
-					if(cheating || wrongDirection) {
-						self.dragging = false;
-						_reset(self);
+						direction = lastOffset - newOffset;
+
+						var wrongDirection = direction >= (options.directionTolerance || 0.008);
+						var cheating 	   = Math.abs(lastOffset - newOffset) >= (options.cheatTolerance || 0.2);
+
+						// if jump is too big ("cheating") or if user moved against the path's direction
+						if(cheating || wrongDirection) {
+							self.dragging = false;
+							_reset(self);
+						} else {
+							stroke.data.newOffset = lastOffset = newOffset;
+						}
+
+						self.onStroke && self.onStroke(data, newOffset, wrongDirection, cheating, direction, self);
+
 					} else {
-						scene.control.position = location.point;
-						stroke.data.newOffset = lastOffset = newOffset;
+						self.onStroke && self.onStroke(data, lastOffset, true, true, 1, self);
+						_reset(self);
 					}
-
-					self.onStroke && self.onStroke(data, newOffset, wrongDirection, cheating, direction, self);
-
-				} else _reset(self);
-			}
+				}
 		}, 100);
 
 		scene.control.onMouseUp = function(data) {
-			var newOffset = stroke.data.newOffset;
+			if(!self.locked) {
+				var newOffset = stroke.data.newOffset;
 
-			if(newOffset === 1) {
-				
-				self.onStrokeEnd && self.onStrokeEnd(data, currentStroke, strokes, self);
+				self.onStrokeStop && self.onStrokeStop(data, newOffset, currentStroke, strokes, self);
 
-				if(currentStroke === strokes.length - 1) {
-					// all strokes done
-					if(step === (options.repetitions || 1)) {
+				if(newOffset > self.options.completionTolerance) {
+					
+					self.onStrokeEnd && self.onStrokeEnd(data, currentStroke, strokes, self);
 
-						var phonetics = scene.UI.children.phonetics;
-						phonetics.opacity = 0;
-						phonetics.visible = true;
-						animate(phonetics, 'opacity', 0,1, .3, 'reverse', 1);
+					if(currentStroke === strokes.length - 1) {
+						// all strokes done
+						if(step === (options.repetitions || 1)) {
 
-						self.onGameEnd && self.onGameEnd(data);
+							var phonetics = scene.UI.children.phonetics;
 
-					} else {
-						clearTimeout(stepTimeout);
-						stepTimeout = setTimeout(function(){
-							step++;
-						}, 100);
+							animate.fadeIn(phonetics, .3, {
+								from: 0,
+								delay: 	1, 
+								onDone: 'reverse'
+							});
+
+							self.onGameEnd && self.onGameEnd(data);
+
+							self.dragging = false;
+
+						} else {
+							clearTimeout(stepTimeout);
+							stepTimeout = setTimeout(function(){
+								step++;
+							}, 100);
+						}
 					}
-				}
 
-				currentStroke = ++currentStroke % strokes.length;
-				stroke 		  = strokes[currentStroke];
+					currentStroke = ++currentStroke % strokes.length;
+					stroke 		  = strokes[currentStroke];
+					self.stroke   = stroke;
+				};
+				_reset(self);
 			}
-			_reset(self);
 		};
-
 		_reset(self);
 
 		if(onLoad) onLoad(scene, container, self);
 	}
 	options.type = 'strokes';
+	options.completionTolerance = (options.completionTolerance || .97);
 
 	var self = Game.call(this, project, options.letter, options, strokeLoader);
 	return self;

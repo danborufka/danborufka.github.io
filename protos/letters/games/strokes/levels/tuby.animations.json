@@ -1,0 +1,18 @@
+{
+	"12": {
+		"name": "pipes_fadeIn",
+		"maxDuration": 2,
+		"properties": {
+			"opacity": [{
+				"from":1,
+				"to":0.5,
+				"initValue":0,
+				"duration":1,
+				"options": {
+					"delay": 1,
+					"easing": "cubicOut"
+				}
+			}]
+		}
+	}
+}
