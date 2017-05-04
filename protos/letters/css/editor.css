@@ -178,10 +178,12 @@ canvas[resize] {
     background-color: #444;
     height: 40px; }
     .panel li.audio wave {
-      overflow: hidden !important; }
+      overflow: hidden !important;
+      mix-blend-mode: hard-light; }
     .panel li.audio > label {
       background-color: #000;
       color: #fff;
+      cursor: pointer;
       font-size: 80%;
       margin-top: 22px;
       opacity: .5;

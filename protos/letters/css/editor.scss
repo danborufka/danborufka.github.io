@@ -248,23 +248,25 @@ canvas[resize] 			{
 		}
 	}
 
-	li.audio 				{		
-		background-color: 		#444;
-		height: 				40px;
-	wave {		
-		overflow: 				hidden!important;
-	}
-	> label {
-		background-color: 		#000;
-		color: 					#fff;
-		font-size: 				80%;
-		margin-top: 			22px;
-		opacity: 				.5;
-		padding: 				2px 4px;
-		position: 				absolute;
-		right: 					3px;
-		z-index: 				2;
-	}
+	li.audio 			{		
+							background-color: 		#444;
+							height: 				40px;
+		wave 			{		
+							overflow: 				hidden!important;
+							mix-blend-mode: 		hard-light;
+		}
+		> label {
+			background-color: 		#000;
+			color: 					#fff;
+			cursor: 				pointer;
+			font-size: 				80%;
+			margin-top: 			22px;
+			opacity: 				.5;
+			padding: 				2px 4px;
+			position: 				absolute;
+			right: 					3px;
+			z-index: 				2;
+		}
 	}
 }
 
