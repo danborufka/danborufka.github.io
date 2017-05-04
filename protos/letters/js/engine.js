@@ -8,17 +8,7 @@ var animations   	= [];
 var events 			= {};
 var QUERY;
 
-function limit(nr, mi, ma) {
-	if(mi > ma) {
-		var tweener = mi + 0;
-		mi = ma + 0;
-		ma = tweener + 0;
-		delete tweener;
-	}
-	return Math.max(Math.min(nr, ma), mi);
-}
-
-/* add frame capability to Items */
+/* add frame capability to paperjs Items */
 paper.Item.inject({
 	getFrame: function() {
 		if(!this.data._frame) {
@@ -29,7 +19,7 @@ paper.Item.inject({
 	setFrame: function(nr) {
 		var frame 		 = parseInt(nr);
 		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
-		var newFrame 	 = this.children['f' + limit(frame, 0, this.frames)] || this.data._frameLayer;
+		var newFrame 	 = this.children['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
 
 		if(currentFrame) {
 			this.data._frameLayer = currentFrame;
@@ -51,8 +41,13 @@ paper.Item.inject({
 	}
 });
 
-/* add animation to animation stack of passed item */
-animate = function(item, property, fr, to, duration, options) {
+/* create Danimator as main object and in the same time shortcut to Danimator.animate */
+if(!this.Danimator) {
+	Danimator = function Danimator() { return Danimator.animate.apply(Danimator, arguments); };
+}
+
+/* core animation function (adds animation to animatable stack) */
+Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
 		function _animateFrame(event) {
 			var item = this;
@@ -60,7 +55,7 @@ animate = function(item, property, fr, to, duration, options) {
 			_.each(item.data._animate, function(animatable) {
 				if(animatable) {
 					var t = ((new Date).getTime() - (animatable.startTime || 0)) / (animatable.duration * 1000);
-					var animation = animate.step(animatable, t);
+					var animation = Danimator.step(animatable, t);
 					var range 	  = animatable.to - animatable.from;
 
 					if(animation.done) {
@@ -80,15 +75,14 @@ animate = function(item, property, fr, to, duration, options) {
 							}
 
 							switch(animatable.options.onDone) {
-
 								case 'reverse':
 									delete animatable.options.onDone;
 								case 'pingpong':
-									animate(item, animatable.property, animatable.to, animatable.from, animatable.duration, animatable.options);
+									Danimator(item, animatable.property, animatable.to, animatable.from, animatable.duration, animatable.options);
 									break;
 									
 								case 'loop':
-									animate(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
+									Danimator(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
 									break;
 
 								default:
@@ -125,33 +119,46 @@ animate = function(item, property, fr, to, duration, options) {
 
 	}, ((options && options.delay) || 0) * 1000);
 
+	if(Danimator.onAnimate) Danimator.onAnimate();
+
 	/* return handles for easier chaining of animations */
 	return {
 		then: function(item, property, fr, to, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate(item, property, fr, to, duration, newOptions);
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator(item, property, fr, to, duration, newOptions);
 		},
 		thenFadeIn: function(item, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate.fadeIn(item, duration, newOptions);
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator.fadeIn(item, duration, newOptions);
 		},
 		thenFadeOut: function(item, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate.fadeOut(item, duration, newOptions);
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator.fadeOut(item, duration, newOptions);
 		},
 		stop: function() {
 			clearTimeout(aniTimeout);
 		}
 	};
-};
+}
 
 /* internal calculations */
-animate._mergeDelays = function(options, newOptions) {
+Danimator._mergeDelays = function(options, newOptions) {
 	newOptions.delay = _.get(newOptions, 'delay', 0) + ((options && options.delay) || 0);
 }
 
+/* helper */
+Danimator.limit = function(nr, mi, ma) {
+	if(mi > ma) {
+		var tweener = mi + 0;
+		mi = ma + 0;
+		ma = tweener + 0;
+		delete tweener;
+	}
+	return Math.max(Math.min(nr, ma), mi);
+}
+
 /* calculate single step of animation */
-animate.step = function(animatable, progress) {
+Danimator.step = function(animatable, progress) {
 	var value = _.get(animatable.item, animatable.property);
 
 	if(animatable.from == undefined) 		animatable.from = value;
@@ -169,7 +176,11 @@ animate.step = function(animatable, progress) {
 			animatable.item.data._playing = false;
 		}
 
-	if(!isDone) {		
+	if(Danimator.interactive) {
+		isDone = false;
+	}
+
+	if(!isDone) {
 		if(animatable.options.easing) {
 			try {
 				var easing = (typeof animatable.options.easing === 'string' ? Ease[animatable.options.easing] : animatable.options.easing);
@@ -180,44 +191,48 @@ animate.step = function(animatable, progress) {
 				console.warn('Easing helpers not loaded!');
 			}
 		}
-		value = limit(animatable.from + (range * progress), animatable.from, animatable.to);
+		
+		var newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
 
 		if(animatable.options.onStep) {
-			value = animatable.options.onStep(value, progress, animatable);
+			newValue = animatable.options.onStep(newValue, progress, animatable);
 		}
-		_.set(animatable.item, animatable.property, value);
+
+		_.set(animatable.item, animatable.property, newValue);
+
 		paper.project.view.requestUpdate();
 	}
 
+	if(Danimator.onStep) Danimator.onStep(animatable, newValue);
+
 	return {
-		done: isDone
+		done: 	isDone,
+		value: 	newValue
 	};
 }
 
-animate.startTime = (new Date).getTime();
-
 /* fx */
-animate.fadeIn = function(item, duration, options) {
+Danimator.fadeIn = function(item, duration, options) {
 	var fromv = options && options.from;
 	if(fromv !== undefined) {
 		item.opacity = fromv;
 		delete options.from;
 	} else fromv = null;
 	item.visible = true;
-	return animate(item, 'opacity', fromv, _.get(options, 'to', 1), duration, options);
+	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 1), duration, options);
 };
-animate.fadeOut = function(item, duration, options) {
+Danimator.fadeOut = function(item, duration, options) {
 	var fromv = options && options.from;
 	if(fromv !== undefined) {
 		item.opacity = fromv;
 		delete options.from;
 	} else fromv = null;
 	item.visible = true;
-	return animate(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
+	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
 };
 
 /* basic frame animation support */
-animate.play = function(item, options) {
+Danimator.play = function(item, options) {
 	var frames = item.frames;
 	var range = frames - item.frame;
 	var duration = range / (options && options.fps || 12);
@@ -225,16 +240,16 @@ animate.play = function(item, options) {
 	item.data._playing = true;
 	options.frameDuration = duration / range;
 
-	return animate(item, 'frame', item.frame, frames, duration, options);
+	return Danimator(item, 'frame', item.frame, frames, duration, options);
 }
 
 /* interrupt frame animations */
-animate.stop = function(item) {
+Danimator.stop = function(item) {
 	item.data._playing = false;
 }
 
 /* stop all animations on passed item */
-animate.stopAll = function(item) {
+Danimator.stopAll = function(item) {
 	_.each(animations[item.id], function(ani, id){
 		clearTimeout(ani);
 		delete animations[id];
@@ -242,23 +257,55 @@ animate.stopAll = function(item) {
 	delete item.data._animate;
 };
 
-/* helper for punctiform visual highlighting */
-highlight = function(position, color, stay) {
-	var highlighter = new paper.Path.Circle({
-		center: 	position, 
-		radius: 	10,
-		strokeWidth: 0,
-		fillColor: color,
-		opacity: 	 .5,
-	}).bringToFront();
-	
-	highlighter.radius = 10;
+Danimator.load = function(aniName) {
+	var filename = aniName + '.animations.json';
 
-	if(!stay) {
-		animate(highlighter, 'opacity', .5, 0);
-	}
-	return highlighter;
+	$.getJSON(filename, null, function(json, status) {
+		if(status === 'success') {
+			console.log('json', json);
+			_.each(json, function(track, id) {
+				if(!isNaN(Number(id))) id = Number(id);
+				track.item = GAME.find(id);
+			})
+			tracks = _.extend(tracks, json);
+			_createTracks();
+		} else {
+			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
+		}
+	}).fail(function(promise, type, error){ console.error(error); });
 }
+
+Danimator.playSound = function(name, options) {
+	var config = _.extend({ 
+		name: 	name, 
+		src: 	['audio/' + name] 
+	}, options);
+	var sound  = _.get(Danimator.sounds, name);
+
+	config.src = _.map(config.src, function(src) {
+		if(!src.match(/.*\/.+$/i)) {
+			src = 'audio/' + src;
+		}
+		if(!src.match(/.*\.[^\.]+$/i)) {
+			return src + '.m4a';
+		}
+		return src;
+	});
+
+	if(!sound) {
+		sound = Danimator.sounds[name] = {
+			source: new Howl(config)
+		};
+	}
+	return sound.instance = sound.source.play();
+};
+Danimator.stopSound = function(name) {
+	Danimator.sounds[name].source.stop(Danimator.sounds[name].instance);
+}
+
+Danimator.sounds 		= [];
+Danimator.interactive 	= false;	// interactive mode suppresses checks of animationEnd and thus never removes them from stack
+Danimator.startTime 	= (new Date).getTime();
 
 /* game engine for loading SVG skeletons */
 Game = function(project, name, options, onLoad) {
@@ -269,34 +316,7 @@ Game = function(project, name, options, onLoad) {
 	self.file 			= 'games/' + self.type + '/' + name + '.svg';
 	self.project 		= project;
 	self.options 		= options || {};
-	self.sounds 		= {};
 	self.symbols 		= [];
-
-	self.playSound = function(name, options) {
-		var config = _.extend({ name: name, src: ['audio/' + name] }, options);
-		var sound  = _.get(self.sounds, name);
-
-		config.src = _.map(config.src, function(src) {
-			if(!src.match(/.*\/.+$/i)) {
-				src = 'audio/' + src;
-			}
-			if(!src.match(/.*\.[^\.]+$/i)) {
-				return src + '.m4a';
-			}
-			return src;
-		});
-
-		if(!sound) {
-			sound = self.sounds[name] = {
-				source: new Howl(config)
-			};
-		}
-
-		return sound.instance = sound.source.play();
-	};
-	self.stopSound = function(name) {
-		self.sounds[name].source.stop(self.sounds[name].instance);
-	}
 
 	self.resize = function(event) {
 		if(self.container)

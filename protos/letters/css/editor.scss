@@ -258,7 +258,7 @@ canvas[resize] 			{
 		background-color: 		#000;
 		color: 					#fff;
 		font-size: 				80%;
-		margin-top: 			2px;
+		margin-top: 			22px;
 		opacity: 				.5;
 		padding: 				2px 4px;
 		position: 				absolute;
@@ -405,12 +405,13 @@ canvas[resize] 			{
 }
 
 
-.panel .description .animate-btn {
-	float: right;
-	margin-right: 5px;
-}
-
-.panel .description output {
-	float: right;
-	margin-right: 10px;
+.panel .description {
+	.animate-btn {
+		float: right;
+		margin-right: 5px;
+	}
+	output {
+		float: right;
+		margin-right: 10px;
+	}
 }

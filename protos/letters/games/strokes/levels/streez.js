@@ -33,7 +33,7 @@ var streezGame = new strokeGame(project,
 
 		human = container.getItem({ name: 'human' });
 
-		animate.play(human, { 
+		Danimator.play(human, { 
 			fps: 6 * HUMAN_SPEED, 
 			onDone: 'pingpong'
 		});
@@ -46,9 +46,9 @@ var streezGame = new strokeGame(project,
 		cars.children[1].attachToPath( container.getItem({ name: 'carPath3' }) );
 		cars.children[2].attachToPath( container.getItem({ name: 'carPath2' }) );
 
-		animate(car, 'offsetOnPath', 0, 1, 10);
-		animate(cars.children[1], 'offsetOnPath', 0, 1, 10, { delay: 1 });
-		animate(cars.children[2], 'offsetOnPath', 0, 1, 10, { delay: 2 });
+		Danimator(car, 'offsetOnPath', 0, 1, 10);
+		Danimator(cars.children[1], 'offsetOnPath', 0, 1, 10, { delay: 1 });
+		Danimator(cars.children[2], 'offsetOnPath', 0, 1, 10, { delay: 2 });
   
 		game.onStrokeStart = function(data, stroke) {
 			switch(stroke) {

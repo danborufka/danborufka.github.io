@@ -1,13 +1,13 @@
 // animation editor engine
 // TODOS:
-// • #properties panel: single keys / merged keys
+// • #properties panel: single keyframes / merged keyframes
 // • #properties panel: change ani keyframes
 // • snap to segments: collect all snappables ;)
 // • snap keyframes to scrubber
-// • snappable panels
+// • snappable panels (see #dummy element)
 // • (add node module for packaging)
 // • node module for server-side saving & loading of JSON
-// • dynamic timeScaling (UI)
+// • (UI) dynamic scaling of animation panel's x-axis
 // • abstract sound system + separate module
 
 var tracks   		= {};
@@ -78,26 +78,6 @@ var _ANIMATABLE_RECT = _.extend({}, _ANIMATABLE_POS, _ANIMATABLE_SIZE, {
 	point: 	_asGroup(_ANIMATABLE_POS),
 });
 
-function _asGroup(config) {
-	return { 
-		content: config,
-		type: 'group'
-	};
-}
-function _decimalPlaces(num) {
-  var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-  if (!match) { return 0; }
-  return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
-}
-function _changeProp(prop, value) {
-	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
-	if(typeof value === 'boolean') {
-		$input.prop('checked', value);
-	} else {
-		$input.val(value);
-	}
-}
-
 var _ANIMATABLE_DEFAULTS = {
 	blendMode: {
 					allowedValues: ['normal', 'multiply', 'screen', 'overlay', 'soft-light', 'hard- light', 'color-dodge', 'color-burn', 'darken', 'lighten', 'difference', 'exclusion', 'hue', 'saturation', 'luminosity', 'color', 'add', 'subtract', 'average', 'pin-light', 'negation', 'source- over', 'source-in', 'source-out', 'source-atop', 'destination-over', 'destination-in', 'destination-out', 'destination-atop', 'lighter', 'darker', 'copy', 'xor'],
@@ -154,17 +134,50 @@ var ANIMATABLE_PROPERTIES = {
 }
 var PANEL_TOLERANCE = 10;
 
-function limit(nr, mi, ma) {
-	if(mi > ma) {
-		var tweener = mi + 0;
-		mi = ma + 0;
-		ma = tweener + 0;
-		delete tweener;
-	}
-	return Math.max(Math.min(nr, ma), mi);
+function _asGroup(config) {
+	return { 
+		content: config,
+		type: 'group'
+	};
 }
+function _decimalPlaces(num) {
+  var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  if (!match) { return 0; }
+  return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+function _changeProp(prop, value) {
+	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
+	if(typeof value === 'boolean') {
+		$input.prop('checked', value);
+	} else {
+		$input.val(value);
+	}
+}
+function _getAnimationName(item, property, type) {
 
-function noop(anything) { return anything };
+	var fx = type.match(/^Danimator(.*)$/);
+	fx = fx && _.lowerFirst(fx[1]);
+
+	if(fx === 'then') fx = false;
+
+	property = property.replace(/\./g, '_');
+
+	return (item.name || ('layer' + item.id)) + '_' + (fx || property);
+}
+function _resetSelection() {
+	$('#layers')
+		.find('.layer').removeClass('selected').end()
+		.find('#layer-' + selectionId).removeClass('open').parentsUntil('ul.main').removeClass('open');
+
+	selectionId = false;
+	GAME.project.deselectAll();
+	_anchorViz.visible = false;
+	$('#properties')
+		.find('.type').text('').end()
+		.find('ul.main').html('<li><label>Waiting for a selection …</label></li>');
+}
+function slug(name) 	{ return name.replace(/[^a-z0-9_\-]+/g, '_'); }
+function noop(anything) { return anything; };
 
 /* jQuery helpers */
 $.fn.left = function(x) {
@@ -188,90 +201,25 @@ $.fn.bottom = function(y) {
 	return $this.offset().top + $this.height();
 }
 
-/* add frame capability to Items */
-paper.Item.inject({
-	getFrame: function() {
-		if(!this.data._frame) {
-			this.data._frame = 1;
-		}
-		return this.data._frame;
-	},
-	setFrame: function(nr) {
-		var frame 		 = parseInt(nr);
-		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
-		var newFrame 	 = this.children['f' + limit(frame, 0, this.frames)] || this.data._frameLayer;
-
-		if(currentFrame) {
-			this.data._frameLayer = currentFrame;
-			currentFrame.visible = false;
-		}
-
-		if(newFrame) {
-			newFrame.visible = true;
-		}
-		this.data._frame = frame;
-	},
-	getFrames: function() {
-		var children = _.map(this.children, function(child) {
-			return parseInt( child.name.split('f')[1]) || 0;
-		});
-		children.sort();
-		children.reverse();
-		return children[0];
-	}
-});
-
-function _getAnimationName(item, property, type) {
-
-	var fx = type.match(/^animate(.*)$/);
-	fx = fx && _.lowerFirst(fx[1]);
-
-	if(fx === 'then') fx = false;
-
-	property = property.replace(/\./g, '_');
-
-	return (item.name || ('layer' + item.id)) + '_' + (fx || property);
-}
-
-function slug(name) {
-	return name.replace(/[^a-z0-9_\-]+/g, '_');
-}
-
-function _resetSelection() {
-	$('#layers')
-		.find('.layer').removeClass('selected').end()
-		.find('#layer-' + selectionId).removeClass('open').parentsUntil('ul.main').removeClass('open');
-
-	selectionId = false;
-	GAME.project.deselectAll();
-	_anchorViz.visible = false;
-	$('#properties')
-		.find('.type').text('').end()
-		.find('ul.main').html('<li><label>Waiting for a selection …</label></li>');
-}
-
-/* add animations to animation stack for keyframes panel */
-animate = function animate(item, property, fr, to, duration, options) {
+/* override animate method to add animations to animation stack for keyframes panel */
+Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 
 	var ease 	  = (property === 'frame' ? null : 'cubicOut');
 	var startTime = (options && options.delay) || 0;
 	var caller 	  = arguments.callee.caller.caller.name;
-	//var caller 	  = arguments.callee.caller.name; //animate.caller.name.split(/[A-Z]/g)[0];
 
-	if(caller.match(/^animate([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
+	if(caller.match(/^Danimator([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
 		caller = 'root';
 	}
 
 	var track = tracks[item.id] || {
 			item: 		item,
 			properties: {},
-			startTime: 	(new Date).getTime() - animate.startTime,
+			startTime: 	(new Date).getTime() - Danimator.startTime,
 		};
 
-	var propertyTrack = _.get(track.properties, property, []);
-	var options = _.defaults(options, { delay: 0, easing: ease });
-
-	//options.delay += (track.startTime / 1000);
+	var propertyTrack 	= _.get(track.properties, property, []);
+	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
 	var keys = {
 		from: 		fr,
@@ -280,7 +228,7 @@ animate = function animate(item, property, fr, to, duration, options) {
 		duration: 	duration || 1,
 		options: 	options,
 		caller: 	caller,
-		name: 		_getAnimationName(item, property, animate.caller.name),
+		name: 		_getAnimationName(item, property, Danimator.caller.name),
 	};
 
 	var duplicate = _.find(propertyTrack, {options: { delay: options.delay }});
@@ -294,142 +242,42 @@ animate = function animate(item, property, fr, to, duration, options) {
 	/* calc max duration on track-level */
 	track.maxDuration   = Math.max(track.maxDuration || 0, options.delay + (duration || 1));
 	/* calc max duration on global level */
-	animate.maxDuration = Math.max((animate.maxDuration || 0), track.maxDuration);
+	Danimator.maxDuration = Math.max((Danimator.maxDuration || 0), track.maxDuration);
 
 	track.properties[property] = propertyTrack;
-
 	tracks[item.id] = track;
 	
-	_createTracks();
+	_.debounce(_createTracks, 1000)();
 
 	/* return handles for easier chaining of animations */
 	return {
-		then: function animateThen(item, property, fr, to, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate(item, property, fr, to, duration, newOptions);
+		then: function DanimatorThen(item, property, fr, to, duration, newOptions) {
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator(item, property, fr, to, duration, newOptions);
 		},
-		thenFadeIn: function animateThenFadeIn(item, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate.fadeIn(item, duration, newOptions);
+		thenFadeIn: function DanimatorThenFadeIn(item, duration, newOptions) {
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator.fadeIn(item, duration, newOptions);
 		},
-		thenFadeOut: function animateThenFadeOut(item, duration, newOptions) {
-			animate._mergeDelays(options, newOptions);
-			return animate.fadeOut(item, duration, newOptions);
+		thenFadeOut: function DanimatorThenFadeOut(item, duration, newOptions) {
+			Danimator._mergeDelays(options, newOptions);
+			return Danimator.fadeOut(item, duration, newOptions);
 		},
 		stop: noop
 	}
 };
 
-/* internal calculations */
-animate._mergeDelays = function(options, newOptions) {
-	newOptions.delay = _.get(newOptions, 'delay', 0) + ((options && options.delay) || 0);
-}
-
-animate.load = function(aniName) {
-	var filename = aniName + '.animations.json';
-
-	$.getJSON(filename, null, function(json, status) {
-		if(status === 'success') {
-			console.log('json', json);
-			_.each(json, function(track, id) {
-				if(!isNaN(Number(id))) id = Number(id);
-				track.item = GAME.find(id);
-			})
-			tracks = _.extend(tracks, json);
-			_createTracks();
-		} else {
-			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
-		}
-	}).fail(function(promise, type, error){ console.error(error); });
-}
-
-/* calculate single step of animation */
-animate.step = function(animatable, progress) {
-	var value = _.get(animatable.item, animatable.property);
-
-	if(animatable.from == undefined) 		animatable.from = value;
-	if(typeof animatable.to === 'string') 	animatable.to 	= animatable.from + Number(animatable.to);
-
-	var ascending = animatable.to > animatable.from;
-	var range 	  = animatable.to - animatable.from;
-	var isDone 	  = ascending ? 
-					value >= animatable.to : 
-					value <= animatable.to;
-
-	if(animatable.property === 'frame')
-		if(animatable.item.frame === animatable.item.frames || !animatable.item.data._playing) {
-			isDone = true;
-			animatable.item.data._playing = false;
-		}
-
-	if(animatable.options.easing) {
-		try {
-			var easing = (typeof animatable.options.easing === 'string' ? Ease[animatable.options.easing] : animatable.options.easing);
-			if(easing) {
-				progress = easing(progress);
-			}
-		} catch(e) {
-			console.warn('Easing helpers not loaded!');
-		}
-	}
-	
-	var newValue = limit(animatable.from + (range * progress), animatable.from, animatable.to);
-
-	if(animatable.options.onStep) {
-		newValue = animatable.options.onStep(newValue, progress, animatable);
-	}
-
-	_.set(animatable.item, animatable.property, newValue);
-
+Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
-		_changeProp(animatable.property, newValue);
+		_changeProp(animatable.property, value);
 	}
-
-	paper.project.view.requestUpdate();
-
-	return {
-		done: 	isDone,
-		value: 	newValue
-	};
 }
 
-animate.startTime = (new Date).getTime();
-
-/* fx */
-animate.fadeIn = function animateFadeIn(item, duration, options) {
-	var fromv = options && options.from;
-	if(fromv !== undefined) {
-		item.opacity = fromv;
-		delete options.from;
-	}
-	item.visible = true;
-	return animate(item, 'opacity', fromv, _.get(options, 'to', 1), duration, options);
-};
-animate.fadeOut = function animateFadeOut(item, duration, options) {
-	var fromv = options && options.from;
-	if(fromv !== undefined) {
-		item.opacity = fromv;
-		delete options.from;
-	}
-	item.visible = true;
-	return animate(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
-};
-
-/* basic frame animation support */
-animate.play = function(item, options) {
-	var frames = item.frames;
-	var range = frames - item.frame;
-	var duration = range / (options && options.fps || 12);
-
-	options.frameDuration = duration / range;
-	return animate(item, 'frame', item.frame, frames, duration, options);
-}
-
-animate.stop = noop;
-animate.stopAll = noop;
+Danimator.interactive = true;
 
 /* panel events */
 jQuery(function($){
+
 	var downPoint;
 	var draggingVisibles;
 	var draggingMaster;
@@ -564,7 +412,7 @@ jQuery(function($){
 							return [_getStartTime(track), _getEndTime(track)];
 						});
 						snapKeys.push(0);
-						snapKeys.push(animate.maxDuration);
+						snapKeys.push(Danimator.maxDuration);
 						
 						t = _.reduce(snapKeys, function(prev, curr) {
 							return Math.abs(curr - t) < Math.abs(prev - t) ? curr : prev;
@@ -591,7 +439,7 @@ jQuery(function($){
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
 
-			animate(item, prop, value, value, -1, { delay: GAME.time });
+			Danimator(item, prop, value, value, -1, { delay: GAME.time });
 		})
 		.on('click', '#keyframes .animate-btn', function(event) {
 			var item = GAME.find(selectionId);
@@ -606,7 +454,7 @@ jQuery(function($){
 						options: { delay: 0.5 }
 					}]
 				},
-				startTime: 	animate.startTime,
+				startTime: 	Danimator.startTime,
 			};
 			alert('Not yet implemented.');
 			//tracks[item.name] = track;
@@ -668,7 +516,7 @@ jQuery(function($){
 					if(isNaN(range[1])) range[1] = 10000;
 
 					// we limit to min/max attrs and hack rounding errors by setting a limit on the decimals
-					$this.val( _.round( limit(value, range[0], range[1]), _decimalPlaces(step * 10)) );
+					$this.val( _.round( Danimator.limit(value, range[0], range[1]), _decimalPlaces(step * 10)) );
 				}
 			}
 		})
@@ -697,7 +545,7 @@ jQuery(function($){
 						if(playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
-								if(GAME.time >= animate.maxDuration) {
+								if(GAME.time >= Danimator.maxDuration) {
 									clearInterval(playInterval);
 									GAME.setTime(0);
 								} else {
@@ -712,19 +560,19 @@ jQuery(function($){
 						return false;
 					/* prevFrame */
 					case ',':
-						GAME.setTime( limit(GAME.time - 1/12, 0, animate.maxDuration) );
+						GAME.setTime( Danimator.limit(GAME.time - 1/12, 0, Danimator.maxDuration) );
 						return false;
 					/* nextFrame */
 					case '.':
-						GAME.setTime( limit(GAME.time + 1/12, 0, animate.maxDuration) );
+						GAME.setTime( Danimator.limit(GAME.time + 1/12, 0, Danimator.maxDuration) );
 						return false;
 					/* prevFrame * 10 */
 					case ';':
-						GAME.setTime( limit(GAME.time - 1/2, 0, animate.maxDuration) );
+						GAME.setTime( Danimator.limit(GAME.time - 1/2, 0, Danimator.maxDuration) );
 						return false;
 					/* nextFrame * 10 */
 					case ':':
-						GAME.setTime( limit(GAME.time + 1/2, 0, animate.maxDuration) );
+						GAME.setTime( Danimator.limit(GAME.time + 1/2, 0, Danimator.maxDuration) );
 						return false;	
 					/* zoomIn */
 					case '+':
@@ -792,7 +640,7 @@ jQuery(function($){
 			$('#dummy').removeClass('dropping'); 	
 		});
 
-	/* temporarily save all DOM "reactive" elements */
+	/* temporarily save all "reactive" DOM elements */
 	layerTemplate 	 = $('template#layer-panel-item')[0].content.children[0].outerHTML;
 	keyItemTemplate  = $('template#keyframe-panel-item')[0].content.children[0].outerHTML;
 	propItemTemplate = $('template#property-panel-item')[0].content.children[0].outerHTML;
@@ -803,7 +651,7 @@ jQuery(function($){
 
 /* create layers (UI) for layer panel */
 function _createLayers(layers, $layers) {
-	var layerTmpl  = _.template(_.unescape(layerTemplate));
+	var layerTmpl  = _.template(_.unescape(layerTemplate));	// create templating function from template#layer-panel-item
 
 	_.each(layers, function(layer) {
 		if(layer) {
@@ -813,15 +661,83 @@ function _createLayers(layers, $layers) {
 							hidden: 		!layer.visible,
 							id: 			layer.id
 						})).data('id', layer.id);
-
+			/* sublayer support */
 			if(layer.children && layer.children.length) {
 				var $sublayers = $('<ul>').appendTo($layer);
 				_createLayers(layer.children, $sublayers);
 			}
-
 			$layers.append($layer);
 		}
 	});
+}
+
+/* UI helpers for keyframes panel */
+function _getStartTime(track) 	{ return track.options.delay; 					}
+function _getEndTime(track) 	{ return _getStartTime(track) + track.duration; }
+
+/* colorisation & gradient styles for timeline tracks in keyframes panel */
+function _getStartStyle(property, tracks, key, type) {
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+
+	if(propertyConfig) {
+		var currentTrack = tracks[key];
+		var value;
+
+		if(_.isEqual(propertyConfig.range, [0,1])) {					// if min/max of prop between 0 and 1
+			if(key === 0) {
+			 	value = currentTrack.initValue;
+			} else {
+				value = _.get(currentTrack, 'from', tracks[key-1].to);
+			}
+			var color = _.repeat(parseInt(value * 15).toString(16), 3);	// show property as black/white gradient
+		} else if(_.last(property.split('.')) === 'hue') {				// show hue as colored gradient
+			color = new paper.Color({hue: value, saturation: 1, lightness: .5}).toCSS(true).slice(1);
+		}
+
+		return 'background:#' + color;
+	} else console.error('No config found for', property, property.replace(/\.([^\.]+)$/, '.content.$1'), ANIMATABLE_PROPERTIES[type]);
+}
+function _getRangeStyle(property, tracks, key, type) {
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+
+	if(propertyConfig) {
+
+		var currentKey 	= tracks[key];
+		var lastKey 	= tracks[key-1];
+		var to 			= currentKey.to;
+		var begin;
+		var end;
+
+		if(key === 0) {
+			currentKey.from = currentKey.initValue;
+		} else {
+			currentKey.from = _.isNil(currentKey.from) ? lastKey.to : currentKey.from;
+		}
+
+		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
+			begin = _.repeat(parseInt(currentKey.from * 15).toString(16), 3);
+			end   = _.repeat(parseInt(to * 15).toString(16), 3);
+		} else if(_.last(property.split('.')) === 'hue') {
+			begin = new paper.Color({hue: currentKey.from, saturation: 1, lightness: .5}).toCSS(true).slice(1);
+			end   = new paper.Color({hue: to, 			   saturation: 1, lightness: .5}).toCSS(true).slice(1);
+		}
+
+		if(begin && end) {
+			return 'background:linear-gradient(90deg,#' + begin + ',#' + end + ')';
+		}
+	}
+}
+function _getEndStyle(property, track, type) {
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+
+	if(propertyConfig) {
+		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
+			var color = _.repeat(parseInt(track.to * 15).toString(16), 3);
+		} else if(_.last(property.split('.')) === 'hue') {
+			var color = new paper.Color({hue: track.to, saturation: 1, lightness: .5}).toCSS(true).slice(1);
+		}
+		return 'background:#' + color;
+	}
 }
 
 /* create timeline tracks (UI) for keyframes panel */
@@ -882,9 +798,9 @@ function _createTracks() {
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
 
-						$nextRange.css({left: x});
+						$nextRange.css({left: x});	// position "range" right after keyframe
 
-						if(index % 2) {
+						if(index % 2) {	// every other keyframe ends a "range"
 							currentKey.duration = t - _getStartTime(currentKey);
 
 							$prevRange.width(x+1-_getStartTime(currentKey) * TIME_FACTOR);
@@ -916,7 +832,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 			var step 	  = 1;
 			var keyed  	  = '';
 
-			/* create step for numeric inputs */
+			/* calc step for numeric inputs */
 			switch(name) {
 				default:
 					if(prop.range) {
@@ -953,6 +869,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 						}, prop);
 			var $prop = $(propTmpl(config));
 
+			/* special case for Segments and other "subelements" of items */
 			if(config.type === 'elements') {
 				var elements = {};
 
@@ -989,7 +906,7 @@ function _createAudio() {
 		$sounds.append($sound);
 
 		wave = WaveSurfer.create({
-			container: '#audio_' + slug(name),
+			container: 		'#audio_' + slug(name),
 			cursorColor: 	'crimson',
 			height: 		40,
 			normalize: 		true,
@@ -1000,76 +917,8 @@ function _createAudio() {
 		$sound.data('wave', wave);
 	});
 
-	wave.on('ready', function() { wave.play(); });
+	wave.on('ready', function() { wave.play(); }); // play last created wave
 }
-
-/* colorisation & gradient styles for timeline tracks in keyframes panel */
-function _getStartStyle(property, tracks, key, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
-
-	if(propertyConfig) {
-		var currentTrack = tracks[key];
-		var value;
-
-		if(_.isEqual(propertyConfig.range, [0,1])) {
-			if(key === 0) {
-			 	value = currentTrack.initValue;
-			} else {
-				value = _.get(currentTrack, 'from', tracks[key-1].to);
-			}
-			var color = _.repeat(parseInt(value * 15).toString(16), 3);
-		} else if(_.last(property.split('.')) === 'hue') {
-			color = new paper.Color({hue: value, saturation: 1, lightness: .5}).toCSS(true).slice(1);
-		}
-
-		return 'background:#' + color;
-	} else console.error('No config found for', property, property.replace(/\.([^\.]+)$/, '.content.$1'), ANIMATABLE_PROPERTIES[type]);
-}
-function _getEndStyle(property, track, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
-
-	if(propertyConfig) {
-		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
-			var color = _.repeat(parseInt(track.to * 15).toString(16), 3);
-		} else if(_.last(property.split('.')) === 'hue') {
-			var color = new paper.Color({hue: track.to, saturation: 1, lightness: .5}).toCSS(true).slice(1);
-		}
-		return 'background:#' + color;
-	}
-}
-function _getRangeStyle(property, tracks, key, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
-
-	if(propertyConfig) {
-
-		var currentKey 	= tracks[key];
-		var lastKey 	= tracks[key-1];
-		var to 			= currentKey.to;
-		var begin;
-		var end;
-
-		if(key === 0) {
-			currentKey.from = currentKey.initValue;
-		} else {
-			currentKey.from = _.isNil(currentKey.from) ? lastKey.to : currentKey.from;
-		}
-
-		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
-			begin = _.repeat(parseInt(currentKey.from * 15).toString(16), 3);
-			end   = _.repeat(parseInt(to * 15).toString(16), 3);
-		} else if(_.last(property.split('.')) === 'hue') {
-			begin = new paper.Color({hue: currentKey.from, saturation: 1, lightness: .5}).toCSS(true).slice(1);
-			end   = new paper.Color({hue: to, 			   saturation: 1, lightness: .5}).toCSS(true).slice(1);
-		}
-
-		if(begin && end) {
-			return 'background:linear-gradient(90deg,#' + begin + ',#' + end + ')';
-		}
-	}
-}
-
-function _getStartTime(track) 	{ return track.options.delay; 					}
-function _getEndTime(track) 	{ return _getStartTime(track) + track.duration; }
 
 /* game engine for loading SVG skeletons, extended to editing capabilities */
 Game = function(project, name, options, onLoad) {
@@ -1134,6 +983,7 @@ Game = function(project, name, options, onLoad) {
 
 			var allTracks = tracks[data.id].properties[property];
 
+			/* retrieve all tracks before current time and sort them chronologically */
 			currentTracks = _.sortBy(_.filter(allTracks, function(track) {
 				return track.options.delay <= time + _.get(track.options, 'frameDuration', 1/24);
 			}), 'options.delay');
@@ -1150,6 +1000,7 @@ Game = function(project, name, options, onLoad) {
 			var hasActives 	= false;
 			$track.find('.keyframe').removeClass('active');
 
+			/* highlight the keyframe that corresponds to the current time */
 			if(currentTrack) {
 				var isFirstFrame = (time - _getStartTime(currentTrack)) <= 0.05;
 				var isLastFrame  = (_getEndTime(currentTrack) - time)   <= 0;
@@ -1165,6 +1016,7 @@ Game = function(project, name, options, onLoad) {
 				currentTrack = _.maxBy(allTracks, 'options.delay');
 			}
 
+			/* update current track in animation panel and property in properties panel */
 			if(currentTrack) {
 				var startTime 	= _getStartTime(currentTrack);
 				var endTime 	= _getEndTime(currentTrack);
@@ -1179,7 +1031,7 @@ Game = function(project, name, options, onLoad) {
 					}
 				}
 
-				var ani = animate.step(currentTrack, t);
+				var ani = Danimator.step(currentTrack, t);
 
 				if($target && $target.length)
 					if($.contains($target[0], $scrubber[0])) {
@@ -1323,6 +1175,7 @@ Game = function(project, name, options, onLoad) {
 
 		_createLayers(layers, $('.panel#layers ul').empty());
 
+		/* initialize panels! */
 		$('.panel').each(function() {
 			var $panel = $(this);
 			var collapsed = localStorage.getItem('editor-panels-' + this.id + '-collapsed');

@@ -80,7 +80,7 @@ var tubyGame = new strokeGame(project,
 		hamster.opacity = 0;
 		hamster_front.rotation = scene.strokes.lastChild.getNormalAt(0).angle-270;
 
-		//animate.load('games/strokes/levels/tuby');
+		//Danimator.load('games/strokes/levels/tuby');
 
 		// readjust pivot point of hamster parts and save distance to its parent (bodySegment)
 		_.each(hamster.children, function(child) {
@@ -99,7 +99,7 @@ var tubyGame = new strokeGame(project,
 					button.position.y = button.data._y + 2;
 					button.opacity = .8;
 
-					game.playSound('buttons/down');
+					Danimator.playSound('buttons/down');
 					break;
 				case 1:
 					if(!muted) {
@@ -129,7 +129,7 @@ var tubyGame = new strokeGame(project,
 				_changeState(data.location.offset, game);
 			else {
 				SOUNDS.DRAG_LOOP.stop(sound);
-				game.playSound('wrong');
+				Danimator.playSound('wrong');
 				// show menacing X if user cheated or went into wrong direction
 				scene.UI.children.no.set({
 					position: data.point,
@@ -142,41 +142,41 @@ var tubyGame = new strokeGame(project,
 			switch(stroke) {
 				case 0:
 					// button animation
-					animate.stopAll(button);
+					Danimator.stopAll(button);
 					button.position.y = button.data._y;
 					button.opacity = 1;
-					animate(container.getItem({ name: 'open-button' }), 'opacity', 1, .6, 1);
+					Danimator(container.getItem({ name: 'open-button' }), 'opacity', 1, .6, 1);
 
-					game.playSound('buttons/up');
+					Danimator.playSound('buttons/up');
 
 					hamster.position = hamster_front.position = door.position + [0, 0];
 					game.locked = true;
 
 					// animate opening door
-					animate(door, 'bounds.height', null, 0.1, 1, { 
+					Danimator(door, 'bounds.height', null, 0.1, 1, { 
 						delay: .2,
 						onDone: function() {
 
 							// 1. frame animation of hamster entering door
 							setTimeout(function() { 
-								game.playSound('flop.wav');
+								Danimator.playSound('flop.wav');
 
 								hamster_front.opacity = 1; 
 								hamster_front.visible = true; 
 
-								animate.play(hamster_front, { 
+								Danimator.play(hamster_front, { 
 									onDone: function() {
 										setTimeout(function(){ hamster_front.visible = false; }, 500);
 									}
 								});
-								animate.fadeIn(hamster, .05, { delay: .2 });
+								Danimator.fadeIn(hamster, .05, { delay: .2 });
 
 							}, 800);
 
 							hamster.data._strokePosition = 0;
 
 							// 2. animate hamster entering along stroke
-							animate(hamster, 'data._strokePosition', 0, 6, .1 , {
+							Danimator(hamster, 'data._strokePosition', 0, 6, .1 , {
 								delay: 1,
 								onStep: function(step) {
 									_changeState(step, game);
@@ -191,10 +191,10 @@ var tubyGame = new strokeGame(project,
 
 							scene.UI.children.explainer.opacity = 0;
 							scene.UI.children.explainer.visible = true;
-							animate.fadeIn(scene.UI.children.explainer, .4, { delay: 1 });
+							Danimator.fadeIn(scene.UI.children.explainer, .4, { delay: 1 });
 						} 
 					});
-					game.playSound('door-open.wav');
+					Danimator.playSound('door-open.wav');
 					break;
 
 				case 1:
@@ -205,14 +205,14 @@ var tubyGame = new strokeGame(project,
 					if(offset < game.options.completionTolerance) {
 						hamster.data._strokePosition = offset * strokes[stroke].length;
 						// retract the hamster back to his original position
-						animate(hamster, 'data._strokePosition', null, 6, .6, {
+						Danimator(hamster, 'data._strokePosition', null, 6, .6, {
 							easing: 'linear',
 							onStep: function(step) {
 								_changeState(step, game);
 								return step;
 							}
 						});
-						game.playSound('suck');
+						Danimator.playSound('suck');
 					}
 			}
 		};
@@ -223,7 +223,7 @@ var tubyGame = new strokeGame(project,
 					];
 
 		game.onReset = function onReset(step) {
-			animate(steps[step], 'opacity', null, 1, 1);
+			Danimator(steps[step], 'opacity', null, 1, 1);
 		}
 
 		game.onGameEnd = function onGameEnd(data) {
@@ -233,12 +233,12 @@ var tubyGame = new strokeGame(project,
 			hamster.getItem({ name: 'legs-1' }).visible = false;
 
 			// move hamster into hole!
-			animate(body, 'lastSegment.point.x', null, body.firstSegment.point.x - 1, .1);
-			animate(body, 'lastSegment.point.y', null, body.firstSegment.point.y - 1, .1);
-			animate.fadeOut(hamster, .2, { delay: .2 });
-			game.playSound('flop.wav');
+			Danimator(body, 'lastSegment.point.x', null, body.firstSegment.point.x - 1, .1);
+			Danimator(body, 'lastSegment.point.y', null, body.firstSegment.point.y - 1, .1);
+			Danimator.fadeOut(hamster, .2, { delay: .2 });
+			Danimator.playSound('flop.wav');
 
-			setTimeout(function(){ game.playSound('letters/kha'); }, 500);
+			setTimeout(function(){ Danimator.playSound('letters/kha'); }, 500);
 			setTimeout(function(){ location.reload(); }, 2500);
 		}
 	}

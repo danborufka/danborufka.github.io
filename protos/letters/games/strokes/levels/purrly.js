@@ -1,4 +1,5 @@
 // strokeGame: "purrly"
+/*TODO: refactor all sounds to Danimator.*Sound methods */
 
 var SOUNDS = {
 	HISS: 		new Howl({ src: ['audio/hiss.m4a']}),
@@ -15,13 +16,14 @@ var eyes;
 var frown;
 var mouth;
 
+/* helper to switch out "caressed" fur */
 function _changeState(offset, game) {
 	var states = game.scene.fur.children;
 	var range  = [parseInt(-STATE_RANGE/2), parseInt(STATE_RANGE/2)];
 	var stateOffset = states.length - (offset * states.length);
 
 	for(var i=range[0]; i <=range[1]; i++) {
-		var current = limit(parseInt(stateOffset) + i, 0, states.length-1);
+		var current = Danimator.limit(parseInt(stateOffset) + i, 0, states.length-1);
 		
 		if(states[current].data.aniTimeout) {
 			clearTimeout(states[current].data.aniTimeout);
@@ -35,7 +37,7 @@ function _changeState(offset, game) {
 
 		// reset the old ones
 		if(lastStateOffset >= 0) {
-			var last = limit(parseInt(lastStateOffset) + i, 0, states.length-1);
+			var last = Danimator.limit(parseInt(lastStateOffset) + i, 0, states.length-1);
 			setTimeout(function(){
 				states[last].definition = game.symbols['fur-flat'];
 			}, 200);
@@ -65,10 +67,11 @@ var purrlyGame = new strokeGame(project,
 		end.visible = false;
 		path.growth = 0;
 
-		animate.fadeIn(scene.UI.children.explainer, .3, { from: 0, delay: 1.5 });
-		animate.fadeIn(end, .3, { from: 0, delay: 2.5 });
+		/* animate short explainer */
+		Danimator.fadeIn(scene.UI.children.explainer, .3, { from: 0, delay: 1.5 });
+		Danimator.fadeIn(end, .3, { from: 0, delay: 2.5 });
 
-		animate(path, 'growth', 0, 1, 3, {
+		Danimator(path, 'growth', 0, 1, 3, {
 			onStep: 	function(step) {
 							end.position = path.getPointAt(step * path.length);
 							return step;
@@ -92,18 +95,19 @@ var purrlyGame = new strokeGame(project,
 			delay: 		1.5
 		});
 
+		/* show progress color onMouseDrag */
 		container.onMouseDown = function onContainerMousedown(event) {
 			if(_.has(scene.UI.children, 'status')) {
 				scene.UI.children.status.fillColor.hue = start.fillColor.hue;
-				animate.fadeIn(scene.UI.children.status, .3, { from: 0 });
+				Danimator.fadeIn(scene.UI.children.status, .3, { from: 0 });
 			}
-			animate.stopAll(scene.UI.children.explainer);
-	    	animate.fadeOut(scene.UI.children.explainer, .3);
+			Danimator.stopAll(scene.UI.children.explainer);
+	    	Danimator.fadeOut(scene.UI.children.explainer, .3);
 		}
 		container.onMouseUp = function onContainerMouseUp() {
 			if(_.has(scene.UI.children, 'status')) {
-				animate.stopAll(scene.UI.children.status);
-				animate.fadeOut(scene.UI.children.status, .3);
+				Danimator.stopAll(scene.UI.children.status);
+				Danimator.fadeOut(scene.UI.children.status, .3);
 			}
 		}
 
@@ -130,7 +134,7 @@ var purrlyGame = new strokeGame(project,
 
 			if(wrongDirection || cheating) {
 				frown.visible = mouth.visible = true;
-				if(!muted) game.playSound('hiss.m4a');
+				if(!muted) Danimator.playSound('hiss.m4a');
 
 				setTimeout(function(){
 					frown.visible = mouth.visible = false;

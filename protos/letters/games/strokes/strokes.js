@@ -107,7 +107,7 @@ function strokeGame(project, level, options, onLoad) {
 
 							var phonetics = scene.UI.children.phonetics;
 
-							animate.fadeIn(phonetics, .3, {
+							Danimator.fadeIn(phonetics, .3, {
 								from: 0,
 								delay: 	1, 
 								onDone: 'reverse'
