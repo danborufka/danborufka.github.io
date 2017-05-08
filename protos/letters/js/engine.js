@@ -278,41 +278,87 @@ Danimator.load = function(aniName) {
 	}).fail(function(promise, type, error){ console.error(error); });
 }
 
-Danimator.playSound = function(name, options) {
-	var config = _.extend({ 
+Danimator.sound = function(name, options) {
+	var config 	= _.extend({ 
 		name: 	name, 
 		src: 	['audio/' + name] 
 	}, options);
-	var sound  = _.get(Danimator.sounds, name);
+	var sound  	= _.get(Danimator.sounds, name);
+	var fadeIn 	= 0;
+	var fadeOut = 0;
 
 	/* add default path + file extension if not supplied */
 	config.src = _.map(config.src, function(src) {
-		if(!src.match(/.*\/.+$/i)) {
+		if(!src.match(/^\/?audio\/.+$/g)) {
 			src = 'audio/' + src;
 		}
-		if(!src.match(/.*\.[^\.]+$/i)) {
+		if(!src.match(/.*\.[^\.]+$/g)) {
 			name += '.m4a';
 			return src + '.m4a';
 		}
 		return src;
 	});
 
+	if(config.fadeIn) {
+		fadeIn = config.fadeIn;
+		delete config.fadeIn;
+	}
+	if(config.fadeOut) {
+		fadeOut = config.fadeOut;
+		delete config.fadeOut;
+	}
+
 	if(!sound) {
 		sound = Danimator.sounds[name] = {
-			source: new Howl(config)
+			source: new Howl(config),
+			get: function(param) {
+				return this.source['_' + param];
+			},
+			set: function(param, value) {
+				this.source[param](value, this.instance);
+			},
+			play: function() {
+				this.stopped = false;
+				Danimator._activeSound = this;
+				return this.instance = this.source.play();
+			},
+			stop: function() {
+				this.source.stop(this.instance);
+				this.stopped = true;
+				if(Danimator.onSoundStop) Danimator.onSoundStop(this);
+			},
+			fadeIn: function(duration) {
+				var volume = this.source.volume(null, this.instance);
+				this.source.fade(0, volume, duration, this.instance);
+				return volume;
+			},
+			fadeOut: function(duration) {
+				var volume = this.source.volume(null, this.instance);
+				this.source.fade(volume, 0, duration, this.instance);
+				return volume;
+			}
 		};
+	}
+
+	if(!Danimator.interactive) {
+		sound.play();
+		
+		if(fadeIn) {
+			sound.fadeIn(fadeIn);
+		}
+		if(fadeOut) {
+			sound.fadeOut(fadeOut);
+		}
+	} else {
+		Danimator._activeSound = sound;
 	}
 
 	if(Danimator.onSound) {
 		Danimator.onSound(name, options);
 	}
-	if(!Danimator.interactive) {
-		return sound.instance = sound.source.play();
-	}
+
+	return sound;
 };
-Danimator.stopSound = function(name) {
-	Danimator.sounds[name].source.stop(Danimator.sounds[name].instance);
-}
 
 Danimator.sounds 		= {};
 Danimator.interactive 	= false;	// interactive mode suppresses checks of animationEnd and thus never removes them from stack

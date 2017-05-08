@@ -1,3 +1,4 @@
+
 // strokeGame
 var currentStroke 	= 0;
 var lastOffset 	  	= 0;

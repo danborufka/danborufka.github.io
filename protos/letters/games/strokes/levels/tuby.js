@@ -1,23 +1,6 @@
 // strokeGame: "tuby"
 
-var SOUNDS = {
-	BUTTON_DOWN: 	new Howl({ src: ['audio/buttons/down.m4a'] }),
-	BUTTON_UP: 		new Howl({ src: ['audio/buttons/up.m4a'] }),
-
-	OPEN: 			new Howl({ src: ['audio/door-open.wav'] }),
-	ENTER: 			new Howl({ src: ['audio/flop.wav'] }),
-
-	RESET: 			new Howl({ src: ['audio/suck.m4a'] }),
-	WRONG: 			new Howl({ src: ['audio/wrong.m4a'], volume: 0.8 }),
-
-	RESULT: 		new Howl({ src: ['audio/letters/kha.m4a'], volume: 1 }),
-
-	DRAG_LOOP: 		new Howl({ src: ['audio/drag-thru-tube.m4a'], volume: 0.1, loop: true }),
-};
-
-var muted = false;
-
-var sound;
+var tubeSound;
 
 var button;
 var door;
@@ -25,6 +8,7 @@ var hamster;
 var eye;
 var body;
 var bodyLength = 0;
+var fadeTimeout;
 
 // helper to bend hamster into form and keep features in place
 function _changeState(offset, game) {
@@ -99,14 +83,11 @@ var tubyGame = new strokeGame(project,
 					button.position.y = button.data._y + 2;
 					button.opacity = .8;
 
-					Danimator.playSound('buttons/down');
+					Danimator.sound('buttons/down');
 					break;
 				case 1:
-					if(!muted) {
-						// init hamster-dragging sound:
-			    		sound = SOUNDS.DRAG_LOOP.play();
-			    		SOUNDS.DRAG_LOOP.fade(0, .2, 600, sound);
-			    	}
+					// init hamster-dragging sound:
+		    		tubeSound = Danimator.sound('drag-thru-tube', { volume: 0.2, loop: true, fadeIn: 600 });
 			    	break;
 			}
 	    	scene.UI.children.explainer.visible = false;
@@ -116,20 +97,23 @@ var tubyGame = new strokeGame(project,
 
 			hamster.visible = true;
 
+			clearTimeout(fadeTimeout);
+			
+			fadeTimeout = setTimeout(function() {
+				tubeSound.fadeOut(200);
+			}, 300);
+
 			// fade out sound if movement stopped
-			if(offset > .07 && delta < 0.1) {
-				navigator && navigator.vibrate(300);
-				if(!muted)
-					setTimeout(function() {
-						SOUNDS.DRAG_LOOP.fade(.1, 0, 200, sound);
-					}, 300);
+			if(offset <= .07 || Math.abs(delta) >= 0.01) {
+				clearTimeout(fadeTimeout);
+				tubeSound.set('volume', .2);
 			}
 
 			if(!wrongDirection && !cheating)
 				_changeState(data.location.offset, game);
 			else {
-				SOUNDS.DRAG_LOOP.stop(sound);
-				Danimator.playSound('wrong');
+				tubeSound.stop();
+				Danimator.sound('wrong');
 				// show menacing X if user cheated or went into wrong direction
 				scene.UI.children.no.set({
 					position: data.point,
@@ -147,7 +131,7 @@ var tubyGame = new strokeGame(project,
 					button.opacity = 1;
 					Danimator(container.getItem({ name: 'open-button' }), 'opacity', 1, .6, 1);
 
-					Danimator.playSound('buttons/up');
+					Danimator.sound('buttons/up');
 
 					hamster.position = hamster_front.position = door.position + [0, 0];
 					game.locked = true;
@@ -159,7 +143,7 @@ var tubyGame = new strokeGame(project,
 
 							// 1. frame animation of hamster entering door
 							setTimeout(function() { 
-								Danimator.playSound('flop.wav');
+								Danimator.sound('flop.wav');
 
 								hamster_front.opacity = 1; 
 								hamster_front.visible = true; 
@@ -194,11 +178,11 @@ var tubyGame = new strokeGame(project,
 							Danimator.fadeIn(scene.UI.children.explainer, .4, { delay: 1 });
 						} 
 					});
-					Danimator.playSound('door-open.wav');
+					Danimator.sound('door-open.wav');
 					break;
 
 				case 1:
-					SOUNDS.DRAG_LOOP.stop(sound);
+					tubeSound.stop();
 					scene.UI.children.no.visible = false;
 
 					// if we haven't reached the end of the stroke
@@ -212,7 +196,7 @@ var tubyGame = new strokeGame(project,
 								return step;
 							}
 						});
-						Danimator.playSound('suck');
+						Danimator.sound('suck');
 					}
 			}
 		};
@@ -236,9 +220,9 @@ var tubyGame = new strokeGame(project,
 			Danimator(body, 'lastSegment.point.x', null, body.firstSegment.point.x - 1, .1);
 			Danimator(body, 'lastSegment.point.y', null, body.firstSegment.point.y - 1, .1);
 			Danimator.fadeOut(hamster, .2, { delay: .2 });
-			Danimator.playSound('flop.wav');
+			Danimator.sound('flop.wav');
 
-			setTimeout(function(){ Danimator.playSound('letters/kha'); }, 500);
+			setTimeout(function(){ Danimator.sound('letters/kha'); }, 500);
 			setTimeout(function(){ location.reload(); }, 2500);
 		}
 	}

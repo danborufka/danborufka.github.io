@@ -923,6 +923,18 @@ function _createAudio() {
 	var wave 		= false;
 
 	_.each(Danimator.sounds, function(sound, name) {
+		var config = {
+			container: 		'#audio_' + slug(name),
+			cursorColor: 	'crimson',
+			fillParent: 	false,
+			loop: 			sound.get('loop'),
+			height: 		40,
+			width: 			200,
+			minPxPerSec: 	80,
+			normalize: 		true,
+			progressColor: 	'crimson',
+			waveColor: 		'white'
+		};
 		var $sound = $(audioTmpl({
 			name: name,
 			id: 'audio_' + slug(name)
@@ -930,26 +942,31 @@ function _createAudio() {
 
 		$sounds.append($sound);
 
-		wave = WaveSurfer.create({
-			container: 		'#audio_' + slug(name),
-			cursorColor: 	'crimson',
-			fillParent: 	false,
-			height: 		40,
-			minPxPerSec: 	80,
-			normalize: 		true,
-			progressColor: 	'crimson',
-			waveColor: 		'white'
+		wave = WaveSurfer.create(config);
+		var currentWave = wave;
+
+		wave.on('finish', function(event) { 
+			currentWave.seekTo(0); 
+			
+			if(config.loop) {
+				if(!Danimator.sounds[name].stopped) {
+					currentWave.play();
+				}
+			}
 		});
 
-		var currentWave = wave;
-		wave.on('finish', function() { currentWave.seekTo(0); });
-		wave.load('audio/' + name);
+		if(sound === Danimator._activeSound) {
+			currentWave.on('ready', function() { 
+				currentWave.play();
+			});
+		}
 
+		wave.load('audio/' + name);
 		$sound.data('wave', wave);
 	});
 
 	if(wave) {
-		wave.on('ready', function() { wave.play(); }); // play last created wave
+		
 	}
 }
 
@@ -1082,7 +1099,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 				_changeProp('position.x', selectedItem.position.x);
 				_changeProp('position.y', selectedItem.position.y);
 			} else {
-				item.position = item.position.add(event.delta);
+				self.container.position = self.container.position.add(event.delta);
 			}
 
 			event.event.preventDefault();

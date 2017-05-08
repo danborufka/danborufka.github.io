@@ -1,17 +1,10 @@
 // strokeGame: "purrly"
-/*TODO: refactor all sounds to Danimator.*Sound methods */
 
-var SOUNDS = {
-	HISS: 		new Howl({ src: ['audio/hiss.m4a']}),
-	PURR: 		new Howl({ src: ['audio/letters/rolling-r.m4a'], volume: 1 }),
-	PURR_LOOP: 	new Howl({ src: ['audio/letters/rolling-r.m4a'], volume: 0.2, loop: true })
-};
 var STATE_RANGE = 3;
 
-var muted = false;
 var lastStateOffset = -1;
 
-var sound;
+var purringSound;
 var eyes;
 var frown;
 var mouth;
@@ -112,29 +105,25 @@ var purrlyGame = new strokeGame(project,
 		}
 
 		game.onStrokeStart = function onStrokeStart(data) {
-			if(!muted) {
-				// init sound:
-	    		sound = SOUNDS.PURR_LOOP.play();
-	    		SOUNDS.PURR_LOOP.fade(0, .2, 600, sound);
-	    	}
+			// init sound:
+    		purringSound = Danimator.sound('letters/rolling-r', { volume: 0.2, loop: true, fadeIn: 600 });
 	    	scene.UI.children.explainer.visible = false;
 		};
 
 		game.onStroke = function onStroke(data, offset, wrongDirection, cheating, delta) {
 
-			SOUNDS.PURR_LOOP.volume(Math.max(offset, .2) * .6);
+			purringSound.set('volume', Math.max(offset, .2) * .6);
 
-			if(!muted)
-				if(offset > .07 && delta < 0.1) {
-					navigator && navigator.vibrate(300);
-					setTimeout(function() {
-						SOUNDS.PURR_LOOP.fade(.6, 0, 600, sound);
-					}, 300);
-				}
+			if(offset > .07 && delta < 0.1) {
+				navigator && navigator.vibrate(300);
+				setTimeout(function() {
+					purringSound.fadeOut(600);
+				}, 300);
+			}
 
 			if(wrongDirection || cheating) {
 				frown.visible = mouth.visible = true;
-				if(!muted) Danimator.playSound('hiss.m4a');
+				Danimator.sound('hiss.m4a');
 
 				setTimeout(function(){
 					frown.visible = mouth.visible = false;
@@ -145,13 +134,13 @@ var purrlyGame = new strokeGame(project,
 		};
 
 		game.onStrokeStop = function(data) {
-			SOUNDS.PURR_LOOP.stop(sound);
+			purringSound.stop();
 		};
 
 		game.onGameEnd = function(data) {
 			mouth.visible = true;
-			setTimeout(function() { if(!muted) SOUNDS.PURR.play();    }, 800);
-			setTimeout(function() { mouth.visible = false; 			  }, 2200);
+			setTimeout(function() { Danimator.sound('letters/rolling-r', { volume: 1 });    }, 800);
+			setTimeout(function() { mouth.visible = false; }, 2200);
 		}
 	}
 );
