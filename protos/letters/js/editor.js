@@ -1,14 +1,15 @@
 // animation editor engine
 // TODOS:
-// • #properties panel: single keyframes / merged keyframes
-// • #properties panel: change ani keyframes
-// • snap to segments: collect all snappables ;)
-// • snap keyframes to scrubber
-// • snappable panels (see #dummy element)
-// • (add node module for packaging)
-// • node module for server-side saving & loading of JSON
-// • (UI) dynamic scaling of animation panel's x-axis
-// • abstract sound system + separate module
+// o #properties panel: single keyframes / merged keyframes(?) – or userInput 4 duration :D
+// ø #properties panel: change animation keyframes from there
+// o #keyframes panel:  change animation keyframes timing from there (dragging of keys)
+// o snap to segments: collect all snappables ;)
+// o snap keyframes to scrubber
+// o snappable panels (see #dummy element)
+// o (add node module for packaging)
+// o node module for server-side saving & loading of JSON
+// o (UI) dynamic scaling of animation panel's x-axis
+// o abstract sound system + separate module
 
 var tracks   		= {};
 var events 			= {};
@@ -425,8 +426,11 @@ jQuery(function($){
 			var prop 	= $this.closest('li.timeline').data('property');
 			var item 	= $this.closest('li.item').data('track').item;
 
-			$('#layers').find('#layer-' + item.id).trigger($.Event('selected', {item: item}));
-			$('#properties').find('input[data-prop="' + prop + '"]').focus();
+			$('#layers').find('#layer-' + item.id).not('.selected').trigger($.Event('selected', {item: item}));
+			
+			var $input = $('#properties').find('input[data-prop="' + prop + '"]');
+			$input.parentsUntil('ul.main').filter('li').addClass('open');
+			$input.focus();
 
 			currentGame.setTime($this.data('time'));
 
@@ -461,16 +465,24 @@ jQuery(function($){
 		})
 		/* interactivity of property inputs */
 		.on('change', '#properties :input', function(event) {
-			var $this = $(this);
+			var $this 	 = $(this);
+			var prop  	 = $this.data('prop');
+			var data 	 = $this.closest('li').data();
 			var oldValue = $this.data('oldValue') || this.defaultValue;
-			var value = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
-			var prop  = $this.data('prop');
-			var index = 0;
-			var props = {};
-			var item  = currentGame.find(selectionId);
+			var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
+			var item  	 = currentGame.find(selectionId);
+
+			var index 	 = 0;
+			var props 	 = {};
+			var converter;
+
+			if(converter = _['to' + _.capitalize(data.type)]) {
+				value = _['to' + _.capitalize(data.type)](value);
+			}
+
+			console.log('changing', this);
 
 			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
-
 				new Undoable(function() {
 					_.set( item.segments[parseInt(index[1])], index[2], value );
 					_changeProp(index[2], value);
@@ -489,6 +501,20 @@ jQuery(function($){
 					_.set(item, prop, oldValue);
 					_changeProp(prop, oldValue);
 				});
+			}
+
+			if(data.track) {
+				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
+				console.log('we have to switch');
+				if(currentGame.time === _getStartTime(currentTrack)) {
+					//.properties[data.track.property][data.track.id].from = value;
+					_.set(tracks[selectionId], 'properties.' + prop + '.' + data.track.id + '.from', value);
+					console.log('currentTrack', 'properties.' + prop + '.' + data.track.id + '.from', currentTrack);
+				} else {
+					console.log('to', currentTrack.to, '=>', value);
+					currentTrack.to = value;
+				}
+				_createTracks();
 			}
 
 			$this.data('oldValue', value);
@@ -625,8 +651,8 @@ jQuery(function($){
 				event.preventDefault();
 				event.stopImmediatePropagation();
 			}
-		})
-		/* file dropping */
+		});
+		/* file dropping 
 		.on('dragover', function(event) { 
 			event.preventDefault();
 			$('#dummy').addClass('dropping'); 
@@ -638,6 +664,7 @@ jQuery(function($){
 			event.preventDefault();
 			$('#dummy').removeClass('dropping'); 	
 		});
+		*/
 
 	/* temporarily save all "reactive" DOM elements */
 	layerTemplate 	 = $('template#layer-panel-item')[0].content.children[0].outerHTML;
@@ -866,7 +893,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 							type: 		prop.type,
 							value: 		_.get(subitem || item, property)
 						}, prop);
-			var $prop = $(propTmpl(config));
+			var $prop = $(propTmpl(config)).data('track', _.first(propertyTrack));
 
 			/* special case for Segments and other "subelements" of items */
 			if(config.type === 'elements') {

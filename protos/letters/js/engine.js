@@ -1,8 +1,11 @@
 // animation and game engine
 // TODOS:
-// • separate game & animation engine
-// • performance optimizations
-// • more sophisticated sound system
+// • add frame label support
+// • add support for nested frame animations
+// • performance optimizations:
+// 		* only rerender separate tracks/layers/props when needed instead of full re-render
+// 		* minifying & concatenation of files
+// 		* refactor all games to use internal sound manager
 
 var animations   	= [];
 var events 			= {};
