@@ -177,6 +177,9 @@ function _resetSelection() {
 		.find('.type').text('').end()
 		.find('ul.main').html('<li><label>Waiting for a selection …</label></li>');
 }
+function alert(msg) 	{
+	console.log('ALEEEERT!', msg);
+}
 function slug(name) 	{ return name.replace(/[^a-z0-9_\-]+/g, '_'); }
 function noop(anything) { return anything; };
 
@@ -663,7 +666,41 @@ jQuery(function($){
 			$('#dummy').addClass('dropping'); 
 		})
 		.on('drop', '#dummy', function(event) { 
-			console.log('dropEvent files', event.originalEvent.dataTransfer.files);
+			event.preventDefault();
+
+			var data = new FormData();
+
+	        _.each(event.originalEvent.dataTransfer.files, function(file, i) {
+	        	var type = file.type.split('/');
+	        	var reader = new FileReader();
+
+	        	reader.onload = function(event) {
+    				console.log('result', event.target.result, event);
+  				};
+
+	        	switch(type[0]) {
+	        		case 'text':
+	        			if(type[1] === 'javascript') {
+	        				console.log('script(s) on board.');
+	        			}
+	        			break;
+	        		case 'image':
+	        			if(type[1] === 'svg+xml') {
+	        				reader.readAsBinaryString(file);
+	        				console.log('vector(s) on board.', file);
+	        			} else {
+	        				console.log('image(s) on board.', type);
+	        			}
+	        			break;
+	        		case 'audio':
+	        			console.log('sound on board.');
+	        			break;
+	        		default:
+	        			alert(type[0] + '/' + type[1] + ' is not supported (' + file.name + ')');
+	        			break;
+	        	}
+	            data.append('file_' + i, file);
+	        });
 			$('#dummy').removeClass('dropping'); 
 		})
 		.on('dragleave', '#dummy', function(event) {

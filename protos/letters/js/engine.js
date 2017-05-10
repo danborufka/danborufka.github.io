@@ -1,11 +1,9 @@
 // animation and game engine
 // TODOS:
-// • add frame label support
-// • add support for nested frame animations
 // • performance optimizations:
 // 		* only rerender separate tracks/layers/props when needed instead of full re-render
 // 		* minifying & concatenation of files
-// 		* refactor all games to use internal sound manager
+// • add support for nested frame animations
 
 var animations   	= [];
 var events 			= {};
