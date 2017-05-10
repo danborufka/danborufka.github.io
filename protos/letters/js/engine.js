@@ -4,6 +4,7 @@
 // 		* only rerender separate tracks/layers/props when needed instead of full re-render
 // 		* minifying & concatenation of files
 // • add support for nested frame animations
+// • compress SVGs
 
 var animations   	= [];
 var events 			= {};
@@ -63,17 +64,18 @@ paper.Item.inject({
 						item.setState(state);
 					});
 		} else {
-			var states = this.getStates();
-			if(this.data._state === undefined) {
-				this.data._state = states[0];
+			var states = self.getStates();
+
+			if(self.data._state === undefined) {
+				self.data._state = _.keys(states)[0];
 				_.each(states, function(state) {
 					state.visible = false;
 				});
 			} else {
-				states[this.data._state].visible = false;
+				states[self.data._state].visible = false;
 			}
 			states[state].visible = true;
-			this.data._state = state;
+			self.data._state = state;
 		}
 	},
 	getStates: function() {
@@ -81,7 +83,7 @@ paper.Item.inject({
 		if(!this.data._states) {
 			this.data._states = {};
 			_.each(this.children, function(child) {
-				if(child.name.match(/^[#_][a-z0-9_-].*$/i)) {
+				if(child.name.match(/^[#_][a-z0-9_-]+.*$/i)) {
 					var name = child.name.match(/^[#_](.*?)(\-\d+)?$/)[1];
 					self.data._states[name] = child;
 					child.visible = false;

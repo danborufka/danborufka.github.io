@@ -2,10 +2,9 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 	function onGameStart(scene, container, game) {
 		var bear = scene.agentBear;
 
-		project.view.zoom = 2;
-
 		bear.frame = 1;
 		bear.setState('normal', 'eyes');
+		bear.setState('normal', 'snout');
 
 		/* animate agent Bearinger */
 		Danimator.play(bear,  {	
@@ -29,6 +28,16 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 					break;
 				case '3':
 					bear.setState('doubting', 'eyes');
+					break;
+					
+				case 'a':
+				case 'o':
+				case 'i':
+				case 'f':
+					bear.setState(event.key, 'snout');
+					break;
+				case 'n':
+					bear.setState('normal', 'snout');
 					break;
 				case '<':
 					bear.flip();
