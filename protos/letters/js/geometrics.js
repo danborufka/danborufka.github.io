@@ -59,5 +59,11 @@ paper.Item.inject({
 		this.position = path.getPointAt(len);
 		this.rotation = path.getNormalAt(len).angle-90;
 		this.data._offsetOnPath = offset;
+	},
+	flip: function(pivot) {
+		this.scale(-1, 1, pivot);
+	},
+	flop: function(pivot) {
+		this.scale(1, -1, pivot);
 	}
 });

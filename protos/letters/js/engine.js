@@ -24,7 +24,15 @@ paper.Item.inject({
 		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
 		var newFrame 	 = this.children['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
 
-		if(currentFrame) {
+		if(this.data._frame === undefined) {
+			_.each(this.children, function(child) {
+				if(child.name.match(/^f\d+/g)) {
+					if(parseInt( child.name.slice(1) ) != frame) {
+						child.visible = false;
+					}
+				}
+			});
+		} else if(currentFrame) {
 			this.data._frameLayer = currentFrame;
 			currentFrame.visible = false;
 		}
@@ -36,12 +44,54 @@ paper.Item.inject({
 	},
 	getFrames: function() {
 		var children = _.map(this.children, function(child) {
-			return parseInt( child.name.split('f')[1]) || 0;
+			return parseInt( child.name.slice(1) ) || 0;
 		});
 		children.sort();
 		children.reverse();
 		return children[0];
-	}
+	},
+	getState: function() {
+		return this.data._state || 0;
+	},
+	setState: function(state, childname) {
+		var self = this;
+		if(childname) {
+			return _.each(self.getItems({
+						match: 	function(item) {
+									return !!(item.name && item.name.match(new RegExp('^' + childname + '(\-\d+)?' , 'i')));
+								},
+						recursive: true
+					}), function(item) {
+						item.setState(state);
+					});
+		} else {
+			var states = this.getStates();
+			if(this.data._state === undefined) {
+				this.data._state = states[0];
+				_.each(states, function(state) {
+					state.visible = false;
+				});
+			} else {
+				states[this.data._state].visible = false;
+			}
+			states[state].visible = true;
+			this.data._state = state;
+		}
+	},
+	getStates: function() {
+		var self = this;
+		if(!this.data._states) {
+			this.data._states = {};
+			_.each(this.children, function(child) {
+				if(child.name.match(/^[#_][a-z0-9_-].*$/i)) {
+					var name = child.name.match(/^[#_](.*?)(\-\d+)?$/)[1];
+					self.data._states[name] = child;
+					child.visible = false;
+				}
+			});
+		}
+		return this.data._states;
+	},
 });
 
 /* create Danimator as main object and in the same time shortcut to Danimator.animate */
@@ -59,7 +109,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 				if(animatable) {
 					var t = ((new Date).getTime() - (animatable.startTime || 0)) / (animatable.duration * 1000);
 					var animation = Danimator.step(animatable, t);
-					var range 	  = animatable.to - animatable.from;
+					var range 	  = Math.abs(animatable.to - animatable.from);
 
 					if(animation.done) {
 						_.pull(item.data._animate, animatable);
@@ -73,25 +123,25 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 							if(typeof animatable.options.onDone === 'string') {
 								if(animatable.property === 'frame') {
 									animatable.item.data._playing = true;
-									animatable.options.delay = animatable.duration / range;
+									animatable.options.delay = animatable.to === 1 ? 0 : animatable.duration / range;
+								} 
+
+								switch(animatable.options.onDone) {
+									case 'reverse':
+										delete animatable.options.onDone;
+									case 'pingpong':
+										var xfer = _.clone(animatable.to);
+										animatable.to = _.clone(animatable.from);
+										animatable.from = xfer;
+									default: // loop
+										if(!animatable.item.data._loops) animatable.item.data._loops = 0;
+										if(animatable.options.onLoop) animatable.options.onLoop(animatable, animatable.item.data._loops++ );
+										return Danimator.animate(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
 								}
+							} else {
+								animatable.options.onDone && animatable.options.onDone(animatable);
 							}
 
-							switch(animatable.options.onDone) {
-								case 'reverse':
-									delete animatable.options.onDone;
-								case 'pingpong':
-									Danimator(item, animatable.property, animatable.to, animatable.from, animatable.duration, animatable.options);
-									break;
-									
-								case 'loop':
-									Danimator(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
-									break;
-
-								default:
-									animatable.options.onDone && animatable.options.onDone(animatable);
-									break;
-							}
 						}
 					}
 				}
@@ -173,17 +223,14 @@ Danimator.step = function(animatable, progress) {
 					value >= animatable.to : 
 					value <= animatable.to;
 
-	if(animatable.property === 'frame')
-		if(animatable.item.frame === animatable.item.frames || !animatable.item.data._playing) {
-			isDone = true;
-			animatable.item.data._playing = false;
-		}
-
 	if(Danimator.interactive) {
 		isDone = false;
 	}
 
-	if(!isDone) {
+	if(isDone) {
+		if(animatable.property === 'frame')
+			animatable.item.data._playing = false;
+	} else {
 		if(animatable.options.easing) {
 			try {
 				var easing = (typeof animatable.options.easing === 'string' ? Ease[animatable.options.easing] : animatable.options.easing);
@@ -201,6 +248,7 @@ Danimator.step = function(animatable, progress) {
 			newValue = animatable.options.onStep(newValue, progress, animatable);
 		}
 
+		//console.log('stepping thru…');
 		_.set(animatable.item, animatable.property, newValue);
 
 		paper.project.view.requestUpdate();
@@ -233,6 +281,10 @@ Danimator.fadeOut = function(item, duration, options) {
 	item.visible = true;
 	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
 };
+
+Danimator.goto = function() {
+
+}
 
 /* basic frame animation support */
 Danimator.play = function(item, options) {
@@ -402,7 +454,7 @@ Game = function(project, name, options, onLoad) {
 		self.resize({size: project.view.viewSize});
 		item.position = project.view.center;
 
-		if(onLoad) onLoad(self.scene, self.container);
+		if(onLoad) onLoad(self.scene, self.container, self);
 		if(Game.onLoad) Game.onLoad.call(self, project, name, options);
 	});
 

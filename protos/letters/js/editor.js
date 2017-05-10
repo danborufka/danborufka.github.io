@@ -1,15 +1,16 @@
 // animation editor engine
 // TODOS:
+// o drag'n'drop files onto body to load for editing
 // o #properties panel: single keyframes / merged keyframes(?) – or userInput 4 duration :D
 // ø #properties panel: change animation keyframes from there
 // o #keyframes panel:  change animation keyframes timing from there (dragging of keys)
+// o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o snap to segments: collect all snappables ;)
 // o snap keyframes to scrubber
 // o snappable panels (see #dummy element)
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
 // o (UI) dynamic scaling of animation panel's x-axis
-// o abstract sound system + separate module
 
 var tracks   		= {};
 var events 			= {};
@@ -391,7 +392,7 @@ jQuery(function($){
 			if(!_frameDragging) {
 				timeScrubbing = true;
 				event.type = 'mousemove';
-				$(this).trigger(event);
+				$(this).trigger(event).addClass('scrubbing');
 				$keyframesPanel.removeClass('hasSelection');
 			}
 		})
@@ -420,6 +421,9 @@ jQuery(function($){
 					}
 					currentGame && currentGame.setTime(t, $this);
 				}
+		})
+		.on('mouseup', '.timeline .track', function(event) {
+			$(this).removeClass('scrubbing');
 		})
 		.on('dblclick', '#keyframes .keyframe', function(event) {
 			var $this 	= $(this);
@@ -651,20 +655,23 @@ jQuery(function($){
 				event.preventDefault();
 				event.stopImmediatePropagation();
 			}
-		});
-		/* file dropping 
-		.on('dragover', function(event) { 
+		})
+		// file dropping 
+		.on('dragover', 'body', function(event) { 
 			event.preventDefault();
+			event.stopImmediatePropagation();
 			$('#dummy').addClass('dropping'); 
 		})
-		.on('drop', 	function(event) { 
+		.on('drop', '#dummy', function(event) { 
+			console.log('dropEvent files', event.originalEvent.dataTransfer.files);
 			$('#dummy').removeClass('dropping'); 
 		})
-		.on('dragleave', '#dropzone', function(event) {
+		.on('dragleave', '#dummy', function(event) {
 			event.preventDefault();
+			event.stopImmediatePropagation();
 			$('#dummy').removeClass('dropping'); 	
 		});
-		*/
+		//*/
 
 	/* temporarily save all "reactive" DOM elements */
 	layerTemplate 	 = $('template#layer-panel-item')[0].content.children[0].outerHTML;
@@ -673,6 +680,8 @@ jQuery(function($){
 	audioTemplate 	 = $('template#audio-panel-item')[0].content.children[0].outerHTML;
 	$time 			 = $('#keyframes .description time');
 	$animationValue  = $('#keyframes .description output');
+
+	$('body').addClass('ready');
 });
 
 /* create layers (UI) for layer panel */
