@@ -285,29 +285,48 @@ Danimator.fadeOut = function(item, duration, options) {
 	item.visible = true;
 	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
 };
+
+function _shapeToPath(sourcePath, sourcePaths, key) {
+	if(sourcePath.className === 'Shape') {
+		var path = sourcePath.toPath(true);
+		sourcePath.remove();
+		if(sourcePaths) 
+			sourcePaths[key] = sourcePath = path;
+	}
+}
+
 /* experimental: shape tween */
 Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	var fromItems = [fromItem];
 	var toItems   = [toItem];
+
+	_shapeToPath(fromItem);
+	_shapeToPath(toItem);
+
 	var newItem   = fromItem.clone();
 	var newItems  = [newItem];
-	var morpher   = { 
-		id: 	-1,
-		items: 	[fromItem, toItem],
-		name: 	'morph',
-		progress: 0
-	};
 
-	if(fromItem.className != 'Path') {
+	if(fromItem.className !== 'Path') {
 		fromItems = fromItem.getItems({class: 	paper.Path});
 		toItems   = toItem.getItems({class: 	paper.Path});
 		newItems  = newItem.getItems({class: 	paper.Path});
+
+		fromItems = _.union(fromItems, fromItem.getItems({class: paper.Shape }));
+		toItems   = _.union(toItems, toItem.getItems({class: 	 paper.Shape }));
+		newItems  = _.union(newItems, newItem.getItems({class: 	 paper.Shape }));
 	}
 
-	fromItem.visible = false;
-	toItem.visible = false;
-	newItem.insertAbove(fromItem);
+	fromItem.visible = toItem.visible = false;
 	newItem.name += '_morph';
+	newItem.insertAbove(fromItem);
+
+	var morpher   = { 
+		id: 	newItem.id,
+		item: 	newItem,
+		items: 	[fromItem, toItem],
+		name: 	'morph ' + fromItem.name + ' to ' + toItem.name,
+		progress: 0
+	};
 
 	if(Danimator.onMorph) Danimator.onMorph(morpher, options);
 
@@ -322,6 +341,10 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 				_.each(fromItems, function(fromPath, key) {
 					var toPath  = toItems[key];
 					var newPath = newItems[key];
+
+					_shapeToPath(fromPath, 	fromItems, 	key);
+					_shapeToPath(toPath, 	toItems, 	key);
+					_shapeToPath(newPath, 	newItems, 	key);
 
 					_.each(newPath.segments, function(segment, index) {
 						var fromSegment = fromPath.segments[index];

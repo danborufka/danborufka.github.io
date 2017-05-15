@@ -4,6 +4,7 @@
 // o #properties panel: single keyframes / merged keyframes(?) – or userInput 4 duration :D
 // ø #properties panel: change animation keyframes from there
 // o #keyframes panel:  change animation keyframes timing from there (dragging of keys)
+// o save panel positions persistently
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o snap to segments: collect all snappables ;)
 // o snap keyframes to scrubber
@@ -168,7 +169,7 @@ function _getAnimationName(item, property, type) {
 function _resetSelection() {
 	$('#layers')
 		.find('.layer').removeClass('selected').end()
-		.find('#layer-' + selectionId).removeClass('open').parentsUntil('ul.main').removeClass('open');
+		.find('#layer-' + selectionId).removeClass('open');//.parentsUntil('ul.main').removeClass('open');
 
 	selectionId = false;
 	currentGame.project.deselectAll();
