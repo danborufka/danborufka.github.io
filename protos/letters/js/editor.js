@@ -156,7 +156,7 @@ function _changeProp(prop, value) {
 }
 function _getAnimationName(item, property, type) {
 
-	var fx = type.match(/^Danimator(.*)$/);
+	var fx = type && type.match(/^Danimator(.*)$/);
 	fx = fx && _.lowerFirst(fx[1]);
 
 	if(fx === 'then') fx = false;
@@ -232,7 +232,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		duration: 	duration || 1,
 		options: 	options,
 		caller: 	caller,
-		name: 		_getAnimationName(item, property, Danimator.caller.name),
+		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
 	};
 
 	var duplicate = _.find(propertyTrack, {options: { delay: options.delay }});
@@ -275,6 +275,9 @@ Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
 		_changeProp(animatable.property, value);
 	}
+}
+Danimator.onMorph = function() {
+	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
 }
 
 Danimator.interactive = true;
@@ -749,7 +752,7 @@ function _getEndTime(track) 	{ return _getStartTime(track) + track.duration; }
 
 /* colorisation & gradient styles for timeline tracks in keyframes panel */
 function _getStartStyle(property, tracks, key, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
 
 	if(propertyConfig) {
 		var currentTrack = tracks[key];
@@ -767,10 +770,10 @@ function _getStartStyle(property, tracks, key, type) {
 		}
 
 		return 'background:#' + color;
-	} else console.error('No config found for', property, property.replace(/\.([^\.]+)$/, '.content.$1'), ANIMATABLE_PROPERTIES[type]);
+	} //else console.error('No config found for', property, property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'), ANIMATABLE_PROPERTIES[type]);
 }
 function _getRangeStyle(property, tracks, key, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
 
 	if(propertyConfig) {
 
@@ -800,7 +803,7 @@ function _getRangeStyle(property, tracks, key, type) {
 	}
 }
 function _getEndStyle(property, track, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/\.([^\.]+)$/, '.content.$1'));
+	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
 
 	if(propertyConfig) {
 		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
@@ -1112,7 +1115,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 		return self.find(id).set(props);
 	};
 
-	var layers = self.scene.slice(0).reverse();
+	var layers = Danimator.layers = self.scene.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
 
 	// selection of elements (by clicking them)

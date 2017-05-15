@@ -3,6 +3,7 @@
 // • performance optimizations:
 // 		* only rerender separate tracks/layers/props when needed instead of full re-render
 // 		* minifying & concatenation of files
+// • test morph tweens
 // • add support for nested frame animations
 // • compress SVGs
 
@@ -56,10 +57,8 @@ paper.Item.inject({
 		var self = this;
 		if(childname) {
 			return _.each(self.getItems({
-						match: 	function(item) {
-									return !!(item.name && item.name.match(new RegExp('^' + childname + '(\-\d+)?' , 'i')));
-								},
-						recursive: true
+						match: 		Danimator.matchBase(childname),
+						recursive: 	true
 					}), function(item) {
 						item.setState(state);
 					});
@@ -209,6 +208,11 @@ Danimator.limit = function(nr, mi, ma) {
 	}
 	return Math.max(Math.min(nr, ma), mi);
 }
+Danimator.matchBase = function(base) {
+	return function(item) {
+		return !!(item.name && item.name.match(new RegExp('^' + base + '([-_]\d+)?' , 'i')));
+	};
+}
 
 /* calculate single step of animation */
 Danimator.step = function(animatable, progress) {
@@ -281,15 +285,57 @@ Danimator.fadeOut = function(item, duration, options) {
 	item.visible = true;
 	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
 };
+/* experimental: shape tween */
+Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
+	var fromItems = [fromItem];
+	var toItems   = [toItem];
+	var newItem   = fromItem.clone();
+	var newItems  = [newItem];
+	var morpher   = { 
+		id: 	-1,
+		items: 	[fromItem, toItem],
+		name: 	'morph',
+		progress: 0
+	};
 
-Danimator.goto = function() {
+	if(fromItem.className != 'Path') {
+		fromItems = fromItem.getItems({class: 	paper.Path});
+		toItems   = toItem.getItems({class: 	paper.Path});
+		newItems  = newItem.getItems({class: 	paper.Path});
+	}
 
+	fromItem.visible = false;
+	newItem.insertAbove(fromItem);
+	newItem.name += '_morph';
+
+	if(Danimator.onMorph) Danimator.onMorph(morpher, options);
+
+	Danimator(morpher, 'progress', 0, 1, 1, {
+		onStep: function(progress) {
+			_.each(fromItems, function(fromPath, key) {
+				var toPath  = toItems[key];
+				var newPath = newItems[key];
+
+				_.each(newPath.segments, function(segment, index) {
+					var fromSegment = fromPath.segments[index];
+					var toSegment 	= toPath.segments[index];
+
+					if(segment && toSegment) {
+						segment.point = 	fromSegment.point.add( 		toSegment.point.subtract( 		fromSegment.point ).multiply(progress) );
+						segment.handleIn = 	fromSegment.handleIn.add( 	toSegment.handleIn.subtract( 	fromSegment.handleIn ).multiply(progress) );
+						segment.handleOut = fromSegment.handleOut.add( 	toSegment.handleOut.subtract( 	fromSegment.handleOut ).multiply(progress) );
+					}
+
+				});
+			});
+		}
+	});
 }
 
 /* basic frame animation support */
 Danimator.play = function(item, options) {
 	var frames = item.frames;
-	var range = frames - item.frame;
+	var range  = frames - item.frame;
 	var duration = range / (options && options.fps || 12);
 
 	item.data._playing = true;
