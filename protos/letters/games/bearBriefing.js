@@ -7,15 +7,15 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		bear.setState('normal', 'snout');
 
 		/* animate agent Bearinger */
+		if(false)
 		Danimator.play(bear,  {	
-			fps: Danimator.interactive ? 1 : 6,
+			fps: 	Danimator.interactive ? 1 : 6,
 			onDone: 'pingpong',
 			onStep: function(step, progress) {
-				if(!Danimator.interactive)
-					if('progress', progress >= 1) 
-						bear.flip();
-				return step;
-			}
+						if(!Danimator.interactive)
+							if(progress >= 1) bear.flip();
+						return step;
+					}
 		});
 
 		$(document).on('keyup', function(event) {
