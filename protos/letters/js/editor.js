@@ -331,7 +331,7 @@ jQuery(function($){
 
 			_resetSelection();
 
-			event.item.selected = selected;
+			event.item.fullySelected = selected;
 
 			var $allParents = $layer.parentsUntil('.main').andSelf().filter('.layer').toggleClass('selected', selected);
 

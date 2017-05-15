@@ -3,7 +3,6 @@
 // • performance optimizations:
 // 		* only rerender separate tracks/layers/props when needed instead of full re-render
 // 		* minifying & concatenation of files
-// • test morph tweens
 // • add support for nested frame animations
 // • compress SVGs
 
@@ -295,7 +294,7 @@ function _shapeToPath(sourcePath, sourcePaths, key) {
 	}
 }
 
-/* experimental: shape tween */
+/* morph between two shapes (use on shapes, paths or entire groups) */
 Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	var fromItems = [fromItem];
 	var toItems   = [toItem];
@@ -307,9 +306,9 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	var newItems  = [newItem];
 
 	if(fromItem.className !== 'Path') {
-		fromItems = fromItem.getItems({class: 	paper.Path});
-		toItems   = toItem.getItems({class: 	paper.Path});
-		newItems  = newItem.getItems({class: 	paper.Path});
+		fromItems = fromItem.getItems({	class: paper.Path});
+		toItems   = toItem.getItems({ 	class: paper.Path});
+		newItems  = newItem.getItems({ 	class: paper.Path});
 
 		fromItems = _.union(fromItems, fromItem.getItems({class: paper.Shape }));
 		toItems   = _.union(toItems, toItem.getItems({class: 	 paper.Shape }));
@@ -317,20 +316,13 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	}
 
 	fromItem.visible = toItem.visible = false;
-	newItem.name += '_morph';
+	newItem.name = 'morph "' + fromItem.name.replace(/(^_|\-\d+$)/g, '') + '" to "' + toItem.name.replace(/(^_|\-\d+$)/g, '') + '"';
 	newItem.insertAbove(fromItem);
+	newItem.data.morphing = 0;
 
-	var morpher   = { 
-		id: 	newItem.id,
-		item: 	newItem,
-		items: 	[fromItem, toItem],
-		name: 	'morph ' + fromItem.name + ' to ' + toItem.name,
-		progress: 0
-	};
+	if(Danimator.onMorph) Danimator.onMorph(newItem, options);
 
-	if(Danimator.onMorph) Danimator.onMorph(morpher, options);
-
-	Danimator(morpher, 'progress', 0, 1, duration, {
+	Danimator(newItem, 'data.morphing', 0, 1, duration, {
 		onStep: function(progress) {
 			if(progress === 0 || progress === 1) {
 				[fromItem, toItem][progress].visible = true;
