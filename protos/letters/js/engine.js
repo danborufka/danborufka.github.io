@@ -305,29 +305,36 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	}
 
 	fromItem.visible = false;
+	toItem.visible = false;
 	newItem.insertAbove(fromItem);
 	newItem.name += '_morph';
 
 	if(Danimator.onMorph) Danimator.onMorph(morpher, options);
 
-	Danimator(morpher, 'progress', 0, 1, 1, {
+	Danimator(morpher, 'progress', 0, 1, duration, {
 		onStep: function(progress) {
-			_.each(fromItems, function(fromPath, key) {
-				var toPath  = toItems[key];
-				var newPath = newItems[key];
+			if(progress === 0 || progress === 1) {
+				[fromItem, toItem][progress].visible = true;
+				newItem.visible = false;
+			} else {
+				fromItem.visible = toItem.visible = false;
+				newItem.visible = true;
+				_.each(fromItems, function(fromPath, key) {
+					var toPath  = toItems[key];
+					var newPath = newItems[key];
 
-				_.each(newPath.segments, function(segment, index) {
-					var fromSegment = fromPath.segments[index];
-					var toSegment 	= toPath.segments[index];
+					_.each(newPath.segments, function(segment, index) {
+						var fromSegment = fromPath.segments[index];
+						var toSegment 	= toPath.segments[index];
 
-					if(segment && toSegment) {
-						segment.point = 	fromSegment.point.add( 		toSegment.point.subtract( 		fromSegment.point ).multiply(progress) );
-						segment.handleIn = 	fromSegment.handleIn.add( 	toSegment.handleIn.subtract( 	fromSegment.handleIn ).multiply(progress) );
-						segment.handleOut = fromSegment.handleOut.add( 	toSegment.handleOut.subtract( 	fromSegment.handleOut ).multiply(progress) );
-					}
-
+						if(segment && toSegment) {
+							segment.point = 	fromSegment.point.add( 		toSegment.point.subtract( 		fromSegment.point ).multiply(progress) );
+							segment.handleIn = 	fromSegment.handleIn.add( 	toSegment.handleIn.subtract( 	fromSegment.handleIn ).multiply(progress) );
+							segment.handleOut = fromSegment.handleOut.add( 	toSegment.handleOut.subtract( 	fromSegment.handleOut ).multiply(progress) );
+						}
+					});
 				});
-			});
+			}
 		}
 	});
 }
