@@ -291,22 +291,10 @@ Danimator.fadeOut = function(item, duration, options) {
 	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 0), duration, options);
 };
 
-function _shapeToPath(sourcePath, sourcePaths, key) {
-	if(sourcePath.className === 'Shape') {
-		var path = sourcePath.toPath(true);
-		sourcePath.remove();
-		if(sourcePaths) 
-			sourcePaths[key] = sourcePath = path;
-	}
-}
-
-/* morph between two shapes (use on shapes, paths or entire groups) */
+/* morph between two shapes (works for subitems too) */
 Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	var fromItems = [fromItem];
 	var toItems   = [toItem];
-
-	_shapeToPath(fromItem);
-	_shapeToPath(toItem);
 
 	var newItem   = fromItem.clone();
 	var newItems  = [newItem];
@@ -315,10 +303,6 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 		fromItems = fromItem.getItems({	class: paper.Path});
 		toItems   = toItem.getItems({ 	class: paper.Path});
 		newItems  = newItem.getItems({ 	class: paper.Path});
-
-		fromItems = _.union(fromItems, fromItem.getItems({class: paper.Shape }));
-		toItems   = _.union(toItems, toItem.getItems({class: 	 paper.Shape }));
-		newItems  = _.union(newItems, newItem.getItems({class: 	 paper.Shape }));
 	}
 
 	fromItem.visible = toItem.visible = false;
@@ -339,10 +323,6 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 				_.each(fromItems, function(fromPath, key) {
 					var toPath  = toItems[key];
 					var newPath = newItems[key];
-
-					_shapeToPath(fromPath, 	fromItems, 	key);
-					_shapeToPath(toPath, 	toItems, 	key);
-					_shapeToPath(newPath, 	newItems, 	key);
 
 					_.each(newPath.segments, function(segment, index) {
 						var fromSegment = fromPath.segments[index];
