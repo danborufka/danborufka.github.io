@@ -108,13 +108,6 @@ var _ANIMATABLE_DEFAULTS = {
 				}
 }
 var ANIMATABLE_PROPERTIES = {
-	Shape: 		_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY, {
-					radius: {
-						range: [0, Math.Infinity],
-						type: Number
-					},
-					size: _asGroup(_ANIMATABLE_SIZE)
-				}),
 	Path: 		_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY, {
 					growth: {
 						range: [0,1],
