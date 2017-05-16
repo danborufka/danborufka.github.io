@@ -666,6 +666,10 @@ jQuery(function($){
 
 			var data = new FormData();
 
+			_.each(event.originalEvent.dataTransfer.items, function(item){
+				console.log('item', item);
+			});
+
 	        _.each(event.originalEvent.dataTransfer.files, function(file, i) {
 	        	var type 	  = file.type.split('/');
 	        	var extension = _.last(file.name.split('.'));
@@ -679,13 +683,12 @@ jQuery(function($){
 	        	switch(type[0]) {
 	        		case 'text':
 	        			if(type[1] === 'javascript') {
-	        				console.log('script(s) on board.', extension);
+	        				console.log('script(s) on board.', extension, file);
 	        				reader.readAsBinaryString(file);
 	        			}
 	        			break;
 	        		case 'image':
 	        			if(type[1] === 'svg+xml') {
-
 	        				reader.readAsBinaryString(file);
 	        				console.log('vector(s) on board.', file);
 	        			} else {
