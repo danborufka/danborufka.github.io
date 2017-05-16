@@ -327,6 +327,8 @@ jQuery(function($){
 
 			var $allParents = $layer.parentsUntil('.main').andSelf().filter('.layer').toggleClass('selected', selected);
 
+			// TODO: scroll layers to pos
+
 			if(event.handpicked) {
 				$allParents.toggleClass('open', selected);
 			}
@@ -677,31 +679,25 @@ jQuery(function($){
 
 	        	reader.onload = function(event) {
 	        		currentGame.load(event.target.result);
+
+	        		switch(type[1]) {
+		        		case 'javascript':
+	        				console.log('script(s) on board.', extension, file);
+		        			break;
+		        		case 'svg+xml':
+		        			console.log('vector on board.');
+		        			break;
+		        		default:
+		        			console.error('not found!');
+		        	}
 	        		//currentGame.load({svg: event.target.result});
   				};
 
-	        	switch(type[0]) {
-	        		case 'text':
-	        			if(type[1] === 'javascript') {
-	        				console.log('script(s) on board.', extension, file);
-	        				reader.readAsBinaryString(file);
-	        			}
-	        			break;
-	        		case 'image':
-	        			if(type[1] === 'svg+xml') {
-	        				reader.readAsBinaryString(file);
-	        				console.log('vector(s) on board.', file);
-	        			} else {
-	        				console.log('image(s) on board.', type);
-	        			}
-	        			break;
-	        		case 'audio':
-	        			console.log('sound on board.');
-	        			break;
-	        		default:
-	        			alert(type.join('/') + ' is not supported (' + file.name + ')');
-	        			break;
-	        	}
+  				if(type[0] === 'text') {
+  					reader.readAsText(file);
+  				} else {
+  					reader.readAsBinaryString(file);
+  				}
 	            data.append('file_' + i, file);
 	        });
 			$('#dummy').removeClass('dropping'); 
