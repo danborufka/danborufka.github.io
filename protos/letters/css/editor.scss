@@ -18,19 +18,6 @@ html,body {
 							right: 					0;
 							bottom: 				0;
 							z-index: 				100000;
-	&.snappable-left 	{
-							border-left-color: 		$ami-snap-color;
-	}
-	&.snappable-top 	{
-							border-top-color: 		$ami-snap-color;
-	}
-	&.snappable-right 	{
-							border-right-color: 	$ami-snap-color;
-	}
-	&.snappable-bottom 	{
-							border-bottom-color: 	$ami-snap-color;
-	}
-
 	&.dropping 			{
 							border: 				3px dashed #FB4307;
 							display: 				block;

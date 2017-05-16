@@ -1,7 +1,6 @@
 // animation and game engine
 // TODOS:
 // • performance optimizations:
-// 		* only rerender separate tracks/layers/props when needed instead of full re-render
 // 		* minifying & concatenation of files
 // • add support for nested frame animations
 // • compress SVGs
@@ -49,7 +48,13 @@ paper.Item.inject({
 		children.reverse();
 		return children[0];
 	},
-	getState: function() {
+	getState: function(childname) {
+		if(childname) {
+			return this.getItem({
+				match: 		Danimator.matchBase(childname),
+				recursive: 	true
+			}).getState();
+		}
 		return this.data._state || 0;
 	},
 	setState: function(state, childname) {
@@ -79,11 +84,12 @@ paper.Item.inject({
 	getStates: function() {
 		var self = this;
 		if(!this.data._states) {
-			this.data._states = {};
+			this.data._states = [];
 			_.each(this.children, function(child) {
 				if(child.name.match(/^[#_][a-z0-9_-]+.*$/i)) {
 					var name = child.name.match(/^[#_](.*?)(\-\d+)?$/)[1];
 					self.data._states[name] = child;
+					self.data._states.push(child); // add numeric index, too
 					child.visible = false;
 				}
 			});
@@ -502,29 +508,76 @@ Game = function(project, name, options, onLoad) {
 
 	self.reset = function() {
 		self.dragging = false;
+	};
+
+	self._resolveFiles = function(files) {
+		var resolved = {};
+
+		switch(typeof files) {
+			case 'object':
+				if(_.isArray(files)) {
+					return _.merge.apply(_, _.map(files, self._resolveFiles));
+				}
+				return files;	
+			case 'string':
+				var extension = files.match(/\.([^\.]{2,5})$/g);
+				if(extension) {
+					resolved[extension[0].slice(1)] = files;
+					return resolved;
+				}
+				/* if SVG */
+				if(files.match(/^<svg.*>/g)) {
+					return { svg: files };
+				}
+		}
+		return false;
+	};
+
+	self.load = function(files) {
+		files = self._resolveFiles(files);
+		
+		if(files) {
+			if(files.svg) {
+				project.clear();
+				project.view.update();
+				project.importSVG(files.svg, {
+					expandShapes: 	true,
+					onLoad: 		function(item, svg) {
+										self.container 	= item;
+										self.scene 		= self.container.children;
+										self.DOM 		= $(svg);
+
+										_.each(project.symbolDefinitions, function(definition) {
+											if(definition.item.name)
+												self.symbols[definition.item.name] = definition;
+										});
+
+										if(self.scene.UI) {
+											_.each(self.scene.UI.children, function(ui) {
+												ui.visible = false;
+											});
+										}
+
+										self.resize({size: project.view.viewSize});
+										item.position = project.view.center;
+
+										if(onLoad) onLoad(self.scene, self.container, self);
+										if(Game.onLoad) Game.onLoad.call(self, project, name, options);
+									}
+				});
+			}
+			if(files.js) {
+				jQuery.ajax({
+			        url: files.js,
+			        dataType: 'script',
+			        success: function(){ console.log('success! arguments', arguments); },
+			        async: true
+			    });
+			}
+		}
 	}
 
-	project.importSVG(self.file, function(item) {
-		self.container 		= item;
-		self.scene 			= self.container.children;
-
-		_.each(project.symbolDefinitions, function(definition) {
-			if(definition.item.name)
-				self.symbols[definition.item.name] = definition;
-		});
-
-		if(self.scene.UI) {
-			_.each(self.scene.UI.children, function(ui) {
-				ui.visible = false;
-			});
-		}
-
-		self.resize({size: project.view.viewSize});
-		item.position = project.view.center;
-
-		if(onLoad) onLoad(self.scene, self.container, self);
-		if(Game.onLoad) Game.onLoad.call(self, project, name, options);
-	});
+	self.load(self.file);
 
 	return this;
 }

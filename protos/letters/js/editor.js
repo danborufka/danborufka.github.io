@@ -8,7 +8,6 @@
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o snap to segments: collect all snappables ;)
 // o snap keyframes to scrubber
-// o snappable panels (see #dummy element)
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
 // o (UI) dynamic scaling of animation panel's x-axis
@@ -679,6 +678,9 @@ jQuery(function($){
 	        	var reader = new FileReader();
 
 	        	reader.onload = function(event) {
+	        		if(type[1] === 'svg+xml') {
+	        			currentGame.load({svg: event.target.result});
+	        		}
     				console.log('result', event.target.result, event);
   				};
 
@@ -690,6 +692,7 @@ jQuery(function($){
 	        			break;
 	        		case 'image':
 	        			if(type[1] === 'svg+xml') {
+
 	        				reader.readAsBinaryString(file);
 	        				console.log('vector(s) on board.', file);
 	        			} else {
@@ -1234,22 +1237,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 		$panel
 			.draggable({ 
 				handle: 		'>label', 
-				containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()],
-				drag: function(event, ui) {
-
-					$borderDummy.prop('class', '');
-
-					if(ui.position.left < PANEL_TOLERANCE) {
-						$borderDummy.addClass('snappable-left');
-					} else if($panel.right() > $(window).width() - PANEL_TOLERANCE) {
-						$borderDummy.addClass('snappable-right');
-					} else if(ui.position.top < PANEL_TOLERANCE) {
-						$borderDummy.addClass('snappable-top');
-					} else if($panel.bottom() > $(window).height() - PANEL_TOLERANCE) {
-						$borderDummy.addClass('snappable-bottom');
-					}
-				},
-				stop: function() { $borderDummy.prop('class', ''); }
+				containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()]
 			})
 			.toggleClass('collapsed', collapsed == 'true');
 	});

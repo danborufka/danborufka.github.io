@@ -14,14 +14,6 @@ html, body {
   right: 0;
   bottom: 0;
   z-index: 100000; }
-  #dummy.snappable-left {
-    border-left-color: #349DC2; }
-  #dummy.snappable-top {
-    border-top-color: #349DC2; }
-  #dummy.snappable-right {
-    border-right-color: #349DC2; }
-  #dummy.snappable-bottom {
-    border-bottom-color: #349DC2; }
   #dummy.dropping {
     border: 3px dashed #FB4307;
     display: block; }
