@@ -391,7 +391,6 @@ Danimator.load = function(aniName) {
 
 	$.getJSON(filename, null, function(json, status) {
 		if(status === 'success') {
-			console.log('json', json);
 			_.each(json, function(track, id) {
 				if(!isNaN(Number(id))) id = Number(id);
 				track.item = GAME.find(id);
@@ -526,9 +525,13 @@ Game = function(project, name, options, onLoad) {
 					return resolved;
 				}
 				/* if SVG */
-				if(files.match(/^<svg.*>/g)) {
+				if(files.match(/<svg.*>/g)) {
 					return { svg: files };
 				}
+				if(files.match(/\n/g)) {
+					return { js: files };
+				}
+			default:
 		}
 		return false;
 	};
@@ -561,12 +564,19 @@ Game = function(project, name, options, onLoad) {
 										self.resize({size: project.view.viewSize});
 										item.position = project.view.center;
 
-										if(onLoad) onLoad(self.scene, self.container, self);
-										if(Game.onLoad) Game.onLoad.call(self, project, name, options);
+										try {
+											if(onLoad) onLoad(self.scene, self.container, self);
+											if(Game.onLoad) Game.onLoad.call(self, project, name, options);
+											console.log('%c SVG loaded ', 'background-color:#444; color:#CCC', files.svg);
+										} catch(e) {
+											console.error('Game could not be properly initialized. %c ' + e + ' ', 'background-color:red; color: #fff;');
+										}
 									}
 				});
 			}
+
 			if(files.js) {
+				console.log('files.js', files.js);
 				jQuery.ajax({
 			        url: files.js,
 			        dataType: 'script',

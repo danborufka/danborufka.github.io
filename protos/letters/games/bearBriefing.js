@@ -2,8 +2,6 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 	function onGameStart(scene, container, game) {
 		var bear = scene.agentBear;
 
-		console.log('bear', bear);
-
 		bear.frame = 1;
 		bear.setState('normal', 'eyes');
 		bear.setState('normal', 'snout');

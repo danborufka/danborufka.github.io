@@ -15,8 +15,18 @@ html, body {
   bottom: 0;
   z-index: 100000; }
   #dummy.dropping {
-    border: 3px dashed #FB4307;
-    display: block; }
+    border: 1px solid #FB4307;
+    display: block;
+    padding: 15px;
+    padding-bottom: 20px; }
+    #dummy.dropping:before {
+      border: 3px dashed #FB4307;
+      border-radius: 10px;
+      content: "";
+      display: block;
+      background-color: rgba(251, 67, 7, 0.2);
+      height: 100%;
+      width: 100%; }
 
 #dropzone input {
   background-color: #FB4307;

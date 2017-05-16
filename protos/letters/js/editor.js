@@ -674,20 +674,20 @@ jQuery(function($){
 			var data = new FormData();
 
 	        _.each(event.originalEvent.dataTransfer.files, function(file, i) {
-	        	var type = file.type.split('/');
-	        	var reader = new FileReader();
+	        	var type 	  = file.type.split('/');
+	        	var extension = _.last(file.name.split('.'));
+	        	var reader 	  = new FileReader();
 
 	        	reader.onload = function(event) {
-	        		if(type[1] === 'svg+xml') {
-	        			currentGame.load({svg: event.target.result});
-	        		}
-    				console.log('result', event.target.result, event);
+	        		currentGame.load(event.target.result);
+	        		//currentGame.load({svg: event.target.result});
   				};
 
 	        	switch(type[0]) {
 	        		case 'text':
 	        			if(type[1] === 'javascript') {
-	        				console.log('script(s) on board.');
+	        				console.log('script(s) on board.', extension);
+	        				reader.readAsBinaryString(file);
 	        			}
 	        			break;
 	        		case 'image':
@@ -703,7 +703,7 @@ jQuery(function($){
 	        			console.log('sound on board.');
 	        			break;
 	        		default:
-	        			alert(type[0] + '/' + type[1] + ' is not supported (' + file.name + ')');
+	        			alert(type.join('/') + ' is not supported (' + file.name + ')');
 	        			break;
 	        	}
 	            data.append('file_' + i, file);
