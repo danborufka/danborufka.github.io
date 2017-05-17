@@ -215,15 +215,14 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			startTime: 	(new Date).getTime() - Danimator.startTime,
 		};
 
-	var propertyTrack 	= _.get(track.properties, property, []);
+	var propertyTrack 	= _.get(track.properties, property, {});
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
-	/* rewrite of keyPairs to single keys
-	*/
 	var keyIn = {
 		time: 		options.delay,
 		value: 		fr,
 		caller: 	caller,
+		duration: 	duration,
 		initValue: 	_.get(item, property),
 		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
 		options: 	options
@@ -236,22 +235,8 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		options: 	options
 	};
 
-	var key = {
-		from: 		fr,
-		to: 		to,
-		initValue: 	_.get(item, property),
-		duration: 	duration || 1,
-		options: 	options,
-		caller: 	caller,
-		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
-	};
-
-	var duplicate = _.find(propertyTrack, {options: { delay: options.delay }});
-	// make sure start of ani isn't existing already
-	if(duplicate) {
-		_.pull(propertyTrack, duplicate);
-	}
-	propertyTrack.push(key);
+	propertyTrack[keyIn.time] 	= keyIn;
+	propertyTrack[keyOut.time]  = keyOut;
 
 	/* calc max duration on track-level */
 	track.maxDuration   = Math.max(track.maxDuration || 0, options.delay + (duration || 1));
@@ -836,13 +821,11 @@ function _createTracks() {
 	_.each(tracks, function(track) {
 		if(track) {
 
-			var properties = _.mapValues(track.properties, _.partial(_.sortBy, _, 'options.delay'));
-
 			var $keys = $(keyItemTmpl({
 					maxDuration: 	_.round(track.maxDuration, 2),
 					name: 			track.item.name,
 					type: 			track.item.className,
-					properties: 	properties,
+					properties: 	track.properties,
 					TIME_FACTOR: 	TIME_FACTOR,
 					getTrigger: 	function(range) { 
 						switch(range.caller) {
