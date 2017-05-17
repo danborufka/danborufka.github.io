@@ -198,6 +198,69 @@ $.fn.bottom = function(y) {
 	return $this.offset().top + $this.height();
 }
 
+function iteratableMap(map) {
+	var self = this;
+
+	self.done 	 = false;
+	self.map 	 = map;
+	self.keys 	 = _.keys(map);
+	self.indexed = [];
+
+	self.index 	 = 0;
+	self.key 	 = self.keys[0];
+	self.length  = self.keys.length;
+	self.ubound  = self.length - 1;
+
+	_.each(self.keys, function(key, index) {
+		self.indexed.push(map[key]);
+		self[index] = { 
+			index: 	 index,
+			key: 	 key,
+			prev: 	 function() {
+				self.index = index;
+				self.key = key;
+				return self.prev();
+			},
+			next: 	 function() {
+				self.index = index;
+				self.key = key;
+				return self.next();
+			},
+			isFirst: function() {
+				return this.index == 0;
+			},
+			isLast: function() {
+				return this.index === self.ubound;
+			},
+			value: map[key]
+		};
+	});
+
+	self.get = function(offset) {
+		if(offset === undefined) offset = 0;
+		return self.indexed[self.index + offset];
+	};
+	self.first = function() {
+		return self.indexed[0];
+	};
+	self.last = function() {
+		return self.indexed[self.ubound];
+	};
+	self.prev = function() {
+		self.index = Math.max(self.index - 1, 0);
+		self.key = self.keys[self.index];
+		self.done = false;
+		return self.get();
+	};
+	self.next = function() {
+		self.index = (self.index + 1) % self.length;
+		self.key = self.keys[self.index];
+		if(self.index === self.ubound) self.done = true;
+		return self.get();
+	};
+	return self;
+}
+
 /* override animate method to add animations to animation stack for keyframes panel */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 
@@ -770,18 +833,21 @@ function _getStartStyle(property, tracks, key, type) {
 		return 'background:#' + color;
 	} //else console.error('No config found for', property, property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'), ANIMATABLE_PROPERTIES[type]);
 }
-function _getRangeStyle(property, tracks, key, type) {
+function _getRangeStyle(property, keyframe, type) {
 	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
 
 	if(propertyConfig) {
-
-		var currentKey 	= tracks[key];
-		var lastKey 	= tracks[key-1];
-		var to 			= currentKey.to;
+		//console.log('keyframe', keyframe);
+		var currentKey  = keyframe.value;
+		var lastKey 	= keyframe.prev();
+		var nextKey 	= keyframe.next();
+		var to 			= currentKey.value;
 		var begin;
 		var end;
 
-		if(key === 0) {
+		var size = keyframe.isLast() ? 'right: 0;' : 'width:' + (nextKey.time - currentKey.time) * TIME_FACTOR + 'px;';
+
+		if(keyframe.isFirst()) {
 			currentKey.from = currentKey.initValue;
 		} else {
 			currentKey.from = _.isNil(currentKey.from) ? lastKey.to : currentKey.from;
@@ -796,8 +862,9 @@ function _getRangeStyle(property, tracks, key, type) {
 		}
 
 		if(begin && end) {
-			return 'background:linear-gradient(90deg,#' + begin + ',#' + end + ')';
+			return size + 'background:linear-gradient(90deg,#' + begin + ',#' + end + ')';
 		}
+		return size;
 	}
 }
 function _getEndStyle(property, track, type) {
