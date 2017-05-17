@@ -3,6 +3,7 @@
 // o drag'n'drop files onto body to load for editing
 // o #properties panel: single keyframes / merged keyframes(?) – or userInput 4 duration :D
 // ø #properties panel: change animation keyframes from there
+// ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  change animation keyframes timing from there (dragging of keys)
 // o save panel positions persistently
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
@@ -14,13 +15,12 @@
 
 var KEYFRAME_STRUC = {
 	time: 2,
-	
+
 };
 
 var tracks   		= {};
 var events 			= {};
 
-var QUERY;
 var currentGame;
 
 var TIME_FACTOR 	= 10;
@@ -35,7 +35,7 @@ var selectionId;
 var $time;
 var $animationValue;
 
-var playing 		= false;
+var _playing 		= false;
 var _frameDragging 	= false;
 
 var _anchorViz;
@@ -575,9 +575,9 @@ jQuery(function($){
 				switch(event.key) {
 					/* play/pause on spacebar */
 					case ' ':
-						playing = !playing;
+						_playing = !_playing;
 
-						if(playing) {
+						if(_playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
 								if(currentGame.time >= Danimator.maxDuration) {
@@ -1139,8 +1139,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 				selectedItem.position = selectedItem.position.add(event.delta);
 
 				if(selectedItem.pivot) {
-					//_changeProp('pivot.x', selectedItem.pivot.x);
-					//_changeProp('pivot.y', selectedItem.pivot.y);
+					_changeProp('pivot.x', selectedItem.pivot.x);
+					_changeProp('pivot.y', selectedItem.pivot.y);
 					_anchorViz.position = selectedItem.pivot;
 				} else {
 					_anchorViz.position = selectedItem.bounds.center;

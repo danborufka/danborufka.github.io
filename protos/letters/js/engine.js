@@ -6,8 +6,6 @@
 // • compress SVGs
 
 var animations   	= [];
-var events 			= {};
-var QUERY;
 
 /* add frame capability to paperjs Items */
 paper.Item.inject({
