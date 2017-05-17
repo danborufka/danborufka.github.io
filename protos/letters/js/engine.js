@@ -480,13 +480,10 @@ Game = function(project, name, options, onLoad) {
 	self.options 		= options || {};
 	self.symbols 		= [];
 
-	self.resize = function(event) {
-		if(self.container)
-			self.container.position = project.view.center;
-	};
+	self.resize = function(event) {};
 
 	self.reset = function() {
-		self.dragging = false;
+		this.dragging = false;
 	};
 
 	self._resolveFiles = function(files) {
@@ -528,7 +525,9 @@ Game = function(project, name, options, onLoad) {
 					onLoad: 		function(item, svg) {
 										self.container 	= item;
 										self.scene 		= self.container.children;
-										self.DOM 		= $(svg);
+										try {
+											self.DOM = $(svg);
+										} catch(e) {}
 
 										_.each(project.symbolDefinitions, function(definition) {
 											if(definition.item.name)

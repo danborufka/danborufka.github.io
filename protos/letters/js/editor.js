@@ -12,6 +12,11 @@
 // o node module for server-side saving & loading of JSON
 // o (UI) dynamic scaling of animation panel's x-axis
 
+var KEYFRAME_STRUC = {
+	time: 2,
+	
+};
+
 var tracks   		= {};
 var events 			= {};
 
