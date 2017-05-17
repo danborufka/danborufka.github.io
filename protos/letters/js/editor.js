@@ -13,11 +13,6 @@
 // o node module for server-side saving & loading of JSON
 // o (UI) dynamic scaling of animation panel's x-axis
 
-var KEYFRAME_STRUC = {
-	time: 2,
-
-};
-
 var tracks   		= {};
 var events 			= {};
 
@@ -223,7 +218,25 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	var propertyTrack 	= _.get(track.properties, property, []);
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
-	var keys = {
+	/* rewrite of keyPairs to single keys
+	*/
+	var keyIn = {
+		time: 		options.delay,
+		value: 		fr,
+		caller: 	caller,
+		initValue: 	_.get(item, property),
+		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
+		options: 	options
+	};
+
+	var keyOut = {
+		time: 		keyIn.time + duration,
+		value: 		to,
+		name: 		keyIn.name,
+		options: 	options
+	};
+
+	var key = {
 		from: 		fr,
 		to: 		to,
 		initValue: 	_.get(item, property),
@@ -234,12 +247,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 
 	var duplicate = _.find(propertyTrack, {options: { delay: options.delay }});
-
 	// make sure start of ani isn't existing already
 	if(duplicate) {
 		_.pull(propertyTrack, duplicate);
 	}
-	propertyTrack.push(keys);
+	propertyTrack.push(key);
 
 	/* calc max duration on track-level */
 	track.maxDuration   = Math.max(track.maxDuration || 0, options.delay + (duration || 1));
