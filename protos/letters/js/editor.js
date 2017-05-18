@@ -218,24 +218,6 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	var propertyTrack 	= _.get(track.properties, property, []);
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
-	/* rewrite of keyPairs to single keys
-	*/
-	var keyIn = {
-		time: 		options.delay,
-		value: 		fr,
-		caller: 	caller,
-		initValue: 	_.get(item, property),
-		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
-		options: 	options
-	};
-
-	var keyOut = {
-		time: 		keyIn.time + duration,
-		value: 		to,
-		name: 		keyIn.name,
-		options: 	options
-	};
-
 	var key = {
 		from: 		fr,
 		to: 		to,
