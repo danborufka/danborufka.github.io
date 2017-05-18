@@ -7,6 +7,103 @@
 
 var animations   	= [];
 
+/* class for easier iteration over maps */
+function IteratableMap(map) {
+	var self = this;
+
+	self.done 	 = false;
+	self.map 	 = map || {};
+	self.keys 	 = [];
+	self.indexed = [];
+	self.index 	 = 0;
+	self.length  = 0;
+
+	self._makeIteratable = function(index, key, value) {
+		return { 
+				index: 	 index,
+				key: 	 key,
+				prev: 	 function() {
+					self.index = index;
+					self.key = key;
+					return self.prev();
+				},
+				next: 	 function() {
+					self.index = index;
+					self.key = key;
+					return self.next();
+				},
+				isFirst: function() {
+					return this.index == 0;
+				},
+				isLast: function() {
+					return this.index === self.ubound;
+				},
+				value: value
+			};
+	};
+
+	self.init = function() {
+		self.keys 	 = _.keys(self.map);
+		self.indexed = [];
+		self.key 	 = self.keys[0];
+		self.length  = self.keys.length;
+		self.ubound  = self.length - 1;
+
+		_.each(self.keys, function(key, index) {
+			self.indexed.push(self.map[key]);
+			self[index] = self._makeIteratable(index, key, self.map[key]);
+		});
+		return self;
+	};
+
+	self.get = function(offset) {
+		if(offset === undefined) offset = 0;
+		return self.indexed[self.index + offset];
+	};
+	self.set = function(key, value) {
+		self.map[key] = value;
+		return self.init();
+	};
+	self.push = function(value) {
+		var index = self.length++;
+		self.map[index] = value;
+
+		console.log('index', index, self.map);
+
+		return self.init();
+		self.keys.push(index);
+		self.indexed.push(value);
+		self[index] = self._makeIteratable(index, index, value);
+		return self;
+	};
+	self.pull = function(value) {
+		_.pull(self, value);
+	}
+
+	self.first = function() {
+		return self.indexed[0];
+	};
+	self.last = function() {
+		return self.indexed[self.ubound];
+	};
+	self.prev = function() {
+		self.index = Math.max(self.index - 1, 0);
+		self.key = self.keys[self.index];
+		self.done = false;
+		return self.get();
+	};
+	self.next = function() {
+		self.index = (self.index + 1) % self.length;
+		self.key = self.keys[self.index];
+		if(self.index === self.ubound) self.done = true;
+		return self.get();
+	};
+
+	if(map) self.init();
+
+	return self;
+}
+
 /* add frame capability to paperjs Items */
 paper.Item.inject({
 	getFrame: function() {
@@ -109,11 +206,17 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 			_.each(item.data._animate, function(animatable) {
 				if(animatable) {
-					var t = ((new Date).getTime() - (animatable.startTime || 0)) / (animatable.duration * 1000);
-					var animation = Danimator.step(animatable, t);
-					var range 	  = Math.abs(animatable.to - animatable.from);
 
-					if(animation.done) {
+					var keyframe 	 = animatable.value;
+					var nextKeyframe = animatable.next();
+
+					var t = (new Date).getTime() / (nextKeyframe.time * 1000);
+					var animation = Danimator.step(keyframe, t);
+					var range 	  = Math.abs(nextKeyframe.value - keyframe.value);
+
+					console.log('t', t, 'animation', animation, 'range', range);
+
+					if(keyframe.done) {
 						_.pull(item.data._animate, animatable);
 
 						if(!item.data._animate.length) {
@@ -154,11 +257,33 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	/* setTimeout to cover delay parameter */
 	var aniTimeout = animations[item.id] = setTimeout(function() {
 		if(!item.data._animate) {
-			item.data._animate = [];
+			item.data._animate = new IteratableMap;
 			item.on('frame', _animateFrame);
 		}
 
 		var ease = (property === 'frame' ? null : 'cubicOut');
+
+		var key = {
+			item: 		item,
+			property: 	property || 'opacity',
+			initValue: 	_.get(item, property),
+			options: 	options
+		};
+
+		var keyIn = _.extend({
+			index: 		item.data._animate.length,
+			time: 		options.delay || 0,
+			value: 		fr
+			
+		}, key);
+
+		var keyOut = _.extend({
+			index: 		keyIn.index + 1,
+			time: 		keyIn.time + duration,
+			value: 		to
+		}, key);
+
+		/*
 		var animatable = {
 			item: 		item,
 			property: 	property || 'opacity',
@@ -168,9 +293,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			startTime: 	(new Date).getTime(),
 			options: 	_.defaults(options, { delay: 0, easing: ease })
 		};
+		*/
 
-		if(fr !== null) _.set(item, animatable.property, fr);
-		item.data._animate.push(animatable);
+		if(fr !== null) _.set(item, property, fr);
+		item.data._animate.push(keyIn);
+		item.data._animate.push(keyOut);
 
 	}, ((options && options.delay) || 0) * 1000);
 

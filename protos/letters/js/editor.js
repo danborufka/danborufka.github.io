@@ -13,12 +13,12 @@
 // o node module for server-side saving & loading of JSON
 // o (UI) dynamic scaling of animation panel's x-axis
 
-var tracks   		= {};
-var events 			= {};
+var tracks = {};
+var events = {};
 
 var currentGame;
 
-var TIME_FACTOR 	= 10;
+var TIME_FACTOR = 10;
 
 var layerTemplate;
 var keyItemTemplate;
@@ -198,69 +198,6 @@ $.fn.bottom = function(y) {
 	return $this.offset().top + $this.height();
 }
 
-function iteratableMap(map) {
-	var self = this;
-
-	self.done 	 = false;
-	self.map 	 = map;
-	self.keys 	 = _.keys(map);
-	self.indexed = [];
-
-	self.index 	 = 0;
-	self.key 	 = self.keys[0];
-	self.length  = self.keys.length;
-	self.ubound  = self.length - 1;
-
-	_.each(self.keys, function(key, index) {
-		self.indexed.push(map[key]);
-		self[index] = { 
-			index: 	 index,
-			key: 	 key,
-			prev: 	 function() {
-				self.index = index;
-				self.key = key;
-				return self.prev();
-			},
-			next: 	 function() {
-				self.index = index;
-				self.key = key;
-				return self.next();
-			},
-			isFirst: function() {
-				return this.index == 0;
-			},
-			isLast: function() {
-				return this.index === self.ubound;
-			},
-			value: map[key]
-		};
-	});
-
-	self.get = function(offset) {
-		if(offset === undefined) offset = 0;
-		return self.indexed[self.index + offset];
-	};
-	self.first = function() {
-		return self.indexed[0];
-	};
-	self.last = function() {
-		return self.indexed[self.ubound];
-	};
-	self.prev = function() {
-		self.index = Math.max(self.index - 1, 0);
-		self.key = self.keys[self.index];
-		self.done = false;
-		return self.get();
-	};
-	self.next = function() {
-		self.index = (self.index + 1) % self.length;
-		self.key = self.keys[self.index];
-		if(self.index === self.ubound) self.done = true;
-		return self.get();
-	};
-	return self;
-}
-
 /* override animate method to add animations to animation stack for keyframes panel */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 
@@ -282,6 +219,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
 	var keyIn = {
+		index: 		_.size(propertyTrack),
 		time: 		options.delay,
 		value: 		fr,
 		caller: 	caller,
@@ -292,8 +230,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 
 	var keyOut = {
+		index: 		_.size(propertyTrack)+1,
 		time: 		keyIn.time + duration,
 		value: 		to,
+		caller: 	caller,
+		initValue: 	_.get(item, property),
 		name: 		keyIn.name,
 		options: 	options
 	};
@@ -1081,29 +1022,19 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 			var allTracks = tracks[data.id].properties[property];
 
-			console.log('allTracks', allTracks);
-
-			/* retrieve all tracks before current time and sort them chronologically */
-			currentTracks = _.sortBy(_.filter(allTracks, function(track) {
-				return track.time <= (time + _.get(track.options, 'frameDuration', 1/24));
-			}), 'time');
-
-			_.each(currentTracks, function(track, id) {
-				if(_.inRange(time, track.time, track.time + _.get(track.options, 'frameDuration', 1/24))) {
+			_.each(allTracks, function(track) {
+				if(Math.abs(time - track.time) < .05) {
 					currentTrack = track;
-					currentTrack.id = id;
 					return false;
 				}
 			});
 
-			var $track  	= $scrubber.closest('.track');
-			var hasActives 	= false;
+			var $track = $scrubber.closest('.track');
 			$track.find('.keyframe').removeClass('active');
 
 			/* highlight the keyframe that corresponds to the current time */
 			if(currentTrack) {
 				$track.find('.keyframe').eq( currentTrack.id ).addClass('active');
-				hasActives = true;
 			} else {
 				currentTrack = _.maxBy(allTracks, 'time');
 			}
@@ -1111,16 +1042,14 @@ Game.onLoad = function(project, name, options, scene, container) {
 			/* update current track in animation panel and property in properties panel */
 			if(currentTrack) {
 				var startTime 	= currentTrack.time;
-				var endTime 	= _.get(tracks[currentTrack.id+1], 'time', Danimator.maxDuration);
+				var endTime 	= _.get(allTracks[currentTrack.id+1], 'time', Danimator.maxDuration);
 				var t 			= Math.max((time - startTime) / (endTime - startTime), 0);
 
-				currentTrack.item 		= tracks[data.id].item;
-				currentTrack.property 	= property;
+				currentTrack.item 		= animatable.item;
+				currentTrack.property 	= animatable.property;
 				
-				if(hasActives) {
-					if(data.id === selectionId) {
-						$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
-					}
+				if(data.id === selectionId) {
+					$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
 				}
 
 				var ani = Danimator.step(currentTrack, t);
