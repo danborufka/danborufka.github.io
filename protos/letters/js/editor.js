@@ -298,8 +298,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		options: 	options
 	};
 
-	propertyTrack[keyIn.time] 	= keyIn;
-	propertyTrack[keyOut.time]  = keyOut;
+	propertyTrack[keyIn.time] = keyIn;
+
+	if(keyIn.time != keyOut.time) {
+		propertyTrack[keyOut.time] = keyOut;
+	}
 
 	/* calc max duration on track-level */
 	track.maxDuration   = Math.max(track.maxDuration || 0, options.delay + (duration || 1));
@@ -473,10 +476,10 @@ jQuery(function($){
 					if(event.shiftKey) {
 						var property = $this.closest('li.timeline').data('property');
 						var id 		 = $this.closest('li.item').data('id');
-						var myTracks = tracks[id].properties[property].slice(0);
+						var myTracks = _.clone(tracks[id].properties[property]);
 
 						var snapKeys = _.flatMap(myTracks, function(track) {
-							return [_getStartTime(track), _getEndTime(track)];
+							return [track.time, _getEndTime(track)];
 						});
 						snapKeys.push(0);
 						snapKeys.push(Danimator.maxDuration);
@@ -512,7 +515,8 @@ jQuery(function($){
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
 
-			Danimator(item, prop, value, value, -1, { delay: currentGame.time });
+			//DanimatorAnimate(item, property, fr, to, duration, options)
+			Danimator(item, prop, value, value, 0, { delay: currentGame.time });
 		})
 		.on('click', '#keyframes .animate-btn', function(event) {
 			var item = currentGame.find(selectionId);
@@ -576,13 +580,13 @@ jQuery(function($){
 			if(data.track) {
 				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
 				console.log('we have to switch');
-				if(currentGame.time === _getStartTime(currentTrack)) {
+				if(currentGame.time === currentTrack.time) {
 					//.properties[data.track.property][data.track.id].from = value;
-					_.set(tracks[selectionId], 'properties.' + prop + '.' + data.track.id + '.from', value);
-					console.log('currentTrack', 'properties.' + prop + '.' + data.track.id + '.from', currentTrack);
+					_.set(tracks[selectionId], 'properties.' + prop + '.' + data.track.id + '.value', value);
+					console.log('currentTrack', 'properties.' + prop + '.' + data.track.id + '.value', currentTrack);
 				} else {
 					console.log('to', currentTrack.to, '=>', value);
-					currentTrack.to = value;
+					//currentTrack.to = value;
 				}
 				_createTracks();
 			}
@@ -808,31 +812,9 @@ function _createLayers(layers, $layers) {
 }
 
 /* UI helpers for keyframes panel */
-function _getStartTime(track) 	{ return track.options.delay; 					}
-function _getEndTime(track) 	{ return _getStartTime(track) + track.duration; }
+function _getEndTime(track) 	{ return track.time + track.duration; }
 
 /* colorisation & gradient styles for timeline tracks in keyframes panel */
-function _getStartStyle(property, tracks, key, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
-
-	if(propertyConfig) {
-		var currentTrack = tracks[key];
-		var value;
-
-		if(_.isEqual(propertyConfig.range, [0,1])) {					// if min/max of prop between 0 and 1
-			if(key === 0) {
-			 	value = currentTrack.initValue;
-			} else {
-				value = _.get(currentTrack, 'from', tracks[key-1].to);
-			}
-			var color = _.repeat(parseInt(value * 15).toString(16), 3);	// show property as black/white gradient
-		} else if(_.last(property.split('.')) === 'hue') {				// show hue as colored gradient
-			color = new paper.Color({hue: value, saturation: 1, lightness: .5}).toCSS(true).slice(1);
-		}
-
-		return 'background:#' + color;
-	} //else console.error('No config found for', property, property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'), ANIMATABLE_PROPERTIES[type]);
-}
 function _getRangeStyle(property, keyframe, type) {
 	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
 
@@ -848,16 +830,16 @@ function _getRangeStyle(property, keyframe, type) {
 		var size = keyframe.isLast() ? 'right: 0;' : 'width:' + (nextKey.time - currentKey.time) * TIME_FACTOR + 'px;';
 
 		if(keyframe.isFirst()) {
-			currentKey.from = currentKey.initValue;
+			currentKey.value = currentKey.initValue;
 		} else {
-			currentKey.from = _.isNil(currentKey.from) ? lastKey.to : currentKey.from;
+			currentKey.value = _.isNil(currentKey.value) ? lastKey.to : currentKey.value;
 		}
 
 		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
-			begin = _.repeat(parseInt(currentKey.from * 15).toString(16), 3);
+			begin = _.repeat(parseInt(currentKey.value * 15).toString(16), 3);
 			end   = _.repeat(parseInt(to * 15).toString(16), 3);
 		} else if(_.last(property.split('.')) === 'hue') {
-			begin = new paper.Color({hue: currentKey.from, saturation: 1, lightness: .5}).toCSS(true).slice(1);
+			begin = new paper.Color({hue: currentKey.value, saturation: 1, lightness: .5}).toCSS(true).slice(1);
 			end   = new paper.Color({hue: to, 			   saturation: 1, lightness: .5}).toCSS(true).slice(1);
 		}
 
@@ -865,18 +847,6 @@ function _getRangeStyle(property, keyframe, type) {
 			return size + 'background:linear-gradient(90deg,#' + begin + ',#' + end + ')';
 		}
 		return size;
-	}
-}
-function _getEndStyle(property, track, type) {
-	var propertyConfig = _.get(ANIMATABLE_PROPERTIES[type], property.replace(/(\.\d+)?\.([^\.]+)$/, '.content.$2'));
-
-	if(propertyConfig) {
-		if(propertyConfig.range && _.isEqual(propertyConfig.range, [0,1])) {
-			var color = _.repeat(parseInt(track.to * 15).toString(16), 3);
-		} else if(_.last(property.split('.')) === 'hue') {
-			var color = new paper.Color({hue: track.to, saturation: 1, lightness: .5}).toCSS(true).slice(1);
-		}
-		return 'background:#' + color;
 	}
 }
 
@@ -939,12 +909,12 @@ function _createTracks() {
 						$nextRange.css({left: x});	// position "range" right after keyframe
 
 						if(index % 2) {	// every other keyframe ends a "range"
-							currentKey.duration = t - _getStartTime(currentKey);
+							currentKey.duration = t - currentKey.time;
 
-							$prevRange.width(x+1-_getStartTime(currentKey) * TIME_FACTOR);
+							$prevRange.width(x+1 - currentKey.time * TIME_FACTOR);
 
 							if(currentTrack[trackIndex+1]) {
-								$nextRange.width((_getStartTime(currentTrack[trackIndex+1]) - t) * TIME_FACTOR);
+								$nextRange.width((currentTrack[trackIndex+1].time - t) * TIME_FACTOR);
 							}
 						} else {
 							currentKey.duration += (currentKey.options.delay - t);
@@ -986,6 +956,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 			/* highlighting of animated/triggered properties */
 			var property 	  = path + name;
 			var propertyTrack = tracks[item.id] && _.get(tracks[item.id].properties, property);
+
 
 			if(propertyTrack) {
 				keyed += ' animated';
@@ -1110,13 +1081,15 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 			var allTracks = tracks[data.id].properties[property];
 
+			console.log('allTracks', allTracks);
+
 			/* retrieve all tracks before current time and sort them chronologically */
 			currentTracks = _.sortBy(_.filter(allTracks, function(track) {
-				return track.options.delay <= time + _.get(track.options, 'frameDuration', 1/24);
-			}), 'options.delay');
+				return track.time <= (time + _.get(track.options, 'frameDuration', 1/24));
+			}), 'time');
 
 			_.each(currentTracks, function(track, id) {
-				if(_.inRange(time, _getStartTime(track), _getEndTime(track) + _.get(track.options, 'frameDuration', 1/24))) {
+				if(_.inRange(time, track.time, track.time + _.get(track.options, 'frameDuration', 1/24))) {
 					currentTrack = track;
 					currentTrack.id = id;
 					return false;
@@ -1129,24 +1102,16 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 			/* highlight the keyframe that corresponds to the current time */
 			if(currentTrack) {
-				var isFirstFrame = (time - _getStartTime(currentTrack)) <= 0.05;
-				var isLastFrame  = (_getEndTime(currentTrack) - time)   <= 0;
-
-				if(isFirstFrame) {
-					$track.find('.keyframe').eq( currentTrack.id * 2 ).addClass('active');
-				} else if(isLastFrame) {
-					$track.find('.keyframe').eq( currentTrack.id * 2 + 1).addClass('active');
-				}
-
-				hasActives = isFirstFrame || isLastFrame;
+				$track.find('.keyframe').eq( currentTrack.id ).addClass('active');
+				hasActives = true;
 			} else {
-				currentTrack = _.maxBy(allTracks, 'options.delay');
+				currentTrack = _.maxBy(allTracks, 'time');
 			}
 
 			/* update current track in animation panel and property in properties panel */
 			if(currentTrack) {
-				var startTime 	= _getStartTime(currentTrack);
-				var endTime 	= _getEndTime(currentTrack);
+				var startTime 	= currentTrack.time;
+				var endTime 	= _.get(tracks[currentTrack.id+1], 'time', Danimator.maxDuration);
 				var t 			= Math.max((time - startTime) / (endTime - startTime), 0);
 
 				currentTrack.item 		= tracks[data.id].item;

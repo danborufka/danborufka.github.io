@@ -55,13 +55,11 @@
 						<label><%= property %></label>
 						<div class="track">
 						<% keyframes = new iteratableMap(keyframes); %>
-							<div class="range" rel="prev" style="left:0; <%= _getRangeStyle(property, keyframes[0], type) %>;"></div>
+							<div class="range" rel="prev" style="left:0; <%= _getRangeStyle(property, keyframes[0], type) %>"></div>
 							<%
 								_.each(keyframes, function(keyframe, index) { 
 									currentKey  = keyframe.value;
 									lastKey 	= keyframe.prev().value;
-
-									console.log({keyframe, currentKey, lastKey, index});
 							%>
 								<div class="keyframe<%= getTrigger(currentKey) %>" data-time="<%= currentKey.time %>" title="<%= currentKey.from || _.get(lastKey, 'to', currentKey.initValue) %>" style="left:<%= currentKey.time * TIME_FACTOR %>px;"></div>
 								<div class="range" rel="<%= keyframe.isLast() ? 'last' : 'tween' %>" style="left:<%= currentKey.time * TIME_FACTOR %>px; <%= _getRangeStyle(property, keyframe, type) %>" title="<%= currentKey.name %> triggered by <%= currentKey.caller %>"></div>
