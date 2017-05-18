@@ -217,6 +217,15 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	var propertyTrack 	= _.get(track.properties, property, {});
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
+	var key = {
+		from: 		fr,
+		to: 		to,
+		initValue: 	_.get(item, property),
+		duration: 	duration || 1,
+		options: 	options,
+		caller: 	caller,
+		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
+	};
 
 	var keyIn = {
 		index: 		_.size(propertyTrack),
