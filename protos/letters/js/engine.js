@@ -22,6 +22,7 @@ function IteratableMap(map) {
 		return { 
 				index: 	 index,
 				key: 	 key,
+				parent:  self,
 				prev: 	 function() {
 					self.index = index;
 					self.key = key;
@@ -204,16 +205,15 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 			_.each(item.data._animate, function(animatable) {
 				if(animatable) {
-
 					var keyframe 	 = animatable.value;
 					var nextKeyframe = animatable.next() || { time: keyframe.time };
 					var t = ((new Date).getTime() - keyframe.startTime) / (nextKeyframe.time * 1000);
 
+					console.log('time', (new Date).getTime() - keyframe.startTime, keyframe.time);
 
-					var animation = Danimator.step(keyframe, t);
+					var animation = Danimator.step(animatable, t);
 					var range 	  = Math.abs(nextKeyframe.value - keyframe.value);
 
-					//console.log('nextKey', nextKeyframe, t);//, //item.data._animate.done);
 					console.log('t', t, 'animation', animation);
 
 					if(keyframe.done) {
@@ -256,9 +256,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	/* setTimeout to cover delay parameter */
 	var aniTimeout = animations[item.id] = setTimeout(function() {
+		var _needsHandler = false;
+
 		if(!item.data._animate) {
 			item.data._animate = new IteratableMap;
-			item.on('frame', _animateFrame);
+			_needsHandler = true;
 		}
 
 		var ease = (property === 'frame' ? null : 'cubicOut');
@@ -288,6 +290,8 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		if(fr !== null) _.set(item, property, fr);
 		item.data._animate.push(keyIn);
 		item.data._animate.push(keyOut);
+
+		if(_needsHandler) item.on('frame', _animateFrame);
 
 	}, ((options && options.delay) || 0) * 1000);
 
@@ -337,28 +341,34 @@ Danimator.matchBase = function(base) {
 /* TODO: rewrite entirely to use KF instead of ranges */
 /* calculate single step of animation */
 Danimator.step = function(animatable, progress) {
-	var value = _.get(animatable.item, animatable.property);
+	var keyframe 	 = animatable.value;
+	var nextKeyframe = animatable.next() || animatable.value;
 
-	if(animatable.from == undefined) 		animatable.from = value;
-	if(typeof animatable.to === 'string') 	animatable.to 	= animatable.from + Number(animatable.to);
+	var value = _.get(keyframe.item, keyframe.property);
 
-	var ascending = animatable.to > animatable.from;
-	var range 	  = animatable.to - animatable.from;
+	console.log('progress', progress);
+
+	if(keyframe.value == undefined) 			keyframe.value 		= value;
+	if(typeof nextKeyframe.value === 'string') 	nextKeyframe.value 	= keyframe.value + Number(nextKeyframe.value);
+
+	var ascending = nextKeyframe.value > keyframe.value;
+	var range 	  = nextKeyframe.value - keyframe.value;
+	var newValue  = nextKeyframe.value;
 	var isDone 	  = ascending ? 
-					value >= animatable.to : 
-					value <= animatable.to;
+					value >= nextKeyframe.value : 
+					value <= nextKeyframe.value;
 
 	if(Danimator.interactive) {
 		isDone = false;
 	}
 
 	if(isDone) {
-		if(animatable.property === 'frame')
-			animatable.item.data._playing = false;
+		if(keyframe.property === 'frame')
+			keyframe.item.data._playing = false;
 	} else {
-		if(animatable.options.easing) {
+		if(keyframe.options.easing) {
 			try {
-				var easing = (typeof animatable.options.easing === 'string' ? Ease[animatable.options.easing] : animatable.options.easing);
+				var easing = (typeof keyframe.options.easing === 'string' ? Ease[keyframe.options.easing] : keyframe.options.easing);
 				if(easing) {
 					progress = easing(progress);
 				}
@@ -367,19 +377,19 @@ Danimator.step = function(animatable, progress) {
 			}
 		}
 		
-		var newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
+		newValue = Danimator.limit(keyframe.value + (range * progress), keyframe.value, nextKeyframe.value);
 
-		if(animatable.options.onStep) {
-			newValue = animatable.options.onStep(newValue, progress, animatable);
+		if(keyframe.options.onStep) {
+			newValue = keyframe.options.onStep(newValue, progress, keyframe);
 		}
 
 		//console.log('stepping thru…');
-		_.set(animatable.item, animatable.property, newValue);
+		_.set(keyframe.item, keyframe.property, newValue);
 
 		paper.project.view.requestUpdate();
 	}
 
-	if(Danimator.onStep) Danimator.onStep(animatable, newValue);
+	if(Danimator.onStep) Danimator.onStep(keyframe, newValue);
 
 	return {
 		done: 	isDone,
