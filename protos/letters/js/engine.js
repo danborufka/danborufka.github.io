@@ -65,16 +65,9 @@ function IteratableMap(map) {
 		return self.init();
 	};
 	self.push = function(value) {
-		var index = self.length++;
+		var index = self.length+1;
 		self.map[index] = value;
-
-		console.log('index', index, self.map);
-
 		return self.init();
-		self.keys.push(index);
-		self.indexed.push(value);
-		self[index] = self._makeIteratable(index, index, value);
-		return self;
 	};
 	self.pull = function(value) {
 		_.pull(self, value);
@@ -93,7 +86,12 @@ function IteratableMap(map) {
 		return self.get();
 	};
 	self.next = function() {
-		self.index = (self.index + 1) % self.length;
+		if(self.index + 1 >= self.length) {
+			self.done = true;
+			return false;
+		}
+
+		self.index++;
 		self.key = self.keys[self.index];
 		if(self.index === self.ubound) self.done = true;
 		return self.get();
@@ -208,13 +206,15 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 				if(animatable) {
 
 					var keyframe 	 = animatable.value;
-					var nextKeyframe = animatable.next();
+					var nextKeyframe = animatable.next() || { time: keyframe.time };
+					var t = ((new Date).getTime() - keyframe.startTime) / (nextKeyframe.time * 1000);
 
-					var t = (new Date).getTime() / (nextKeyframe.time * 1000);
+
 					var animation = Danimator.step(keyframe, t);
 					var range 	  = Math.abs(nextKeyframe.value - keyframe.value);
 
-					console.log('t', t, 'animation', animation, 'range', range);
+					//console.log('nextKey', nextKeyframe, t);//, //item.data._animate.done);
+					console.log('t', t, 'animation', animation);
 
 					if(keyframe.done) {
 						_.pull(item.data._animate, animatable);
@@ -267,11 +267,12 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			item: 		item,
 			property: 	property || 'opacity',
 			initValue: 	_.get(item, property),
-			options: 	options
+			options: 	_.defaults(options, { delay: 0, easing: ease })
 		};
 
 		var keyIn = _.extend({
 			index: 		item.data._animate.length,
+			startTime: 	(new Date).getTime(),
 			time: 		options.delay || 0,
 			value: 		fr
 			
@@ -279,21 +280,10 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 		var keyOut = _.extend({
 			index: 		keyIn.index + 1,
+			startTime: 	keyIn.startTime + duration,
 			time: 		keyIn.time + duration,
 			value: 		to
 		}, key);
-
-		/*
-		var animatable = {
-			item: 		item,
-			property: 	property || 'opacity',
-			duration: 	duration || 1,
-			from: 		fr,
-			to: 		to !== undefined ? to : 1,
-			startTime: 	(new Date).getTime(),
-			options: 	_.defaults(options, { delay: 0, easing: ease })
-		};
-		*/
 
 		if(fr !== null) _.set(item, property, fr);
 		item.data._animate.push(keyIn);
@@ -344,6 +334,7 @@ Danimator.matchBase = function(base) {
 	};
 }
 
+/* TODO: rewrite entirely to use KF instead of ranges */
 /* calculate single step of animation */
 Danimator.step = function(animatable, progress) {
 	var value = _.get(animatable.item, animatable.property);
