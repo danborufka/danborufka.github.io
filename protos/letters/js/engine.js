@@ -12,6 +12,7 @@ function IteratableMap(map) {
 	var self = this;
 
 	self.done 	 = false;
+	self.sort 	 = false;
 	self.map 	 = map || {};
 	self.keys 	 = [];
 	self.indexed = [];
@@ -50,6 +51,12 @@ function IteratableMap(map) {
 		self.length  = self.keys.length;
 		self.ubound  = self.length - 1;
 
+		var order = _.range(self.ubound);
+
+		if(self.sort) {
+			console.log('order', order, _.zip(self.keys, order));
+		}
+
 		_.each(self.keys, function(key, index) {
 			self.indexed.push(self.map[key]);
 			self[index] = self._makeIteratable(index, key, self.map[key]);
@@ -70,8 +77,9 @@ function IteratableMap(map) {
 		self.map[index] = value;
 		return self.init();
 	};
-	self.pull = function(value) {
-		_.pull(self, value);
+	self.pull = function(key) {
+		delete self.map[key];
+		return self.init();
 	}
 
 	self.first = function() {
@@ -205,19 +213,23 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 			_.each(item.data._animate, function(animatable) {
 				if(animatable) {
+					var animation 	 = { done: true };
 					var keyframe 	 = animatable.value;
 					var nextKeyframe = animatable.next() || { time: keyframe.time };
-					var t = ((new Date).getTime() - keyframe.startTime) / (nextKeyframe.time * 1000);
+					var range 	  	 = Math.abs(nextKeyframe.value - keyframe.value);
+					var duration 	 = (nextKeyframe.time - keyframe.time);
+					var time 		 = ((new Date).getTime() - _.get(keyframe, 'startTime', Danimator.startTime)) / 1000;
+					var t 			 = time / duration;
 
-					console.log('time', (new Date).getTime() - keyframe.startTime, keyframe.time);
+					console.log('time', time, 'vs', keyframe.time, 'and', nextKeyframe.time, 'dur', duration);
 
-					var animation = Danimator.step(animatable, t);
-					var range 	  = Math.abs(nextKeyframe.value - keyframe.value);
+					if(duration) {
+						animation = Danimator.step(animatable, t);
+					}
 
-					console.log('t', t, 'animation', animation);
-
-					if(keyframe.done) {
-						_.pull(item.data._animate, animatable);
+					if(animation.done) {
+						// TODO: actually pull!
+						//_.pull(item.data._animate, animatable);
 
 						if(!item.data._animate.length) {
 							item.off('frame', _animateFrame);
@@ -228,7 +240,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 							if(typeof animatable.options.onDone === 'string') {
 								if(animatable.property === 'frame') {
 									animatable.item.data._playing = true;
-									animatable.options.delay = animatable.to === 1 ? 0 : animatable.duration / range;
+									animatable.options.delay = nextKeyframe.value === 1 ? 0 : duration / range;
 								} 
 
 								switch(animatable.options.onDone) {
