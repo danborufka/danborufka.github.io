@@ -211,7 +211,8 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		function _animateFrame(event) {
 			var item = this;
 
-			_.each(item.data._animate, function(animatable) {
+			/* walk thru all keyframes but the last one */
+			_.each(item.data._animate.slice(0, -1), function(animatable, index) {
 				if(animatable) {
 					var animation 	 = { done: true };
 					var keyframe 	 = animatable.value;
@@ -219,44 +220,43 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 					var range 	  	 = Math.abs(nextKeyframe.value - keyframe.value);
 					var duration 	 = (nextKeyframe.time - keyframe.time);
 					var time 		 = ((new Date).getTime() - _.get(keyframe, 'startTime', Danimator.startTime)) / 1000;
-					var t 			 = time / duration;
 
-					console.log('time', time, 'vs', keyframe.time, 'and', nextKeyframe.time, 'dur', duration);
 
+					console.log('time', time, 'for', index, duration ? duration : 'garbage');
 					if(duration) {
-						animation = Danimator.step(animatable, t);
+						animation = Danimator.step(animatable, time / duration);
 					}
 
 					if(animation.done) {
 						// TODO: actually pull!
-						//_.pull(item.data._animate, animatable);
+						keyframe.item.data._animate.pull(index);
 
 						if(!item.data._animate.length) {
 							item.off('frame', _animateFrame);
 							delete item.data._animate;
 						}
 
-						if(animatable.options.onDone) { 
-							if(typeof animatable.options.onDone === 'string') {
-								if(animatable.property === 'frame') {
-									animatable.item.data._playing = true;
-									animatable.options.delay = nextKeyframe.value === 1 ? 0 : duration / range;
+						if(keyframe.options.onDone) { 
+							if(typeof keyframe.options.onDone === 'string') {
+								if(keyframe.property === 'frame') {
+									keyframe.item.data._playing = true;
+									keyframe.options.delay = (nextKeyframe.value === 1 ? 0 : duration / range);
 								} 
 
-								switch(animatable.options.onDone) {
+								switch(keyframe.options.onDone) {
 									case 'reverse':
-										delete animatable.options.onDone;
+										delete keyframe.options.onDone;
 									case 'pingpong':
-										var xfer = _.clone(animatable.to);
-										animatable.to = _.clone(animatable.from);
-										animatable.from = xfer;
+										var xfer = _.clone(nextKeyframe.value);
+										nextKeyframe.value = _.clone(keyframe.value);
+										keyframe.value = xfer;
 									default: // loop
-										if(!animatable.item.data._loops) animatable.item.data._loops = 0;
-										if(animatable.options.onLoop) animatable.options.onLoop(animatable, animatable.item.data._loops++ );
-										return Danimator.animate(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
+										if(!keyframe.item.data._loops) keyframe.item.data._loops = 0;
+										if(keyframe.options.onLoop) keyframe.options.onLoop(keyframe, keyframe.item.data._loops++ );
+										return Danimator.animate(keyframe.item, keyframe.property, keyframe.value, nextKeyframe.value, duration, keyframe.options);
 								}
 							} else {
-								animatable.options.onDone && animatable.options.onDone(animatable);
+								keyframe.options.onDone && keyframe.options.onDone(keyframe);
 							}
 
 						}
