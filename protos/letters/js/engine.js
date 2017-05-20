@@ -221,7 +221,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			if(item.data._animate)
 				_.each(item.data._animate, function(animatable) {
 					if(animatable && !animatable.isLast()) {
-						var animation;
+						var animation 	 = { done: true };
 						
 						var keyframe 	 = animatable.value;
 						var nextKeyframe = animatable.next() || { time: keyframe.time };
@@ -231,18 +231,17 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 						var time 		 = ((new Date).getTime() - _.get(keyframe, 'startTime', Danimator.startTime)) / 1000;
 						var step 		 = time / duration;
 
-						if(duration && _.inRange(step, 0, 1)) {
+						if(duration) {
+							if(!_.inRange(step, 0, 1)) {
+								step = Danimator.limit(step, 0, 1);
+							}
 							animation = Danimator.step(animatable, step);
-						} else {
-							animation = { done: true };
 						}
 
-						console.log('done', animation.done);
+						console.log('step', step, 'ani', animation);
 
 						if(animation.done) {
-							// TODO: actually pull!
 							keyframe.item.data._animate.pull(keyframe.time).reset();
-							console.log('_animate', keyframe.item.data._animate);
 
 							if(!item.data._animate.length) {
 								item.off('frame', _animateFrame);
@@ -387,6 +386,8 @@ Danimator.step = function(animatable, progress) {
 		isDone = false;
 	}
 
+	console.log('stepping thru…', value, 'vs', newValue, 'done', isDone);
+
 	if(isDone) {
 		if(keyframe.property === 'frame')
 			keyframe.item.data._playing = false;
@@ -407,8 +408,7 @@ Danimator.step = function(animatable, progress) {
 		if(keyframe.options.onStep) {
 			newValue = keyframe.options.onStep(newValue, progress, keyframe);
 		}
-
-		//console.log('stepping thru…');
+		
 		_.set(keyframe.item, keyframe.property, newValue);
 
 		paper.project.view.requestUpdate();
