@@ -6,7 +6,6 @@
 // ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o snap to segments: collect all snappables ;)
 // o snap keyframes to scrubber
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
@@ -27,6 +26,8 @@ var selectionId;
 
 var $time;
 var $animationValue;
+
+var snapKeyframes 	= new Snappables(.4);
 
 var _playing 		= false;
 var _frameDragging 	= false;
@@ -145,6 +146,7 @@ function _changeProp(prop, value) {
 		$input.val(value);
 	}
 }
+
 function _getAnimationName(item, property, type) {
 
 	var fx = type && type.match(/^Danimator(.*)$/);
@@ -194,6 +196,35 @@ $.fn.bottom = function(y) {
 	var $this = $(this);
 	if(y) return $this.offset({ top: y - $this.height() });
 	return $this.offset().top + $this.height();
+}
+
+function Snappables(tolerance) {
+	var self = this;
+	
+	self.list 		= [];
+	self.tolerance 	= tolerance;
+
+	self.add = function(snap) {
+		if(!_.isArray(snap)) snap = [snap];
+		self.list = _.union(self.list, snap);
+		return self;
+	};
+	self.remove = function(snap) {
+		self.list = _.pull(self.list, snap);
+		return self;
+	};
+	self.snap = function(value) {
+		var result = value;
+		self.list = self.list.sort();
+		_.each(self.list, function(item) {
+			if(Math.abs(item - value) < self.tolerance) {
+				result = item;
+				return false;
+			}
+		});
+		return result;
+	};
+	return self;
 }
 
 /* override animate method to add animations to animation stack for keyframes panel */
@@ -406,23 +437,10 @@ jQuery(function($){
 					var $this = $(event.currentTarget);
 					var x = event.clientX - $this.offset().left - 1;
 					var t = x / TIME_FACTOR;
-/*
-					if(event.shiftKey) {
-						var property = $this.closest('li.timeline').data('property');
-						var id 		 = $this.closest('li.item').data('id');
-						var myTracks = tracks[id].properties[property].slice(0);
 
-						var snapKeys = _.flatMap(myTracks, function(track) {
-							return [_getStartTime(track), _getEndTime(track)];
-						});
-						snapKeys.push(0);
-						snapKeys.push(Danimator.maxDuration);
-						
-						t = _.reduce(snapKeys, function(prev, curr) {
-							return Math.abs(curr - t) < Math.abs(prev - t) ? curr : prev;
-						});
+					if(event.shiftKey) {
+						t = snapKeyframes.snap(t);
 					}
-*/
 					currentGame && currentGame.setTime(t, $this);
 				}
 		})
@@ -653,7 +671,11 @@ jQuery(function($){
 				var delta = { x: event.originalEvent.deltaX, y: event.originalEvent.deltaY };
 
 				if(Math.abs(delta.x) > 0.1) {
-					currentGame.setTime(currentGame.time + delta.x * 1/24);
+					var time = currentGame.time + delta.x * 1/24;
+					if(event.shiftKey) {
+						time = snapKeyframes.snap(time);
+					}
+					currentGame.setTime(time);
 				}
 
 				event.preventDefault();
@@ -847,6 +869,8 @@ function _createTracks() {
 				var $lastRange = $this.prev('.range');
 				var $nextRange = $this.next('.range');
 
+				snapKeyframes.add( $this.data('time') );
+
 				$this.draggable({ 
 					//containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
 					cursor: 'pointer',
@@ -869,6 +893,9 @@ function _createTracks() {
 
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
+
+						console.log('t', t);
+						console.log('t2', snapKeyframes.snap(t));
 
 						$nextRange.css({left: x});	// position "range" right after keyframe
 
