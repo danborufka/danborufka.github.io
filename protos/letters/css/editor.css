@@ -173,6 +173,11 @@ canvas[resize] {
         color: red;
         display: inline;
         font-size: 21px; }
+    .panel#keyframes .zoom {
+      float: right;
+      width: 50px;
+      margin-right: 10px;
+      margin-top: 1px; }
     .panel#keyframes.hasSelection
     .animate-btn {
       display: block;

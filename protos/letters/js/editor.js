@@ -10,7 +10,6 @@
 // o snap keyframes to scrubber
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
-// o (UI) dynamic scaling of animation panel's x-axis
 
 var tracks   		= {};
 var events 			= {};
@@ -380,6 +379,11 @@ jQuery(function($){
 			event.preventDefault();
 			event.stopPropagation();
 			event.stopImmediatePropagation();
+		})
+		.on('input', '.zoom', function(event) {
+			var zoom = Danimator.limit($(this).val(), 1, 100)/100;
+			TIME_FACTOR = 20 * zoom;
+			_createTracks();
 		})
 		/* timeline handling */
 		.on('mousedown', '.timeline .track', function(event) {
