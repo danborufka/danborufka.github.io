@@ -403,7 +403,7 @@ jQuery(function($){
 					var $this = $(event.currentTarget);
 					var x = event.clientX - $this.offset().left - 1;
 					var t = x / TIME_FACTOR;
-
+/*
 					if(event.shiftKey) {
 						var property = $this.closest('li.timeline').data('property');
 						var id 		 = $this.closest('li.item').data('id');
@@ -419,6 +419,7 @@ jQuery(function($){
 							return Math.abs(curr - t) < Math.abs(prev - t) ? curr : prev;
 						});
 					}
+*/
 					currentGame && currentGame.setTime(t, $this);
 				}
 		})
@@ -846,7 +847,7 @@ function _createTracks() {
 				var $nextRange = $this.next('.range');
 
 				$this.draggable({ 
-					containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
+					//containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
 					cursor: 'pointer',
 					start: 	function() { _frameDragging = true; },
 					stop: 	function() { 

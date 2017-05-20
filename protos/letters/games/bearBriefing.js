@@ -7,7 +7,7 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		bear.setState('normal', 'snout');
 
 		/* animate agent Bearinger */
-		//if(false)
+		if(false)
 		Danimator.play(bear,  {	
 			fps: 	Danimator.interactive ? 1 : 6,
 			onDone: 'pingpong',
