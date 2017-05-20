@@ -256,6 +256,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		options: 	options,
 		caller: 	caller,
 		name: 		_getAnimationName(item, property, Danimator.caller && Danimator.caller.name),
+		id: 		propertyTrack.length
 	};
 
 	var duplicate = _.find(propertyTrack, {options: { delay: options.delay }});
@@ -532,11 +533,19 @@ jQuery(function($){
 
 			if(data.track) {
 				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
-				console.log('we have to switch');
+				//console.log('we have to switch', tracks[selectionId].properties[prop], currentTrack);
+
 				if(currentGame.time === _getStartTime(currentTrack)) {
+
+					if($this.prop('type') === 'number') {
+						value = Number(value);
+					}
+
 					//.properties[data.track.property][data.track.id].from = value;
-					_.set(tracks[selectionId], 'properties.' + prop + '.' + data.track.id + '.from', value);
-					console.log('currentTrack', 'properties.' + prop + '.' + data.track.id + '.from', currentTrack);
+					currentTrack.from = value;
+					console.log('currentTrack', 'from', currentTrack.from, value);
+					//_.set(tracks[selectionId], 'properties[' + prop + '][' + data.tr + '].from', value);
+					console.log(currentTrack);
 				} else {
 					console.log('to', currentTrack.to, '=>', value);
 					currentTrack.to = value;
