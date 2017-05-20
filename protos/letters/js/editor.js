@@ -1,12 +1,13 @@
 // animation editor engine
 // TODOS:
-// o load files properly "onBodyDrop"
+// o load files properly on "bodyDrop"
 // o #properties panel: refactor from ranges (keyframe pairs) to single keyframes
 // ø #properties panel: change animation keyframes from there
 // ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o snap keyframes to scrubber
+// o audio panel: tie sound timing to global game time
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
 

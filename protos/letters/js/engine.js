@@ -2,12 +2,13 @@
 // TODOS:
 // • performance optimizations:
 // 		* minifying & concatenation of files
+// • test morphs + chaining
 // • add support for nested frame animations
 // • compress SVGs
 
 var animations   	= [];
 
-/* add frame capability to paperjs Items */
+/* frame animation capability for paperjs Items */
 paper.Item.inject({
 	getFrame: function() {
 		if(!this.data._frame) {

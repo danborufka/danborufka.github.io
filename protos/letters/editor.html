@@ -57,18 +57,20 @@
 							<% _.each(ranges, function(keyframe, key) { 
 									lastRange = _.last(ranges);
 									lastKey   = ranges[key-1];
+									activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
+									activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
 							%>
 								<div class="range" rel="prev" style="left:<%= _.get(lastKey, 'options.delay', 0) * TIME_FACTOR + _.get(lastKey, 'duration', 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, type) %>;"></div>
 
-								<div class="keyframe<%= getTrigger(keyframe) %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= keyframe.options.delay * TIME_FACTOR %>px;"></div>
+								<div class="keyframe<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= keyframe.options.delay * TIME_FACTOR %>px;"></div>
 								<div class="range" rel="tween" style="left:<%= keyframe.options.delay * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, type) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
 								<% if(keyframe.duration > 0) { %>
-									<div class="keyframe<%= getTrigger(keyframe) %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= (keyframe.options.delay + keyframe.duration) * TIME_FACTOR %>px;"></div>
+									<div class="keyframe<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= (keyframe.options.delay + keyframe.duration) * TIME_FACTOR %>px;"></div>
 								<% } %>
 							<% }); %>
 
 							<div class="range" rel="last" style="left:<%= (lastRange.options.delay + lastRange.duration) * TIME_FACTOR %>px; right: 0; <%= _getEndStyle(property, lastRange, type) %>;"></div>
-							<div class="scrubber" style="left:0px"></div>
+							<div class="scrubber" style="left:<%= currentGame.time * TIME_FACTOR %>px"></div>
 							<label class="time" style="left:<%= maxDuration * TIME_FACTOR %>px"><%= maxDuration %></label>
 						</div>
 					</li>
