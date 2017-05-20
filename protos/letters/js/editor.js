@@ -273,7 +273,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	track.properties[property] = propertyTrack;
 	tracks[item.id] = track;
-	
+
 	_.debounce(_createTracks, 1000)();
 
 	/* return handles for easier chaining of animations */
@@ -508,7 +508,9 @@ jQuery(function($){
 				value = _['to' + _.capitalize(data.type)](value);
 			}
 
-			console.log('changing', this);
+			if($this.prop('type') === 'number') {
+				value = Number(value);
+			}
 
 			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
 				new Undoable(function() {
@@ -533,21 +535,13 @@ jQuery(function($){
 
 			if(data.track) {
 				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
-				//console.log('we have to switch', tracks[selectionId].properties[prop], currentTrack);
 
 				if(currentGame.time === _getStartTime(currentTrack)) {
-
-					if($this.prop('type') === 'number') {
-						value = Number(value);
-					}
-
-					//.properties[data.track.property][data.track.id].from = value;
 					currentTrack.from = value;
-					console.log('currentTrack', 'from', currentTrack.from, value);
-					//_.set(tracks[selectionId], 'properties[' + prop + '][' + data.tr + '].from', value);
-					console.log(currentTrack);
+					if(data.track.id === 0) {
+						currentTrack.initValue = value;
+					}
 				} else {
-					console.log('to', currentTrack.to, '=>', value);
 					currentTrack.to = value;
 				}
 				_createTracks();
@@ -812,6 +806,8 @@ function _getRangeStyle(property, tracks, key, type) {
 		var begin;
 		var end;
 
+		console.log('track11', currentKey.from);
+
 		if(key === 0) {
 			currentKey.from = currentKey.initValue;
 		} else {
@@ -851,7 +847,6 @@ function _createTracks() {
 
 	_.each(tracks, function(track) {
 		if(track) {
-
 			var properties = _.mapValues(track.properties, _.partial(_.sortBy, _, 'options.delay'));
 
 			var $keys = $(keyItemTmpl({
@@ -903,9 +898,6 @@ function _createTracks() {
 
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
-
-						console.log('t', t);
-						console.log('t2', snapKeyframes.snap(t));
 
 						$nextRange.css({left: x});	// position "range" right after keyframe
 
@@ -1133,7 +1125,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 				currentTrack.item 		= tracks[data.id].item;
 				currentTrack.property 	= property;
-				
+
 				if(hasActives) {
 					if(data.id === selectionId) {
 						$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
