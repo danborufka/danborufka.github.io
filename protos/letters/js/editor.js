@@ -1,11 +1,10 @@
 // animation editor engine
 // TODOS:
-// o drag'n'drop files onto body to load for editing
-// o #properties panel: single keyframes / merged keyframes(?) – or userInput 4 duration :D
+// o load files properly "onBodyDrop"
+// o #properties panel: refactor from ranges (keyframe pairs) to single keyframes
 // ø #properties panel: change animation keyframes from there
 // ø #properties panel: fix positional props like pivot
-// o #keyframes panel:  change animation keyframes timing from there (dragging of keys)
-// o save panel positions persistently
+// o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o snap to segments: collect all snappables ;)
 // o snap keyframes to scrubber
@@ -716,8 +715,6 @@ jQuery(function($){
 	audioTemplate 	 = $('template#audio-panel-item')[0].content.children[0].outerHTML;
 	$time 			 = $('#keyframes .description time');
 	$animationValue  = $('#keyframes .description output');
-
-	$('body').addClass('ready');
 });
 
 /* create layers (UI) for layer panel */
@@ -1229,10 +1226,20 @@ Game.onLoad = function(project, name, options, scene, container) {
 		$panel
 			.draggable({ 
 				handle: 		'>label', 
-				containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()]
+				containment: 	[0, 0, $(window).width() - $panel.width(), $(window).height() - $panel.height()],
+				stop: 			function() {
+					localStorage.setItem('editor-panels-' + $panel[0].id + '-pos', JSON.stringify($panel.offset()));
+				}
 			})
 			.toggleClass('collapsed', collapsed == 'true');
+
+		var pos = localStorage.getItem('editor-panels-' + $panel[0].id + '-pos');
+		if(pos = pos && JSON.parse(pos)) {
+			$panel.css(pos);
+		}
 	});
+
+	$('body').addClass('ready');
 
 	return this;
 }
