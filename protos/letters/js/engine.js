@@ -63,6 +63,12 @@ function IteratableMap(map) {
 		});
 		return self;
 	};
+	self.reset = function() {
+		self.index = 0;
+		self.done = false;
+		self.key = self.keys[0];
+		return self;
+	}
 
 	self.get = function(offset) {
 		if(offset === undefined) offset = 0;
@@ -212,58 +218,63 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			var item = this;
 
 			/* walk thru all keyframes but the last one */
-			_.each(item.data._animate.slice(0, -1), function(animatable, index) {
-				if(animatable) {
-					var animation 	 = { done: true };
-					var keyframe 	 = animatable.value;
-					var nextKeyframe = animatable.next() || { time: keyframe.time };
-					var range 	  	 = Math.abs(nextKeyframe.value - keyframe.value);
-					var duration 	 = (nextKeyframe.time - keyframe.time);
-					var time 		 = ((new Date).getTime() - _.get(keyframe, 'startTime', Danimator.startTime)) / 1000;
+			if(item.data._animate)
+				_.each(item.data._animate, function(animatable) {
+					if(animatable && !animatable.isLast()) {
+						var animation 	 = { done: true };
+						
+						var keyframe 	 = animatable.value;
+						var nextKeyframe = animatable.next() || { time: keyframe.time };
 
+						var range 	  	 = Math.abs(nextKeyframe.value - keyframe.value);
+						var duration 	 = (nextKeyframe.time - keyframe.time);
+						var time 		 = ((new Date).getTime() - _.get(keyframe, 'startTime', Danimator.startTime)) / 1000;
+						var step 		 = time / duration;
 
-					console.log('time', time, 'for', index, duration ? duration : 'garbage');
-					if(duration) {
-						animation = Danimator.step(animatable, time / duration);
-					}
-
-					if(animation.done) {
-						// TODO: actually pull!
-						keyframe.item.data._animate.pull(index);
-
-						if(!item.data._animate.length) {
-							item.off('frame', _animateFrame);
-							delete item.data._animate;
+						if(duration && _.inRange(step, 0, 1)) {
+							animation = Danimator.step(animatable, step);
 						}
 
-						if(keyframe.options.onDone) { 
-							if(typeof keyframe.options.onDone === 'string') {
-								if(keyframe.property === 'frame') {
-									keyframe.item.data._playing = true;
-									keyframe.options.delay = (nextKeyframe.value === 1 ? 0 : duration / range);
-								} 
+						console.log('each', animation.done);
 
-								switch(keyframe.options.onDone) {
-									case 'reverse':
-										delete keyframe.options.onDone;
-									case 'pingpong':
-										var xfer = _.clone(nextKeyframe.value);
-										nextKeyframe.value = _.clone(keyframe.value);
-										keyframe.value = xfer;
-									default: // loop
-										if(!keyframe.item.data._loops) keyframe.item.data._loops = 0;
-										if(keyframe.options.onLoop) keyframe.options.onLoop(keyframe, keyframe.item.data._loops++ );
-										return Danimator.animate(keyframe.item, keyframe.property, keyframe.value, nextKeyframe.value, duration, keyframe.options);
-								}
-							} else {
-								keyframe.options.onDone && keyframe.options.onDone(keyframe);
+						if(animation.done) {
+							// TODO: actually pull!
+							keyframe.item.data._animate.pull(keyframe.time).reset();
+							console.log('_animate', keyframe.item.data._animate);
+
+							if(!item.data._animate.length) {
+								item.off('frame', _animateFrame);
+								delete item.data._animate;
 							}
 
+							if(keyframe.options.onDone) { 
+								if(typeof keyframe.options.onDone === 'string') {
+									if(keyframe.property === 'frame') {
+										keyframe.item.data._playing = true;
+										keyframe.options.delay = (nextKeyframe.value === 1 ? 0 : duration / range);
+									} 
+
+									switch(keyframe.options.onDone) {
+										case 'reverse':
+											delete keyframe.options.onDone;
+										case 'pingpong':
+											var xfer = _.clone(nextKeyframe.value);
+											nextKeyframe.value = _.clone(keyframe.value);
+											keyframe.value = xfer;
+										default: // loop
+											if(!keyframe.item.data._loops) keyframe.item.data._loops = 0;
+											if(keyframe.options.onLoop) keyframe.options.onLoop(keyframe, keyframe.item.data._loops++ );
+											return Danimator.animate(keyframe.item, keyframe.property, keyframe.value, nextKeyframe.value, duration, keyframe.options);
+									}
+								} else {
+									keyframe.options.onDone && keyframe.options.onDone(keyframe);
+								}
+
+							}
 						}
 					}
-				}
-			})
-		}
+				})
+			}
 	}
 
 	/* setTimeout to cover delay parameter */
@@ -300,8 +311,8 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		}, key);
 
 		if(fr !== null) _.set(item, property, fr);
-		item.data._animate.push(keyIn);
-		item.data._animate.push(keyOut);
+		item.data._animate.set(keyIn.time, keyIn);
+		item.data._animate.set(keyOut.time, keyOut);
 
 		if(_needsHandler) item.on('frame', _animateFrame);
 
