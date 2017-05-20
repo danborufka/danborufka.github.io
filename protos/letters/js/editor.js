@@ -930,7 +930,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 	_.each(properties, function(prop, name) {
 		if(name !== 'type') {
 			var step 	  = 1;
-			var keyed  	  = '';
+			var keyed  	  = [];
 
 			/* calc step for numeric inputs */
 			switch(name) {
@@ -950,9 +950,20 @@ function _createProperties(properties, $props, item, subitem, path) {
 			var propertyTrack = tracks[item.id] && _.get(tracks[item.id].properties, property);
 
 			if(propertyTrack) {
-				keyed += ' animated';
+				keyed.push('animated');
+
+				var isKey = _.find(propertyTrack, {options: { delay: currentGame.time }});
+
+				if(!isKey) {
+					isKey = _.some(propertyTrack, function(track) {
+						return _getEndTime(track) === currentGame.time;
+					});
+				}
+				
+				if(isKey) keyed.push('keyed');
+
 				if(_.reject(propertyTrack, { caller: 'root' }).length) {
-					keyed += ' triggered';
+					keyed.push('triggered');
 				}
 			}
 

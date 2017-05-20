@@ -90,7 +90,7 @@
 	</div>
 
 	<template id="property-panel-item">
-		<li class="prop<%= keyed %>">
+		<li class="prop <%= keyed.join(' ') %>">
 			<label><%= name %>
 				<% if(name.match(/color$/gi)) { %>
 					<input type="color" data-prop="<%= path %><%= name %>" value="<%= (new paper.Color(value)).toCSS(true) %>">
@@ -124,7 +124,7 @@
 			
 				default: 
 			%>
-				<input type="number" data-prop="<%= path %><%= name %>" value="<%= value %>" min="<%= range[0] %>" max="<%= range[1] %>" step="<%= step %>" title="<%= keyed.split(' ').join(' and ') %>">
+				<input type="number" data-prop="<%= path %><%= name %>" value="<%= value %>" min="<%= range[0] %>" max="<%= range[1] %>" step="<%= step %>" title="<%= keyed.join(' and ') %>">
 			<% 		break;
 			} %>
 		</li>
