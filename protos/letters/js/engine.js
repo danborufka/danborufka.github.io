@@ -221,7 +221,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			if(item.data._animate)
 				_.each(item.data._animate, function(animatable) {
 					if(animatable && !animatable.isLast()) {
-						var animation 	 = { done: true };
+						var animation;
 						
 						var keyframe 	 = animatable.value;
 						var nextKeyframe = animatable.next() || { time: keyframe.time };
@@ -233,9 +233,11 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 						if(duration && _.inRange(step, 0, 1)) {
 							animation = Danimator.step(animatable, step);
+						} else {
+							animation = { done: true };
 						}
 
-						console.log('each', animation.done);
+						console.log('done', animation.done);
 
 						if(animation.done) {
 							// TODO: actually pull!
@@ -512,6 +514,7 @@ Danimator.stopAll = function(item) {
 		clearTimeout(ani);
 		delete animations[id];
 	});
+	Danimator.stop(item);
 	delete item.data._animate;
 };
 

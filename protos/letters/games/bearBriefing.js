@@ -10,7 +10,7 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		//if(false)
 		Danimator.play(bear,  {	
 			fps: 	Danimator.interactive ? 1 : 6,
-			onDone: 'pingpong',
+			//onDone: 'pingpong',
 			onStep: function(step, progress) {
 						if(!Danimator.interactive)
 							if(progress >= 1) bear.flip();
