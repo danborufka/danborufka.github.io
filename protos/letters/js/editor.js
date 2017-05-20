@@ -5,7 +5,6 @@
 // ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o snap keyframes to scrubber
 // o audio panel: tie sound timing to global game time
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
@@ -874,7 +873,7 @@ function _createTracks() {
 				snapKeyframes.add( $this.data('time') );
 
 				$this.draggable({ 
-					//containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
+					containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
 					cursor: 'pointer',
 					start: 	function() { _frameDragging = true; },
 					stop: 	function() { 
@@ -892,6 +891,13 @@ function _createTracks() {
 
 						var x 				= ui.position.left - 1;
 						var t 				= x / TIME_FACTOR;
+
+						if(event.shiftKey) {
+							t = snapKeyframes.snap(t);
+							x = t * TIME_FACTOR;
+							ui.position.left = x + 1;
+						}
+						currentGame.setTime(t);
 
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
