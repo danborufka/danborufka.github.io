@@ -805,8 +805,6 @@ function _getRangeStyle(property, tracks, key, type) {
 		var begin;
 		var end;
 
-		console.log('track11', currentKey.from);
-
 		if(key === 0) {
 			currentKey.from = currentKey.initValue;
 		} else {
