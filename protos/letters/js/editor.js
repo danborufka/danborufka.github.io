@@ -2,7 +2,6 @@
 // TODOS:
 // o load files properly on "bodyDrop"
 // o #properties panel: refactor from ranges (keyframe pairs) to single keyframes
-// ø #properties panel: change animation keyframes from there
 // ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
