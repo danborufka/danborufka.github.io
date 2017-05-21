@@ -8,8 +8,8 @@
 
 var animations   	= [];
 
-/* frame animation capability for paperjs Items */
 paper.Item.inject({
+	/* frame animation capability for paperjs Items */
 	getFrame: function() {
 		if(!this.data._frame) {
 			this.data._frame = 1;
@@ -25,6 +25,7 @@ paper.Item.inject({
 			_.each(this.children, function(child) {
 				if(child.name.match(/^f\d+/g)) {
 					if(parseInt( child.name.slice(1) ) != frame) {
+						console.log('setting vis of', child);
 						child.visible = false;
 					}
 				}
@@ -47,6 +48,7 @@ paper.Item.inject({
 		children.reverse();
 		return children[0];
 	},
+	/* state capability */
 	getState: function(childname) {
 		if(childname) {
 			return this.getItem({
@@ -56,6 +58,7 @@ paper.Item.inject({
 		}
 		return this.data._state || 0;
 	},
+	// example: bear.setState('open', 'snout') vs. bear.setState('closed', 'snout') will hide layer #open of bear's childrens starting with "snout" (so snout-1, snout-2, …)
 	setState: function(state, childname) {
 		var self = this;
 		if(childname) {
@@ -84,6 +87,7 @@ paper.Item.inject({
 		var self = this;
 		if(!this.data._states) {
 			this.data._states = [];
+			// find all children which names begin with either underscore (_) or hash (#) and save them as state
 			_.each(this.children, function(child) {
 				if(child.name.match(/^[#_][a-z0-9_-]+.*$/i)) {
 					var name = child.name.match(/^[#_](.*?)(\-\d+)?$/)[1];
@@ -202,7 +206,8 @@ Danimator._mergeDelays = function(options, newOptions) {
 	newOptions.delay = _.get(newOptions, 'delay', 0) + ((options && options.delay) || 0);
 }
 
-/* helper */
+/* limit number between two boundaries – like _.clamp except it accepts upper and lower border in arbitrary order */
+// example: Danimator.limit(5, 10, 0) will return 5 while _.clamp(5, 10, 0) will return 10.
 Danimator.limit = function(nr, mi, ma) {
 	if(mi > ma) {
 		var tweener = mi + 0;
@@ -212,6 +217,8 @@ Danimator.limit = function(nr, mi, ma) {
 	}
 	return Math.max(Math.min(nr, ma), mi);
 }
+/* returns an iteratee to check whether a collection's item's names starting with "base" */
+// example: _.filter( collection, Danimator.matchBase('bear') ) only returns those items of collection starting with "bear"
 Danimator.matchBase = function(base) {
 	return function(item) {
 		return !!(item.name && item.name.match(new RegExp('^' + base + '([-_]\d+)?' , 'i')));
