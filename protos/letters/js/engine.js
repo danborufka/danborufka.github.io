@@ -25,7 +25,6 @@ paper.Item.inject({
 			_.each(this.children, function(child) {
 				if(child.name.match(/^f\d+/g)) {
 					if(parseInt( child.name.slice(1) ) != frame) {
-						console.log('setting vis of', child);
 						child.visible = false;
 					}
 				}
@@ -39,6 +38,7 @@ paper.Item.inject({
 			newFrame.visible = true;
 		}
 		this.data._frame = frame;
+		self.data.onFrameChanged && self.data.onFrameChanged(frame);
 	},
 	getFrames: function() {
 		var children = _.map(this.children, function(child) {
@@ -82,6 +82,8 @@ paper.Item.inject({
 			states[state].visible = true;
 			self.data._state = state;
 		}
+		self.data.onStateChanged && self.data.onStateChanged(state, childname);
+		return self;
 	},
 	getStates: function() {
 		var self = this;

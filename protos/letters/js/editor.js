@@ -4,7 +4,6 @@
 // o #properties panel: refactor from ranges (keyframe pairs) to single keyframes
 // ø #properties panel: fix positional props like pivot
 // o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
-// o #layer panel: keep track of layer visibility
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o audio panel: tie sound timing to global game time
 // o (add node module for packaging)
@@ -750,7 +749,7 @@ jQuery(function($){
 function _createLayers(layers, $layers) {
 	var layerTmpl  = _.template(_.unescape(layerTemplate));	// create templating function from template#layer-panel-item
 
-	_.each(layers, function(layer) {
+	_.each(layers, function(layer, index) {
 		if(layer) {
 			var $layer = $(layerTmpl({
 							name: 			layer.name || ('[Layer ' + layer.id + ']'),
@@ -758,9 +757,10 @@ function _createLayers(layers, $layers) {
 							hidden: 		!layer.visible,
 							id: 			layer.id
 						})).data('id', layer.id);
-			layer.data.onChangeVisibility = function() {
-				$layer.toggleClass('');
-			};
+
+			layer.data.onStateChanged = layer.data.onFrameChanged = function() {
+				_createLayers(layers, $layers.empty());
+			}
 
 			/* sublayer support */
 			if(layer.children && layer.children.length) {
