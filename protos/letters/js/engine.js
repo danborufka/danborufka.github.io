@@ -38,7 +38,7 @@ paper.Item.inject({
 			newFrame.visible = true;
 		}
 		this.data._frame = frame;
-		self.data.onFrameChanged && self.data.onFrameChanged(frame);
+		this.data.onFrameChanged && this.data.onFrameChanged(frame);
 	},
 	getFrames: function() {
 		var children = _.map(this.children, function(child) {
