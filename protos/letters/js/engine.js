@@ -1,10 +1,11 @@
 // animation and game engine
 // TODOS:
-// • performance optimizations:
+// o fix autocenter of stage when resizing window
+// o performance optimizations:
 // 		* minifying & concatenation of files
-// • test morphs + chaining
-// • add support for nested frame animations
-// • compress SVGs
+// o test morphs + chaining
+// o add support for nested frame animations
+// o compress SVGs
 
 var animations   	= [];
 

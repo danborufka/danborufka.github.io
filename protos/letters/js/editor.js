@@ -1,10 +1,8 @@
 // animation editor engine
 // TODOS:
 // o load files properly on "bodyDrop"
-// o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
-// o #properties panel: fix positional props like pivot
 // o #keyframes panel: allow adding of arbitrary keys
-// o #keyframes panel: fix changing of animation keyframes' timing from there (dragging of keys)
+// o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o audio panel: tie sound timing to global game time
 // o (add node module for packaging)
@@ -96,7 +94,7 @@ var _ANIMATABLE_DEFAULTS = {
 					range: [0,1],
 					type: 	Number
 				},
-	//pivot: 		_asGroup(_ANIMATABLE_POS),
+	pivot: 		_asGroup(_ANIMATABLE_POS),
 	position: 	_asGroup(_ANIMATABLE_POS),
 	rotation: 	{
 					range: [-360,360],
@@ -492,7 +490,7 @@ jQuery(function($){
 			//_createTracks();
 		})
 		/* interactivity of property inputs */
-		.on('change', '#properties :input', function(event) {
+		.on('change', '#properties :input', function() {
 			var $this 	 = $(this);
 			var prop  	 = $this.data('prop');
 			var data 	 = $this.closest('li').data();
@@ -524,12 +522,25 @@ jQuery(function($){
 			} else {
 				props[prop] = value;
 
+				var isPivot = !!prop.match(/^pivot\.?/);
+				var isPosition = !!prop.match(/^position\.?/);
+
 				new Undoable(function() {
 					_.set(item, prop, value);
 					_changeProp(prop, value);
+					if(isPosition) {
+						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
+						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+					}
+					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
 				}, function() {
 					_.set(item, prop, oldValue);
 					_changeProp(prop, oldValue);
+					if(isPosition) {
+						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
+						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+					}
+					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
 				});
 			}
 
@@ -571,7 +582,7 @@ jQuery(function($){
 					if(isNaN(range[1])) range[1] = 10000;
 
 					// we limit to min/max attrs and hack rounding errors by setting a limit on the decimals
-					$this.val( _.round( Danimator.limit(value, range[0], range[1]), _decimalPlaces(step * 10)) );
+					$this.val( _.round( Danimator.limit(value, range[0], range[1]), _decimalPlaces(step * 10)) ).trigger('change');
 				}
 			}
 		})
@@ -989,7 +1000,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 							range: 		['', ''],
 							step: 		step,
 							type: 		prop.type,
-							value: 		_.get(subitem || item, property)
+							value: 		_.get(subitem || item, name)
 						}, prop);
 			var $prop = $(propTmpl(config)).data('track', _.first(propertyTrack));
 
@@ -1194,6 +1205,9 @@ Game.onLoad = function(project, name, options, scene, container) {
 					_anchorViz.position = selectedItem.bounds.center;
 				}
 
+				_changeProp('pivot.x', _anchorViz.position.x);
+				_changeProp('pivot.y', _anchorViz.position.y);
+
 				_changeProp('position.x', selectedItem.position.x);
 				_changeProp('position.y', selectedItem.position.y);
 			} else {
@@ -1252,6 +1266,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 		if(event.event.altKey) {
 			this.position = event.point;
 			currentGame.findAndModify(selectionId, { pivot: this.position });
+			_changeProp('pivot.x', this.position.x);
+			_changeProp('pivot.y', this.position.y);
 		}
 	};
 

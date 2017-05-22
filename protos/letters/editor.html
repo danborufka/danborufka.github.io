@@ -55,8 +55,8 @@
 						<label><%= property %></label>
 						<div class="track">
 							<% _.each(ranges, function(keyframe, key) { 
-									lastRange = _.last(ranges);
-									lastKey   = ranges[key-1];
+									lastRange 	= _.last(ranges);
+									lastKey   	= ranges[key-1];
 									activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
 									activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
 							%>
