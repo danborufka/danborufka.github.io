@@ -1,9 +1,10 @@
 // animation editor engine
 // TODOS:
 // o load files properly on "bodyDrop"
-// o #properties panel: refactor from ranges (keyframe pairs) to single keyframes
-// ø #properties panel: fix positional props like pivot
-// o #keyframes panel:  fix changing of animation keyframes' timing from there (dragging of keys)
+// o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
+// o #properties panel: fix positional props like pivot
+// o #keyframes panel: allow adding of arbitrary keys
+// o #keyframes panel: fix changing of animation keyframes' timing from there (dragging of keys)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o audio panel: tie sound timing to global game time
 // o (add node module for packaging)
@@ -302,6 +303,7 @@ Danimator.onMorph = function() {
 }
 
 Danimator.interactive = true;
+//snapKeyframes.add( $this.data('time') );
 
 /* panel events */
 jQuery(function($){
@@ -867,6 +869,8 @@ function _createTracks() {
 				})).data({id: track.item.id, track: track, element: $keys });
 			
 			var $frames = $tracks.append($keys).find('.keyframe');
+
+			snapKeyframes.list = _.range(Danimator.maxDuration);
 
 			$frames.each(function() {
 				var $this = $(this);
