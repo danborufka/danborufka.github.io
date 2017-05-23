@@ -19,12 +19,16 @@ paper.Item.inject({
 	},
 	setFrame: function(nr) {
 		var frame 		 = parseInt(nr);
+		/* find child layer called "f1" (or using the according presaved frame number) */
 		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
 		var newFrame 	 = this.children['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
 
+		/* if we don't have a current frame number yet */
 		if(this.data._frame === undefined) {
 			_.each(this.children, function(child) {
+				/* walk thru all children and check if follows pattern "f" + int  */
 				if(child.name.match(/^f\d+/g)) {
+					/* if the frame number doesn't match the newly set frame hide it */
 					if(parseInt( child.name.slice(1) ) != frame) {
 						child.visible = false;
 					}
@@ -41,6 +45,7 @@ paper.Item.inject({
 		this.data._frame = frame;
 		this.data.onFrameChanged && this.data.onFrameChanged(frame);
 	},
+	/* get all children's frame numbers and return the highest one */
 	getFrames: function() {
 		var children = _.map(this.children, function(child) {
 			return parseInt( child.name.slice(1) ) || 0;
@@ -49,7 +54,7 @@ paper.Item.inject({
 		children.reverse();
 		return children[0];
 	},
-	/* state capability */
+	/* state capability – switch visibility of children layers on and off using meaningful labels */
 	getState: function(childname) {
 		if(childname) {
 			return this.getItem({
@@ -64,28 +69,29 @@ paper.Item.inject({
 		var self = this;
 		if(childname) {
 			return _.each(self.getItems({
-						match: 		Danimator.matchBase(childname),
+						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
 						recursive: 	true
 					}), function(item) {
-						item.setState(state);
+						item.setState(state);							// and change their state
 					});
 		} else {
-			var states = self.getStates();
+			var states = self.getStates();				// retrieve all states
 
 			if(self.data._state === undefined) {
-				self.data._state = _.keys(states)[0];
-				_.each(states, function(state) {
+				self.data._state = _.keys(states)[0];	// set default state to first key of states object
+				_.each(states, function(state) {		// and turn all states invisible for now
 					state.visible = false;
 				});
 			} else {
-				states[self.data._state].visible = false;
+				states[self.data._state].visible = false;	// hide current state 
 			}
-			states[state].visible = true;
+			states[state].visible = true;				// show newly set state
 			self.data._state = state;
 		}
 		self.data.onStateChanged && self.data.onStateChanged(state, childname);
 		return self;
 	},
+	/* retrieve all states of an item */
 	getStates: function() {
 		var self = this;
 		if(!this.data._states) {
