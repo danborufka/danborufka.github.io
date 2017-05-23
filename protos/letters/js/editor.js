@@ -1,7 +1,9 @@
 // animation editor engine
 // TODOS:
-// o load files properly on "bodyDrop"
 // o #keyframes panel: allow adding of arbitrary keys
+// o #keyframes panel: fix initValue when scrubbing
+// o #keyframes panel: add record mode incl. button
+// o load files properly on "bodyDrop"
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o audio panel: tie sound timing to global game time
@@ -152,7 +154,7 @@ function _getAnimationName(item, property, type) {
 
 	if(fx === 'then') fx = false;
 
-	property = property.replace(/\./g, '_');
+	property = property && property.replace(/\./g, '_');
 
 	return (item.name || ('layer' + item.id)) + '_' + (fx || property);
 }
@@ -275,20 +277,17 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	/* return handles for easier chaining of animations */
 	return {
-		then: function DanimatorThen(item, property, fr, to, duration, newOptions) {
+		then: function() {
+			var args = _.toArray(arguments);
+			var action = args.shift();
+			var newOptions = _.last(args);
+
 			Danimator._mergeDelays(options, newOptions);
-			return Danimator(item, property, fr, to, duration, newOptions);
-		},
-		thenFadeIn: function DanimatorThenFadeIn(item, duration, newOptions) {
-			Danimator._mergeDelays(options, newOptions);
-			return Danimator.fadeIn(item, duration, newOptions);
-		},
-		thenFadeOut: function DanimatorThenFadeOut(item, duration, newOptions) {
-			Danimator._mergeDelays(options, newOptions);
-			return Danimator.fadeOut(item, duration, newOptions);
+
+			return Danimator[action].apply(this, args);
 		},
 		stop: noop
-	}
+	};
 };
 
 Danimator.onStep = function(animatable, value) {
@@ -467,8 +466,34 @@ jQuery(function($){
 			var prop 	= $this.closest('li.timeline').data('property');
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
+			var time 	= currentGame.time;
 
-			Danimator(item, prop, value, value, -1, { delay: currentGame.time });
+			var currentTracks = _.clone(tracks[item.id].properties[prop]);
+			var isFirst = _getStartTime(currentTracks[0]) > time;
+			var isLast  = _getEndTime(_.last(currentTracks)) < time;
+
+			if(isFirst) {
+				// add track from currentTime to first keyframe
+				Danimator(item, prop, value, value, _getStartTime(currentTracks[0]) - time, {
+					delay: time
+				});
+			} else if(isLast) {
+				// add track from last keyframe to currentTime
+				Danimator(item, prop, value, value, time - _getEndTime(_.last(currentTracks)), {
+					delay: _getEndTime(_.last(currentTracks))
+				});
+			} else {
+				var currentTrackIndex = _.findIndex(currentTracks, function(track) {
+					return _.inRange(currentGame.time, _getStartTime(track), _getEndTime(track));
+				});
+				var currentTrack = currentTracks[currentTrackIndex];
+				var lastTrack = _.get(currentTracks, currentTrackIndex-1, false);
+				var nextTrack = _.get(currentTracks, currentTrackIndex-1, false);
+
+				console.log('tracks', currentTrack, lastTrack, nextTrack);
+			}
+
+			//Danimator(item, prop, value, value, -1, { delay: currentGame.time });
 		})
 		.on('click', '#keyframes .animate-btn', function(event) {
 			var item = currentGame.find(selectionId);
@@ -856,6 +881,7 @@ function _getEndStyle(property, track, type) {
 
 /* create timeline tracks (UI) for keyframes panel */
 function _createTracks() {
+	// create templating function from template[id=keyframe-panel-item]
 	var keyItemTmpl = _.template(_.unescape(keyItemTemplate));
 	var $tracks 	= $('#keyframes ul.main').empty();
 
@@ -881,6 +907,7 @@ function _createTracks() {
 			
 			var $frames = $tracks.append($keys).find('.keyframe');
 
+			// add all full seconds to the snapping steps of keyframes
 			snapKeyframes.list = _.range(Danimator.maxDuration);
 
 			$frames.each(function() {
@@ -890,6 +917,7 @@ function _createTracks() {
 				var $lastRange = $this.prev('.range');
 				var $nextRange = $this.next('.range');
 
+				// add keyframe's time to snapping steps 
 				snapKeyframes.add( $this.data('time') );
 
 				$this.draggable({ 
@@ -917,6 +945,7 @@ function _createTracks() {
 							x = t * TIME_FACTOR;
 							ui.position.left = x + 1;
 						}
+
 						currentGame.setTime(t);
 
 						var $nextRange 		= $this.next('.range');
@@ -949,6 +978,7 @@ function _createTracks() {
 function _createProperties(properties, $props, item, subitem, path) {
 	var propTmpl  = _.template(_.unescape(propItemTemplate));
 
+	// make sure path ends in dot
 	path = path ? _.trim(path, '.') + '.' : '';
 
 	_.each(properties, function(prop, name) {
