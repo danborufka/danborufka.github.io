@@ -210,8 +210,6 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			var action = args.shift();
 			var newOptions = _.last(args);
 
-			console.log('args', args, 'action', action, 'newOptions', newOptions);
-
 			Danimator._mergeDelays(options, newOptions);
 
 			return Danimator[action].apply(this, args);

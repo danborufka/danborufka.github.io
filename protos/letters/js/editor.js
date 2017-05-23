@@ -134,6 +134,11 @@ function _asGroup(config) {
 		type: 'group'
 	};
 }
+function _linearTolog(factor, min, max) {
+  min = Math.log(min);
+  max = Math.log(max);
+  return Math.exp(min + (max-min) * factor);
+}
 function _decimalPlaces(num) {
   var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match) { return 0; }
@@ -417,11 +422,35 @@ jQuery(function($){
 			event.stopPropagation();
 			event.stopImmediatePropagation();
 		})
+		/* keyframes time input */
+		.on('blur', 'time', function(event) {
+			var $this = $(this);
+			var value = Number($this.text().replace(/[^\d\.\,]*/g, ''));
+			if(isNaN(value)) {
+				value = currentGame.time;
+			} else {
+				currentGame.setTime(value);
+			}
+			$this.text(value + 's');
+		})
+		/* reset time on dblclick */
+		.on('dblclick', 'time', function(event) {
+			$(this).text(0).trigger('blur');
+		})
 		/* keyframes panel zoom slider */
 		.on('input', '.zoom', function(event) {
 			var zoom = Danimator.limit($(this).val(), 1, 100)/100;
-			TIME_FACTOR = 20 * zoom;
+			var minZoom = 5;
+			var maxZoom = 60;
+
+			TIME_FACTOR = _linearTolog(zoom, minZoom, maxZoom);
+			$(this).attr('title', parseInt(10 + (TIME_FACTOR-minZoom) / (maxZoom-minZoom) * 190) + '%');
+
 			_createTracks();
+		})
+		/* reset zoom on dblclick */
+		.on('dblclick', '.zoom', function(event) {
+			$(this).val(50).trigger('input');
 		})
 		/* timeline handling */
 		.on('mousedown', '.timeline .track', function(event) {
@@ -644,7 +673,7 @@ jQuery(function($){
 			$animationValue.text('');
 		})
 		.on('keyup', function(event) {
-			if(!$(event.target).is(':input'))
+			if(!$(event.target).is(':input,[contenteditable]')) {
 				switch(event.key) {
 					/* play/pause on spacebar */
 					case ' ':
@@ -721,6 +750,12 @@ jQuery(function($){
 						}
 						break;
 				}
+			} else {
+				if(event.key === 'Enter') {
+					/* loose focus of inputs when hitting the return key */
+					$(event.target).trigger('blur');
+				}
+			}
 		})
 		/* time control with cmdKey + mousewheelX */
 		.on('mousewheel', function(event) {

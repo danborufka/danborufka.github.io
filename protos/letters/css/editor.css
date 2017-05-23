@@ -173,6 +173,10 @@ canvas[resize] {
         color: red;
         display: inline;
         font-size: 21px; }
+    .panel#keyframes time {
+      white-space: nowrap; }
+      .panel#keyframes time br {
+        display: none; }
     .panel#keyframes .zoom {
       float: right;
       width: 50px;
