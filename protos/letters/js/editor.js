@@ -284,7 +284,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			var newOptions = _.last(args);
 
 			Danimator._mergeDelays(options, newOptions);
-
+			/* pass on arguments to Danimator */
 			return Danimator[action].apply(this, args);
 		},
 		stop: noop
@@ -322,6 +322,7 @@ jQuery(function($){
 		.on('click', '.panel > label .toggle', function(event) {
 			var $panel = $(this).closest('.panel');
 			$panel.toggleClass('collapsed');
+			/* save open state to localStorage */
 			localStorage.setItem('editor-panels-' + $panel[0].id + '-collapsed', $panel.is('.collapsed'));
 		})
 		.on('dblclick', '.panel > label', function(event) {
@@ -353,10 +354,12 @@ jQuery(function($){
 
 			event.item.fullySelected = selected;
 
+			/* change all parent layer's selected state */
 			var $allParents = $layer.parentsUntil('.main').andSelf().filter('.layer').toggleClass('selected', selected);
 
-			// TODO: scroll layers to pos
+			// ###TODO: scroll layers to pos
 
+			/* if human interaction triggered event open all parent layers */
 			if(event.handpicked) {
 				$allParents.toggleClass('open', selected);
 			}
@@ -365,9 +368,11 @@ jQuery(function($){
 
 			if(selected) {
 				selectionId = id;
+				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
 				_createProperties(ANIMATABLE_PROPERTIES[event.item.className], $propertiesPanel.find('ul.main').empty(), event.item);
 
+				/* move anchor helper into position and show */
 				_anchorViz.position = event.item.pivot || event.item.bounds.center;
 				_anchorViz.visible = true;
 			}
@@ -382,8 +387,8 @@ jQuery(function($){
 			draggingMaster   = this;
 		})
 		.on('mouseenter', '.panel .layer .visible:visible', function(event) {
+			/* dragging across layers to hide all dragged over ones */
 			if(draggingVisibles > -1) {
-
 				var $layer = $(this).closest('.layer');
 				var hidden = !$layer.is('.hidden');
 
@@ -399,6 +404,7 @@ jQuery(function($){
 				}
 			};
 		})
+		/* toggle layer visibility */
 		.on('click', '.panel .layer .visible', function(event) {
 			var $layer 	= $(this).closest('.layer');
 			var id 		= $layer.data('id');
@@ -411,6 +417,7 @@ jQuery(function($){
 			event.stopPropagation();
 			event.stopImmediatePropagation();
 		})
+		/* keyframes panel zoom slider */
 		.on('input', '.zoom', function(event) {
 			var zoom = Danimator.limit($(this).val(), 1, 100)/100;
 			TIME_FACTOR = 20 * zoom;
@@ -430,6 +437,7 @@ jQuery(function($){
 				$keyframesPanel.removeClass('hasSelection');
 			}
 		})
+		/* time scrubbing */
 		.on('mousemove', '.timeline .track', function(event) {
 			if(!_frameDragging)
 				if(timeScrubbing) {
@@ -447,6 +455,7 @@ jQuery(function($){
 		.on('mouseup', '.timeline .track', function(event) {
 			$(this).removeClass('scrubbing');
 		})
+		/* select item and property of doubleclicked keyframe */
 		.on('dblclick', '#keyframes .keyframe', function(event) {
 			var $this 	= $(this);
 			var prop 	= $this.closest('li.timeline').data('property');
@@ -462,6 +471,7 @@ jQuery(function($){
 
 			event.stopImmediatePropagation();
 		})
+		/* WIP: add keyframe by doubleclicking on track */
 		.on('dblclick', '#keyframes .track', function(event) {
 			var $this 	= $(this);
 			var prop 	= $this.closest('li.timeline').data('property');
@@ -496,6 +506,7 @@ jQuery(function($){
 
 			//Danimator(item, prop, value, value, -1, { delay: currentGame.time });
 		})
+		/*
 		.on('click', '#keyframes .animate-btn', function(event) {
 			var item = currentGame.find(selectionId);
 			var track = {
@@ -515,6 +526,7 @@ jQuery(function($){
 			//tracks[item.name] = track;
 			//_createTracks();
 		})
+
 		/* interactivity of property inputs */
 		.on('change', '#properties :input', function() {
 			var $this 	 = $(this);
@@ -528,14 +540,17 @@ jQuery(function($){
 			var props 	 = {};
 			var converter;
 
+			/* use lodash's _.toString, _.toNumber, etc. depending on type */
 			if(converter = _['to' + _.capitalize(data.type)]) {
 				value = _['to' + _.capitalize(data.type)](value);
 			}
 
+			/* coerce to number */
 			if($this.prop('type') === 'number') {
 				value = Number(value);
 			}
 
+			/* if property is part of segment */
 			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
 				new Undoable(function() {
 					_.set( item.segments[parseInt(index[1])], index[2], value );
@@ -555,8 +570,8 @@ jQuery(function($){
 					_.set(item, prop, value);
 					_changeProp(prop, value);
 					if(isPosition) {
-						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
-						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
+						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
 					}
 					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
 				}, function() {
@@ -587,6 +602,7 @@ jQuery(function($){
 			$this.data('oldValue', value);
 		})
 		.on('keyup', '#properties :input', function(event) {
+			/* use shiftKey + arrow keys to jump in tens instead of ones */
 			if(event.shiftKey) {
 				var delta = 0;
 				switch(event.key) {
@@ -941,6 +957,7 @@ function _createTracks() {
 						var x 				= ui.position.left - 1;
 						var t 				= x / TIME_FACTOR;
 
+						/* snap to snapping points onShiftHold */
 						if(event.shiftKey) {
 							t = snapKeyframes.snap(t);
 							x = t * TIME_FACTOR;
@@ -1015,6 +1032,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 					});
 				}
 				
+				/* add "keyed" class if currentTime corresponds to the current keyframe's time */
 				if(isKey) keyed.push('keyed');
 
 				if(_.reject(propertyTrack, { caller: 'root' }).length) {
@@ -1127,6 +1145,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
+		/* update all scrubbes */
 		$('.timeline .scrubber').each(function(){
 			var $scrubber 	= $(this);
 			var data 		= $scrubber.closest('li.item').data();
@@ -1143,6 +1162,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 				return track.options.delay <= time + _.get(track.options, 'frameDuration', 1/24);
 			}), 'options.delay');
 
+			/* find track that encompasses current time */
 			_.each(currentTracks, function(track, id) {
 				if(_.inRange(time, _getStartTime(track), _getEndTime(track) + _.get(track.options, 'frameDuration', 1/24))) {
 					currentTrack = track;
@@ -1250,6 +1270,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 		}
 	};
 
+	/* setup and event handlers for visualization of anchor (pivot) point */
 	_anchorViz = new paper.Group([
 		new paper.Path.Circle({
 			center: 		project.view.center,
@@ -1294,6 +1315,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 	};
 
 	_anchorViz.onMouseDrag = function(event) {
+		/* move anchor point onAltKey */
 		if(event.event.altKey) {
 			this.position = event.point;
 			currentGame.findAndModify(selectionId, { pivot: this.position });
