@@ -279,17 +279,21 @@ Danimator.step = function(animatable, progress) {
 			}
 		}
 		
+		/* calculate new value and limit to "from" and "to" */
 		var newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
 
+		/* animatable onStep hook to intervene on every step */
 		if(animatable.options.onStep) {
 			newValue = animatable.options.onStep(newValue, progress, animatable);
 		}
 
 		_.set(animatable.item, animatable.property, newValue);
+
 		/* force-updating canvas drawing */
 		paper.project.view.requestUpdate();
 	}
 
+	/* global onStep hook to intervene on every step of every animation */
 	if(Danimator.onStep) Danimator.onStep(animatable, newValue);
 
 	return {
@@ -323,9 +327,10 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	var fromItems = [fromItem];
 	var toItems   = [toItem];
 
-	var newItem   = fromItem.clone();
+	var newItem   = fromItem.clone();	// clone fromItem so we don't have to touch the originals
 	var newItems  = [newItem];
 
+	/* if passed elements aren't paths gather all child paths */
 	if(fromItem.className !== 'Path') {
 		fromItems = fromItem.getItems({	class: paper.Path});
 		toItems   = toItem.getItems({ 	class: paper.Path});
@@ -333,28 +338,34 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 	}
 
 	fromItem.visible = toItem.visible = false;
+	/* use cleaned out names to create name of morphed item ("newItem") */
 	newItem.name = 'morph "' + fromItem.name.replace(/(^_|\-\d+$)/g, '') + '" to "' + toItem.name.replace(/(^_|\-\d+$)/g, '') + '"';
 	newItem.insertAbove(fromItem);
+	/* initialize property to be animated: */
 	newItem.data.morphing = 0;
 
+	/* global hook for morphing */
 	if(Danimator.onMorph) Danimator.onMorph(newItem, options);
 
+	/* start normal animate call from 0 to 1 and hook into onStep */
 	Danimator(newItem, 'data.morphing', 0, 1, duration, {
 		onStep: function(progress) {
-			if(progress === 0 || progress === 1) {
-				[fromItem, toItem][progress].visible = true;
-				newItem.visible = false;
+			if(progress === 0 || progress === 1) {				// if at beginning or end of animation
+				[fromItem, toItem][progress].visible = true;	// show either fromItem or toItem, consecutively
+				newItem.visible = false;						// hide the temporary morphed clone
 			} else {
 				fromItem.visible = toItem.visible = false;
 				newItem.visible = true;
-				_.each(fromItems, function(fromPath, key) {
+
+				_.each(fromItems, function(fromPath, key) {					// for every path …
 					var toPath  = toItems[key];
 					var newPath = newItems[key];
 
-					_.each(newPath.segments, function(segment, index) {
+					_.each(newPath.segments, function(segment, index) {		// and every segment …
 						var fromSegment = fromPath.segments[index];
 						var toSegment 	= toPath.segments[index];
 
+						/* calculate and apply new position and tangents of segments */
 						if(segment && toSegment) {
 							segment.point = 	fromSegment.point.add( 		toSegment.point.subtract( 		fromSegment.point ).multiply(progress) );
 							segment.handleIn = 	fromSegment.handleIn.add( 	toSegment.handleIn.subtract( 	fromSegment.handleIn ).multiply(progress) );
@@ -421,7 +432,7 @@ Danimator.sound = function(name, options) {
 	var fadeIn 	= 0;
 	var fadeOut = 0;
 
-	/* add default path + file extension if not supplied */
+	/* add default path (audio/) + file extension (m4a) if not supplied */
 	config.src = _.map(config.src, function(src) {
 		if(!src.match(/^\/?audio\/.+$/g)) {
 			src = 'audio/' + src;
@@ -443,6 +454,7 @@ Danimator.sound = function(name, options) {
 	}
 
 	if(!sound) {
+		/* generate new sound handler */
 		sound = Danimator.sounds[name] = {
 			source: new Howl(config),
 			get: function(param) {
@@ -459,6 +471,7 @@ Danimator.sound = function(name, options) {
 			stop: function() {
 				this.source.stop(this.instance);
 				this.stopped = true;
+				/* global hook for stopping of sound */
 				if(Danimator.onSoundStop) Danimator.onSoundStop(this);
 			},
 			fadeIn: function(duration) {
@@ -488,6 +501,7 @@ Danimator.sound = function(name, options) {
 	}
 
 	if(Danimator.onSound) {
+		/* global hook for starting of sound */
 		Danimator.onSound(name, options);
 	}
 
@@ -516,6 +530,14 @@ Game = function(project, name, options, onLoad) {
 		this.dragging = false;
 	};
 
+	/* 	internal omnipotent helper to determine which supplied file is which.  
+		examples:
+		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: 'image.svg' 		 			}
+		_resolveFiles('<svg>…</svg>') 			-> { svg: '<svg>…</svg>' 	 			}
+		_resolveFiles('jQuery.ready(…);') 		-> { js:  'jQuery.ready(…);' 			}
+		_resolveFiles('image.svg') 				-> { svg: 'image.svg' 		 			}
+		_resolveFiles('image.svg', 'script.js') -> { svg: 'image.svg', js: 'script.js'  }
+	*/
 	self._resolveFiles = function(files) {
 		var resolved = {};
 
@@ -543,6 +565,7 @@ Game = function(project, name, options, onLoad) {
 		return false;
 	};
 
+	/* omnipotent file loader - triggered by filedrop on body */
 	self.load = function(files) {
 		files = self._resolveFiles(files);
 		
