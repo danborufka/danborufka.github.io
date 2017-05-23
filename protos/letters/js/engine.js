@@ -112,39 +112,49 @@ if(!this.Danimator) {
 /* core animation function (adds animation to animatable stack) */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
+		/* create _animateFrame function to be executed every item.onFrame() */
 		function _animateFrame(event) {
 			var item = this;
 
+			/* walk thru array of props to animate */
 			_.each(item.data._animate, function(animatable) {
 				if(animatable) {
+					/* calculate current progress of animation (0…1) */
 					var t = ((new Date).getTime() - (animatable.startTime || 0)) / (animatable.duration * 1000);
-					var animation = Danimator.step(animatable, t);
+					var animation = Danimator.step(animatable, t);		// retrieve map with calculated step value and "done" flag
 					var range 	  = Math.abs(animatable.to - animatable.from);
 
 					if(animation.done) {
+						/* remove animatable entry from said animate array */
 						_.pull(item.data._animate, animatable);
 
 						if(!item.data._animate.length) {
+							/* remove frame handler from item and remove array */
 							item.off('frame', _animateFrame);
 							delete item.data._animate;
 						}
 
+						/* if onDone parameter provided as String */
 						if(animatable.options.onDone) { 
 							if(typeof animatable.options.onDone === 'string') {
 								if(animatable.property === 'frame') {
 									animatable.item.data._playing = true;
+									/* calculate timing of animation iteration for frame-animations */
 									animatable.options.delay = animatable.to === 1 ? 0 : animatable.duration / range;
 								} 
 
 								switch(animatable.options.onDone) {
 									case 'reverse':
+										/* turning looping off so it can behave like pingpong without loops */
 										delete animatable.options.onDone;
 									case 'pingpong':
+										/* switch out from and to and then fall into normal loop behavior (no break) */
 										var xfer = _.clone(animatable.to);
 										animatable.to = _.clone(animatable.from);
 										animatable.from = xfer;
 									default: // loop
 										if(!animatable.item.data._loops) animatable.item.data._loops = 0;
+										/* handler to execute every loop: onLoop(numberOfLoops) */
 										if(animatable.options.onLoop) animatable.options.onLoop(animatable, animatable.item.data._loops++ );
 										return Danimator.animate(animatable.item, animatable.property, animatable.from, animatable.to, animatable.duration, animatable.options);
 								}
@@ -161,12 +171,15 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	/* setTimeout to cover delay parameter */
 	var aniTimeout = animations[item.id] = setTimeout(function() {
+		/* if this is the first time */
 		if(!item.data._animate) {
+			/* attach animatables array and frameHandler to item */
 			item.data._animate = [];
 			item.on('frame', _animateFrame);
 		}
 
-		var ease = (property === 'frame' ? null : 'cubicOut');
+		var ease = (property === 'frame' ? null : 'cubicOut');	// default easing is cubicOut (or none for frame animations)
+		/* animatables are the base of everything animated thru Danimator. They describe animations and come in pairs of keyframes to the editor */
 		var animatable = {
 			item: 		item,
 			property: 	property || 'opacity',
@@ -177,26 +190,25 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 			options: 	_.defaults(options, { delay: 0, easing: ease })
 		};
 
-		if(fr !== null) _.set(item, animatable.property, fr);
-		item.data._animate.push(animatable);
+		if(fr !== null) _.set(item, animatable.property, fr);	// if "from" is set use it to initialize the item
+		item.data._animate.push(animatable);					// and add animatable to item's new array
 
-	}, ((options && options.delay) || 0) * 1000);
+	}, ((options && options.delay) || 0) * 1000);				// delay is in seconds, so we turn into ms
 
-	if(Danimator.onAnimate) Danimator.onAnimate();
+	if(Danimator.onAnimate) Danimator.onAnimate();				// call hook if there is one
 
 	/* return handles for easier chaining of animations */
 	return {
-		then: function(item, property, fr, to, duration, newOptions) {
+		then: function() {
+			var args = _.toArray(arguments);
+			var action = args.shift();
+			var newOptions = _.last(args);
+
+			console.log('args', args, 'action', action, 'newOptions', newOptions);
+
 			Danimator._mergeDelays(options, newOptions);
-			return Danimator(item, property, fr, to, duration, newOptions);
-		},
-		thenFadeIn: function(item, duration, newOptions) {
-			Danimator._mergeDelays(options, newOptions);
-			return Danimator.fadeIn(item, duration, newOptions);
-		},
-		thenFadeOut: function(item, duration, newOptions) {
-			Danimator._mergeDelays(options, newOptions);
-			return Danimator.fadeOut(item, duration, newOptions);
+
+			return Danimator[action].apply(this, args);
 		},
 		stop: function() {
 			clearTimeout(aniTimeout);
@@ -235,8 +247,8 @@ Danimator.step = function(animatable, progress) {
 	if(animatable.from == undefined) 		animatable.from = value;
 	if(typeof animatable.to === 'string') 	animatable.to 	= animatable.from + Number(animatable.to);
 
-	var ascending = animatable.to > animatable.from;
-	var range 	  = animatable.to - animatable.from;
+	var ascending = animatable.to > animatable.from;	// check whether values are animated ascending or descending
+	var range 	  = animatable.to - animatable.from;	// calculate range of animation values
 	var isDone 	  = ascending ? 
 					value >= animatable.to : 
 					value <= animatable.to;
@@ -250,6 +262,7 @@ Danimator.step = function(animatable, progress) {
 			animatable.item.data._playing = false;
 	} else {
 		if(animatable.options.easing) {
+			/* Easing requires easing.js to be loaded, too */
 			try {
 				var easing = (typeof animatable.options.easing === 'string' ? Ease[animatable.options.easing] : animatable.options.easing);
 				if(easing) {
@@ -266,9 +279,8 @@ Danimator.step = function(animatable, progress) {
 			newValue = animatable.options.onStep(newValue, progress, animatable);
 		}
 
-		//console.log('stepping thru…');
 		_.set(animatable.item, animatable.property, newValue);
-
+		/* force-updating canvas drawing */
 		paper.project.view.requestUpdate();
 	}
 
@@ -353,10 +365,10 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 Danimator.play = function(item, options) {
 	var frames = item.frames;
 	var range  = frames - item.frame;
-	var duration = range / (options && options.fps || 12);
+	var duration = range / (options && options.fps || 12);	// calculate duration from fps and number of available frames
 
 	item.data._playing = true;
-	options.frameDuration = duration / range;
+	options.frameDuration = duration / range;				// calculating duration of single frame and passing it on for later reference
 
 	return Danimator(item, 'frame', item.frame, frames, duration, options);
 }
@@ -375,6 +387,7 @@ Danimator.stopAll = function(item) {
 	delete item.data._animate;
 };
 
+/* ###experimental: load animations from JSON files */
 Danimator.load = function(aniName) {
 	var filename = aniName + '.animations.json';
 
@@ -392,6 +405,7 @@ Danimator.load = function(aniName) {
 	}).fail(function(promise, type, error){ console.error(error); });
 }
 
+/* sound factory */
 Danimator.sound = function(name, options) {
 	var config 	= _.extend({ 
 		name: 	name, 
@@ -474,9 +488,10 @@ Danimator.sound = function(name, options) {
 	return sound;
 };
 
+/* init values for Danimator props */
 Danimator.sounds 		= {};
-Danimator.interactive 	= false;	// interactive mode suppresses checks of animationEnd and thus never removes them from stack
-Danimator.startTime 	= (new Date).getTime();
+Danimator.interactive 	= false;					// interactive mode suppresses checks of animationEnd and thus never removes them from stack
+Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initialized?
 
 /* game engine for loading SVG skeletons */
 Game = function(project, name, options, onLoad) {
