@@ -2,15 +2,15 @@
 // TODOS:
 // ø #keyframes panel: allow adding of arbitrary keys
 // o #keyframes panel: fix initValue when scrubbing
+// o node module for server-side saving & loading of JSON
+// o audio panel: tie sound timing to global game time
 // o #keyframes panel: add record mode incl. button
 // o make everything undoable
 // o load files properly on "bodyDrop"
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o audio panel: tie sound timing to global game time
 // o keyframes panel: save 
 // o (add node module for packaging)
-// o node module for server-side saving & loading of JSON
 
 var tracks   		= {};
 var events 			= {};
@@ -284,16 +284,9 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	/* return handles for easier chaining of animations */
 	return {
-		then: function() {
-			var args = _.toArray(arguments);
-			var action = args.shift();
-			var newOptions = _.last(args);
-
-			Danimator._mergeDelays(options, newOptions);
-			/* pass on arguments to Danimator */
-			return Danimator[action].apply(this, args);
-		},
-		stop: noop
+		options: options,
+		then: 	 Danimator.then,
+		stop: 	 noop
 	};
 };
 
@@ -518,6 +511,7 @@ jQuery(function($){
 				Danimator(item, prop, value, value, _getStartTime(currentTracks[0]) - time, {
 					delay: time
 				});
+				console.log('tracks', tracks);
 			} else if(isLast) {
 				// add track from last keyframe to currentTime
 				Danimator(item, prop, value, value, time - _getEndTime(_.last(currentTracks)), {
@@ -531,7 +525,23 @@ jQuery(function($){
 				var lastTrack = _.get(currentTracks, currentTrackIndex-1, false);
 				var nextTrack = _.get(currentTracks, currentTrackIndex-1, false);
 
-				console.log('tracks', currentTrack, lastTrack, nextTrack);
+
+				console.log({currentTrack, lastTrack, nextTrack});
+
+				if(nextTrack) {
+					Danimator(item, prop, value, nextTrack.from, _getStartTime(nextTrack) - time, {
+						delay: time
+					});
+				}
+
+				if(lastTrack)
+				if(lastTrack.to != value) {
+					Danimator(item, prop, lastTrack.to, value, time - _getEndTime(lastTrack), {
+						delay: _getEndTime(lastTrack)
+					});
+				}
+
+				console.log('tracks', tracks);
 			}
 
 			//Danimator(item, prop, value, value, -1, { delay: currentGame.time });

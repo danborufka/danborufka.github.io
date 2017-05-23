@@ -207,19 +207,22 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 
 	/* return handles for easier chaining of animations */
 	return {
-		then: function() {
-			var args = _.toArray(arguments);
-			var action = args.shift();
-			var newOptions = _.last(args);
-
-			Danimator._mergeDelays(options, newOptions);
-
-			return Danimator[action].apply(this, args);
-		},
-		stop: function() {
-			clearTimeout(aniTimeout);
-		}
+		options: options,
+		then: 	 Danimator.then,
+		stop: 	function() {
+					clearTimeout(aniTimeout);
+				}
 	};
+}
+
+Danimator.then = function DanimatorThen() {
+	var args = _.toArray(arguments);
+	var action = args.shift();
+	var newOptions = _.last(args);
+
+	Danimator._mergeDelays(this.options, newOptions);
+
+	return Danimator[action].apply(this, args);
 }
 
 /* internal calculations */
