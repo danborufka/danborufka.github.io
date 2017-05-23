@@ -8,6 +8,7 @@
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o audio panel: tie sound timing to global game time
+// o keyframes panel: save 
 // o (add node module for packaging)
 // o node module for server-side saving & loading of JSON
 
@@ -443,7 +444,7 @@ jQuery(function($){
 			var minZoom = 5;
 			var maxZoom = 60;
 
-			TIME_FACTOR = _linearTolog(zoom, minZoom, maxZoom);
+			TIME_FACTOR = _linearTolog(1-zoom, minZoom, maxZoom);
 			$(this).attr('title', parseInt(10 + (TIME_FACTOR-minZoom) / (maxZoom-minZoom) * 190) + '%');
 
 			_createTracks();
