@@ -71,20 +71,20 @@ var purrlyGame = new strokeGame(project,
 						},
 			delay: 		2.5
 		})
-		.then(path, 'strokeColor.hue', null, endColor, 2, {
+		.then('animate', path, 'strokeColor.hue', null, endColor, 2, {
 			onStep: 	function(step) { 
 							end.fillColor = path.strokeColor;
 							return step; 
 						}
 		})
-		.thenFadeOut(start, .6, {
+		.then('fadeOut', start, .6, {
 			onStep: 	function(step) {
 							label.opacity = step;
 							return step;
 						},
 			delay: 		.5
 		})
-		.thenFadeOut(scene.UI.children.explainer, 1, { 
+		.then('fadeOut', scene.UI.children.explainer, 1, { 
 			delay: 		1.5
 		});
 
