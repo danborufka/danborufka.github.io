@@ -1,8 +1,9 @@
 // animation editor engine
 // TODOS:
-// o #keyframes panel: allow adding of arbitrary keys
+// ø #keyframes panel: allow adding of arbitrary keys
 // o #keyframes panel: fix initValue when scrubbing
 // o #keyframes panel: add record mode incl. button
+// o make everything undoable
 // o load files properly on "bodyDrop"
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
