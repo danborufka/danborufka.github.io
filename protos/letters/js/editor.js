@@ -1,9 +1,7 @@
 // animation editor engine
 // TODOS:
-// ø #keyframes panel: allow adding of arbitrary keys
 // o #keyframes panel: fix initValue when scrubbing
 // o node module for server-side saving & loading of JSON
-// o audio panel: tie sound timing to global game time
 // o #keyframes panel: add record mode incl. button
 // o make everything undoable
 // o load files properly on "bodyDrop"
@@ -33,6 +31,7 @@ var snapKeyframes 	= new Snappables(.4);
 
 var _playing 		= false;
 var _frameDragging 	= false;
+var _timeScrubbing  = false;
 
 var _anchorViz;
 
@@ -308,7 +307,6 @@ jQuery(function($){
 	var downPoint;
 	var draggingVisibles;
 	var draggingMaster;
-	var timeScrubbing;
 	var playInterval;
 	var lastTime;
 	var lastOffset;
@@ -454,7 +452,7 @@ jQuery(function($){
 			}
 
 			if(!_frameDragging) {
-				timeScrubbing = true;
+				_timeScrubbing = true;
 				event.type = 'mousemove';
 				$(this).trigger(event).addClass('scrubbing');
 				$keyframesPanel.removeClass('hasSelection');
@@ -463,7 +461,7 @@ jQuery(function($){
 		/* time scrubbing */
 		.on('mousemove', '.timeline .track', function(event) {
 			if(!_frameDragging)
-				if(timeScrubbing) {
+				if(_timeScrubbing) {
 
 					var $this = $(event.currentTarget);
 					var x = event.clientX - $this.offset().left - 1;
@@ -494,7 +492,6 @@ jQuery(function($){
 
 			event.stopImmediatePropagation();
 		})
-		/* WIP: add keyframe by doubleclicking on track */
 		.on('dblclick', '#keyframes .track', function(event) {
 			var $this 	= $(this);
 			var prop 	= $this.closest('li.timeline').data('property');
@@ -511,7 +508,6 @@ jQuery(function($){
 				Danimator(item, prop, value, value, _getStartTime(currentTracks[0]) - time, {
 					delay: time
 				});
-				console.log('tracks', tracks);
 			} else if(isLast) {
 				// add track from last keyframe to currentTime
 				Danimator(item, prop, value, value, time - _getEndTime(_.last(currentTracks)), {
@@ -526,8 +522,6 @@ jQuery(function($){
 				var nextTrack = _.get(currentTracks, currentTrackIndex-1, false);
 
 
-				console.log({currentTrack, lastTrack, nextTrack});
-
 				if(nextTrack) {
 					Danimator(item, prop, value, nextTrack.from, _getStartTime(nextTrack) - time, {
 						delay: time
@@ -535,16 +529,21 @@ jQuery(function($){
 				}
 
 				if(lastTrack)
-				if(lastTrack.to != value) {
-					Danimator(item, prop, lastTrack.to, value, time - _getEndTime(lastTrack), {
-						delay: _getEndTime(lastTrack)
-					});
+					if(lastTrack.to != value) {
+						Danimator(item, prop, lastTrack.to, value, time - _getEndTime(lastTrack), {
+							delay: _getEndTime(lastTrack)
+						});
 				}
 
-				console.log('tracks', tracks);
+				if(currentTrack) {
+					Danimator(item, prop, value, currentTrack.to, _getEndTime(currentTrack) - time, {
+						delay: time
+					});
+					currentTrack.duration = time - _getStartTime(currentTrack);
+					currentTrack.to 	  = value;
+				}
+				_createTracks();
 			}
-
-			//Danimator(item, prop, value, value, -1, { delay: currentGame.time });
 		})
 		/*
 		.on('click', '#keyframes .animate-btn', function(event) {
@@ -672,12 +671,12 @@ jQuery(function($){
 		.on('mousewheel', '#properties :input', _.debounce(function(event) {
 			$(this).trigger('change');
 		}, 600))
-		.on('click', '.panel .audio', function() {
+		.on('dblclick', '.panel .audio', function() {
 			$(this).data('wave').play();
 		})
 		/* all resets onMouseUp */
 		.on('mouseup', function() {
-			timeScrubbing = false;
+			_timeScrubbing = false;
 			_frameDragging = false;
 			draggingVisibles = -1;
 			delete draggingMaster;
@@ -1159,6 +1158,12 @@ function _createAudio() {
 			}
 		});
 
+		wave.on('seek', function(progess, stuff) {
+			if(!_timeScrubbing) {
+				currentGame.setTime( currentWave.getCurrentTime() );
+			}
+		});
+
 		if(sound === Danimator._activeSound) {
 			currentWave.on('ready', function() { 
 				currentWave.play();
@@ -1260,6 +1265,13 @@ Game.onLoad = function(project, name, options, scene, container) {
 					}
 			}
 		});
+
+		_timeScrubbing = true;
+		/* update all sounds */
+		$('#audio .audio').each(function(){
+			$(this).data('wave').seekTo(time);
+		});
+		_timeScrubbing = false;
 
 		self.time = time;
 	}

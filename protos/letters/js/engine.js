@@ -489,24 +489,29 @@ Danimator.sound = function(name, options) {
 			}
 		};
 	}
+	
+	sound.lastOptions = options;
 
-	if(!Danimator.interactive) {
-		sound.play();
-		
-		if(fadeIn) {
-			sound.fadeIn(fadeIn);
+	/* account for delay param */
+	setTimeout(function() {
+		if(!Danimator.interactive) {
+			sound.play();
+			
+			if(fadeIn) {
+				sound.fadeIn(fadeIn);
+			}
+			if(fadeOut) {
+				sound.fadeOut(fadeOut);
+			}
+		} else {
+			Danimator._activeSound = sound;
 		}
-		if(fadeOut) {
-			sound.fadeOut(fadeOut);
-		}
-	} else {
-		Danimator._activeSound = sound;
-	}
 
-	if(Danimator.onSound) {
-		/* global hook for starting of sound */
-		Danimator.onSound(name, options);
-	}
+		if(Danimator.onSound) {
+			/* global hook for starting of sound */
+			Danimator.onSound(name, options);
+		}
+	}, _.get(options, 'delay', 0));
 
 	return sound;
 };
@@ -583,6 +588,7 @@ Game = function(project, name, options, onLoad) {
 										self.scene 		= self.container.children;
 										try {
 											self.DOM = $(svg);
+											//console.log('SVG DOM', self.DOM);
 										} catch(e) {}
 
 										_.each(project.symbolDefinitions, function(definition) {
