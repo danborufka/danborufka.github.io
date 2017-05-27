@@ -3,11 +3,11 @@
 // o #keyframes panel: fix initValue when scrubbing
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
-// o make everything undoable
 // o load files properly on "bodyDrop"
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o keyframes panel: save 
+// o keyframes panel: save as animation
+// o make everything undoable
 // o (add node module for packaging)
 
 var tracks   		= {};
