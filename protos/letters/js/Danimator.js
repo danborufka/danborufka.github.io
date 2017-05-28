@@ -47,19 +47,15 @@ return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode
 // o add support for nested frame animations
 
 /* check dependencies */
-var dep;
+var missing;
 try {
-	dep = 'lodash';
-	_.VERSION;
-
-	dep = 'jquery';
-	jQuery();
-
+	missing = 'lodash'; 	_.VERSION;
+	missing = 'jQuery'; 	jQuery();
 } catch(e) {
-	throw new ReferenceError(dep + ' required!');
+	throw new ReferenceError(missing + ' required!');
 }
 
-var animations   	= [];
+var animations = [];
 
 paper.Item.inject({
 	/* frame animation capability for paperjs Items */
