@@ -40,6 +40,7 @@ return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode
 // TODOS:
 // o fix autocenter of stage when resizing window
 // o figure out a way to detangle animation from game engine
+// o make audio a separate, optional module
 // o performance optimizations:
 // 	  * use SVG mirror DOM for special ops (like "similar-names")
 // o test morph chaining
@@ -677,7 +678,9 @@ Game = function(project, name, options, onLoad) {
 	self.load(self.file);
 
 	return this;
-};var pi2 = Math.PI*2;
+};// easing functions for animations
+
+var pi2 = Math.PI*2;
 
 Ease = {
 	linear: 	function(t) { return t; 					},
@@ -713,9 +716,12 @@ Ease = {
 		if ((t*=2)<1) return -0.5*(1*Math.pow(2,10*(t-=1))*Math.sin( (t-s)*pi2/0.3*1.5 ));
 		return 1*Math.pow(2,-10*(t-=1))*Math.sin((t-s)*pi2/0.3*1.5)*0.5+1;
 	}
-};;// geometric helpers
+};;// geometric helpers for paperJS items
 
 paper.Path.inject({
+	/* 	add growth property to paths so you can animate the "evolution" of a path 
+		example: scene.getItem({ name:'spline' }).growth = 0.5;
+	*/
 	getGrowth: function() {
 		var growth = this.data._growth;
 		if(growth === undefined) {
@@ -736,6 +742,10 @@ paper.Path.inject({
 });
 
 paper.Item.inject({
+	/* 	normalizing rotation property of items
+		so you can set an absolute rotation instead of just rotating incrementally
+		e.g.: item.rotation = 180 && item.rotation = 180 // will only rotate it once
+	*/
 	getRotation: function() {
 		return _.get(this.data, '_rotation', 0);
 	},
@@ -744,6 +754,8 @@ paper.Item.inject({
 		this.data._rotation = angle;
 	},
 
+	/* 	attach element to motion path and move it along it by changing item.offsetOnPath (0…1)
+	*/
 	attachToPath: function(stroke, offset) {
 		this.detachFromPath(stroke);
 
@@ -762,6 +774,7 @@ paper.Item.inject({
 		}
 	},
 
+	/* property to get/set an item's offset on its motion path */
 	getOffsetOnPath: function() {
 		return (this.data._offsetOnPath || 0);
 	},
@@ -775,9 +788,12 @@ paper.Item.inject({
 		this.rotation = path.getNormalAt(len).angle-90;
 		this.data._offsetOnPath = offset;
 	},
+
+	/* mirror element horizontally */
 	flip: function(pivot) {
 		this.scale(-1, 1, pivot);
 	},
+	/* mirror element vertically */
 	flop: function(pivot) {
 		this.scale(1, -1, pivot);
 	}
