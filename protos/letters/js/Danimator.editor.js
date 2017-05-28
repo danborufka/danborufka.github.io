@@ -166,24 +166,27 @@ function Undoable(redo, undo, title, silent) {
     self.undo = undo;
     self.redo = redo;
 
-    undoHistory.counts++;
 
-    history.pushState({ undoIndex: undoHistory.counts }, title || 'Redo');
+    undoHistory.index++;
+    undoHistory.title = title || 'last action';
+
+    // hack until pushState's title param works in all browsers:
+    var docTitle = document.title + '';
+    document.title = undoHistory.title;
+    history.pushState({ undoIndex: undoHistory.index }, undoHistory.title);
+    //document.title = docTitle;
 
     var task = { undo: undo, redo: redo };
     Undos.add(task);
 
-    if(!silent)
-        task.redo();
-    else
-        undoHistory.index++;
+    if(!silent) task.redo();
 
     return self;
 }
 
 undoHistory = {
-    stack:  [],
     index:  0,
+    title: '',
 
     goto: function(newIndex) {
         while(newIndex > undoHistory.index) undoHistory.redo();
@@ -193,16 +196,16 @@ undoHistory = {
     undo:   function() {
         if(Undos.hasUndo()) {
             Undos.undo();
-            undoHistory.counts--;
             undoHistory.index--;
+            console.log('newIndex', undoHistory.index);
         }
     },
 
     redo:   function() {
         if(Undos.hasRedo()) {
             Undos.redo();
-            undoHistory.counts++;
             undoHistory.index++;
+            console.log('newIndex', undoHistory.index);
         }
     }
 };
@@ -210,6 +213,9 @@ undoHistory = {
 history.replaceState({ undoIndex: 0 }, '');
 
 jQuery(window).on('popstate', function(event, state) {
+    console.log('goto', event.originalEvent.state.undoIndex, 'from', undoHistory.index);
+    console.log('undo?', event.originalEvent.state.undoIndex < undoHistory.index);
+    console.log('redo?', event.originalEvent.state.undoIndex > undoHistory.index);
     undoHistory.goto(event.originalEvent.state.undoIndex);
 });;/*! wavesurfer.js 1.3.7 (Sun, 19 Mar 2017 17:49:02 GMT)
 * https://github.com/katspaugh/wavesurfer.js
@@ -380,8 +386,9 @@ function _getAnimationName(item, property, type) {
 	if(fx === 'then') fx = false;
 
 	property = property && property.replace(/\./g, '_');
+	fx = (fx || property) ? '_' + (fx || property) : '';
 
-	return (item.name || ('layer' + item.id)) + '_' + (fx || property);
+	return (item.name || ('layer' + item.id)) + fx;
 }
 function _resetSelection() {
 	$('#layers')
@@ -816,7 +823,7 @@ jQuery(function($){
 				}, function() {
 					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
 					_changeProp(index[2], oldValue);
-				});
+				}, 'change segment of ' + _getAnimationName(item));
 
 			} else {
 				props[prop] = value;
@@ -840,7 +847,7 @@ jQuery(function($){
 						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
 					}
 					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-				});
+				}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
 			}
 
 			if(data.track) {
@@ -1613,7 +1620,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 					item.position = item.data.oldPosition;
 					currentGame.findAndModify(selectionId, { pivot: item.position });
 				}
-			}, 'Setting pivot of ' + currentGame.find(selectionId).name, true);
+			}, 'setting pivot of ' + _getAnimationName(currentGame.find(selectionId)), true);
 	};
 
 	self.container.appendTop(_anchorViz);

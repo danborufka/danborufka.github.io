@@ -161,24 +161,27 @@ function Undoable(redo, undo, title, silent) {
     self.undo = undo;
     self.redo = redo;
 
-    undoHistory.counts++;
 
-    history.pushState({ undoIndex: undoHistory.counts }, title || 'Redo');
+    undoHistory.index++;
+    undoHistory.title = title || 'last action';
+
+    // hack until pushState's title param works in all browsers:
+    var docTitle = document.title + '';
+    document.title = undoHistory.title;
+    history.pushState({ undoIndex: undoHistory.index }, undoHistory.title);
+    //document.title = docTitle;
 
     var task = { undo: undo, redo: redo };
     Undos.add(task);
 
-    if(!silent)
-        task.redo();
-    else
-        undoHistory.index++;
+    if(!silent) task.redo();
 
     return self;
 }
 
 undoHistory = {
-    stack:  [],
     index:  0,
+    title: '',
 
     goto: function(newIndex) {
         while(newIndex > undoHistory.index) undoHistory.redo();
@@ -188,16 +191,16 @@ undoHistory = {
     undo:   function() {
         if(Undos.hasUndo()) {
             Undos.undo();
-            undoHistory.counts--;
             undoHistory.index--;
+            console.log('newIndex', undoHistory.index);
         }
     },
 
     redo:   function() {
         if(Undos.hasRedo()) {
             Undos.redo();
-            undoHistory.counts++;
             undoHistory.index++;
+            console.log('newIndex', undoHistory.index);
         }
     }
 };
