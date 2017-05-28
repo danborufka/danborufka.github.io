@@ -1,6 +1,9 @@
-// geometric helpers
+// geometric helpers for paperJS items
 
 paper.Path.inject({
+	/* 	add growth property to paths so you can animate the "evolution" of a path 
+		example: scene.getItem({ name:'spline' }).growth = 0.5;
+	*/
 	getGrowth: function() {
 		var growth = this.data._growth;
 		if(growth === undefined) {
@@ -21,6 +24,10 @@ paper.Path.inject({
 });
 
 paper.Item.inject({
+	/* 	normalizing rotation property of items
+		so you can set an absolute rotation instead of just rotating incrementally
+		e.g.: item.rotation = 180 && item.rotation = 180 // will only rotate it once
+	*/
 	getRotation: function() {
 		return _.get(this.data, '_rotation', 0);
 	},
@@ -29,6 +36,8 @@ paper.Item.inject({
 		this.data._rotation = angle;
 	},
 
+	/* 	attach element to motion path and move it along it by changing item.offsetOnPath (0…1)
+	*/
 	attachToPath: function(stroke, offset) {
 		this.detachFromPath(stroke);
 
@@ -47,6 +56,7 @@ paper.Item.inject({
 		}
 	},
 
+	/* property to get/set an item's offset on its motion path */
 	getOffsetOnPath: function() {
 		return (this.data._offsetOnPath || 0);
 	},
@@ -60,9 +70,12 @@ paper.Item.inject({
 		this.rotation = path.getNormalAt(len).angle-90;
 		this.data._offsetOnPath = offset;
 	},
+
+	/* mirror element horizontally */
 	flip: function(pivot) {
 		this.scale(-1, 1, pivot);
 	},
+	/* mirror element vertically */
 	flop: function(pivot) {
 		this.scale(1, -1, pivot);
 	}

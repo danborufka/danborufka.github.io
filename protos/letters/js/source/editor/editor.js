@@ -35,6 +35,7 @@ var _timeScrubbing  = false;
 
 var _anchorViz;
 
+/* basic configs for creation of inputs in property panel */
 var _ANIMATABLE_COLORS = {
 	saturation: {
 		range: [0,1],
@@ -53,7 +54,6 @@ var _ANIMATABLE_COLORS = {
 		type: Number
 	}
 }
-
 var _ANIMATABLE_GEOMETRY = {
 	fillColor: 		_asGroup(_ANIMATABLE_COLORS),
 	strokeColor: 	_asGroup(_ANIMATABLE_COLORS),
@@ -78,7 +78,6 @@ var _ANIMATABLE_RECT = _.extend({}, _ANIMATABLE_POS, _ANIMATABLE_SIZE, {
 	bottom: { type: Number },
 	point: 	_asGroup(_ANIMATABLE_POS),
 });
-
 var _ANIMATABLE_DEFAULTS = {
 	blendMode: {
 					allowedValues: ['normal', 'multiply', 'screen', 'overlay', 'soft-light', 'hard- light', 'color-dodge', 'color-burn', 'darken', 'lighten', 'difference', 'exclusion', 'hue', 'saturation', 'luminosity', 'color', 'add', 'subtract', 'average', 'pin-light', 'negation', 'source- over', 'source-in', 'source-out', 'source-atop', 'destination-over', 'destination-in', 'destination-out', 'destination-atop', 'lighter', 'darker', 'copy', 'xor'],
@@ -128,6 +127,7 @@ var ANIMATABLE_PROPERTIES = {
 }
 var PANEL_TOLERANCE = 10;
 
+/* helpers for internal panel calcs */
 function _asGroup(config) {
 	return { 
 		content: config,
@@ -152,7 +152,7 @@ function _changeProp(prop, value) {
 		$input.val(value);
 	}
 }
-
+/* helper to retrieve humanly readable name from a paperJS item */
 function _getAnimationName(item, property, type) {
 
 	var fx = type && type.match(/^Danimator(.*)$/);
@@ -165,10 +165,11 @@ function _getAnimationName(item, property, type) {
 
 	return (item.name || ('layer' + item.id)) + fx;
 }
+/* internal helper to deselect all paperJS items and update panels accordingly */
 function _resetSelection() {
 	$('#layers')
 		.find('.layer').removeClass('selected').end()
-		.find('#layer-' + selectionId).removeClass('open');//.parentsUntil('ul.main').removeClass('open');
+		.find('#layer-' + selectionId).removeClass('open');
 
 	selectionId = false;
 	currentGame.project.deselectAll();
@@ -177,13 +178,15 @@ function _resetSelection() {
 		.find('.type').text('').end()
 		.find('ul.main').html('<li><label>Waiting for a selection …</label></li>');
 }
+/* mapping all alerts to the console */
 function alert(msg) 	{
-	console.log('ALEEEERT!', msg);
+	console.warn(msg);
 }
+/* helper to turn a string into alphachars only */
 function slug(name) 	{ return name.replace(/[^a-z0-9_\-]+/g, '_'); }
 function noop(anything) { return anything; };
 
-/* jQuery helpers */
+/* jQuery helpers to get/set the boundaries of an element */
 $.fn.left = function(x) {
 	var $this = $(this);
 	if(x) return $this.offset({ left: x });
@@ -205,6 +208,7 @@ $.fn.bottom = function(y) {
 	return $this.offset().top + $this.height();
 }
 
+/* class to handle snapping points */
 function Snappables(tolerance) {
 	var self = this;
 	
@@ -290,17 +294,18 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 };
 
+/* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
 		_changeProp(animatable.property, value);
 	}
 }
+/* update layers panel when morphing is triggered */
 Danimator.onMorph = function() {
 	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
 }
 
 Danimator.interactive = true;
-//snapKeyframes.add( $this.data('time') );
 
 /* panel events */
 jQuery(function($){

@@ -1,3 +1,5 @@
+// easing functions for animations
+
 var pi2 = Math.PI*2;
 
 Ease = {
