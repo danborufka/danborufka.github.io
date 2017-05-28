@@ -2,6 +2,7 @@
 // TODOS:
 // o fix autocenter of stage when resizing window
 // o figure out a way to detangle animation from game engine
+// o make audio a separate, optional module
 // o performance optimizations:
 // 	  * use SVG mirror DOM for special ops (like "similar-names")
 // o test morph chaining
