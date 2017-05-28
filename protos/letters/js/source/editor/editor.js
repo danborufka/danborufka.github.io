@@ -1,6 +1,7 @@
 // animation editor engine
 // TODOS:
 // o #keyframes panel: fix initValue when scrubbing
+// o replace undo.js with https://github.com/ArthurClemens/Javascript-Undo-Manager
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
 // o load files properly on "bodyDrop"

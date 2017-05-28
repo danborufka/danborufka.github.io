@@ -2,12 +2,11 @@
 // TODOS:
 // o fix autocenter of stage when resizing window
 // o figure out a way to detangle animation from game engine
-// o use SVG mirror DOM for special ops (like "similar-names")
 // o performance optimizations:
-// 		* minifying & concatenation of files
-// o test morphs + chaining
-// o add support for nested frame animations
+// 	  * use SVG mirror DOM for special ops (like "similar-names")
+// o test morph chaining
 // o compress SVGs
+// o add support for nested frame animations
 
 var animations   	= [];
 
