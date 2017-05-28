@@ -213,9 +213,6 @@ undoHistory = {
 history.replaceState({ undoIndex: 0 }, '');
 
 jQuery(window).on('popstate', function(event, state) {
-    console.log('goto', event.originalEvent.state.undoIndex, 'from', undoHistory.index);
-    console.log('undo?', event.originalEvent.state.undoIndex < undoHistory.index);
-    console.log('redo?', event.originalEvent.state.undoIndex > undoHistory.index);
     undoHistory.goto(event.originalEvent.state.undoIndex);
 });;/*! wavesurfer.js 1.3.7 (Sun, 19 Mar 2017 17:49:02 GMT)
 * https://github.com/katspaugh/wavesurfer.js
@@ -225,7 +222,6 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
 // o #keyframes panel: fix initValue when scrubbing
-// o replace undo.js with https://github.com/ArthurClemens/Javascript-Undo-Manager
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
 // o load files properly on "bodyDrop"

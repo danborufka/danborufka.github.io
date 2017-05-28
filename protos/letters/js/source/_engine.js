@@ -8,7 +8,16 @@
 // o compress SVGs
 // o add support for nested frame animations
 
-var animations   	= [];
+/* check dependencies */
+var missing;
+try {
+	missing = 'lodash'; 	_.VERSION;
+	missing = 'jQuery'; 	jQuery();
+} catch(e) {
+	throw new ReferenceError(missing + ' required!');
+}
+
+var animations = [];
 
 paper.Item.inject({
 	/* frame animation capability for paperjs Items */
