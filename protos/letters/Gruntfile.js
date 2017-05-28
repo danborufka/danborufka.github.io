@@ -2,28 +2,32 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
-    paths: {
-            src: {
-                main: 'js/source/*.js',
-                editor: 'js/source/editor/*.js'
-            },
-            dest: {
-                main: 'js/Danimator.js',
-                mainMin: 'js/Danimator.min.js',
-                editor: 'js/Danimator.editor.js',
-                editorMin: 'js/Danimator.editor.min.js',
-            }
-        },
+    sass: {
+        editor: {
+            src: 'css/source/Danimator.editor.scss',
+            dest: 'css/source/Danimator.editor.css'
+        }
+    },
     concat: {
         main: {
             options: { separator: ';' },
-            src: '<%= paths.src.main %>',
-            dest: '<%= paths.dest.main %>'
+            src: 'js/source/*.js',
+            dest: 'js/Danimator.js'
         },
         editor: {
             options: { separator: ';' },
-            src: '<%= paths.src.editor %>',
-            dest: '<%= paths.dest.editor %>'
+            src: 'js/source/editor/*.js',
+            dest: 'js/Danimator.editor.js'
+        },
+        styles: {
+            src: 'css/source/*.css',
+            dest: 'css/Danimator.editor.css'
+        }
+    },
+    cssmin: {
+        editor: {
+            src: 'css/Danimator.editor.css',
+            dest:'css/Danimator.editor.min.css'
         }
     },
     uglify: {
@@ -35,14 +39,14 @@ module.exports = function(grunt) {
         },
         target: {
             files: {
-                '<%= paths.dest.mainMin %>': ['<%= paths.dest.main %>'],
-                '<%= paths.dest.editorMin %>': ['<%= paths.dest.editor %>']
+                'js/Danimator.min.js': ['js/Danimator.js'],
+                'js/Danimator.editor.min.js': ['js/Danimator.editor.js']
             }
         }
     }
   });
 
   require('load-grunt-tasks')(grunt);
-  grunt.registerTask('default', ['concat','uglify']);
+  grunt.registerTask('default', ['sass', 'concat', 'cssmin','uglify']);
 
 };
