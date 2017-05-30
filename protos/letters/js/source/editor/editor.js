@@ -3,6 +3,7 @@
 // o #keyframes panel: fix initValue when scrubbing
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
+// o make handlePoints editable/animatable
 // o load files properly on "bodyDrop"
 // o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
@@ -413,8 +414,13 @@ jQuery(function($){
 			var id 		= $layer.data('id');
 			var hidden 	= !$layer.is('.hidden');
 
-			$layer.toggleClass('hidden');
-			currentGame.findAndModify(id, { visible: !hidden });
+			new Undoable(function() {
+				$layer.toggleClass('hidden', hidden);
+				currentGame.findAndModify(id, { visible: !hidden });
+			}, function() {
+				$layer.toggleClass('hidden', !hidden);
+				currentGame.findAndModify(id, { visible: hidden });
+			}, (hidden ? 'hide ' : 'show ')+ _getAnimationName(currentGame.find(id)));
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -509,6 +515,8 @@ jQuery(function($){
 			var isFirst = _getStartTime(currentTracks[0]) > time;
 			var isLast  = _getEndTime(_.last(currentTracks)) < time;
 
+			var _oldTracks = _.clone(tracks);
+
 			if(isFirst) {
 				// add track from currentTime to first keyframe
 				Danimator(item, prop, value, value, _getStartTime(currentTracks[0]) - time, {
@@ -550,6 +558,14 @@ jQuery(function($){
 				}
 				_createTracks();
 			}
+
+			var _newTracks = _.clone(tracks);
+
+			new Undoable(function() {
+				tracks = _newTracks;
+			}, function() {
+				tracks = _oldTracks;
+			}, 'add keyframe', true);
 		})
 		/*
 		.on('click', '#keyframes .animate-btn', function(event) {
@@ -760,7 +776,7 @@ jQuery(function($){
 							history.back();
 						}
 						break;
-					case 'u':
+					case 'y':
 						if(event.ctrlKey || event.metaKey) {
 							history.forward();
 						}
@@ -991,13 +1007,18 @@ function _createTracks() {
 				$this.draggable({ 
 					containment: [ $lastRange.left() + 1, y, $nextRange.right() - 1, y],
 					cursor: 'pointer',
-					start: 	function() { _frameDragging = true; },
-					stop: 	function() { 
+					start: 	function(event, ui) { 
+						_frameDragging = true;
+						// ### TODO: save old position
+					},
+					stop: 	function(event, ui) { 
 						_frameDragging = false; 
 						_createTracks();
 					},
 					drag: 	function(event, ui) { 
 						_frameDragging = true;
+
+						console.log('ui', ui);
 
 						var index 	 		= $this.closest('.track').find('.keyframe').index($this);
 						var property 		= $this.closest('li.timeline').data('property');
