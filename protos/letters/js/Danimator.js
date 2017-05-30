@@ -168,8 +168,9 @@ Danimator._time = 0;
 
 Object.defineProperty(Danimator, 'time', {
   get: function()     { return Danimator._time },
-  set: function(time) {
-  	Danimator._time = time; 
+  set: function(secs) {
+  	Danimator._time = Math.max(secs, 0);						// limit seconds to positive value
+  	if(Danimator.onTime) Danimator.onTime(Danimator._time);		// call global hook everytime time gets changed
   	return Danimator;
   }
 });

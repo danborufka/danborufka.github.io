@@ -31,7 +31,7 @@ function strokeGame(project, level, options, onLoad) {
 
 		// remove all clippingMasks
 		project.getItem({ clipMask: true }).remove();
-		console.log('call');
+
 		// let's get closer!
 		self.zoom(1.5);
 
