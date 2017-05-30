@@ -128,6 +128,7 @@ if(!this.Danimator) {
 
 Danimator._time = 0;
 
+/* adding time getter/setter to Danimator */
 Object.defineProperty(Danimator, 'time', {
   get: function()     { return Danimator._time },
   set: function(secs) {
