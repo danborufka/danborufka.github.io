@@ -197,7 +197,6 @@ undoHistory = {
         if(Undos.hasUndo()) {
             Undos.undo();
             undoHistory.index--;
-            console.log('newIndex', undoHistory.index);
         }
     },
 
@@ -205,7 +204,6 @@ undoHistory = {
         if(Undos.hasRedo()) {
             Undos.redo();
             undoHistory.index++;
-            console.log('newIndex', undoHistory.index);
         }
     }
 };
