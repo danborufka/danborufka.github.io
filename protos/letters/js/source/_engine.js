@@ -126,6 +126,16 @@ if(!this.Danimator) {
 	Danimator = function Danimator() { return Danimator.animate.apply(Danimator, arguments); };
 }
 
+Danimator._time = 0;
+
+Object.defineProperty(Danimator, 'time', {
+  get: function()     { return Danimator._time },
+  set: function(time) {
+  	Danimator._time = time; 
+  	return Danimator;
+  }
+});
+
 /* core animation function (adds animation to animatable stack) */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
@@ -541,11 +551,22 @@ Game = function(project, name, options, onLoad) {
 	self.options 		= options || {};
 	self.symbols 		= [];
 
+	self._zoom 			= 1;
+
 	self.resize = function(event) {};
 
 	self.reset = function() {
 		this.dragging = false;
 	};
+
+	self.zoom = function(to) {
+		var from = self._zoom * 1;
+		project.view.zoom = self._zoom = to;
+		if(self.onZoom) self.onZoom(to / from);
+	}
+	self.zoomBy = function(by) {
+		return self.zoom( self._zoom + by );
+	}
 
 	/* 	internal omnipotent helper to determine which supplied file is which.  
 		examples:
@@ -595,6 +616,7 @@ Game = function(project, name, options, onLoad) {
 					onLoad: 		function(item, svg) {
 										self.container 	= item;
 										self.scene 		= self.container.children;
+										
 										try {
 											self.DOM = $(svg);
 											//console.log('SVG DOM', self.DOM);

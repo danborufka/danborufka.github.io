@@ -4,7 +4,7 @@
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
 // o load files properly on "bodyDrop"
-// o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
+// o refactor scene grabbing to alter view, not item pos
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 // o keyframes panel: save as animation
 // o make everything undoable
@@ -33,7 +33,33 @@ var _playing 		= false;
 var _frameDragging 	= false;
 var _timeScrubbing  = false;
 
-var _anchorViz;
+var _anchorViz;								// visualization item for anchor position
+
+/* helpers for internal panel calcs */
+var _asGroup = function(config) {
+	return { 
+		content: config,
+		type: 'group'
+	};
+}
+var _linearTolog = function(factor, min, max) {
+  min = Math.log(min);
+  max = Math.log(max);
+  return Math.exp(min + (max-min) * factor);
+}
+var _decimalPlaces = function(num) {
+  var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  if (!match) { return 0; }
+  return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+var _changeProp = function(prop, value) {
+	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
+	if(typeof value === 'boolean') {
+		$input.prop('checked', value);
+	} else {
+		$input.val(value);
+	}
+}
 
 /* basic configs for creation of inputs in property panel */
 var _ANIMATABLE_COLORS = {
@@ -127,31 +153,9 @@ var ANIMATABLE_PROPERTIES = {
 }
 var PANEL_TOLERANCE = 10;
 
-/* helpers for internal panel calcs */
-function _asGroup(config) {
-	return { 
-		content: config,
-		type: 'group'
-	};
-}
-function _linearTolog(factor, min, max) {
-  min = Math.log(min);
-  max = Math.log(max);
-  return Math.exp(min + (max-min) * factor);
-}
-function _decimalPlaces(num) {
-  var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
-  if (!match) { return 0; }
-  return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
-}
-function _changeProp(prop, value) {
-	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
-	if(typeof value === 'boolean') {
-		$input.prop('checked', value);
-	} else {
-		$input.val(value);
-	}
-}
+var _isBoundsItem = function(item) {
+	return ['PointText', 'Shape', 'PlacedSymbol', 'Raster'].indexOf(item.className) >= 0;
+};
 /* helper to retrieve humanly readable name from a paperJS item */
 function _getAnimationName(item, property, type) {
 
@@ -729,19 +733,16 @@ jQuery(function($){
 						return false;	
 					/* zoomIn */
 					case '+':
-						currentGame.project.view.zoom += .1;
-						_anchorViz.scale(0.9);
+						currentGame.zoomBy( +.1 );
 						return false;
 					/* zoomOut */
 					case '-':
-						currentGame.project.view.zoom -= .1;
-						_anchorViz.scale(1.1);
+						currentGame.zoomBy( -.1 );
 						return false;
 					/* zoomReset */
 					case '0':
 						if(event.ctrlKey || event.metaKey) {
-							currentGame.project.view.zoom = 1.5;
-							_anchorViz.scale(1);
+							currentGame.zoom( 1.5 );
 							return false;
 						}
 						break;
@@ -1193,7 +1194,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 	var self = this;
 	currentGame = self;
 
-	self.time 	= 0;
+	self.time = 0;
 
 	self.setTime = function(seconds, $target) {
 		var time = Math.max(seconds, 0);
@@ -1290,10 +1291,46 @@ Game.onLoad = function(project, name, options, scene, container) {
 		return self.find(id).set(props);
 	};
 
+	self.onZoom = function(by) {
+		_anchorViz.scale( 1/by );
+	}
+
 	var layers = Danimator.layers = self.scene.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
+	var _hoverClone;
+	var _hoverItem;
 
-	// selection of elements (by clicking them)
+	var _clearHover = function() {
+		if(_hoverItem !== undefined) {
+			_hoverItem.remove();
+			_hoverItem = undefined;
+		}
+		paper.view.update();
+	}
+
+	/* hover effect for paper elements */
+	project.view.onMouseMove = function(event) {
+		var hover = project.hitTest(event.point);
+
+		if(false)
+		if(hover) {
+			if(hover.item !== _hoverItem) _clearHover();
+
+			if(_hoverItem === undefined && hover.item.selected === false) {
+				_hoverClone = hover.item.clone({ insert: true });
+				_hoverClone.guide = true;
+				_hoverClone.opacity = 1;
+				_hoverClone.strokeWidth = 1/project.view.zoom;
+				_hoverClone.strokeColor = '#009dec';
+				_hoverClone.fillColor = null;
+				_hoverClone.bringToFront();
+				_hoverItem = hover.item;
+			}
+		} else _clearHover();
+		//console.log('event', event);
+	}
+
+	/* selection of elements (by clicking them) */
 	project.view.onMouseDown = function onCanvasMouseDown(event) {
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
@@ -1305,7 +1342,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 			event.event.stopImmediatePropagation();
 		}
 	};
-	// allow moving of canvas when commandKey is held
+	/* allow moving of canvas when commandKey is held */
 	project.view.onMouseDrag = function onCanvasMouseDrag(event) {
 		if(event.event.metaKey) {
 			if(selectionId) {
@@ -1369,8 +1406,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 			strokeColor: 	'cyan'
 		})
 	]);
-
 	_anchorViz.visible = false;
+	_anchorViz.data._scale = 1;
 
 	_anchorViz.onMouseDown = function(event) {
 		if(event.event.altKey) {
@@ -1404,6 +1441,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 	};
 
 	self.container.appendTop(_anchorViz);
+
+	self.onZoom(1);
 
 	_createLayers(layers, $('.panel#layers ul').empty());
 

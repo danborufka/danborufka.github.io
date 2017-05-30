@@ -29,12 +29,11 @@ function strokeGame(project, level, options, onLoad) {
 		stroke 			= strokes[currentStroke];
 		self.stroke   	= stroke;
 
-		// let's get closer!
-		project.view.zoom = 1.5;
-
 		// remove all clippingMasks
 		project.getItem({ clipMask: true }).remove();
-
+		console.log('call');
+		// let's get closer!
+		self.zoom(1.5);
 
 		scene.control.onMouseDown = function(data) {
 			if(!self.locked) {
