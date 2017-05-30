@@ -1513,6 +1513,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	var layers = Danimator.layers = self.scene.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
+	var _oldPosition;
+	var _element;
 
 	// selection of elements (by clicking them)
 	project.view.onMouseDown = function onCanvasMouseDown(event) {
@@ -1522,6 +1524,11 @@ Game.onLoad = function(project, name, options, scene, container) {
 			}
 			else _resetSelection();
 		} else {
+			if(event.event.metaKey) {
+				_element = selectionId ? self.find(selectionId) : self.container;
+				_oldPosition = _element.position;
+			}
+
 			event.event.preventDefault();
 			event.event.stopImmediatePropagation();
 		}
@@ -1534,8 +1541,6 @@ Game.onLoad = function(project, name, options, scene, container) {
 				selectedItem.position = selectedItem.position.add(event.delta);
 
 				if(selectedItem.pivot) {
-					_changeProp('pivot.x', selectedItem.pivot.x);
-					_changeProp('pivot.y', selectedItem.pivot.y);
 					_anchorViz.position = selectedItem.pivot;
 				} else {
 					_anchorViz.position = selectedItem.bounds.center;
@@ -1554,6 +1559,29 @@ Game.onLoad = function(project, name, options, scene, container) {
 			event.event.stopImmediatePropagation();
 		}
 	};
+
+	project.view.onMouseUp = function onCanvasMouseUp(event) {
+		if(_oldPosition) {
+			var _newPosition = _element.position;
+			var _position = _oldPosition.clone();
+
+			new Undoable(function(){
+				_element.position = _newPosition;
+				_changeProp('pivot.x', _anchorViz.position.x);
+				_changeProp('pivot.y', _anchorViz.position.y);
+				_changeProp('position.x', _element.position.x);
+				_changeProp('position.y', _element.position.y);
+			}, function(){
+				_element.position = _position;
+				_changeProp('pivot.x', _anchorViz.position.x);
+				_changeProp('pivot.y', _anchorViz.position.y);
+				_changeProp('position.x', _element.position.x);
+				_changeProp('position.y', _element.position.y);
+			}, 'changing position of ' + _getAnimationName(_element), true);
+
+		}
+		_oldPosition = null;
+	}
 
 	/* setup and event handlers for visualization of anchor (pivot) point */
 	_anchorViz = new paper.Group([
