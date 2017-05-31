@@ -1,13 +1,11 @@
 // animation editor engine
 // TODOS:
-// o node module for server-side saving & loading of JSON
-// o #keyframes panel: add record mode incl. button
-// o load files properly on "bodyDrop"
-// o (#properties panel: refactor from ranges (keyframe pairs) to single keyframes?)
-// o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o keyframes panel: save as animation
 // o make everything undoable
-// o (add node module for packaging)
+// o node module for server-side saving & loading of JSON
+// o load files properly on "bodyDrop"
+// o #keyframes panel: save as animation
+// o #keyframes panel: add record mode incl. button
+// o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
 var tracks   		= {};
 var events 			= {};
@@ -824,7 +822,7 @@ jQuery(function($){
 	        				console.log('script(s) on board.', extension, file);
 		        			break;
 		        		case 'svg+xml':
-		        			console.log('', );('vector on board.');
+		        			console.log('vector on board.');
 		        			break;
 		        		default:
 		        			console.error('not found!');

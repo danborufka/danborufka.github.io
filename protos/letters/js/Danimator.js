@@ -739,8 +739,6 @@ paper.Path.inject({
 		this.data._growth = growth;
 		var grownLength = growth * this.length;
 
-		console.log('growth set', growth, 'opa', this.visible, '_oldVisible', this.data._oldVisible);
-
 		if(!_.has(this.data, '_oldVisible')) {
 			this.data._oldVisible = !!this.visible;
 		}
