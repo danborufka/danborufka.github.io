@@ -1,6 +1,5 @@
 // animation editor engine
 // TODOS:
-// o #keyframes panel: fix initValue when scrubbing
 // o node module for server-side saving & loading of JSON
 // o #keyframes panel: add record mode incl. button
 // o load files properly on "bodyDrop"
@@ -825,7 +824,7 @@ jQuery(function($){
 	        				console.log('script(s) on board.', extension, file);
 		        			break;
 		        		case 'svg+xml':
-		        			console.log('vector on board.');
+		        			console.log('', );('vector on board.');
 		        			break;
 		        		default:
 		        			console.error('not found!');
