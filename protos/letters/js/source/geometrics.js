@@ -19,6 +19,16 @@ paper.Path.inject({
 	setGrowth: function(growth) {
 		this.data._growth = growth;
 		var grownLength = growth * this.length;
+
+		if(!_.has(this.data, '_oldVisible')) {
+			this.data._oldVisible = !!this.visible;
+		}
+
+		if(growth <= 0) {
+			this.visible = false;
+		} else if(this.visible != this.data._oldVisible) {
+			this.visible = _.get(this.data, '_oldVisible', 1);
+		};
 		this.dashArray = [grownLength, this.length];
 	}
 });

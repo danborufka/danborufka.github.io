@@ -186,6 +186,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		}
 	}
 
+	// ### TODO: change initVal here if necessary
 	/* setTimeout to cover delay parameter */
 	var aniTimeout = animations[item.id] = setTimeout(function() {
 		/* if this is the first time */
