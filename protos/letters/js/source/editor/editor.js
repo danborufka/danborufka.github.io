@@ -258,6 +258,14 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	var propertyTrack 	= _.get(track.properties, property, []);
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
+	if(!item.data._animationsStart)
+		item.data._animationsStart = _getStartTime({options: options, duration: duration});
+
+	// if this is the earliest animation change item's initial property value to animatable's "from" value
+	if(_getStartTime({options: options, duration: duration}) <= _.get(item.data, '_animationsStart', 10000)) {
+		_.set(item, property, fr);
+	}
+
 	var key = {
 		from: 		fr,
 		to: 		to,
@@ -468,7 +476,6 @@ jQuery(function($){
 		.on('mousemove', '.timeline .track', function(event) {
 			if(!_frameDragging)
 				if(_timeScrubbing) {
-
 					var $this = $(event.currentTarget);
 					var x = event.clientX - $this.offset().left - 1;
 					var t = x / TIME_FACTOR;
@@ -1272,12 +1279,13 @@ Game.onLoad = function(project, name, options, scene, container) {
 			}
 		});
 
+		var _revert = !!_timeScrubbing;
 		_timeScrubbing = true;
 		/* update all sounds */
 		$('#audio .audio').each(function(){
 			$(this).data('wave').seekTo(time);
 		});
-		_timeScrubbing = false;
+		_timeScrubbing = _revert;
 
 		self.time = time;
 	}
