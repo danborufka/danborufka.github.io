@@ -1,14 +1,12 @@
 // animation editor engine
 // TODOS:
-// o #keyframes panel: fix initValue when scrubbing
+// o make everything undoable
 // o node module for server-side saving & loading of JSON
-// o #keyframes panel: add record mode incl. button
 // o load files properly on "bodyDrop"
 // o refactor scene grabbing to alter view, not item pos
+// o #keyframes panel: save as animation
+// o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
-// o keyframes panel: save as animation
-// o make everything undoable
-// o (add node module for packaging)
 
 var tracks   		= {};
 var events 			= {};
@@ -263,6 +261,14 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	var propertyTrack 	= _.get(track.properties, property, []);
 	var options 		= _.defaults(options, { delay: 0, easing: ease });
 
+	if(!item.data._animationsStart)
+		item.data._animationsStart = _getStartTime({options: options, duration: duration});
+
+	// if this is the earliest animation change item's initial property value to animatable's "from" value
+	if(_getStartTime({options: options, duration: duration}) <= _.get(item.data, '_animationsStart', 10000)) {
+		_.set(item, property, fr);
+	}
+
 	var key = {
 		from: 		fr,
 		to: 		to,
@@ -473,7 +479,6 @@ jQuery(function($){
 		.on('mousemove', '.timeline .track', function(event) {
 			if(!_frameDragging)
 				if(_timeScrubbing) {
-
 					var $this = $(event.currentTarget);
 					var x = event.clientX - $this.offset().left - 1;
 					var t = x / TIME_FACTOR;
@@ -1266,12 +1271,13 @@ Danimator.onTime = function(time) {
 		}
 	});
 
+	var _revert = !!_timeScrubbing;
 	_timeScrubbing = true;
 	/* update all sounds */
 	$('#audio .audio').each(function(){
 		$(this).data('wave').seekTo(time);
 	});
-	_timeScrubbing = false;
+	_timeScrubbing = _revert;
 }
 
 /* game engine for loading SVG skeletons, extended to editing capabilities */

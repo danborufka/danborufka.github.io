@@ -166,6 +166,7 @@ if(!this.Danimator) {
 
 Danimator._time = 0;
 
+/* adding time getter/setter to Danimator */
 Object.defineProperty(Danimator, 'time', {
   get: function()     { return Danimator._time },
   set: function(secs) {
@@ -235,6 +236,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 		}
 	}
 
+	// ### TODO: change initVal here if necessary
 	/* setTimeout to cover delay parameter */
 	var aniTimeout = animations[item.id] = setTimeout(function() {
 		/* if this is the first time */
@@ -760,6 +762,16 @@ paper.Path.inject({
 	setGrowth: function(growth) {
 		this.data._growth = growth;
 		var grownLength = growth * this.length;
+
+		if(!_.has(this.data, '_oldVisible')) {
+			this.data._oldVisible = !!this.visible;
+		}
+
+		if(growth <= 0) {
+			this.visible = false;
+		} else if(this.visible != this.data._oldVisible) {
+			this.visible = _.get(this.data, '_oldVisible', 1);
+		};
 		this.dashArray = [grownLength, this.length];
 	}
 });
