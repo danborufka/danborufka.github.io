@@ -142,7 +142,7 @@ function _decimalPlaces(num) {
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
 function _changesFile(filetype) {
-	console.log('files', currentGame.files, filetype);
+	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
 }
 function _changesProp(prop, value) {
 	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
@@ -611,7 +611,6 @@ jQuery(function($){
 					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
 					_changesProp(index[2], oldValue);
 				}, 'change segment of ' + _getAnimationName(item));
-
 			} else {
 				props[prop] = value;
 
@@ -767,7 +766,7 @@ jQuery(function($){
 							history.back();
 						}
 						break;
-					case 'u':
+					case 'y':
 						if(event.ctrlKey || event.metaKey) {
 							history.forward();
 						}
@@ -1319,6 +1318,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 			if(selectionId) {
 				var selectedItem = self.find(selectionId);
 				selectedItem.position = selectedItem.position.add(event.delta);
+
+				_changesFile('ani.json');
 
 				if(selectedItem.pivot) {
 					_changesProp('pivot.x', selectedItem.pivot.x);

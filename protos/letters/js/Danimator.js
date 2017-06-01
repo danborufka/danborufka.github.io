@@ -606,15 +606,15 @@ Game = function(project, name, options, onLoad) {
 			case 'string':
 				var extension = files.match(/\.([^\.]{2,5})$/g);
 				if(extension) {
-					resolved[extension[0].slice(1)] = { path: files };
+					resolved[extension[0].slice(1)] = { path: files, saved: true };
 					return resolved;
 				}
 				/* if SVG */
 				if(files.match(/<svg.*>/g)) {
-					return { svg: { content: files } };
+					return { svg: { content: files, saved: true } };
 				}
 				if(files.match(/\n/g)) {
-					return { js: { content: files } };
+					return { js: { content: files, saved: true } };
 				}
 			default:
 		}
