@@ -9,19 +9,20 @@
 	<script>
 		if(annyang) {
 			var commands = {
-				'this is a test': function() {
+				'test': function() {
 				  alert("hello");
 				},
-				'some :words are better left untouched': function(words) {
-					console.log('you don\'t touch ', words);
+				'ya xachoo': function() {
+					console.log('russlish?');
 				},
-				'a': function() {
-					alert("heeeeeey!");
+				'я мие :what': function(what) {
+					console.log('😃 I want ', what);
 				}
 			};
+			annyang.setLanguage('ru');
 			annyang.addCommands(commands);
 			annyang.start({ autoRestart: true, continuous: false });
-		} else console.log('annyang could\'nt be loaded.');
+		}
 	</script>
 </body>
 </html>
