@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dialog Test</title>
+</head>
+<body>
+	<script src="js/annyang.min.js"></script>
+	<script>
+		if(annyang) {
+			var commands = {
+				'this is a test': function() {
+				  alert("hello");
+				},
+				'some :words are better left untouched': function(words) {
+					console.log('you don\'t touch ', words);
+				},
+				'a': function() {
+					alert("heeeeeey!");
+				}
+			};
+			annyang.addCommands(commands);
+			annyang.start({ autoRestart: true, continuous: false });
+		} else console.log('annyang could\'nt be loaded.');
+	</script>
+</body>
+</html>
