@@ -771,6 +771,10 @@ jQuery(function($){
 							history.forward();
 						}
 						break;
+					case 's':
+						if(event.ctrlKey || event.metaKey) {
+							currentGame.saveAll();
+						}
 				}
 			} else {
 				if(event.key === 'Enter') {
@@ -1200,6 +1204,14 @@ Game.onLoad = function(project, name, options, scene, container) {
 	currentGame = self;
 
 	self.time 	= 0;
+
+	self.saveAll = function() {
+		_.each(currentGame.files, function(file, type) {
+			if(!file.saved) {
+				// ### TODO: save file here
+			}
+		});
+	}	
 
 	self.setTime = function(seconds, $target) {
 		var time = Math.max(seconds, 0);
