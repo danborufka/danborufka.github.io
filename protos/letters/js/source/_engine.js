@@ -550,11 +550,11 @@ Game = function(project, name, options, onLoad) {
 
 	/* 	internal omnipotent helper to determine which supplied file is which.  
 		examples:
-		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: 'image.svg' 		 			}
-		_resolveFiles('<svg>…</svg>') 			-> { svg: '<svg>…</svg>' 	 			}
-		_resolveFiles('jQuery.ready(…);') 		-> { js:  'jQuery.ready(…);' 			}
-		_resolveFiles('image.svg') 				-> { svg: 'image.svg' 		 			}
-		_resolveFiles('image.svg', 'script.js') -> { svg: 'image.svg', js: 'script.js'  }
+		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: { path: 'image.svg' } 		}
+		_resolveFiles('<svg>…</svg>') 			-> { svg: { content: '<svg>…</svg>'}	}
+		_resolveFiles('jQuery.ready(…);') 		-> { js:  { content: 'jQuery.ready(…);'}}
+		_resolveFiles('image.svg') 				-> { svg: { path: 'image.svg' } 		}
+		_resolveFiles('image.svg', 'script.js') -> { svg: { path: 'image.svg' }, js: { path: 'script.js' }}
 	*/
 	self._resolveFiles = function(files) {
 		var resolved = {};
@@ -568,15 +568,15 @@ Game = function(project, name, options, onLoad) {
 			case 'string':
 				var extension = files.match(/\.([^\.]{2,5})$/g);
 				if(extension) {
-					resolved[extension[0].slice(1)] = files;
+					resolved[extension[0].slice(1)] = { path: files };
 					return resolved;
 				}
 				/* if SVG */
 				if(files.match(/<svg.*>/g)) {
-					return { svg: files };
+					return { svg: { content: files } };
 				}
 				if(files.match(/\n/g)) {
-					return { js: files };
+					return { js: { content: files } };
 				}
 			default:
 		}
@@ -588,10 +588,13 @@ Game = function(project, name, options, onLoad) {
 		files = self._resolveFiles(files);
 		
 		if(files) {
+			// add passed files to game's file object, overwriting only on a per-filetype basis
+			self.files = _.extend(_.get(self, 'files', {}), files);
+
 			if(files.svg) {
 				project.clear();
 				project.view.update();
-				project.importSVG(files.svg, {
+				project.importSVG(files.svg.content || files.svg.path, {
 					expandShapes: 	true,
 					onLoad: 		function(item, svg) {
 										self.container 	= item;
