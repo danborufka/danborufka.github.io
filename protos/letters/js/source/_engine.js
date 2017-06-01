@@ -540,6 +540,12 @@ Game = function(project, name, options, onLoad) {
 	self.file 			= 'games/' + self.type + '/' + name + '.svg';
 	self.project 		= project;
 	self.options 		= options || {};
+	self.files 			= { 
+		'ani.json': {
+			 name: 'untitled.json', 
+			 saved: false 
+		} 
+	};
 	self.symbols 		= [];
 
 	self.resize = function(event) {};
