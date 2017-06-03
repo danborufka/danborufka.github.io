@@ -39,7 +39,8 @@ return L[n](this._segments,this._closed,this,t,e)},statics:{getBounds:function(t
 return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode(t)))},Ke=t.isIdentifierChar=function(t){return t<48?36===t:t<58||!(t<65)&&(t<91||(t<97?95===t:t<123||t>=170&&Ge.test(String.fromCharCode(t))))},Qe={kind:"loop"},tn={kind:"switch"}});var m={"+":"__add","-":"__subtract","*":"__multiply","/":"__divide","%":"__modulo","==":"__equals","!=":"__equals"},y={"-":"__negate","+":null},w=r.each(["add","subtract","multiply","divide","modulo","equals","negate"],function(t){this["__"+t]="#"+t},{});return c.inject(w),d.inject(w),R.inject(w),n&&("complete"===i.readyState?setTimeout(f):U.add(n,{load:f})),{compile:h,execute:u,load:_,parse:o}}.call(this),paper=new(a.inject(r.exports,{enumerable:!0,Base:r,Numerical:u,Key:J,DomEvent:U,DomElement:H,document:i,window:n,Symbol:I,PlacedSymbol:k})),paper.agent.node&&require("./node/extend.js")(paper),"function"==typeof define&&define.amd?define("paper",paper):"object"==typeof module&&module&&(module.exports=paper),paper}.call(this,"object"==typeof self?self:null);;// animation and game engine
 // TODOS:
 // o fix autocenter of stage when resizing window
-// o figure out a way to detangle animation from game engine
+// ø figure out a way to detangle animation from game engine
+// o make Danimator own repo
 // o make audio a separate, optional module
 // o performance optimizations:
 // 	  * use SVG mirror DOM for special ops (like "similar-names")
@@ -578,6 +579,12 @@ Game = function(project, name, options, onLoad) {
 	self.file 			= 'games/' + self.type + '/' + name + '.svg';
 	self.project 		= project;
 	self.options 		= options || {};
+	self.files 			= { 
+		'ani.json': {
+			 name: 'untitled.json', 
+			 saved: false 
+		} 
+	};
 	self.symbols 		= [];
 
 	self.resize = function(event) {};
@@ -588,11 +595,11 @@ Game = function(project, name, options, onLoad) {
 
 	/* 	internal omnipotent helper to determine which supplied file is which.  
 		examples:
-		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: 'image.svg' 		 			}
-		_resolveFiles('<svg>…</svg>') 			-> { svg: '<svg>…</svg>' 	 			}
-		_resolveFiles('jQuery.ready(…);') 		-> { js:  'jQuery.ready(…);' 			}
-		_resolveFiles('image.svg') 				-> { svg: 'image.svg' 		 			}
-		_resolveFiles('image.svg', 'script.js') -> { svg: 'image.svg', js: 'script.js'  }
+		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: { path: 'image.svg' } 		}
+		_resolveFiles('<svg>…</svg>') 			-> { svg: { content: '<svg>…</svg>'}	}
+		_resolveFiles('jQuery.ready(…);') 		-> { js:  { content: 'jQuery.ready(…);'}}
+		_resolveFiles('image.svg') 				-> { svg: { path: 'image.svg' } 		}
+		_resolveFiles('image.svg', 'script.js') -> { svg: { path: 'image.svg' }, js: { path: 'script.js' }}
 	*/
 	self._resolveFiles = function(files) {
 		var resolved = {};
@@ -606,15 +613,15 @@ Game = function(project, name, options, onLoad) {
 			case 'string':
 				var extension = files.match(/\.([^\.]{2,5})$/g);
 				if(extension) {
-					resolved[extension[0].slice(1)] = files;
+					resolved[extension[0].slice(1)] = { path: files, saved: true };
 					return resolved;
 				}
 				/* if SVG */
 				if(files.match(/<svg.*>/g)) {
-					return { svg: files };
+					return { svg: { content: files, saved: true } };
 				}
 				if(files.match(/\n/g)) {
-					return { js: files };
+					return { js: { content: files, saved: true } };
 				}
 			default:
 		}
@@ -626,10 +633,13 @@ Game = function(project, name, options, onLoad) {
 		files = self._resolveFiles(files);
 		
 		if(files) {
+			// add passed files to game's file object, overwriting only on a per-filetype basis
+			self.files = _.extend(_.get(self, 'files', {}), files);
+
 			if(files.svg) {
 				project.clear();
 				project.view.update();
-				project.importSVG(files.svg, {
+				project.importSVG(files.svg.content || files.svg.path, {
 					expandShapes: 	true,
 					onLoad: 		function(item, svg) {
 										self.container 	= item;

@@ -5,23 +5,76 @@
 	<title>Dialog Test</title>
 </head>
 <body>
+	<style type="text/css">
+		html, body {
+			margin: 0;
+			height: 100%;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			text-align: center;
+		}
+		h1 {
+			font-size: 50px;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			line-height: 70vh;
+			margin: 0;
+		}
+		h1 button {
+			background: #FBF1E6;
+			border: 1px solid #C0A890;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 40px;
+			padding: 20px 80px;
+			transition: .2s all;
+		}
+		h1 button:hover {
+			background: #FAF6F1;
+			box-shadow: inset -2px -2px 6px rgba(0,0,0,.1);
+			transform: scale(1.06);
+		}
+		h1 button:active {
+			background: #F6E4CE;
+			color: #816B50;
+			box-shadow: inset 2px 2px 6px rgba(0,0,0,.4);
+			transform: scale(1.05);
+		}
+		h1 button:active,
+		h1 button:focus {
+			outline: none;
+		}
+		output {
+			opacity: .6;
+		}
+	</style>
+	<h1><button class="start">Start!</button></h1>
+	<output></output>
+	<script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 	<script src="js/annyang.min.js"></script>
-	<script>
-		if(annyang) {
-			var commands = {
-				'this is a test': function() {
-				  alert("hello");
-				},
-				'some :words are better left untouched': function(words) {
-					console.log('you don\'t touch ', words);
-				},
-				'a': function() {
-					alert("heeeeeey!");
+	<script src="js/tmi.js"></script>
+	<script src="">
+		const LANGS = {
+			'English': 'en-US',
+			'French': 'fr-FR',
+			'German': 'de-DE',
+			'Russian': 'ru-RU',
+			'Italian': 'it-IT',
+			'Spanish': 'es-ES'
+		};
+
+		$('.start').click(function(event){
+			let commands = {
+				'dildoshit': {
+					regexp: /(fuck|shit|dick|pussy|bitch|dildo)/gi,
+					callback: () => {
+						$('h1').html('No need to get inpolite!');
+					}
 				}
 			};
-			annyang.addCommands(commands);
-			annyang.start({ autoRestart: true, continuous: false });
-		} else console.log('annyang could\'nt be loaded.');
+		});
+
+		
+		//$();
 	</script>
 </body>
 </html>

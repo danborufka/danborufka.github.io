@@ -141,7 +141,10 @@ function _decimalPlaces(num) {
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
-function _changeProp(prop, value) {
+function _changesFile(filetype) {
+	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
+}
+function _changesProp(prop, value) {
 	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
 	if(typeof value === 'boolean') {
 		$input.prop('checked', value);
@@ -302,7 +305,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
-		_changeProp(animatable.property, value);
+		_changesProp(animatable.property, value);
 	}
 }
 /* update layers panel when morphing is triggered */
@@ -603,12 +606,11 @@ jQuery(function($){
 			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
 				new Undoable(function() {
 					_.set( item.segments[parseInt(index[1])], index[2], value );
-					_changeProp(index[2], value);
+					_changesProp(index[2], value);
 				}, function() {
 					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
-					_changeProp(index[2], oldValue);
+					_changesProp(index[2], oldValue);
 				}, 'change segment of ' + _getAnimationName(item));
-
 			} else {
 				props[prop] = value;
 
@@ -617,18 +619,18 @@ jQuery(function($){
 
 				new Undoable(function() {
 					_.set(item, prop, value);
-					_changeProp(prop, value);
+					_changesProp(prop, value);
 					if(isPosition) {
-						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
-						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
+						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
+						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
 					}
 					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
 				}, function() {
 					_.set(item, prop, oldValue);
-					_changeProp(prop, oldValue);
+					_changesProp(prop, oldValue);
 					if(isPosition) {
-						_changeProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
-						_changeProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
+						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
 					}
 					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
 				}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
@@ -764,9 +766,16 @@ jQuery(function($){
 							history.back();
 						}
 						break;
-					case 'u':
+					case 'y':
 						if(event.ctrlKey || event.metaKey) {
 							history.forward();
+						}
+						break;
+					case 's':
+						if(event.ctrlKey || event.metaKey) {
+							currentGame.saveAll();
+							event.preventDefault();
+							event.stopImmediatePropagation();
 						}
 						break;
 				}
@@ -1199,6 +1208,15 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	self.time 	= 0;
 
+	self.saveAll = function() {
+		console.log('saving all!');
+		_.each(currentGame.files, function(file, type) {
+			if(!file.saved) {
+				// ### TODO: save file here
+			}
+		});
+	}	
+
 	self.setTime = function(seconds, $target) {
 		var time = Math.max(seconds, 0);
 
@@ -1317,19 +1335,21 @@ Game.onLoad = function(project, name, options, scene, container) {
 				var selectedItem = self.find(selectionId);
 				selectedItem.position = selectedItem.position.add(event.delta);
 
+				_changesFile('ani.json');
+
 				if(selectedItem.pivot) {
-					_changeProp('pivot.x', selectedItem.pivot.x);
-					_changeProp('pivot.y', selectedItem.pivot.y);
+					_changesProp('pivot.x', selectedItem.pivot.x);
+					_changesProp('pivot.y', selectedItem.pivot.y);
 					_anchorViz.position = selectedItem.pivot;
 				} else {
 					_anchorViz.position = selectedItem.bounds.center;
 				}
 
-				_changeProp('pivot.x', _anchorViz.position.x);
-				_changeProp('pivot.y', _anchorViz.position.y);
+				_changesProp('pivot.x', _anchorViz.position.x);
+				_changesProp('pivot.y', _anchorViz.position.y);
 
-				_changeProp('position.x', selectedItem.position.x);
-				_changeProp('position.y', selectedItem.position.y);
+				_changesProp('position.x', selectedItem.position.x);
+				_changesProp('position.y', selectedItem.position.y);
 			} else {
 				self.container.position = self.container.position.add(event.delta);
 			}
@@ -1388,8 +1408,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 		if(event.event.altKey) {
 			this.position = event.point;
 			currentGame.findAndModify(selectionId, { pivot: this.position });
-			_changeProp('pivot.x', this.position.x);
-			_changeProp('pivot.y', this.position.y);
+			_changesProp('pivot.x', this.position.x);
+			_changesProp('pivot.y', this.position.y);
 		}
 	};
 
@@ -1432,6 +1452,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 			$panel.css(pos);
 		}
 	});
+
+	console.log('currentGame.files', currentGame.files);
 
 	$('body').addClass('ready');
 
