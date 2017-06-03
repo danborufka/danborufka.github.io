@@ -5,24 +5,85 @@
 	<title>Dialog Test</title>
 </head>
 <body>
-	<script src="js/annyang.min.js"></script>
-	<script>
-		if(annyang) {
-			var commands = {
-				'test': function() {
-				  alert("hello");
-				},
-				'ya xachoo': function() {
-					console.log('russlish?');
-				},
-				'я мие :what': function(what) {
-					console.log('😃 I want ', what);
-				}
-			};
-			annyang.setLanguage('ru');
-			annyang.addCommands(commands);
-			annyang.start({ autoRestart: true, continuous: false });
+	<style type="text/css">
+		html, body {
+			margin: 0;
+			height: 100%;
 		}
+		h1 {
+			font-size: 50px;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			line-height: 100vh;
+			margin: 0;
+			text-align: center;
+		}
+	</style>
+	<h1><button class="start">Start!</button></h1>
+	<script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+	<script src="js/annyang.min.js"></script>
+	<script src="js/tmi.js"></script>
+	<script src="">
+		const LANGS = {
+			'English': 'en-US',
+			'French': 'fr-FR',
+			'German': 'de-DE',
+			'Russian': 'ru-RU',
+			'Italian': 'it-IT',
+			'Spanish': 'es-ES'
+		};
+
+		$('.start').click(function(event){
+			$('h1').text('Hi! What\'s your native language?');
+
+			if(annyang) {
+				let commands = {
+					'dildoshit': {
+						regexp: /(fuck|shit|dick|pussy|bitch|dildo)/gi,
+						callback: () => {
+							$('h1').html('No need to get inpolite!');
+						}
+					}
+				};
+
+				annyang.addCallback('result', (matches) => {
+					if(matches.indexOf('f*** you') > -1) {
+						$('h1').html('No, fuck <b>you</b>!');
+					}
+				});
+
+				_.each(LANGS, (code, lang) => {
+					let langStr = lang.toLowerCase();
+					commands[langStr] = function() {
+						annyang.setLanguage(code);
+						$('h1').text(`Well, a ${lang} speaker! What\'s your name?`);
+						annyang.addCallback('result', (matches) => {
+							const name = matches[0];
+							$('h1').text(`Is your name "${name}"??`);
+							annyang.setLanguage('en-US');
+							annyang.removeCallback('result');	
+							annyang.addCommands({
+								'yes(*)': function() {
+									$('h1').text(`Superbe. Hi, ${name}!`);
+									annyang.pause();
+								},
+								'no(*)': function() {
+									$('h1').html('Ok. What is it then? <br><input><input type="submit">');
+								}
+							});
+						});
+					}
+				});
+
+				annyang.addCommands(commands);
+				annyang.setLanguage('en-US');
+				annyang.debug();
+				annyang.start({ autoRestart: true, continuous: false });
+			}
+		});
+
+		
+		//$();
 	</script>
 </body>
 </html>
