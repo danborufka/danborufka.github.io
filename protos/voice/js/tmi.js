@@ -1,7 +1,14 @@
+// ### TODO: 
+// o fix constant listening to keywords
+
+var _regExify = function(expectation) {
+	return new RegExp('^' + expectation.answers.join('|') + '$', 'i');
+}
+
 TMI = this.TMI || {
 
 	_default_lang: 	'en-US',
-	_last_cmds: 	[],
+	_last_cmds: 	false,
 	_value: 		'',
 
 	expectations: 	[],
@@ -15,34 +22,51 @@ TMI = this.TMI || {
 						var isFirstRun 			= TMI.index === 0;
 						var currentExpectation 	= TMI.expectations[TMI.index];
 
-						if(currentExpectation) {
+						console.log('run #', TMI.index, 'expectation:', !!currentExpectation, 'first?', isFirstRun);
 
+						if(currentExpectation) {
 							if(isFirstRun) {
 								annyang.addCallback('result', function(matches) {
 									var thisExpectation = TMI.expectations[TMI.index];
+
 									TMI.value = matches[0];
 
-									if(TMI.listeners.length) {
-										_.each(TMI.listeners, function(listener) {
-											console.log('listener', listener);
-										});
+									$('output').text('It sounded like you said "' + TMI.value + '"');
+
+									if(thisExpectation) {
+										console.log(TMI.index, 'matches', matches, 'listeners', TMI.listeners);
+
+										TMI.value = _.find(matches, function(match) { 
+											return match.match(_regExify(thisExpectation)); 
+										}) || matches[0];
+										
+										if(TMI.listeners.length) {
+											_.each(TMI.listeners, function(listener) {
+												_.each(listener.for, function(keyword) {
+													console.log('keyword', keyword, keyword.length);
+													if(matches.indexOf(keyword) > -1) return listener.callback(matches);
+												});
+											});
+										}
+
+										if(!thisExpectation.answers.length) {
+											thisExpectation.callback(TMI.value);
+											TMI.index++;
+											TMI.run();
+										}
+									} else {
+										TMI.onDone && TMI.onDone();
 									}
 
-									if(!thisExpectation.answers.length) {
-										thisExpectation.callback(TMI.value);
-										TMI.index++;
-										TMI.run();
-									}
 								});
 							} else {
 								// if there were any commands from last expectation – remove them
-								if(TMI._last_cmds.length) {
+								if(TMI._last_cmds) {
+									console.log('removing commands for', Object.keys(TMI._last_cmds));
 									annyang.removeCommands(Object.keys(TMI._last_cmds));
-									TMI._last_cmds = [];
+									TMI._last_cmds = false;
 								}
 							}
-							
-							console.log('currentExpectation', currentExpectation);
 
 							if(currentExpectation.answers.length) {
 								var commands = {};
@@ -60,7 +84,6 @@ TMI = this.TMI || {
 								};
 								
 								annyang.addCommands(commands);
-
 								// save last cmd to remove it on next expectation
 								TMI._last_cmds = commands;
 							}
@@ -87,27 +110,35 @@ TMI = this.TMI || {
 							}
 						}
 						TMI.onAnswer && TMI.onAnswer(TMI.value);
-					},
-	listen: 		function(options, callback) {
-						console.log('options', options.for);
-
-						var listener = {};
-						listener[options.for] = callback;
-
-						TMI.listeners.push(listener);
 						return TMI;
 					},
-	expect: 		function(options, callbackOrField) {
+	listen: 		function(options, callback) {
+						TMI.listeners.push({ for: options.for, callback: callback });
+						return TMI;
+					},
+	expect: 		function(options) {
 						var answers 	= _.get(options, 'answers', _.filter([options.answer])); 	// allow ["options.answers"] or "option.answer" as parameter and conform to format [answers]
 						var lang 		= _.get(options, 'in', TMI._default_lang);					// fallback to default language
+						var callback 	= options.callback;
 
-						var _hasField 	= (typeof callbackOrField === 'string');
-						var callback 	= callbackOrField;
+						if(options.listen) {
+							var listener = { 
+								for: 		options.listen, 
+								callback: 	function(matches) {
+												console.log('listening matches', matches);
+												_.pull(TMI.listeners, listener);
+												options.callback && options.callback(matches);
+											} 
+							};
+							TMI.listeners.push(listener);
+						}
 
-						if(_hasField) {
-							callback = function(value) {
-								console.log('setting', callbackOrField, 'to', TMI.value || value);
-								TMI.data[callbackOrField] = TMI.value || value;
+						if(_.has(options, 'saveIn')) {
+							callback = function(val) {
+								var value = TMI.value || val;
+								console.log('setting TMI.data.' + options.saveIn, 'to', value);
+								TMI.data[options.saveIn] = value;
+								options.callback && options.callback(value);
 							}
 						}
 
@@ -124,11 +155,13 @@ TMI = this.TMI || {
 						annyang.pause();
 						annyang.removeCommands();
 						annyang.removeCallback();
+						return TMI;
 					},
 	reset: 			function() {
 						TMI.stop();
 						TMI.expectations = [];
 						TMI.listeners = [];
+						return TMI;
 					}
 };
 
@@ -154,46 +187,63 @@ var _LANGUAGES = {
 
 var _QUESTIONS = [
 	"What's your native language?",
-	"<%= _landsMann(answer) %>! What's your name?",
-	"Is your name '<%= answer %>'?",
+	"<%= _landsMann(TMI.data.language) %>! What's your name?",
+	"Is your name '<%= TMI.data.name %>'?",
 	"Well, hello <%= TMI.data.name %>!"
 ];
+var _QUESTION_INDEX = 0;
 
 _.extend(TMI.data, _LANGUAGES);
 
-TMI // What's your native language?
+TMI /*.listen({ for: ['f*** you'] }, () => {
+		$('h1').html('No, fuck <b>you</b>!');
+		TMI.index = Math.max(0, TMI.index-1);
+		_QUESTION_INDEX--;
+		setTimeout(() => TMI.run(), 3000);
+	})*/
+
+	// What's your native language?
 	.expect({ 
-				answers:  Object.keys(_LANGUAGES) 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
-			}, 'language')								// save recorded answer in a variable called language
+				answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
+				saveIn:   'language'					// save recorded answer in a variable called data.language
+			})								
 	// What's your name?
 	.expect({ 
 				answers: [], 							// any answer is allowed
-				in: 	 '$language' 					// switching language to previously saved variable language
-			}, 'name')
+				in: 	 '$language', 					// switching language to previously saved variable language
+				saveIn:  'name'
+			})
 	// Is your name '…'?
 	.expect({ 
-				answers: ['yes', 'no', 'no it is :name'] // allow "yes" or "no" as answer
-			}, () => {
-				var newName = TMI.value.split(/^no it[s']+/gi)[0];
-				
-				if(newName) {
-					_QUESTIONS.unshift("Is your name '<%= answer %>'?");
-					TMI.index--;
-					TMI.run();
-				} else if(TMI.value.toLowerCase() === 'yes') {
-					$('h1').text("Well, hello " + TMI.data.name + "!");
-				} else {
-					prompt("What is it then?");
+				answers:  ['yes', 'no', 'no .*' ],		// allow "yes" or "no (…)" as answer,
+				listen:   [''],							// yet listen to any other answers
+
+				callback: (userSaid) => {				// whichever answer is given,
+					
+					var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
+
+					if(noIts) {
+						TMI.data.name = noIts[1];
+					} else if(TMI.value.toLowerCase() === 'yes') {
+						_QUESTION_INDEX = 3;
+						//$('h1').text("Well, hello " + TMI.data.name + "!");
+					} else {
+						TMI.data.name = TMI.value;
+						TMI.data.name = prompt("What is it then?");
+					}
 				}
-			})
-	.onDone = function() {
-		console.log('and we are dun.');
-	};
+			});
+
+TMI.onDone = function() {
+	console.log('and we are dun.');
+};
 
 TMI.onAnswer = function(answer) {
-	var question = _.template(_QUESTIONS.shift())({ answer: answer });
+	var question = _QUESTIONS[_QUESTION_INDEX++];
+
 	if(question) {
-		$('h1').text(question);
+		var renderedQuestion = _.template(question)({ answer: answer });
+		$('h1').text(renderedQuestion);
 	} else {
 		TMI.stop();
 	}

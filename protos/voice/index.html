@@ -9,16 +9,45 @@
 		html, body {
 			margin: 0;
 			height: 100%;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			text-align: center;
 		}
 		h1 {
 			font-size: 50px;
 			font-family: sans-serif, Roboto, "Arial Narrow";
-			line-height: 100vh;
+			line-height: 50vh;
 			margin: 0;
-			text-align: center;
+		}
+		h1 button {
+			background: #FBF1E6;
+			border: 1px solid #C0A890;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 40px;
+			padding: 20px 80px;
+			transition: .2s all;
+		}
+		h1 button:hover {
+			background: #FAF6F1;
+			box-shadow: inset -2px -2px 6px rgba(0,0,0,.1);
+			transform: scale(1.06);
+		}
+		h1 button:active {
+			background: #F6E4CE;
+			color: #816B50;
+			box-shadow: inset 2px 2px 6px rgba(0,0,0,.4);
+			transform: scale(1.05);
+		}
+		h1 button:active,
+		h1 button:focus {
+			outline: none;
+		}
+		output {
+			opacity: .6;
 		}
 	</style>
 	<h1><button class="start">Start!</button></h1>
+	<output></output>
 	<script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 	<script src="js/annyang.min.js"></script>
@@ -34,52 +63,14 @@
 		};
 
 		$('.start').click(function(event){
-			$('h1').text('Hi! What\'s your native language?');
-
-			if(annyang) {
-				let commands = {
-					'dildoshit': {
-						regexp: /(fuck|shit|dick|pussy|bitch|dildo)/gi,
-						callback: () => {
-							$('h1').html('No need to get inpolite!');
-						}
+			let commands = {
+				'dildoshit': {
+					regexp: /(fuck|shit|dick|pussy|bitch|dildo)/gi,
+					callback: () => {
+						$('h1').html('No need to get inpolite!');
 					}
-				};
-
-				annyang.addCallback('result', (matches) => {
-					if(matches.indexOf('f*** you') > -1) {
-						$('h1').html('No, fuck <b>you</b>!');
-					}
-				});
-
-				_.each(LANGS, (code, lang) => {
-					let langStr = lang.toLowerCase();
-					commands[langStr] = function() {
-						annyang.setLanguage(code);
-						$('h1').text(`Well, a ${lang} speaker! What\'s your name?`);
-						annyang.addCallback('result', (matches) => {
-							const name = matches[0];
-							$('h1').text(`Is your name "${name}"??`);
-							annyang.setLanguage('en-US');
-							annyang.removeCallback('result');	
-							annyang.addCommands({
-								'yes(*)': function() {
-									$('h1').text(`Superbe. Hi, ${name}!`);
-									annyang.pause();
-								},
-								'no(*)': function() {
-									$('h1').html('Ok. What is it then? <br><input><input type="submit">');
-								}
-							});
-						});
-					}
-				});
-
-				annyang.addCommands(commands);
-				annyang.setLanguage('en-US');
-				annyang.debug();
-				annyang.start({ autoRestart: true, continuous: false });
-			}
+				}
+			};
 		});
 
 		
