@@ -78,7 +78,7 @@ TMI = this.TMI || {
 									} else TMI.onDone && TMI.onDone();
 								}
 
-								commands['debug step ' + (TMI.index+1)] = {
+								commands['step #' + (TMI.index+1)] = {
 									regexp: 	new RegExp('^' + currentExpectation.answers.join('|') + '$', 'i'),
 									callback: 	function() { _next(TMI.value); }
 								};
@@ -193,6 +193,8 @@ var _QUESTIONS = [
 ];
 var _QUESTION_INDEX = 0;
 
+var noes = -2;
+
 _.extend(TMI.data, _LANGUAGES);
 
 TMI /*.listen({ for: ['f*** you'] }, () => {
@@ -219,17 +221,22 @@ TMI /*.listen({ for: ['f*** you'] }, () => {
 				listen:   [''],							// yet listen to any other answers
 
 				callback: (userSaid) => {				// whichever answer is given,
-					
 					var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
 
 					if(noIts) {
 						TMI.data.name = noIts[1];
+						noes++;
 					} else if(TMI.value.toLowerCase() === 'yes') {
 						_QUESTION_INDEX = 3;
-						//$('h1').text("Well, hello " + TMI.data.name + "!");
+					} else if(noes) {
+						TMI.data.name = prompt("What is it then?");
+						_QUESTION_INDEX = 3;
+						TMI.onAnswer(TMI.data.name);
 					} else {
 						TMI.data.name = TMI.value;
-						TMI.data.name = prompt("What is it then?");
+						_QUESTION_INDEX = 2;
+						TMI.onAnswer(TMI.data.name);
+						noes++;
 					}
 				}
 			});
