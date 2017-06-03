@@ -34,7 +34,7 @@ TMI = this.TMI || {
 									$('output').text('It sounded like you said "' + TMI.value + '"');
 
 									if(thisExpectation) {
-										console.log(TMI.index, 'matches', matches, 'listeners', TMI.listeners);
+										var blocking = false;
 
 										TMI.value = _.find(matches, function(match) { 
 											return match.match(_regExify(thisExpectation)); 
@@ -43,17 +43,20 @@ TMI = this.TMI || {
 										if(TMI.listeners.length) {
 											_.each(TMI.listeners, function(listener) {
 												_.each(listener.for, function(keyword) {
-													console.log('keyword', keyword, keyword.length);
-													if(matches.indexOf(keyword) > -1) return listener.callback(matches);
+													if(matches.indexOf(keyword) > -1) {
+														blocking = true;
+														return listener.callback && listener.callback(matches);
+													}
 												});
 											});
 										}
 
-										if(!thisExpectation.answers.length) {
-											thisExpectation.callback(TMI.value);
-											TMI.index++;
-											TMI.run();
-										}
+										if(!blocking)
+											if(!thisExpectation.answers.length) {
+												thisExpectation.callback(TMI.value);
+												TMI.index++;
+												TMI.run();
+											}
 									} else {
 										TMI.onDone && TMI.onDone();
 									}
@@ -112,8 +115,8 @@ TMI = this.TMI || {
 						TMI.onAnswer && TMI.onAnswer(TMI.value);
 						return TMI;
 					},
-	listen: 		function(options, callback) {
-						TMI.listeners.push({ for: options.for, callback: callback });
+	listen: 		function(options) {
+						TMI.listeners.push({ for: options.for, callback: options.callback });
 						return TMI;
 					},
 	expect: 		function(options) {
@@ -197,12 +200,25 @@ var noes = -2;
 
 _.extend(TMI.data, _LANGUAGES);
 
-TMI /*.listen({ for: ['f*** you'] }, () => {
-		$('h1').html('No, fuck <b>you</b>!');
-		TMI.index = Math.max(0, TMI.index-1);
-		_QUESTION_INDEX--;
-		setTimeout(() => TMI.run(), 3000);
-	})*/
+TMI .listen({ 
+				for: 		['f*** you'], 
+				blocking: 	true,						// this prevents the normal expectation to be met if "f*** you" was found
+				callback: 	(userSaid) => {
+					console.log('callback here?', userSaid);
+					$('h1').html('No, fuck <b>you</b>!');
+					
+					setTimeout(() => {
+						_QUESTION_INDEX--;
+						TMI.onAnswer(TMI.value);
+					}, 2000);
+				}
+			})
+
+	.listen({
+				for: 		['shut up'],
+				blocking: 	true,
+				callback: 	() => location.reload()
+			})
 
 	// What's your native language?
 	.expect({ 
@@ -257,3 +273,47 @@ TMI.onAnswer = function(answer) {
 }	
 
 $('.start').click(TMI.run);
+
+/* Example: 
+
+TMI
+
+// Always react to "fuck you!"
+
+	.listen({ 
+				for: 		['f*** you'], 
+				blocking: 	true,
+				callback: 	(userSaid) => alert('Be polite!')
+	})
+
+// Question: What's your native language?
+
+	.expect({ 
+				answers:  ['English', 'German'],
+				saveIn:   'language'
+	})								
+
+// Question: What's your name?
+
+	.expect({ 
+				answers: [],
+				in: 	 '$language',
+				saveIn:  'name'
+	})
+
+// Is your name '…'?
+
+	.expect({ 
+				answers:  ['yes', 'no'],
+				in: 	  'en-US',
+
+				callback: (userSaid) => {
+					if(userSaid === 'yes') {
+						_saveToDatabase( TMI.data );
+					}
+				}
+	})
+
+	.run();
+
+*/
