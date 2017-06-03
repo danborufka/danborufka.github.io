@@ -774,7 +774,10 @@ jQuery(function($){
 					case 's':
 						if(event.ctrlKey || event.metaKey) {
 							currentGame.saveAll();
+							event.preventDefault();
+							event.stopImmediatePropagation();
 						}
+						break;
 				}
 			} else {
 				if(event.key === 'Enter') {
@@ -1206,6 +1209,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 	self.time 	= 0;
 
 	self.saveAll = function() {
+		console.log('saving all!');
 		_.each(currentGame.files, function(file, type) {
 			if(!file.saved) {
 				// ### TODO: save file here

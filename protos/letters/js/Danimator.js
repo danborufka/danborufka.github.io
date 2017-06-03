@@ -39,7 +39,8 @@ return L[n](this._segments,this._closed,this,t,e)},statics:{getBounds:function(t
 return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode(t)))},Ke=t.isIdentifierChar=function(t){return t<48?36===t:t<58||!(t<65)&&(t<91||(t<97?95===t:t<123||t>=170&&Ge.test(String.fromCharCode(t))))},Qe={kind:"loop"},tn={kind:"switch"}});var m={"+":"__add","-":"__subtract","*":"__multiply","/":"__divide","%":"__modulo","==":"__equals","!=":"__equals"},y={"-":"__negate","+":null},w=r.each(["add","subtract","multiply","divide","modulo","equals","negate"],function(t){this["__"+t]="#"+t},{});return c.inject(w),d.inject(w),R.inject(w),n&&("complete"===i.readyState?setTimeout(f):U.add(n,{load:f})),{compile:h,execute:u,load:_,parse:o}}.call(this),paper=new(a.inject(r.exports,{enumerable:!0,Base:r,Numerical:u,Key:J,DomEvent:U,DomElement:H,document:i,window:n,Symbol:I,PlacedSymbol:k})),paper.agent.node&&require("./node/extend.js")(paper),"function"==typeof define&&define.amd?define("paper",paper):"object"==typeof module&&module&&(module.exports=paper),paper}.call(this,"object"==typeof self?self:null);;// animation and game engine
 // TODOS:
 // o fix autocenter of stage when resizing window
-// o figure out a way to detangle animation from game engine
+// ø figure out a way to detangle animation from game engine
+// o make Danimator own repo
 // o make audio a separate, optional module
 // o performance optimizations:
 // 	  * use SVG mirror DOM for special ops (like "similar-names")
