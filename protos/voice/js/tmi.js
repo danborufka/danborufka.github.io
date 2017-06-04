@@ -35,7 +35,7 @@ TMI = this.TMI || {
 									TMI.onSpeak && TMI.onSpeak(TMI.value);
 
 									if(thisExpectation) {
-										console.log(TMI.index, 'matches', matches, 'listeners', TMI.listeners);
+										var blocking = false;
 
 										TMI.value = _.find(matches, function(match) { 
 											return match.match(_regExify(thisExpectation)); 
@@ -44,17 +44,20 @@ TMI = this.TMI || {
 										if(TMI.listeners.length) {
 											_.each(TMI.listeners, function(listener) {
 												_.each(listener.for, function(keyword) {
-													console.log('keyword', keyword, keyword.length);
-													if(matches.indexOf(keyword) > -1) return listener.callback(matches);
+													if(matches.indexOf(keyword) > -1) {
+														blocking = true;
+														return listener.callback && listener.callback(matches);
+													}
 												});
 											});
 										}
 
-										if(!thisExpectation.answers.length) {
-											thisExpectation.callback(TMI.value);
-											TMI.index++;
-											TMI.run();
-										}
+										if(!blocking)
+											if(!thisExpectation.answers.length) {
+												thisExpectation.callback(TMI.value);
+												TMI.index++;
+												TMI.run();
+											}
 									} else {
 										TMI.onDone && TMI.onDone();
 									}
@@ -113,8 +116,8 @@ TMI = this.TMI || {
 						TMI.onAnswer && TMI.onAnswer(TMI.value);
 						return TMI;
 					},
-	listen: 		function(options, callback) {
-						TMI.listeners.push({ for: options.for, callback: callback });
+	listen: 		function(options) {
+						TMI.listeners.push({ for: options.for, callback: options.callback });
 						return TMI;
 					},
 	expect: 		function(options) {
@@ -178,6 +181,7 @@ TMI
 				callback: 	(userSaid) => alert('Be polite!')
 	})
 
+
 // Question: What's your native language?
 
 	.expect({ 
@@ -207,5 +211,4 @@ TMI
 	})
 
 	.run();
-
 */
