@@ -2,8 +2,8 @@
 // TODOS:
 // o make everything undoable
 // o node module for server-side saving & loading of JSON
+// o #keyframes panel: making ani labels editable
 // o load files properly on "bodyDrop"
-// o #keyframes panel: save as animation
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -140,6 +140,26 @@ function _decimalPlaces(num) {
   var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+function _basename(str)
+{
+   var base = new String(str).substring(_.lastIndexOf(str, '/') + 1); 
+    if(_.lastIndexOf(base, '.') != -1)       
+        base = base.substring(0, _.lastIndexOf(base, '.'));
+   return base;
+}
+function _deepOmit(obj, keysToOmit) {
+  var keysToOmitIndex =  _.keyBy(Array.isArray(keysToOmit) ? keysToOmit : [keysToOmit]); // create an index object of the keys that should be omitted
+
+  function omitFromObject(obj) { // the inner function which will be called recursivley
+    return _.transform(obj, function(result, value, key) { // transform to a new object
+      if (key in keysToOmitIndex) { // if the key is in the index skip it
+        return;
+      }
+      result[key] = _.isObject(value) ? omitFromObject(value) : value; // if the key is an object run it through the inner function - omitFromObject
+    })
+  } 
+  return omitFromObject(obj); // return the inner function result
 }
 function _changesFile(filetype) {
 	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
@@ -1209,10 +1229,26 @@ Game.onLoad = function(project, name, options, scene, container) {
 	self.time 	= 0;
 
 	self.saveAll = function() {
-		console.log('saving all!');
 		_.each(currentGame.files, function(file, type) {
 			if(!file.saved) {
-				// ### TODO: save file here
+				switch(type) {
+					case 'ani.json':
+						// clone tracks, but loose all direct refs to the paperJS item
+						var export_tracks = _deepOmit(tracks, 'item');
+						var export_JSON = JSON.stringify(export_tracks);
+						var file_name = _basename(currentGame.files.svg.path) + '.ani.json';
+
+						saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
+						file.saved = true;
+
+						// garbageCollect
+						delete export_tracks;
+						delete export_JSON;
+						break;
+					case 'svg':
+						console.log('what about the SVG?');
+						break;
+				}
 			}
 		});
 	}	
