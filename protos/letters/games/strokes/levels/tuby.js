@@ -57,7 +57,6 @@ var tubyGame = new strokeGame(project,
 		eye  	= container.getItem({ name: 'eye' });
 
 		bodyLength = body.length;
-		button.data._y = button.position.y;
 
 		// animate hamster popping into tube
 		hamster_front.opacity = 0;
@@ -80,7 +79,7 @@ var tubyGame = new strokeGame(project,
 			switch(stroke) {
 				case 0:
 					// push button animation
-					button.position.y = button.data._y + 2;
+					button.position.y += 2;
 					button.opacity = .8;
 
 					Danimator.sound('buttons/down');
@@ -127,7 +126,7 @@ var tubyGame = new strokeGame(project,
 				case 0:
 					// button animation
 					Danimator.stopAll(button);
-					button.position.y = button.data._y;
+					button.position.y -= 2;
 					button.opacity = 1;
 					Danimator(container.getItem({ name: 'open-button' }), 'opacity', 1, .6, 1);
 
