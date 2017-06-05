@@ -1,7 +1,7 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
-// o node module for server-side saving & loading of JSON
+// ø node module for server-side saving & loading of JSON
 // o #keyframes panel: making ani labels editable
 // o load files properly on "bodyDrop"
 // o #keyframes panel: add record mode incl. button
