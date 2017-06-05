@@ -38,6 +38,11 @@ canvas[resize] {
   height: 100%;
   width: 100%; }
 
+#mainCanvas {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; }
+
 .ui-draggable-handle {
   -ms-touch-action: none;
   touch-action: none; }

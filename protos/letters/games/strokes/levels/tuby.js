@@ -207,7 +207,7 @@ var tubyGame = new strokeGame(project,
 					];
 
 		game.onReset = function onReset(step) {
-			Danimator(steps[step], 'opacity', null, 1, 1);
+			Danimator(steps[step], 'opacity', .8, 1, 1);
 		}
 
 		game.onGameEnd = function onGameEnd(data) {

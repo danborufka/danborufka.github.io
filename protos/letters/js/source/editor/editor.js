@@ -1353,46 +1353,48 @@ Game.onLoad = function(project, name, options, scene, container) {
 	var $borderDummy = $('#border-dummy');
 
 	// selection of elements (by clicking them)
-	project.view.onMouseDown = function onCanvasMouseDown(event) {
+	paper.view.onMouseDown = function onCanvasMouseDown(event) {
+		
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
-		} else {
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
 		}
 	};
 	// allow moving of canvas when commandKey is held
-	project.view.onMouseDrag = function onCanvasMouseDrag(event) {
-		if(event.event.metaKey) {
-			if(selectionId) {
-				var selectedItem = self.find(selectionId);
-				selectedItem.position = selectedItem.position.add(event.delta);
+	paper.view.onMouseDrag = function onCanvasMouseDrag(event) {
+		if(event.event.button === 0)
+			if(event.event.metaKey) {
+				if(selectionId) {
+					var selectedItem = self.find(selectionId);
+					selectedItem.position = selectedItem.position.add(event.delta);
 
-				_changesFile('ani.json');
+					_changesFile('ani.json');
 
-				if(selectedItem.pivot) {
-					_changesProp('pivot.x', selectedItem.pivot.x);
-					_changesProp('pivot.y', selectedItem.pivot.y);
-					_anchorViz.position = selectedItem.pivot;
+					if(selectedItem.pivot) {
+						_changesProp('pivot.x', selectedItem.pivot.x);
+						_changesProp('pivot.y', selectedItem.pivot.y);
+						_anchorViz.position = selectedItem.pivot;
+					} else {
+						_anchorViz.position = selectedItem.bounds.center;
+					}
+
+					_changesProp('pivot.x', _anchorViz.position.x);
+					_changesProp('pivot.y', _anchorViz.position.y);
+
+					_changesProp('position.x', selectedItem.position.x);
+					_changesProp('position.y', selectedItem.position.y);
 				} else {
-					_anchorViz.position = selectedItem.bounds.center;
+					//paper.view.scrollBy(event.delta.multiply(-1));
+					self.container.position = self.container.position.add(event.delta);
+
+					//console.log(Hablui.methods.hihi);
+					
 				}
-
-				_changesProp('pivot.x', _anchorViz.position.x);
-				_changesProp('pivot.y', _anchorViz.position.y);
-
-				_changesProp('position.x', selectedItem.position.x);
-				_changesProp('position.y', selectedItem.position.y);
-			} else {
-				self.container.position = self.container.position.add(event.delta);
 			}
-
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
-		}
+		event.event.preventDefault();
+		event.event.stopImmediatePropagation();			
 	};
 
 	/* setup and event handlers for visualization of anchor (pivot) point */
