@@ -1,9 +1,9 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
-// ø node module for server-side saving & loading of JSON
+// ø load files properly on "bodyDrop"
+// o saving of SVGs once properties have been changed
 // o #keyframes panel: making ani labels editable
-// o load files properly on "bodyDrop"
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -124,6 +124,10 @@ var ANIMATABLE_PROPERTIES = {
 	PointText: 	_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY)
 }
 var PANEL_TOLERANCE = 10;
+
+var _isBoundsItem = function(item) {
+	return ['PointText', 'Shape', 'PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
+};
 
 /* helpers for internal panel calcs */
 function _asGroup(config) {
@@ -1388,8 +1392,47 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	var layers = Danimator.layers = self.scene.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
+	var _hoverClone;
+	var _hoverItem;
 
-	// selection of elements (by clicking them)
+	var _clearHover = function() {
+		if(_hoverClone !== undefined) {
+			_hoverClone.remove();
+			_hoverClone = undefined;
+		}
+		paper.view.update();
+	}
+
+	/* hover effect for paper elements */
+	project.view.onMouseMove = function(event) {
+		var hover = project.hitTest(event.point, {
+			segments: true,
+			stroke: true,
+			curves: true,
+			fill: true,
+			guide: false,
+			tolerance: 8 / project.view.zoom
+		});
+
+		if(hover) {
+			if(hover.item !== _hoverItem) _clearHover();
+
+			if(!_isBoundsItem(hover.item)) {
+				if(_hoverClone === undefined && hover.item.selected === false) {
+					_hoverClone = hover.item.clone();
+					_hoverClone.guide = true;
+					_hoverClone.opacity = 1;
+					_hoverClone.strokeWidth = 1/project.view.zoom;
+					_hoverClone.strokeColor = '#009dec';
+					_hoverClone.fillColor = null;
+					self.container.appendTop( _hoverClone );
+					_hoverItem = hover.item;
+				}
+			}
+		} else _clearHover();
+	}
+
+	/* selection of elements (by clicking them) */
 	paper.view.onMouseDown = function onCanvasMouseDown(event) {
 		
 		if(!(event.event.altKey || event.event.metaKey)) {

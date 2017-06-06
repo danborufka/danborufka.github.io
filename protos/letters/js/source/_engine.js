@@ -1,5 +1,6 @@
 // animation and game engine
 // TODOS:
+// o make states animatable thru morphs
 // o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
@@ -306,6 +307,7 @@ Danimator.step = function(animatable, progress) {
 	var isDone 	  = ascending ? 
 					value >= animatable.to : 
 					value <= animatable.to;
+	var newValue;
 
 	if(Danimator.interactive) {
 		isDone = false;
@@ -327,8 +329,12 @@ Danimator.step = function(animatable, progress) {
 			}
 		}
 		
-		/* calculate new value and limit to "from" and "to" */
-		var newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
+		if(typeof animatable.from === 'string') {
+			newValue = (progress === 1 ? animatable.to : animatable.from);
+		} else {
+			/* calculate new value and limit to "from" and "to" */
+			newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
+		}
 
 		/* animatable onStep hook to intervene on every step */
 		if(animatable.options.onStep) {
