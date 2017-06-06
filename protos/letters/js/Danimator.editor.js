@@ -223,7 +223,7 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
 // o make everything undoable
-// o node module for server-side saving & loading of JSON
+// ø node module for server-side saving & loading of JSON
 // o #keyframes panel: making ani labels editable
 // o load files properly on "bodyDrop"
 // o #keyframes panel: add record mode incl. button
@@ -369,6 +369,9 @@ function _basename(str)
     if(_.lastIndexOf(base, '.') != -1)       
         base = base.substring(0, _.lastIndexOf(base, '.'));
    return base;
+}
+function _basepath(str) {
+	return str.substring(0, _.lastIndexOf(str, '/') + 1);
 }
 function _deepOmit(obj, keysToOmit) {
   var keysToOmitIndex =  _.keyBy(Array.isArray(keysToOmit) ? keysToOmit : [keysToOmit]); // create an index object of the keys that should be omitted
@@ -544,6 +547,24 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 };
 
+/* override load method to create tracks instead of animation calls */
+Danimator.load = function(aniName) {
+	var filename = aniName + '.ani.json';
+
+	$.getJSON(filename, null, function(json, status) {
+		if(status === 'success') {
+			_.each(json, function(track, id) {
+				if(!isNaN(Number(id))) id = Number(id);
+				track.item = paper.project.getItem({id: id});
+			})
+			tracks = _.extend(tracks, json);
+			_createTracks();
+		} else {
+			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
+		}
+	}).fail(function(promise, type, error){ console.error(error); });
+}
+
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
@@ -553,6 +574,19 @@ Danimator.onStep = function(animatable, value) {
 /* update layers panel when morphing is triggered */
 Danimator.onMorph = function() {
 	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
+}
+
+Danimator.save = function(data, filename) {
+	return $.ajax({
+		url: 	   		'http://localhost:8080/save',
+		type: 		 	'POST',
+		contentType: 	'application/json; charset=utf-8',
+		dataType: 	 	'json',
+		data: 			JSON.stringify({ file: filename, content: JSON.stringify(data) }),
+		success: 		function(response) {
+							console.log('we are back with', response);
+						}
+	});
 }
 
 Danimator.interactive = true;
@@ -1452,16 +1486,19 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	self.saveAll = function() {
 		_.each(currentGame.files, function(file, type) {
-			if(!file.saved) {
+			//if(!file.saved) {
 				switch(type) {
 					case 'ani.json':
 						// clone tracks, but loose all direct refs to the paperJS item
 						var export_tracks = _deepOmit(tracks, 'item');
-						var export_JSON = JSON.stringify(export_tracks);
-						var file_name = _basename(currentGame.files.svg.path) + '.ani.json';
+						var path = _basepath(currentGame.files.svg.path);
+						var name = _basename(currentGame.files.svg.path) + '.ani.json';
 
-						saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
+						Danimator.save(export_tracks, path + name);
 						file.saved = true;
+
+						//var export_JSON = JSON.stringify(export_tracks);
+						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
 
 						// garbageCollect
 						delete export_tracks;
@@ -1471,7 +1508,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 						console.log('what about the SVG?');
 						break;
 				}
-			}
+			//}
 		});
 	}	
 

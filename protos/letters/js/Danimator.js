@@ -456,24 +456,6 @@ Danimator.stopAll = function(item) {
 	delete item.data._animate;
 };
 
-/* ###experimental: load animations from JSON files */
-Danimator.load = function(aniName) {
-	var filename = aniName + '.animations.json';
-
-	$.getJSON(filename, null, function(json, status) {
-		if(status === 'success') {
-			_.each(json, function(track, id) {
-				if(!isNaN(Number(id))) id = Number(id);
-				track.item = GAME.find(id);
-			})
-			tracks = _.extend(tracks, json);
-			_createTracks();
-		} else {
-			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
-		}
-	}).fail(function(promise, type, error){ console.error(error); });
-}
-
 /* sound factory */
 Danimator.sound = function(name, options) {
 	var config 	= _.extend({ 

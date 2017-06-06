@@ -325,6 +325,24 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 };
 
+/* override load method to create tracks instead of animation calls */
+Danimator.load = function(aniName) {
+	var filename = aniName + '.ani.json';
+
+	$.getJSON(filename, null, function(json, status) {
+		if(status === 'success') {
+			_.each(json, function(track, id) {
+				if(!isNaN(Number(id))) id = Number(id);
+				track.item = paper.project.getItem({id: id});
+			})
+			tracks = _.extend(tracks, json);
+			_createTracks();
+		} else {
+			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
+		}
+	}).fail(function(promise, type, error){ console.error(error); });
+}
+
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
