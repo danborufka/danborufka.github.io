@@ -274,6 +274,28 @@ Danimator.then = function DanimatorThen() {
 	return Danimator[action].apply(this, args);
 }
 
+Danimator.load = function(aniName) {
+	var filename = aniName + '.ani.json';
+
+	$.getJSON(filename, null, function(json, status) {
+		if(status === 'success') {
+			_.each(json, function(animatable, id) {
+				if(!isNaN(Number(id))) id = Number(id);
+				var item = paper.project.getItem({id: id});
+
+				_.each(animatable.properties, function(tracks, prop) {
+					_.each(tracks, function(track) {
+						console.log('Danimator.animate', item, prop, track.from, track.to, track.duration, track.options);
+						Danimator.animate(item, prop, track.from, track.to, track.duration, track.options);
+					})
+				});
+			})
+		} else {
+			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
+		}
+	}).fail(function(promise, type, error){ console.error(error); });
+}
+
 /* internal calculations */
 Danimator._mergeDelays = function(options, newOptions) {
 	newOptions.delay = _.get(newOptions, 'delay', 0) + ((options && options.delay) || 0);
