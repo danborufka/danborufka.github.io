@@ -141,8 +141,7 @@ function _decimalPlaces(num) {
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
-function _basename(str)
-{
+function _basename(str) {
    var base = new String(str).substring(_.lastIndexOf(str, '/') + 1); 
     if(_.lastIndexOf(base, '.') != -1)       
         base = base.substring(0, _.lastIndexOf(base, '.'));
@@ -337,6 +336,7 @@ Danimator.load = function(aniName) {
 			})
 			tracks = _.extend(tracks, json);
 			_createTracks();
+			currentGame.setTime(currentGame.time);
 		} else {
 			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
 		}
