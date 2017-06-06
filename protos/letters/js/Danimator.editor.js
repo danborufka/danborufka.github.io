@@ -245,6 +245,7 @@ var selectionId;
 
 var $time;
 var $animationValue;
+var $currentTrack;
 
 var snapKeyframes 	= new Snappables(.4);
 
@@ -363,8 +364,7 @@ function _decimalPlaces(num) {
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
-function _basename(str)
-{
+function _basename(str) {
    var base = new String(str).substring(_.lastIndexOf(str, '/') + 1); 
     if(_.lastIndexOf(base, '.') != -1)       
         base = base.substring(0, _.lastIndexOf(base, '.'));
@@ -559,6 +559,7 @@ Danimator.load = function(aniName) {
 			})
 			tracks = _.extend(tracks, json);
 			_createTracks();
+			Danimator.time = Danimator.time;
 		} else {
 			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
 		}
@@ -709,9 +710,9 @@ jQuery(function($){
 			var $this = $(this);
 			var value = Number($this.text().replace(/[^\d\.\,]*/g, ''));
 			if(isNaN(value)) {
-				value = currentGame.time;
+				value = Danimator.time;
 			} else {
-				currentGame.setTime(value);
+				Danimator.time = value;
 			}
 			$this.text(value + 's');
 		})
@@ -759,7 +760,9 @@ jQuery(function($){
 					if(event.shiftKey) {
 						t = snapKeyframes.snap(t);
 					}
-					currentGame && currentGame.setTime(t, $this);
+
+					$currentTrack = $this;
+					Danimator.time = t;
 				}
 		})
 		.on('mouseup', '.timeline .track', function(event) {
@@ -777,7 +780,7 @@ jQuery(function($){
 			$input.parentsUntil('ul.main').filter('li').addClass('open');
 			$input.focus();
 
-			currentGame.setTime($this.data('time'));
+			Danimator.time = $this.data('time');
 
 			event.stopImmediatePropagation();
 		})
@@ -786,7 +789,7 @@ jQuery(function($){
 			var prop 	= $this.closest('li.timeline').data('property');
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
-			var time 	= currentGame.time;
+			var time 	= Danimator.time;
 
 			var currentTracks = _.clone(tracks[item.id].properties[prop]);
 			var isFirst = _getStartTime(currentTracks[0]) > time;
@@ -804,7 +807,7 @@ jQuery(function($){
 				});
 			} else {
 				var currentTrackIndex = _.findIndex(currentTracks, function(track) {
-					return _.inRange(currentGame.time, _getStartTime(track), _getEndTime(track));
+					return _.inRange(Danimator.time, _getStartTime(track), _getEndTime(track));
 				});
 				var currentTrack = currentTracks[currentTrackIndex];
 				var lastTrack = _.get(currentTracks, currentTrackIndex-1, false);
@@ -915,7 +918,7 @@ jQuery(function($){
 			if(data.track) {
 				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
 
-				if(currentGame.time === _getStartTime(currentTrack)) {
+				if(Danimator.time === _getStartTime(currentTrack)) {
 					currentTrack.from = value;
 					if(data.track.id === 0) {
 						currentTrack.initValue = value;
@@ -980,12 +983,12 @@ jQuery(function($){
 						if(_playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
-								if(currentGame.time >= Danimator.maxDuration) {
+								if(Danimator.time >= Danimator.maxDuration) {
 									clearInterval(playInterval);
-									currentGame.setTime(0);
+									Danimator.time = 0;
 								} else {
 									var delta = ((new Date).getTime() - lastTime) / 1000;
-									currentGame.setTime(currentGame.time + delta);
+									Danimator.time = Danimator.time + delta;
 									lastTime = (new Date).getTime();
 								}
 							}, 1000/12);
@@ -995,19 +998,19 @@ jQuery(function($){
 						return false;
 					/* prevFrame */
 					case ',':
-						currentGame.setTime( Danimator.limit(currentGame.time - 1/12, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time - 1/12, 0, Danimator.maxDuration);
 						return false;
 					/* nextFrame */
 					case '.':
-						currentGame.setTime( Danimator.limit(currentGame.time + 1/12, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time + 1/12, 0, Danimator.maxDuration);
 						return false;
 					/* prevFrame * 10 */
 					case ';':
-						currentGame.setTime( Danimator.limit(currentGame.time - 1/2, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time - 1/2, 0, Danimator.maxDuration);
 						return false;
 					/* nextFrame * 10 */
 					case ':':
-						currentGame.setTime( Danimator.limit(currentGame.time + 1/2, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time + 1/2, 0, Danimator.maxDuration);
 						return false;	
 					/* zoomIn */
 					case '+':
@@ -1068,11 +1071,11 @@ jQuery(function($){
 				var delta = { x: event.originalEvent.deltaX, y: event.originalEvent.deltaY };
 
 				if(Math.abs(delta.x) > 0.1) {
-					var time = currentGame.time + delta.x * 1/24;
+					var time = Danimator.time + delta.x * 1/24;
 					if(event.shiftKey) {
 						time = snapKeyframes.snap(time);
 					}
-					currentGame.setTime(time);
+					Danimator.time = time;
 				}
 
 				event.preventDefault();
@@ -1304,7 +1307,7 @@ function _createTracks() {
 							ui.position.left = x + 1;
 						}
 
-						currentGame.setTime(t);
+						Danimator.time = t;
 
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
@@ -1364,11 +1367,11 @@ function _createProperties(properties, $props, item, subitem, path) {
 			if(propertyTrack) {
 				keyed.push('animated');
 
-				var isKey = _.find(propertyTrack, {options: { delay: currentGame.time }});
+				var isKey = _.find(propertyTrack, {options: { delay: Danimator.time }});
 
 				if(!isKey) {
 					isKey = _.some(propertyTrack, function(track) {
-						return _getEndTime(track) === currentGame.time;
+						return _getEndTime(track) === Danimator.time;
 					});
 				}
 				
@@ -1455,7 +1458,7 @@ function _createAudio() {
 
 		wave.on('seek', function(progess, stuff) {
 			if(!_timeScrubbing) {
-				currentGame.setTime( currentWave.getCurrentTime() );
+				Danimator.time = currentWave.getCurrentTime();
 			}
 		});
 
@@ -1468,10 +1471,6 @@ function _createAudio() {
 		wave.load('audio/' + name);
 		$sound.data('wave', wave);
 	});
-
-	if(wave) {
-		
-	}
 }
 
 Danimator.onSound = _.debounce(_createAudio, 100);
@@ -1512,10 +1511,10 @@ Game.onLoad = function(project, name, options, scene, container) {
 		});
 	}	
 
-	self.setTime = function(seconds, $target) {
-		var time = Math.max(seconds, 0);
-
+	Danimator.onTimeChanged = function(time) {
 		self.time = time;
+
+		console.log('timing changed?', time);
 
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
@@ -1582,8 +1581,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 				var ani = Danimator.step(currentTrack, t);
 
-				if($target && $target.length)
-					if($.contains($target[0], $scrubber[0])) {
+				if($currentTrack && $currentTrack.length)
+					if($.contains($currentTrack[0], $scrubber[0])) {
 						$animationValue.text(property + ' = ' + _.round(ani.value,2));
 					}
 			}

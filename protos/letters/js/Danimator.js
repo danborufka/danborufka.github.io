@@ -165,6 +165,18 @@ if(!this.Danimator) {
 	Danimator = function Danimator() { return Danimator.animate.apply(Danimator, arguments); };
 }
 
+Danimator._time = 0;
+
+/* adding time getter/setter to Danimator */
+Object.defineProperty(Danimator, 'time', {
+  get: function()     { return Danimator._time },
+  set: function(secs) {
+  	Danimator._time = Math.max(secs, 0);						// limit seconds to positive value
+  	if(Danimator.onTimeChanged) Danimator.onTimeChanged(Danimator._time);		// call global hook everytime time gets changed
+  	return Danimator;
+  }
+});
+
 /* core animation function (adds animation to animatable stack) */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
@@ -283,12 +295,12 @@ Danimator.load = function(aniName) {
 				if(!isNaN(Number(id))) id = Number(id);
 				var item = paper.project.getItem({id: id});
 
-				_.each(animatable.properties, function(tracks, prop) {
-					_.each(tracks, function(track) {
-						console.log('Danimator.animate', item, prop, track.from, track.to, track.duration, track.options);
-						Danimator.animate(item, prop, track.from, track.to, track.duration, track.options);
-					})
-				});
+				if(item) 
+					_.each(animatable.properties, function(tracks, prop) {
+						_.each(tracks, function(track) {
+							Danimator.animate(item, prop, track.from, track.to, track.duration, track.options);
+						})
+					});
 			})
 		} else {
 			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
