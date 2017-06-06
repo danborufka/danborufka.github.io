@@ -124,6 +124,10 @@ var ANIMATABLE_PROPERTIES = {
 }
 var PANEL_TOLERANCE = 10;
 
+var _isBoundsItem = function(item) {
+	return ['PointText', 'Shape', 'PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
+};
+
 /* helpers for internal panel calcs */
 function _asGroup(config) {
 	return { 
