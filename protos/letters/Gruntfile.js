@@ -39,14 +39,14 @@ module.exports = function(grunt) {
         },
         target: {
             files: {
-                'js/Danimator.min.js': ['js/Danimator.js'],
-                'js/Danimator.editor.min.js': ['js/Danimator.editor.js']
+                'js/Danimator.min.js': ['js/Danimator.js']//,
+                //'js/Danimator.editor.min.js': ['js/Danimator.editor.js']
             }
         }
     }
   });
 
   require('load-grunt-tasks')(grunt);
-  grunt.registerTask('default', ['sass', 'concat', 'cssmin','uglify']);
+  grunt.registerTask('default', ['sass', 'concat', /*'cssmin',*/ 'uglify']);
 
 };

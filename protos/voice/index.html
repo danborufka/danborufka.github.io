@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dialog Test</title>
+</head>
+<body>
+	<style type="text/css">
+		html, body {
+			margin: 0;
+			height: 100%;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			text-align: center;
+		}
+		h1 {
+			font-size: 50px;
+			font-family: sans-serif, Roboto, "Arial Narrow";
+			line-height: 70vh;
+			margin: 0;
+		}
+		h1 button {
+			background: #FBF1E6;
+			border: 1px solid #C0A890;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 40px;
+			padding: 20px 80px;
+			transition: .2s all;
+		}
+		h1 button:hover {
+			background: #FAF6F1;
+			box-shadow: inset -2px -2px 6px rgba(0,0,0,.1);
+			transform: scale(1.06);
+		}
+		h1 button:active {
+			background: #F6E4CE;
+			color: #816B50;
+			box-shadow: inset 2px 2px 6px rgba(0,0,0,.4);
+			transform: scale(1.05);
+		}
+		h1 button:active,
+		h1 button:focus {
+			outline: none;
+		}
+		output {
+			opacity: .6;
+		}
+	</style>
+	<h1><button class="start">Start!</button></h1>
+	<output></output>
+	<script src="//code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+	<script src="js/annyang.min.js"></script>
+	<script src="js/tmi.js"></script>
+	<script>
+		function _landsMann(lang) {
+			return {
+				'French': 'A frogeater',
+				'English': 'A teabagger',
+				'German': 'A German',
+				'Italian': 'A stronzzo',
+				'Spanish': 'A Spaniard',
+				'Russian': 'A machine'
+			}[lang];
+		}
+
+		var _LANGUAGES = {
+			'English': 'en-US',
+			'French': 'fr-FR',
+			'German': 'de-DE',
+			'Russian': 'ru-RU',
+			'Italian': 'it-IT',
+			'Spanish': 'es-ES'
+		};
+
+		var _QUESTIONS = [
+			"What's your native language?",
+			"<%= _landsMann(TMI.data.language) %>! What's your name?",
+			"Is your name '<%= TMI.data.name %>'?",
+			"Well, hello <%= TMI.data.name %>!"
+		];
+		var _QUESTION_INDEX = 0;
+
+		var noes = -2;
+
+		_.extend(TMI.data, _LANGUAGES);
+
+		TMI .listen({ 
+						for: 		['f*** you'], 
+						blocking: 	true,						// this prevents the normal expectation to be met if "f*** you" was found
+						callback: 	(userSaid) => {
+							console.log('callback here?', userSaid);
+							$('h1').html('No, fuck <b>you</b>!');
+							
+							setTimeout(() => {
+								_QUESTION_INDEX--;
+								TMI.onAnswer(TMI.value);
+							}, 2000);
+						}
+					})
+
+			.listen({
+						for: 		['shut up'],
+						blocking: 	true,
+						callback: 	() => location.reload()
+					})
+
+			// What's your native language?
+			.expect({ 
+						answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
+						saveIn:   'language'					// save recorded answer in a variable called data.language
+					})								
+			// What's your name?
+			.expect({ 
+						answers: [], 							// any answer is allowed
+						in: 	 '$language', 					// switching language to previously saved variable language
+						saveIn:  'name'
+					})
+			// Is your name '…'?
+			.expect({ 
+						answers:  ['yes', 'no', 'no .*' ],		// allow "yes" or "no (…)" as answer,
+						listen:   [''],							// yet listen to any other answers
+
+						callback: (userSaid) => {				// whichever answer is given,
+							var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
+
+							if(noIts) {
+								TMI.data.name = noIts[1];
+								noes++;
+							} else if(TMI.value.toLowerCase() === 'yes') {
+								_QUESTION_INDEX = 3;
+							} else if(noes) {
+								TMI.data.name = prompt("What is it then?");
+								_QUESTION_INDEX = 3;
+								TMI.onAnswer(TMI.data.name);
+							} else {
+								TMI.data.name = TMI.value;
+								_QUESTION_INDEX = 2;
+								TMI.onAnswer(TMI.data.name);
+								noes++;
+							}
+						}
+					});
+
+		TMI.onSpeak = function(userSaid) {
+			$('output').text('It sounded like you said "' + userSaid + '"');
+		}
+
+		TMI.onAnswer = function(answer) {
+			var question = _QUESTIONS[_QUESTION_INDEX++];
+
+			if(question) {
+				var renderedQuestion = _.template(question)({ answer: answer });
+				$('h1').text(renderedQuestion);
+			} else {
+				TMI.stop();
+			}
+		}	
+
+		$('.start').click(TMI.run);
+	</script>
+</body>
+</html>
