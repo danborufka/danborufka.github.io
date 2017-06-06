@@ -1292,8 +1292,6 @@ Game.onLoad = function(project, name, options, scene, container) {
 	Danimator.onTimeChanged = function(time) {
 		self.time = time;
 
-		console.log('timing changed?', time);
-
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
 		/* update all scrubbes */
