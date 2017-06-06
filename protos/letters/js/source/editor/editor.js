@@ -148,6 +148,9 @@ function _basename(str)
         base = base.substring(0, _.lastIndexOf(base, '.'));
    return base;
 }
+function _basepath(str) {
+	return str.substring(0, _.lastIndexOf(str, '/') + 1);
+}
 function _deepOmit(obj, keysToOmit) {
   var keysToOmitIndex =  _.keyBy(Array.isArray(keysToOmit) ? keysToOmit : [keysToOmit]); // create an index object of the keys that should be omitted
 
@@ -1248,14 +1251,14 @@ Game.onLoad = function(project, name, options, scene, container) {
 					case 'ani.json':
 						// clone tracks, but loose all direct refs to the paperJS item
 						var export_tracks = _deepOmit(tracks, 'item');
-						var file_name = _basename(currentGame.files.svg.path) + '.ani.json';
+						var path = _basepath(currentGame.files.svg.path);
+						var name = _basename(currentGame.files.svg.path) + '.ani.json';
 
-						//console.log(currentGame.files.svg.path);
-						Danimator.save(export_tracks, currentGame.files.svg.path);
+						Danimator.save(export_tracks, path + name);
+						file.saved = true;
 
 						//var export_JSON = JSON.stringify(export_tracks);
-						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
-						file.saved = true;
+						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
 
 						// garbageCollect
 						delete export_tracks;

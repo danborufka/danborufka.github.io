@@ -36,8 +36,6 @@ http.createServer((req, res) => {
   
   let body = [];
 
-  console.log('path', path, 'url', req.url);
-
   if(path == "/save") {
 
     req.on('data', data => {
