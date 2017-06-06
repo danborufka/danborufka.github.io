@@ -1,9 +1,9 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
-// o node module for server-side saving & loading of JSON
+// ø node module for server-side saving & loading of JSON
+// o #keyframes panel: making ani labels editable
 // o load files properly on "bodyDrop"
-// o #keyframes panel: save as animation
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -140,6 +140,29 @@ function _decimalPlaces(num) {
   var match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+function _basename(str)
+{
+   var base = new String(str).substring(_.lastIndexOf(str, '/') + 1); 
+    if(_.lastIndexOf(base, '.') != -1)       
+        base = base.substring(0, _.lastIndexOf(base, '.'));
+   return base;
+}
+function _basepath(str) {
+	return str.substring(0, _.lastIndexOf(str, '/') + 1);
+}
+function _deepOmit(obj, keysToOmit) {
+  var keysToOmitIndex =  _.keyBy(Array.isArray(keysToOmit) ? keysToOmit : [keysToOmit]); // create an index object of the keys that should be omitted
+
+  function omitFromObject(obj) { // the inner function which will be called recursivley
+    return _.transform(obj, function(result, value, key) { // transform to a new object
+      if (key in keysToOmitIndex) { // if the key is in the index skip it
+        return;
+      }
+      result[key] = _.isObject(value) ? omitFromObject(value) : value; // if the key is an object run it through the inner function - omitFromObject
+    })
+  } 
+  return omitFromObject(obj); // return the inner function result
 }
 function _changesFile(filetype) {
 	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
@@ -311,6 +334,19 @@ Danimator.onStep = function(animatable, value) {
 /* update layers panel when morphing is triggered */
 Danimator.onMorph = function() {
 	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
+}
+
+Danimator.save = function(data, filename) {
+	return $.ajax({
+		url: 	   		'http://localhost:8080/save',
+		type: 		 	'POST',
+		contentType: 	'application/json; charset=utf-8',
+		dataType: 	 	'json',
+		data: 			JSON.stringify({ file: filename, content: JSON.stringify(data) }),
+		success: 		function(response) {
+							console.log('we are back with', response);
+						}
+	});
 }
 
 Danimator.interactive = true;
@@ -1209,11 +1245,30 @@ Game.onLoad = function(project, name, options, scene, container) {
 	self.time 	= 0;
 
 	self.saveAll = function() {
-		console.log('saving all!');
 		_.each(currentGame.files, function(file, type) {
-			if(!file.saved) {
-				// ### TODO: save file here
-			}
+			//if(!file.saved) {
+				switch(type) {
+					case 'ani.json':
+						// clone tracks, but loose all direct refs to the paperJS item
+						var export_tracks = _deepOmit(tracks, 'item');
+						var path = _basepath(currentGame.files.svg.path);
+						var name = _basename(currentGame.files.svg.path) + '.ani.json';
+
+						Danimator.save(export_tracks, path + name);
+						file.saved = true;
+
+						//var export_JSON = JSON.stringify(export_tracks);
+						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
+
+						// garbageCollect
+						delete export_tracks;
+						delete export_JSON;
+						break;
+					case 'svg':
+						console.log('what about the SVG?');
+						break;
+				}
+			//}
 		});
 	}	
 
@@ -1317,46 +1372,48 @@ Game.onLoad = function(project, name, options, scene, container) {
 	var $borderDummy = $('#border-dummy');
 
 	// selection of elements (by clicking them)
-	project.view.onMouseDown = function onCanvasMouseDown(event) {
+	paper.view.onMouseDown = function onCanvasMouseDown(event) {
+		
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
-		} else {
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
 		}
 	};
 	// allow moving of canvas when commandKey is held
-	project.view.onMouseDrag = function onCanvasMouseDrag(event) {
-		if(event.event.metaKey) {
-			if(selectionId) {
-				var selectedItem = self.find(selectionId);
-				selectedItem.position = selectedItem.position.add(event.delta);
+	paper.view.onMouseDrag = function onCanvasMouseDrag(event) {
+		if(event.event.button === 0)
+			if(event.event.metaKey) {
+				if(selectionId) {
+					var selectedItem = self.find(selectionId);
+					selectedItem.position = selectedItem.position.add(event.delta);
 
-				_changesFile('ani.json');
+					_changesFile('ani.json');
 
-				if(selectedItem.pivot) {
-					_changesProp('pivot.x', selectedItem.pivot.x);
-					_changesProp('pivot.y', selectedItem.pivot.y);
-					_anchorViz.position = selectedItem.pivot;
+					if(selectedItem.pivot) {
+						_changesProp('pivot.x', selectedItem.pivot.x);
+						_changesProp('pivot.y', selectedItem.pivot.y);
+						_anchorViz.position = selectedItem.pivot;
+					} else {
+						_anchorViz.position = selectedItem.bounds.center;
+					}
+
+					_changesProp('pivot.x', _anchorViz.position.x);
+					_changesProp('pivot.y', _anchorViz.position.y);
+
+					_changesProp('position.x', selectedItem.position.x);
+					_changesProp('position.y', selectedItem.position.y);
 				} else {
-					_anchorViz.position = selectedItem.bounds.center;
+					//paper.view.scrollBy(event.delta.multiply(-1));
+					self.container.position = self.container.position.add(event.delta);
+
+					//console.log(Hablui.methods.hihi);
+					
 				}
-
-				_changesProp('pivot.x', _anchorViz.position.x);
-				_changesProp('pivot.y', _anchorViz.position.y);
-
-				_changesProp('position.x', selectedItem.position.x);
-				_changesProp('position.y', selectedItem.position.y);
-			} else {
-				self.container.position = self.container.position.add(event.delta);
 			}
-
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
-		}
+		event.event.preventDefault();
+		event.event.stopImmediatePropagation();			
 	};
 
 	/* setup and event handlers for visualization of anchor (pivot) point */

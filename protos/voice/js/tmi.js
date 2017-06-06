@@ -14,6 +14,7 @@ TMI = this.TMI || {
 	expectations: 	[],
 	listeners: 		[],
 
+	debug: 			false,
 	data: 			{},
 	index: 			0,
 	language: 		'en-US',
@@ -22,7 +23,8 @@ TMI = this.TMI || {
 						var isFirstRun 			= TMI.index === 0;
 						var currentExpectation 	= TMI.expectations[TMI.index];
 
-						console.log('run #', TMI.index, 'expectation:', !!currentExpectation, 'first?', isFirstRun);
+						if(TMI.debug)
+							console.log('run #', TMI.index, 'expectation:', currentExpectation, 'firstRun?', isFirstRun);
 
 						if(currentExpectation) {
 							if(isFirstRun) {
@@ -30,8 +32,7 @@ TMI = this.TMI || {
 									var thisExpectation = TMI.expectations[TMI.index];
 
 									TMI.value = matches[0];
-
-									$('output').text('It sounded like you said "' + TMI.value + '"');
+									TMI.onSpeak && TMI.onSpeak(TMI.value);
 
 									if(thisExpectation) {
 										var blocking = false;
@@ -65,7 +66,7 @@ TMI = this.TMI || {
 							} else {
 								// if there were any commands from last expectation – remove them
 								if(TMI._last_cmds) {
-									console.log('removing commands for', Object.keys(TMI._last_cmds));
+									if(TMI.debug) console.log('Removing commands for', Object.keys(TMI._last_cmds));
 									annyang.removeCommands(Object.keys(TMI._last_cmds));
 									TMI._last_cmds = false;
 								}
@@ -103,12 +104,12 @@ TMI = this.TMI || {
 								TMI.language = lang;
 							}
 						
-							//console.log('setting language to', TMI.language, lang.slice(1), TMI.data[lang.slice(1)], TMI.data.language);
+							if(TMI.debug) console.log('setting language to', TMI.language);
 							annyang.setLanguage(TMI.language);
 
 							// upon first run
 							if(isFirstRun) {
-								annyang.debug();
+								if(TMI.debug) annyang.debug();
 								annyang.start({ autoRestart: true, continuous: false });
 							}
 						}
@@ -128,7 +129,7 @@ TMI = this.TMI || {
 							var listener = { 
 								for: 		options.listen, 
 								callback: 	function(matches) {
-												console.log('listening matches', matches);
+												if(TMI.debug)  console.log('Listening matches', matches);
 												_.pull(TMI.listeners, listener);
 												options.callback && options.callback(matches);
 											} 
@@ -139,7 +140,7 @@ TMI = this.TMI || {
 						if(_.has(options, 'saveIn')) {
 							callback = function(val) {
 								var value = TMI.value || val;
-								console.log('setting TMI.data.' + options.saveIn, 'to', value);
+								if(TMI.debug) console.log('Setting TMI.data.' + options.saveIn, 'to', value);
 								TMI.data[options.saveIn] = value;
 								options.callback && options.callback(value);
 							}
@@ -168,112 +169,6 @@ TMI = this.TMI || {
 					}
 };
 
-function _landsMann(lang) {
-	return {
-		'French': 'A frogeater',
-		'English': 'A teabagger',
-		'German': 'A German',
-		'Italian': 'A stronzzo',
-		'Spanish': 'A Spaniard',
-		'Russian': 'A machine'
-	}[lang];
-}
-
-var _LANGUAGES = {
-	'English': 'en-US',
-	'French': 'fr-FR',
-	'German': 'de-DE',
-	'Russian': 'ru-RU',
-	'Italian': 'it-IT',
-	'Spanish': 'es-ES'
-};
-
-var _QUESTIONS = [
-	"What's your native language?",
-	"<%= _landsMann(TMI.data.language) %>! What's your name?",
-	"Is your name '<%= TMI.data.name %>'?",
-	"Well, hello <%= TMI.data.name %>!"
-];
-var _QUESTION_INDEX = 0;
-
-var noes = -2;
-
-_.extend(TMI.data, _LANGUAGES);
-
-TMI .listen({ 
-				for: 		['f*** you'], 
-				blocking: 	true,						// this prevents the normal expectation to be met if "f*** you" was found
-				callback: 	(userSaid) => {
-					console.log('callback here?', userSaid);
-					$('h1').html('No, fuck <b>you</b>!');
-					
-					setTimeout(() => {
-						_QUESTION_INDEX--;
-						TMI.onAnswer(TMI.value);
-					}, 2000);
-				}
-			})
-
-	.listen({
-				for: 		['shut up'],
-				blocking: 	true,
-				callback: 	() => location.reload()
-			})
-
-	// What's your native language?
-	.expect({ 
-				answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
-				saveIn:   'language'					// save recorded answer in a variable called data.language
-			})								
-	// What's your name?
-	.expect({ 
-				answers: [], 							// any answer is allowed
-				in: 	 '$language', 					// switching language to previously saved variable language
-				saveIn:  'name'
-			})
-	// Is your name '…'?
-	.expect({ 
-				answers:  ['yes', 'no', 'no .*' ],		// allow "yes" or "no (…)" as answer,
-				listen:   [''],							// yet listen to any other answers
-
-				callback: (userSaid) => {				// whichever answer is given,
-					var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
-
-					if(noIts) {
-						TMI.data.name = noIts[1];
-						noes++;
-					} else if(TMI.value.toLowerCase() === 'yes') {
-						_QUESTION_INDEX = 3;
-					} else if(noes) {
-						TMI.data.name = prompt("What is it then?");
-						_QUESTION_INDEX = 3;
-						TMI.onAnswer(TMI.data.name);
-					} else {
-						TMI.data.name = TMI.value;
-						_QUESTION_INDEX = 2;
-						TMI.onAnswer(TMI.data.name);
-						noes++;
-					}
-				}
-			});
-
-TMI.onDone = function() {
-	console.log('and we are dun.');
-};
-
-TMI.onAnswer = function(answer) {
-	var question = _QUESTIONS[_QUESTION_INDEX++];
-
-	if(question) {
-		var renderedQuestion = _.template(question)({ answer: answer });
-		$('h1').text(renderedQuestion);
-	} else {
-		TMI.stop();
-	}
-}	
-
-$('.start').click(TMI.run);
-
 /* Example: 
 
 TMI
@@ -285,6 +180,7 @@ TMI
 				blocking: 	true,
 				callback: 	(userSaid) => alert('Be polite!')
 	})
+
 
 // Question: What's your native language?
 
@@ -301,7 +197,7 @@ TMI
 				saveIn:  'name'
 	})
 
-// Is your name '…'?
+// Is your name ${TMI.data.name}?
 
 	.expect({ 
 				answers:  ['yes', 'no'],
@@ -315,5 +211,4 @@ TMI
 	})
 
 	.run();
-
 */

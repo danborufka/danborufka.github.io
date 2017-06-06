@@ -1,4 +1,5 @@
-/*! jQuery UI - v1.12.1 - 2017-04-18
+/*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
+var saveAs=saveAs||function(e){"use strict";if(typeof e==="undefined"||typeof navigator!=="undefined"&&/MSIE [1-9]\./.test(navigator.userAgent)){return}var t=e.document,n=function(){return e.URL||e.webkitURL||e},r=t.createElementNS("http://www.w3.org/1999/xhtml","a"),o="download"in r,a=function(e){var t=new MouseEvent("click");e.dispatchEvent(t)},i=/constructor/i.test(e.HTMLElement)||e.safari,f=/CriOS\/[\d]+/.test(navigator.userAgent),u=function(t){(e.setImmediate||e.setTimeout)(function(){throw t},0)},s="application/octet-stream",d=1e3*40,c=function(e){var t=function(){if(typeof e==="string"){n().revokeObjectURL(e)}else{e.remove()}};setTimeout(t,d)},l=function(e,t,n){t=[].concat(t);var r=t.length;while(r--){var o=e["on"+t[r]];if(typeof o==="function"){try{o.call(e,n||e)}catch(a){u(a)}}}},p=function(e){if(/^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type)){return new Blob([String.fromCharCode(65279),e],{type:e.type})}return e},v=function(t,u,d){if(!d){t=p(t)}var v=this,w=t.type,m=w===s,y,h=function(){l(v,"writestart progress write writeend".split(" "))},S=function(){if((f||m&&i)&&e.FileReader){var r=new FileReader;r.onloadend=function(){var t=f?r.result:r.result.replace(/^data:[^;]*;/,"data:attachment/file;");var n=e.open(t,"_blank");if(!n)e.location.href=t;t=undefined;v.readyState=v.DONE;h()};r.readAsDataURL(t);v.readyState=v.INIT;return}if(!y){y=n().createObjectURL(t)}if(m){e.location.href=y}else{var o=e.open(y,"_blank");if(!o){e.location.href=y}}v.readyState=v.DONE;h();c(y)};v.readyState=v.INIT;if(o){y=n().createObjectURL(t);setTimeout(function(){r.href=y;r.download=u;a(r);h();c(y);v.readyState=v.DONE});return}S()},w=v.prototype,m=function(e,t,n){return new v(e,t||e.name||"download",n)};if(typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob){return function(e,t,n){t=t||e.name||"download";if(!n){e=p(e)}return navigator.msSaveOrOpenBlob(e,t)}}w.abort=function(){};w.readyState=w.INIT=0;w.WRITING=1;w.DONE=2;w.error=w.onwritestart=w.onprogress=w.onwrite=w.onabort=w.onerror=w.onwriteend=null;return m}(typeof self!=="undefined"&&self||typeof window!=="undefined"&&window||this.content);if(typeof module!=="undefined"&&module.exports){module.exports.saveAs=saveAs}else if(typeof define!=="undefined"&&define!==null&&define.amd!==null){define("FileSaver.js",function(){return saveAs})};/*! jQuery UI - v1.12.1 - 2017-04-18
 * http://jqueryui.com
 * Includes: widget.js, data.js, scroll-parent.js, widgets/draggable.js, widgets/mouse.js
 * Copyright jQuery Foundation and other contributors; Licensed MIT */
@@ -223,8 +224,8 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 // TODOS:
 // o make everything undoable
 // o node module for server-side saving & loading of JSON
+// o #keyframes panel: making ani labels editable
 // o load files properly on "bodyDrop"
-// o #keyframes panel: save as animation
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -362,8 +363,28 @@ function _decimalPlaces(num) {
   if (!match) { return 0; }
   return Math.max( 0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
 }
+function _basename(str)
+{
+   var base = new String(str).substring(_.lastIndexOf(str, '/') + 1); 
+    if(_.lastIndexOf(base, '.') != -1)       
+        base = base.substring(0, _.lastIndexOf(base, '.'));
+   return base;
+}
+function _deepOmit(obj, keysToOmit) {
+  var keysToOmitIndex =  _.keyBy(Array.isArray(keysToOmit) ? keysToOmit : [keysToOmit]); // create an index object of the keys that should be omitted
+
+  function omitFromObject(obj) { // the inner function which will be called recursivley
+    return _.transform(obj, function(result, value, key) { // transform to a new object
+      if (key in keysToOmitIndex) { // if the key is in the index skip it
+        return;
+      }
+      result[key] = _.isObject(value) ? omitFromObject(value) : value; // if the key is an object run it through the inner function - omitFromObject
+    })
+  } 
+  return omitFromObject(obj); // return the inner function result
+}
 function _changesFile(filetype) {
-	console.log('files', currentGame.files, filetype);
+	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
 }
 function _changesProp(prop, value) {
 	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
@@ -832,7 +853,6 @@ jQuery(function($){
 					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
 					_changesProp(index[2], oldValue);
 				}, 'change segment of ' + _getAnimationName(item));
-
 			} else {
 				props[prop] = value;
 
@@ -988,9 +1008,16 @@ jQuery(function($){
 							history.back();
 						}
 						break;
-					case 'u':
+					case 'y':
 						if(event.ctrlKey || event.metaKey) {
 							history.forward();
+						}
+						break;
+					case 's':
+						if(event.ctrlKey || event.metaKey) {
+							currentGame.saveAll();
+							event.preventDefault();
+							event.stopImmediatePropagation();
 						}
 						break;
 				}
@@ -1423,6 +1450,31 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	self.time 	= 0;
 
+	self.saveAll = function() {
+		_.each(currentGame.files, function(file, type) {
+			if(!file.saved) {
+				switch(type) {
+					case 'ani.json':
+						// clone tracks, but loose all direct refs to the paperJS item
+						var export_tracks = _deepOmit(tracks, 'item');
+						var export_JSON = JSON.stringify(export_tracks);
+						var file_name = _basename(currentGame.files.svg.path) + '.ani.json';
+
+						saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
+						file.saved = true;
+
+						// garbageCollect
+						delete export_tracks;
+						delete export_JSON;
+						break;
+					case 'svg':
+						console.log('what about the SVG?');
+						break;
+				}
+			}
+		});
+	}	
+
 	self.setTime = function(seconds, $target) {
 		var time = Math.max(seconds, 0);
 
@@ -1523,44 +1575,48 @@ Game.onLoad = function(project, name, options, scene, container) {
 	var $borderDummy = $('#border-dummy');
 
 	// selection of elements (by clicking them)
-	project.view.onMouseDown = function onCanvasMouseDown(event) {
+	paper.view.onMouseDown = function onCanvasMouseDown(event) {
+		
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
-		} else {
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
 		}
 	};
 	// allow moving of canvas when commandKey is held
-	project.view.onMouseDrag = function onCanvasMouseDrag(event) {
-		if(event.event.metaKey) {
-			if(selectionId) {
-				var selectedItem = self.find(selectionId);
-				selectedItem.position = selectedItem.position.add(event.delta);
+	paper.view.onMouseDrag = function onCanvasMouseDrag(event) {
+		if(event.event.button === 0)
+			if(event.event.metaKey) {
+				if(selectionId) {
+					var selectedItem = self.find(selectionId);
+					selectedItem.position = selectedItem.position.add(event.delta);
 
-				if(selectedItem.pivot) {
-					_changesProp('pivot.x', selectedItem.pivot.x);
-					_changesProp('pivot.y', selectedItem.pivot.y);
-					_anchorViz.position = selectedItem.pivot;
+					_changesFile('ani.json');
+
+					if(selectedItem.pivot) {
+						_changesProp('pivot.x', selectedItem.pivot.x);
+						_changesProp('pivot.y', selectedItem.pivot.y);
+						_anchorViz.position = selectedItem.pivot;
+					} else {
+						_anchorViz.position = selectedItem.bounds.center;
+					}
+
+					_changesProp('pivot.x', _anchorViz.position.x);
+					_changesProp('pivot.y', _anchorViz.position.y);
+
+					_changesProp('position.x', selectedItem.position.x);
+					_changesProp('position.y', selectedItem.position.y);
 				} else {
-					_anchorViz.position = selectedItem.bounds.center;
+					//paper.view.scrollBy(event.delta.multiply(-1));
+					self.container.position = self.container.position.add(event.delta);
+
+					//console.log(Hablui.methods.hihi);
+					
 				}
-
-				_changesProp('pivot.x', _anchorViz.position.x);
-				_changesProp('pivot.y', _anchorViz.position.y);
-
-				_changesProp('position.x', selectedItem.position.x);
-				_changesProp('position.y', selectedItem.position.y);
-			} else {
-				self.container.position = self.container.position.add(event.delta);
 			}
-
-			event.event.preventDefault();
-			event.event.stopImmediatePropagation();
-		}
+		event.event.preventDefault();
+		event.event.stopImmediatePropagation();			
 	};
 
 	/* setup and event handlers for visualization of anchor (pivot) point */

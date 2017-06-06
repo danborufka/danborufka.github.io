@@ -52,8 +52,19 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 	<script src="js/annyang.min.js"></script>
 	<script src="js/tmi.js"></script>
-	<script src="">
-		const LANGS = {
+	<script>
+		function _landsMann(lang) {
+			return {
+				'French': 'A frogeater',
+				'English': 'A teabagger',
+				'German': 'A German',
+				'Italian': 'A stronzzo',
+				'Spanish': 'A Spaniard',
+				'Russian': 'A machine'
+			}[lang];
+		}
+
+		var _LANGUAGES = {
 			'English': 'en-US',
 			'French': 'fr-FR',
 			'German': 'de-DE',
@@ -62,19 +73,91 @@
 			'Spanish': 'es-ES'
 		};
 
-		$('.start').click(function(event){
-			let commands = {
-				'dildoshit': {
-					regexp: /(fuck|shit|dick|pussy|bitch|dildo)/gi,
-					callback: () => {
-						$('h1').html('No need to get inpolite!');
-					}
-				}
-			};
-		});
+		var _QUESTIONS = [
+			"What's your native language?",
+			"<%= _landsMann(TMI.data.language) %>! What's your name?",
+			"Is your name '<%= TMI.data.name %>'?",
+			"Well, hello <%= TMI.data.name %>!"
+		];
+		var _QUESTION_INDEX = 0;
 
-		
-		//$();
+		var noes = -2;
+
+		_.extend(TMI.data, _LANGUAGES);
+
+		TMI .listen({ 
+						for: 		['f*** you'], 
+						blocking: 	true,						// this prevents the normal expectation to be met if "f*** you" was found
+						callback: 	(userSaid) => {
+							console.log('callback here?', userSaid);
+							$('h1').html('No, fuck <b>you</b>!');
+							
+							setTimeout(() => {
+								_QUESTION_INDEX--;
+								TMI.onAnswer(TMI.value);
+							}, 2000);
+						}
+					})
+
+			.listen({
+						for: 		['shut up'],
+						blocking: 	true,
+						callback: 	() => location.reload()
+					})
+
+			// What's your native language?
+			.expect({ 
+						answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
+						saveIn:   'language'					// save recorded answer in a variable called data.language
+					})								
+			// What's your name?
+			.expect({ 
+						answers: [], 							// any answer is allowed
+						in: 	 '$language', 					// switching language to previously saved variable language
+						saveIn:  'name'
+					})
+			// Is your name '…'?
+			.expect({ 
+						answers:  ['yes', 'no', 'no .*' ],		// allow "yes" or "no (…)" as answer,
+						listen:   [''],							// yet listen to any other answers
+
+						callback: (userSaid) => {				// whichever answer is given,
+							var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
+
+							if(noIts) {
+								TMI.data.name = noIts[1];
+								noes++;
+							} else if(TMI.value.toLowerCase() === 'yes') {
+								_QUESTION_INDEX = 3;
+							} else if(noes) {
+								TMI.data.name = prompt("What is it then?");
+								_QUESTION_INDEX = 3;
+								TMI.onAnswer(TMI.data.name);
+							} else {
+								TMI.data.name = TMI.value;
+								_QUESTION_INDEX = 2;
+								TMI.onAnswer(TMI.data.name);
+								noes++;
+							}
+						}
+					});
+
+		TMI.onSpeak = function(userSaid) {
+			$('output').text('It sounded like you said "' + userSaid + '"');
+		}
+
+		TMI.onAnswer = function(answer) {
+			var question = _QUESTIONS[_QUESTION_INDEX++];
+
+			if(question) {
+				var renderedQuestion = _.template(question)({ answer: answer });
+				$('h1').text(renderedQuestion);
+			} else {
+				TMI.stop();
+			}
+		}	
+
+		$('.start').click(TMI.run);
 	</script>
 </body>
 </html>
