@@ -1,6 +1,7 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
+// ø fix hoverEffect of boundsItems
 // ø load files properly on "bodyDrop"
 // o saving of SVGs once properties have been changed
 // o #keyframes panel: making ani labels editable
@@ -1417,17 +1418,24 @@ Game.onLoad = function(project, name, options, scene, container) {
 		if(hover) {
 			if(hover.item !== _hoverItem) _clearHover();
 
-			if(!_isBoundsItem(hover.item)) {
-				if(_hoverClone === undefined && hover.item.selected === false) {
-					_hoverClone = hover.item.clone();
-					_hoverClone.guide = true;
-					_hoverClone.opacity = 1;
-					_hoverClone.strokeWidth = 1/project.view.zoom;
-					_hoverClone.strokeColor = '#009dec';
-					_hoverClone.fillColor = null;
-					self.container.appendTop( _hoverClone );
-					_hoverItem = hover.item;
-				}
+			var _hasRepresentation = false;
+
+			if(_isBoundsItem(hover.item)) {
+				_hasRepresentation = true;
+				_hoverClone = new paper.Shape.Rectangle(hover.item.bounds);
+			} else if(_hoverClone === undefined && hover.item.selected === false) {
+				_hasRepresentation = true;
+				_hoverClone = hover.item.clone();
+			}
+
+			if(_hasRepresentation) {
+				_hoverClone.guide = true;
+				_hoverClone.opacity = 1;
+				_hoverClone.strokeWidth = 1/project.view.zoom;
+				_hoverClone.strokeColor = '#009dec';
+				_hoverClone.fillColor = null;
+				self.container.appendTop( _hoverClone );
+				_hoverItem = hover.item;
 			}
 		} else _clearHover();
 	}
