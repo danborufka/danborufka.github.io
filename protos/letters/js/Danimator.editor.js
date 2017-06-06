@@ -1052,7 +1052,7 @@ jQuery(function($){
 						break;
 					case 's':
 						if(event.ctrlKey || event.metaKey) {
-							currentGame.saveAll();
+							currentGame.saveAll(event.shiftKey);
 							event.preventDefault();
 							event.stopImmediatePropagation();
 						}
@@ -1483,7 +1483,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	self.time 	= 0;
 
-	self.saveAll = function() {
+	self.saveAll = function(saveAs) {
 		_.each(currentGame.files, function(file, type) {
 			//if(!file.saved) {
 				switch(type) {
@@ -1493,11 +1493,14 @@ Game.onLoad = function(project, name, options, scene, container) {
 						var path = _basepath(currentGame.files.svg.path);
 						var name = _basename(currentGame.files.svg.path) + '.ani.json';
 
-						Danimator.save(export_tracks, path + name);
-						file.saved = true;
+						if(saveAs) {
+							var export_JSON = JSON.stringify(export_tracks);
+							saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
+						} else {
+							Danimator.save(export_tracks, path + name);
+						}
 
-						//var export_JSON = JSON.stringify(export_tracks);
-						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
+						file.saved = true;
 
 						// garbageCollect
 						delete export_tracks;
@@ -1513,8 +1516,6 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	Danimator.onTimeChanged = function(time) {
 		self.time = time;
-
-		console.log('timing changed?', time);
 
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
