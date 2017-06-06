@@ -1,9 +1,9 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
-// ø node module for server-side saving & loading of JSON
+// ø load files properly on "bodyDrop"
+// o saving of SVGs once properties have been changed
 // o #keyframes panel: making ani labels editable
-// o load files properly on "bodyDrop"
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
