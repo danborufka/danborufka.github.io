@@ -1388,8 +1388,47 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	var layers = Danimator.layers = self.scene.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
+	var _hoverClone;
+	var _hoverItem;
 
-	// selection of elements (by clicking them)
+	var _clearHover = function() {
+		if(_hoverClone !== undefined) {
+			_hoverClone.remove();
+			_hoverClone = undefined;
+		}
+		paper.view.update();
+	}
+
+	/* hover effect for paper elements */
+	project.view.onMouseMove = function(event) {
+		var hover = project.hitTest(event.point, {
+			segments: true,
+			stroke: true,
+			curves: true,
+			fill: true,
+			guide: false,
+			tolerance: 8 / project.view.zoom
+		});
+
+		if(hover) {
+			if(hover.item !== _hoverItem) _clearHover();
+
+			if(!_isBoundsItem(hover.item)) {
+				if(_hoverClone === undefined && hover.item.selected === false) {
+					_hoverClone = hover.item.clone();
+					_hoverClone.guide = true;
+					_hoverClone.opacity = 1;
+					_hoverClone.strokeWidth = 1/project.view.zoom;
+					_hoverClone.strokeColor = '#009dec';
+					_hoverClone.fillColor = null;
+					self.container.appendTop( _hoverClone );
+					_hoverItem = hover.item;
+				}
+			}
+		} else _clearHover();
+	}
+
+	/* selection of elements (by clicking them) */
 	paper.view.onMouseDown = function onCanvasMouseDown(event) {
 		
 		if(!(event.event.altKey || event.event.metaKey)) {
