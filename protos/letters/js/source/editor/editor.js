@@ -343,6 +343,10 @@ Danimator.load = function(aniName) {
 	}).fail(function(promise, type, error){ console.error(error); });
 }
 
+Danimator.onTime = function() {
+	
+}
+
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
 	if(animatable.item.id === selectionId) {
