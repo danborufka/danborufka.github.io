@@ -1,12 +1,21 @@
+/** 
+ * Danimator's Node server for managing local files
+ * The editor's Danimator.save() method sends its data to this server for local saving of changes.
+ **/
+
+ // ###TODOS:
+ // o send JSON responses
+ // o validate preflight request
+
 const http  		= require('http');
 const url   		= require('url');
 const fs    		= require('fs');
 const md5 			= require('md5');
 const debug 		= require('cli-color');
 
-const baseDirectory = '../../games/';
+const baseDirectory = '../../';
 
-let statusCode 		= 404;
+let statusCode 	= 200;
 let status 			= debug.red('No payload received.');
 
 function _success(msg) {
@@ -15,7 +24,7 @@ function _success(msg) {
 	console.log(debug.green(msg));
 }
 function _fail(msg) {
-	statusCode = 404;
+	statusCode = 400;
 	status = msg;
 	console.error(debug.red(msg));
 }
@@ -26,6 +35,8 @@ http.createServer((req, res) => {
   const path = _url.pathname;
   
   let body = [];
+
+  console.log('path', path, 'url', req.url);
 
   if(path == "/save") {
 
@@ -45,14 +56,17 @@ http.createServer((req, res) => {
     			fs.writeFileSync(`${baseDirectory}${directive.file}`, directive.content);
     			_success(`Saved ${directive.file} – ${state}`);
     		} else _fail('No filename supplied.');
-    	} else _fail('Wrong payload!');
+    	} else {
+        _success('Preflight allowed.');
+      }
 
     	res.writeHead(statusCode, {
-		  'Content-Type': 'text/plain',
-		  'Access-Control-Allow-Origin' : '*',
-		  'Access-Control-Allow-Methods': 'GET,POST'
-		});
-		res.end(status);
+  		  'Content-Type': 'application/json; charset=utf-8',
+  		  'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+  		  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+		  });
+		  res.end(status);
     });
   }
 

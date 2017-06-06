@@ -333,6 +333,19 @@ Danimator.onMorph = function() {
 	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
 }
 
+Danimator.save = function(data, filename) {
+	return $.ajax({
+		url: 	   		'http://localhost:8080/save',
+		type: 		 	'POST',
+		contentType: 	'application/json; charset=utf-8',
+		dataType: 	 	'json',
+		data: 			JSON.stringify({ file: filename, content: JSON.stringify(data) }),
+		success: 		function(response) {
+							console.log('we are back with', response);
+						}
+	});
+}
+
 Danimator.interactive = true;
 
 /* panel events */
@@ -1230,15 +1243,18 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	self.saveAll = function() {
 		_.each(currentGame.files, function(file, type) {
-			if(!file.saved) {
+			//if(!file.saved) {
 				switch(type) {
 					case 'ani.json':
 						// clone tracks, but loose all direct refs to the paperJS item
 						var export_tracks = _deepOmit(tracks, 'item');
-						var export_JSON = JSON.stringify(export_tracks);
 						var file_name = _basename(currentGame.files.svg.path) + '.ani.json';
 
-						saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
+						//console.log(currentGame.files.svg.path);
+						Danimator.save(export_tracks, currentGame.files.svg.path);
+
+						//var export_JSON = JSON.stringify(export_tracks);
+						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), file_name);
 						file.saved = true;
 
 						// garbageCollect
@@ -1249,7 +1265,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 						console.log('what about the SVG?');
 						break;
 				}
-			}
+			//}
 		});
 	}	
 

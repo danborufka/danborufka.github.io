@@ -420,7 +420,7 @@ Danimator.stopAll = function(item) {
 
 /* ###experimental: load animations from JSON files */
 Danimator.load = function(aniName) {
-	var filename = aniName + '.animations.json';
+	var filename = aniName + '.ani.json';
 
 	$.getJSON(filename, null, function(json, status) {
 		if(status === 'success') {
