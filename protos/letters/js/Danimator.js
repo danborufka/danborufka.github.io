@@ -108,13 +108,11 @@ paper.Item.inject({
 	},
 	/* state capability – switch visibility of children layers on and off using meaningful labels */
 	getState: function() {
-		if(false) {
-			return this.getItem({
-				match: 		Danimator.matchBase(childname),
-				recursive: 	true
-			}).getState();
+		// accept childname as first argument (but do it in hindsight for paper to pickup getter and setter properly)
+		if(typeof arguments[0] === 'string') {
+			return _.get(this.data, '_state.' + arguments[0], false);
 		}
-		return this.data._state || 0;
+		return this.data._state || {};
 	},
 	
 	// example: bear.state = 'snout.open';
@@ -127,6 +125,12 @@ paper.Item.inject({
 		var self = this;
 		var childname;
 
+		if(typeof state === 'object') {
+			return _.each(state, function(currentState, name) {
+				self.setState(name + '.' + currentState);
+			});
+		}
+
 		if(state.indexOf('.') > -1) {
 			state = state.split('.');
 			childname = state.shift();
@@ -134,6 +138,9 @@ paper.Item.inject({
 		}
 
 		if(childname) {
+			self.data._state = self.data._state || {};
+			self.data._state[childname] = state;
+
 			return _.each(self.getItems({
 						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
 						recursive: 	true

@@ -225,6 +225,7 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 // o make everything undoable
 // ø load files properly on "bodyDrop"
 // o saving of SVGs once properties have been changed
+// o #properties panel: add states
 // o #keyframes panel: making ani labels editable
 // o #keyframes panel: add record mode incl. button
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
