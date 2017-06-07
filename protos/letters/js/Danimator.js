@@ -43,6 +43,7 @@ return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode
 // o make Danimator own repo
 // o make audio a separate, optional module
 // o performance optimizations:
+// 	  * only change state of visible children, cache selection
 // 	  * find a way to sync SVG DOM with Paper project
 // 	  * use SVG mirror for special ops (like "similar-names")
 // o test morph chaining
@@ -100,7 +101,7 @@ paper.Item.inject({
 	/* get all children's frame numbers and return the highest one */
 	getFrames: function() {
 		var children = _.map(this.children, function(child) {
-			return parseInt( child.name.slice(1) ) || 0;
+			return Number(child.name && child.name.slice(1)) || 1;
 		});
 		children.sort();
 		children.reverse();
