@@ -1,7 +1,6 @@
 // animation editor engine
 // TODOS:
 // o make everything undoable
-// ø fix hoverEffect of boundsItems
 // ø load files properly on "bodyDrop"
 // o saving of SVGs once properties have been changed
 // o #keyframes panel: making ani labels editable
@@ -124,10 +123,25 @@ var ANIMATABLE_PROPERTIES = {
 	Group: 		_ANIMATABLE_DEFAULTS,
 	PointText: 	_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY)
 }
+
+var _HOVER_STYLES = {
+	PATHS: {
+		opacity: 	 1,
+		strokeColor: '#009dec',
+		strokeWidth: 1,
+		fillColor: 	 null
+	},
+	TEXT: {
+		opacity: 	 1,
+		strokeWidth: 0,
+		fillColor: 	 '#009dec'
+	}
+};
+
 var PANEL_TOLERANCE = 10;
 
 var _isBoundsItem = function(item) {
-	return ['PointText', 'Shape', 'PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
+	return ['PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
 };
 
 /* helpers for internal panel calcs */
@@ -1417,23 +1431,25 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 		if(hover) {
 			if(hover.item !== _hoverItem) _clearHover();
+			if(_hoverClone === undefined && hover.item.selected === false) {
 
-			var _hasRepresentation = false;
+				if(_isBoundsItem(hover.item)) {
+					_hoverClone = new paper.Shape.Rectangle(hover.item.bounds);
+				} else {
+					_hoverClone = hover.item.clone();
+				}
 
-			if(_isBoundsItem(hover.item)) {
-				_hasRepresentation = true;
-				_hoverClone = new paper.Shape.Rectangle(hover.item.bounds);
-			} else if(_hoverClone === undefined && hover.item.selected === false) {
-				_hasRepresentation = true;
-				_hoverClone = hover.item.clone();
-			}
+				if(hover.item.className === 'PointText') {
+					_hoverClone.style = _HOVER_STYLES.TEXT;
+				} else {
+					_hoverClone.style = _HOVER_STYLES.PATHS;
+				}
 
-			if(_hasRepresentation) {
+				if(_hoverClone.style.strokeWidth) {
+					_hoverClone.style.strokeWidth /= project.view.zoom;
+				}
 				_hoverClone.guide = true;
-				_hoverClone.opacity = 1;
-				_hoverClone.strokeWidth = 1/project.view.zoom;
-				_hoverClone.strokeColor = '#009dec';
-				_hoverClone.fillColor = null;
+
 				self.container.appendTop( _hoverClone );
 				_hoverItem = hover.item;
 			}
@@ -1442,7 +1458,6 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 	/* selection of elements (by clicking them) */
 	paper.view.onMouseDown = function onCanvasMouseDown(event) {
-		
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
