@@ -1,15 +1,16 @@
 // animation and game engine
 // TODOS:
-// o make states animatable thru morphs
 // o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
 // o make audio a separate, optional module
 // o performance optimizations:
-// 	  * use SVG mirror DOM for special ops (like "similar-names")
+// 	  * find a way to sync SVG DOM with Paper project
+// 	  * use SVG mirror for special ops (like "similar-names")
 // o test morph chaining
+// o make states animatable thru morphs
 // o compress SVGs
-// o add support for nested frame animations
+// o (add support for nested frame animations?)
 
 /* check dependencies */
 var missing;
@@ -68,8 +69,8 @@ paper.Item.inject({
 		return children[0];
 	},
 	/* state capability – switch visibility of children layers on and off using meaningful labels */
-	getState: function(childname) {
-		if(childname) {
+	getState: function() {
+		if(false) {
 			return this.getItem({
 				match: 		Danimator.matchBase(childname),
 				recursive: 	true
@@ -77,9 +78,23 @@ paper.Item.inject({
 		}
 		return this.data._state || 0;
 	},
-	// example: bear.setState('open', 'snout') vs. bear.setState('closed', 'snout') will hide layer #open of bear's childrens starting with "snout" (so snout-1, snout-2, …)
-	setState: function(state, childname) {
+	
+	// example: bear.state = 'snout.open';
+	// 			will show layer #open of bear's childrens starting with "snout" (so snout-1, snout-2, …) 
+	// 			and hide all its siblings
+
+	// alternative syntax: bear.setState('snout.open')
+
+	setState: function(state) {
 		var self = this;
+		var childname;
+
+		if(state.indexOf('.') > -1) {
+			state = state.split('.');
+			childname = state.shift();
+			state = state.join('.');
+		}
+
 		if(childname) {
 			return _.each(self.getItems({
 						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
@@ -88,17 +103,17 @@ paper.Item.inject({
 						item.setState(state);							// and change their state
 					});
 		} else {
-			var states = self.getStates();				// retrieve all states
+			var states = self.getStates();								// retrieve all states
 
 			if(self.data._state === undefined) {
-				self.data._state = _.keys(states)[0];	// set default state to first key of states object
-				_.each(states, function(state) {		// and turn all states invisible for now
+				self.data._state = _.keys(states)[0];					// set default state to first key of states object
+				_.each(states, function(state) {						// and turn all states invisible for now
 					state.visible = false;
 				});
 			} else {
-				states[self.data._state].visible = false;	// hide current state 
+				states[self.data._state].visible = false;				// hide current state 
 			}
-			states[state].visible = true;				// show newly set state
+			states[state].visible = true;								// show newly set state
 			self.data._state = state;
 		}
 		self.data.onStateChanged && self.data.onStateChanged(state, childname);
@@ -300,7 +315,12 @@ Danimator.step = function(animatable, progress) {
 	var value = _.get(animatable.item, animatable.property);
 
 	if(animatable.from == undefined) 		animatable.from = value;
-	if(typeof animatable.to === 'string') 	animatable.to 	= animatable.from + Number(animatable.to);
+
+	if(typeof animatable.to === 'string') {		// if animatable.to is a String
+		if(!isNaN(animatable.to)) {				// yet contains a number
+			animatable.to = animatable.from + Number(animatable.to); 	// increment by that number instead
+		}
+	}
 
 	var ascending = animatable.to > animatable.from;	// check whether values are animated ascending or descending
 	var range 	  = animatable.to - animatable.from;	// calculate range of animation values
@@ -328,9 +348,15 @@ Danimator.step = function(animatable, progress) {
 				console.warn('Easing helpers not loaded!');
 			}
 		}
-		
+
 		if(typeof animatable.from === 'string') {
-			newValue = (progress === 1 ? animatable.to : animatable.from);
+			if(progress >= 1) {
+				newValue = animatable.to;
+				isDone = true;
+			} else {
+				newValue = animatable.from;
+			}
+		
 		} else {
 			/* calculate new value and limit to "from" and "to" */
 			newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);

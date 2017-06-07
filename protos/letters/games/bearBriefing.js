@@ -3,11 +3,11 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		var bear = scene.agentBear;
 
 		bear.frame = 1;
-		bear.setState('normal', 'eyes');
-		bear.setState('normal', 'snout');
+		bear.setState('eyes.normal');
+		bear.setState('snout.normal');
 
 		/* animate agent Bearinger */
-		//if(false)
+		if(false)
 		Danimator.play(bear,  {	
 			fps: 	Danimator.interactive ? 1 : 6,
 			onDone: 'pingpong',
@@ -18,26 +18,28 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 					}
 		});
 
+		Danimator(bear, 'state', 'snout.normal', 'snout.a', 4);
+
 		$(document).on('keyup', function(event) {
 			switch(event.key) {
 				case '1':
-					bear.setState('normal', 'eyes');
+					bear.setState('eyes.normal');
 					break;
 				case '2':
-					bear.setState('wondering', 'eyes');
+					bear.setState('eyes.wondering');
 					break;
 				case '3':
-					bear.setState('doubting', 'eyes');
+					bear.setState('eyes.doubting');
 					break;
 					
 				case 'a':
 				case 'o':
 				case 'i':
 				case 'f':
-					bear.setState(event.key, 'snout');
+					bear.setState('snout.' + event.key);
 					break;
 				case 'n':
-					bear.setState('normal', 'snout');
+					bear.setState('snout.normal');
 					break;
 				case '<':
 					bear.flip();
