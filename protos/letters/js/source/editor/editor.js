@@ -3,6 +3,7 @@
 // o make everything undoable
 // ø load files properly on "bodyDrop"
 // o saving of SVGs once properties have been changed
+// o #keyframes panel: fix value display when animated prop is of type string
 // o #properties panel: add states
 // o #keyframes panel: making ani labels editable
 // o #keyframes panel: add record mode incl. button

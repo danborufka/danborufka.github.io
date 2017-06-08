@@ -40,6 +40,7 @@ return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode
 // TODOS:
 // o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
+// o move paperScene creation to Danimator.init method
 // o make Danimator own repo
 // o make audio a separate, optional module
 // o test morph chaining
@@ -74,6 +75,26 @@ Object.defineProperty(Danimator, 'time', {
   	return Danimator;
   }
 });
+
+/* initializes a Danimator scene from the passed item and creates index of symbol defs */
+Danimator.init = function DanimatorInit(item) {
+	item.data.sceneRoot = true;
+	item.name = 'scene';
+
+	/* prep work: create scene abstraction off of imported item */
+	paper.scene = _createDanimatorScene(item);
+
+	// add empty (non-enumerable) symbols array to scene
+	Object.defineProperty(paper.scene, 'symbols', { enumerable: false, 
+		value: 	[] 
+	});
+
+	/* collect all symbols as name:symbol map under paper.scene.symbols */
+	_.each(paper.project.symbolDefinitions, function(definition) {
+		if(definition.item.name)
+			paper.scene.symbols[definition.item.name] = definition;
+	});
+}
 
 /* core animation function (adds animation to animatable stack) */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
@@ -221,13 +242,6 @@ Danimator.limit = function(nr, mi, ma) {
 		delete tweener;
 	}
 	return Math.max(Math.min(nr, ma), mi);
-}
-/* returns an iteratee to check whether a collection's item's names starting with "base" */
-// example: _.filter( collection, Danimator.matchBase('bear') ) only returns those items of collection starting with "bear"
-Danimator.matchBase = function(base) {
-	return function(item) {
-		return !!(item.name && item.name.match(new RegExp('^' + base + '([-_]\d+)?' , 'i')));
-	};
 }
 
 /* calculate single step of animation */
@@ -502,7 +516,7 @@ Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initiali
 
 var _importSVG = paper.Project.prototype.importSVG;
 
-var _createPaperScene = function(parent) {
+var _createDanimatorScene = function(parent) {
 	var tree = {};
 
 	// save (non-enumerable) reference to paperjs item
@@ -533,7 +547,7 @@ var _createPaperScene = function(parent) {
 		_.each(parent.children, function(child) {
 			if(child.name) {
 				var $element = paper.$dom.find('#' + child.name);
-				var branch = _createPaperScene(child);
+				var branch = _createDanimatorScene(child);
 
 				var originalName = $element.data('name') || child.name;
 				var frameMatch;
@@ -568,7 +582,6 @@ var _createPaperScene = function(parent) {
 	return tree;
 };
 
-
 /* hijacking paper's importSVG method */
 paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
 	var _options = {};
@@ -583,22 +596,8 @@ paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
 
 	_options.onLoad = function(item, svg) {
 		paper.$dom = $(svg);
-		item.data.sceneRoot = true;
-		item.name = 'scene';
-
-		/* prep work: create scene abstraction off of imported item */
-		paper.scene = _createPaperScene(item);
-
-		// add empty (non-enumerable) symbols array to scene
-		Object.defineProperty(paper.scene, 'symbols', { enumerable: false, 
-			value: 	[] 
-		});
-
-		/* collect all symbols as name:symbol map under paper.scene.symbols */
-		_.each(paper.project.symbolDefinitions, function(definition) {
-			if(definition.item.name)
-				paper.scene.symbols[definition.item.name] = definition;
-		});
+		
+		Danimator.init(item);
 
 		_onLoad && _onLoad.call(paper.scene);
 	};
