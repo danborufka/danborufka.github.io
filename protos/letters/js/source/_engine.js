@@ -2,7 +2,6 @@
 // TODOS:
 // o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
-// o move paperScene creation to Danimator.init method
 // o make Danimator own repo
 // o make audio a separate, optional module
 // o test morph chaining

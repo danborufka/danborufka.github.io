@@ -15,8 +15,6 @@ Game = function(project, name, options, onLoad) {
 	};
 	self.symbols 		= [];
 
-	self.resize = function(event) {};
-
 	self.reset = function() {
 		this.dragging = false;
 	};
@@ -69,16 +67,17 @@ Game = function(project, name, options, onLoad) {
 				project.view.update();
 				project.importSVG(files.svg.content || files.svg.path, {
 					expandShapes: 	true,
-					//onLoad: 		function(svg) {
 					onLoad: 		function() {
-										var scene = self.scene = this;
+										self.scene = this;
 										self.container 	= self.scene.item;
 
-										self.resize({size: project.view.viewSize});
-										self.container.position = project.view.center;
+										(self.resize = function(event) {
+											console.log('self', self);
+											self.container.position = new paper.Rectangle(new paper.Point(0,0), event.size).center;
+										})({size: project.view.viewSize});
 
 										try {
-											if(onLoad) onLoad(scene, self.container, self);
+											if(onLoad) onLoad(self.scene, self.container, self);
 											if(Game.onLoad) Game.onLoad.call(self, project, name, options);
 											console.log('%c SVG loaded ', 'background-color:#444; color:#CCC', files.svg);
 										} catch(e) {

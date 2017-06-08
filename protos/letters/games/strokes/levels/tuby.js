@@ -47,6 +47,9 @@ var tubyGame = new strokeGame(project,
 	}, 
 	function onGameStart(scene, container, game) {
 
+		console.log('scene', scene, 'this', this);
+		console.log('container', container, 'game', game);
+
 
 		var hamster_front = container.getItem({ name: 'hamster.front' });
 

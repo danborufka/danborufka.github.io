@@ -41,7 +41,7 @@ module.exports = function(grunt) {
         target: {
             files: {
                 'js/Danimator.min.js': ['js/Danimator.js'],
-                'js/game.min.js': ['js/source/game.js']
+                'js/game.min.js': ['js/game.js']
                 //,'js/Danimator.editor.min.js': ['js/Danimator.editor.js']
             }
         }
@@ -49,6 +49,10 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['js/source/*/*.js', 'js/source/*.js'],
+        tasks: ['concat:main', 'concat:editor', 'uglify']
+      },
+      games: {
+        files: ['js/game.js'],
         tasks: ['concat:main', 'concat:editor', 'uglify']
       },
       styles: {

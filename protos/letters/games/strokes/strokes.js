@@ -140,6 +140,8 @@ function strokeGame(project, level, options, onLoad) {
 	options.type = 'strokes';
 	options.completionTolerance = (options.completionTolerance || .97);
 
+	console.log('#2');
+
 	var self = Game.call(this, project, options.letter, options, strokeLoader);
 	return self;
 };
