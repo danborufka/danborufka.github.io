@@ -1,10 +1,10 @@
 var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' }, 
 	function onGameStart(scene, container, game) {
-		var bear = scene.agentBear;
+		var bear = scene.agentBear.item;
 
 		bear.frame = 1;
-		bear.setState('eyes.normal');
-		bear.setState('snout.normal');
+		bear.state = 'eyes.normal';
+		bear.state = 'snout.normal';
 
 		/* animate agent Bearinger */
 		if(false)
@@ -23,23 +23,23 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		$(document).on('keyup', function(event) {
 			switch(event.key) {
 				case '1':
-					bear.setState('eyes.normal');
+					bear.state = 'eyes.normal';
 					break;
 				case '2':
-					bear.setState('eyes.wondering');
+					bear.state = 'eyes.wondering';
 					break;
 				case '3':
-					bear.setState('eyes.doubting');
+					bear.state = 'eyes.doubting';
 					break;
 					
 				case 'a':
 				case 'o':
 				case 'i':
 				case 'f':
-					bear.setState('snout.' + event.key);
+					bear.state = 'snout.' + event.key;
 					break;
 				case 'n':
-					bear.setState('snout.normal');
+					bear.state = 'snout.normal';
 					break;
 				case '<':
 					bear.flip();

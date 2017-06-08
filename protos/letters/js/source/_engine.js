@@ -640,6 +640,7 @@ paper.Item.inject({
 			self.data._state = self.data._state || {};
 			self.data._state[childname] = state;
 
+			// ### FIX: use DOM instead of paper.Item.getItems()
 			return _.each(self.getItems({
 						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
 						recursive: 	true
