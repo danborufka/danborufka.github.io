@@ -469,24 +469,30 @@ Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initiali
 var _importSVG = paper.Project.prototype.importSVG;
 
 var _createPaperScene = function(parent) {
-	var tree = { 
-		// save reference to paperjs item
-		item: parent, 
-		// helper to find elements within other elements by name given in Illustrator (ignoring naming convention used in SVG)
-		find: function(selector) {
-			// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
-			var $doms = this.$element.find('[data-name="' + selector + '"]');
-			return $doms.map(function() {
-				return $(this).data('paper-element');
-			});
-		} 
-	};
+	var tree = {};
 
+	// save (non-enumerable) reference to paperjs item
+	Object.defineProperty(tree, 'item', { enumerable: false, writable: false, configurable: false, 
+		value: 	parent 
+	});
+	
+	// helper to find elements within other elements by name given in Illustrator (ignoring naming convention used in SVG)
+	Object.defineProperty(tree, 'find', { enumerable: false, writable: false, configurable: false, 
+		value: 	function(selector) {
+					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
+					var $doms = this.$element.find('[data-name="' + selector + '"]');
+					return $doms.map(function() {
+						// and map to their according paperScene element rather than DOM elements
+						return $(this).data('paper-scene-element');
+					}).get();
+				}
+	});
+
+	// save (non-enumerable) reference to DOM element
 	if(parent.name) {
-		if(parent.data.sceneRoot)			// if we're at the root of our scene
-			tree.$element = paper.$dom;		// assign the whole DOM to $element prop
-		else
-			tree.$element = paper.$dom.find('#' + parent.name);	// otherwise select corresponding SVG element by id in DOM and assign it
+		Object.defineProperty(tree, '$element', { enumerable: false, writable: false, configurable: false, 
+			value: 	parent.data.sceneRoot ? paper.$dom : paper.$dom.find('#' + parent.name)
+		});
 	}
 
 	parent.getFrames();						// trigger prefilling of internal _frames array
@@ -537,9 +543,20 @@ paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
 		paper.$dom = $(svg);
 		item.data.sceneRoot = true;
 		item.name = 'scene';
+
+		/* prep work: create scene abstraction off of imported item */
 		paper.scene = _createPaperScene(item);
-		console.log('importing SVG', paper.scene);
-		/*prep work*/
+
+		// add empty (non-enumerable) symbols array to scene
+		Object.defineProperty(paper.scene, 'symbols', { enumerable: false, 
+			value: 	[] 
+		});
+
+		/* collect all symbols as name:symbol map under paper.scene.symbols */
+		_.each(paper.project.symbolDefinitions, function(definition) {
+			if(definition.item.name)
+				paper.scene.symbols[definition.item.name] = definition;
+		});
 
 		_onLoad && _onLoad.call(paper.scene);
 	};

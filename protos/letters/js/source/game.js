@@ -71,21 +71,14 @@ Game = function(project, name, options, onLoad) {
 					expandShapes: 	true,
 					//onLoad: 		function(svg) {
 					onLoad: 		function() {
-
-										console.log(this);
-
-										self.scene 		= this;
+										var scene = self.scene = this;
 										self.container 	= self.scene.item;
 
-										_.each(project.symbolDefinitions, function(definition) {
-											if(definition.item.name)
-												self.symbols[definition.item.name] = definition;
-										});
-
-										if(self.scene.UI) {
-											_.each(self.scene.UI, function(ui) {
-												if(ui.visible)
-													ui.visible = false;
+										if(scene.UI) {
+											_.each(scene.UI, function(ui) {
+												console.log('ui', ui);
+												if(ui.item.visible)
+													ui.item.visible = false;
 											});
 										}
 
@@ -93,7 +86,7 @@ Game = function(project, name, options, onLoad) {
 										self.container.position = project.view.center;
 
 										try {
-											if(onLoad) onLoad(self.scene, self.container, self);
+											if(onLoad) onLoad(scene, self.container, self);
 											if(Game.onLoad) Game.onLoad.call(self, project, name, options);
 											console.log('%c SVG loaded ', 'background-color:#444; color:#CCC', files.svg);
 										} catch(e) {
