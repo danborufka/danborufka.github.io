@@ -469,19 +469,29 @@ Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initiali
 var _importSVG = paper.Project.prototype.importSVG;
 
 var _createPaperScene = function(parent) {
-	var tree = { item: parent };
+	var tree = { 
+		// save reference to paperjs item
+		item: parent, 
+		// helper to find elements within other elements by name given in Illustrator (ignoring naming convention used in SVG)
+		find: function(selector) {
+			// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
+			var $doms = this.$element.find('[data-name="' + selector + '"]');
+			return $doms.map(function() {
+				return $(this).data('paper-element');
+			});
+		} 
+	};
 
 	if(parent.name) {
-		if(parent.name === 'scene')
-			tree.$element = paper.$dom;
+		if(parent.data.sceneRoot)			// if we're at the root of our scene
+			tree.$element = paper.$dom;		// assign the whole DOM to $element prop
 		else
-			tree.$element = paper.$dom.find('#' + parent.name);
+			tree.$element = paper.$dom.find('#' + parent.name);	// otherwise select corresponding SVG element by id in DOM and assign it
 	}
 
-	parent.getFrames();
+	parent.getFrames();						// trigger prefilling of internal _frames array
 
 	_.each(parent.children, function(child) {
-		//console.log('child.id', child.id);
 		if(child.name) {
 			var $element = paper.$dom.find('#' + child.name);
 			var branch = child.children ? _createPaperScene(child) : {};
@@ -496,12 +506,13 @@ var _createPaperScene = function(parent) {
 
 					originalName = originalName.slice(1);
 					parent.data._states.push( originalName );
-					console.log('states', parent.data._states);
 				}
 				child.name = originalName;
 			}
 			branch.item = child;
 			branch.$element = $element;
+
+			$element.data('paper-scene-element', branch);
 			
 			tree[child.name] = branch;
 		}
@@ -524,6 +535,7 @@ paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
 
 	_options.onLoad = function(item, svg) {
 		paper.$dom = $(svg);
+		item.data.sceneRoot = true;
 		item.name = 'scene';
 		paper.scene = _createPaperScene(item);
 		console.log('importing SVG', paper.scene);
