@@ -42,10 +42,6 @@ return t<65?36===t:t<91||(t<97?95===t:t<123||t>=170&&$e.test(String.fromCharCode
 // ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
 // o make audio a separate, optional module
-// o performance optimizations:
-// 	  * only change state of visible children, cache selection
-// 	  * find a way to sync SVG DOM with Paper project
-// 	  * use SVG mirror for special ops (like "similar-names")
 // o test morph chaining
 // o make states animatable thru morphs
 // o compress SVGs
@@ -518,7 +514,7 @@ var _createPaperScene = function(parent) {
 	Object.defineProperty(tree, 'find', { enumerable: false, writable: false, configurable: false, 
 		value: 	function(selector) {
 					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
-					var $doms = this.$element.find('[data-name="' + selector + '"]');
+					var $doms = this.$element.find('[data-name="' + selector + '"],[id="' + selector + '"]');
 					return $doms.map(function() {
 						// and map to their according paperScene element rather than DOM elements
 						return $(this).data('paper-scene-element');
@@ -533,34 +529,42 @@ var _createPaperScene = function(parent) {
 		});
 	}
 
-	parent.getFrames();						// trigger prefilling of internal _frames array
+	if(parent.children)
+		_.each(parent.children, function(child) {
+			if(child.name) {
+				var $element = paper.$dom.find('#' + child.name);
+				var branch = _createPaperScene(child);
 
-	_.each(parent.children, function(child) {
-		if(child.name) {
-			var $element = paper.$dom.find('#' + child.name);
-			var branch = child.children ? _createPaperScene(child) : {};
+				var originalName = $element.data('name') || child.name;
+				var frameMatch;
 
-			child.getFrames();
-
-			if($element.data('name')) {
-				var originalName = $element.data('name');
 				// state detected!
 				if(originalName[0] === '#') {
-					if(!parent.data._states) parent.data._states = [];
+					if(!parent.data._states) parent.data._states = {};
 
 					originalName = originalName.slice(1);
-					parent.data._states.push( originalName );
-				}
-				child.name = originalName;
-			}
-			branch.item = child;
-			branch.$element = $element;
+					parent.data._states[originalName] = child;
 
-			$element.data('paper-scene-element', branch);
-			
-			tree[child.name] = branch;
-		}
-	});
+					if(_.size(parent.data._states) > 1) { 
+						child.visible = false;
+					} else {
+						parent.data._state = parent.data._state || originalName;
+					}
+				// frame detected!
+				} else if(frameMatch = originalName.match(/^f(\d+)/)) {
+					var frame = parseInt(Number(frameMatch[1]));
+					parent.data._frames = Math.max(parent.data._frames || 1, frame);
+					if(frame > 1) child.visible = false;
+				}
+				//child.name = originalName;
+
+				$element.data('paper-scene-element', branch);
+				
+				tree[originalName] = branch;
+
+				child.data.paperSceneElement = branch;
+			}
+		});
 	return tree;
 };
 
@@ -612,40 +616,31 @@ paper.Item.inject({
 	},
 	setFrame: function(nr) {
 		var frame 		 = parseInt(nr);
+		var element 	 = this.data.paperSceneElement;
 		/* find child layer called "f1" (or using the according presaved frame number) */
-		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
-		var newFrame 	 = this.children['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
+		var currentFrame = element['f' + this.getFrame()] || this.data._frameLayer;
+		var newFrame 	 = element['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
 
-		/* if we don't have a current frame number yet */
-		if(this.data._frame === undefined) {
-			_.each(this.children, function(child) {
-				/* walk thru all children and check if follows pattern "f" + int  */
-				if(child.name.match(/^f\d+/g)) {
-					/* if the frame number doesn't match the newly set frame hide it */
-					if(parseInt( child.name.slice(1) ) != frame) {
-						child.visible = false;
-					}
-				}
-			});
-		} else if(currentFrame) {
+		/* if we have a currentFrame */
+		if(currentFrame) {
 			this.data._frameLayer = currentFrame;
-			currentFrame.visible = false;
+			currentFrame.item.visible = false;
 		}
 
 		if(newFrame) {
-			newFrame.visible = true;
+			newFrame.item.visible = true;
 		}
 		this.data._frame = frame;
+
+		if(!_.isEmpty(this.state)) {
+			this.state = this.state;
+		}
+
 		this.data.onFrameChanged && this.data.onFrameChanged(frame);
 	},
 	/* get all children's frame numbers and return the highest one */
 	getFrames: function() {
-		var children = _.map(this.children, function(child) {
-			return Number(child.name && child.name.slice(1)) || 1;
-		});
-		children.sort();
-		children.reverse();
-		return children[0];
+		return this.data._frames || 1;
 	},
 	/* state capability – switch visibility of children layers on and off using meaningful labels */
 	getState: function() {
@@ -668,35 +663,31 @@ paper.Item.inject({
 			});
 		}
 
+		// if this is the state of a subelement
 		if(state.indexOf('.') > -1) {
 			state = state.split('.');
-			childname = state.shift();
-			state = state.join('.');
+			childname = state[0] + '';
+			state = state.slice(1).join('.');
 		}
 
 		if(childname) {
 			self.data._state = self.data._state || {};
 			self.data._state[childname] = state;
 
-			// ### FIX: use DOM instead of paper.Item.getItems()
-			return _.each(self.getItems({
-						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
-						recursive: 	true
-					}), function(item) {
-						item.setState(state);							// and change their state
+			var element = self.data.paperSceneElement;
+
+			return _.each(element['f' + self.frame].find(childname), function(child) {
+						child.item.setState(state);						// and change their state
 					});
 		} else {
 			var states = self.getStates();								// retrieve all states
 
 			if(self.data._state === undefined) {
 				self.data._state = _.keys(states)[0];					// set default state to first key of states object
-				_.each(states, function(state) {						// and turn all states invisible for now
-					state.visible = false;
-				});
-			} else {
-				states[self.data._state].visible = false;				// hide current state 
-			}
-			states[state].visible = true;								// show newly set state
+			} 
+
+			states[self.data._state].visible = false;					// hide current state 
+			states[state].visible = true;								// and show newly set state instead
 			self.data._state = state;
 		}
 		self.data.onStateChanged && self.data.onStateChanged(state, childname);
@@ -704,7 +695,7 @@ paper.Item.inject({
 	},
 	/* retrieve all states of an item */
 	getStates: function() {
-		return _.get(this.data, '_states', []);
+		return _.get(this.data, '_states', {});
 	},
 });;// easing functions for animations
 
@@ -819,14 +810,6 @@ Game = function(project, name, options, onLoad) {
 					onLoad: 		function() {
 										var scene = self.scene = this;
 										self.container 	= self.scene.item;
-
-										if(scene.UI) {
-											_.each(scene.UI, function(ui) {
-												console.log('ui', ui);
-												if(ui.item.visible)
-													ui.item.visible = false;
-											});
-										}
 
 										self.resize({size: project.view.viewSize});
 										self.container.position = project.view.center;

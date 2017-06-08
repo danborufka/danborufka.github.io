@@ -1274,7 +1274,7 @@ function _createAudio() {
 Danimator.onSound = _.debounce(_createAudio, 100);
 
 /* game engine for loading SVG skeletons, extended to editing capabilities */
-Game.onLoad = function(project, name, options, scene, container) {
+Game.onLoad = function(project, name, options) {
 
 	var self = this;
 	currentGame = self;
@@ -1406,7 +1406,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 		return self.find(id).set(props);
 	};
 
-	var layers = Danimator.layers = self.scene.slice(0).reverse();
+	var layers = Danimator.layers = self.scene.item.children.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
 	var _hoverClone;
 	var _hoverItem;
