@@ -74,14 +74,6 @@ Game = function(project, name, options, onLoad) {
 										var scene = self.scene = this;
 										self.container 	= self.scene.item;
 
-										if(scene.UI) {
-											_.each(scene.UI, function(ui) {
-												console.log('ui', ui);
-												if(ui.item.visible)
-													ui.item.visible = false;
-											});
-										}
-
 										self.resize({size: project.view.viewSize});
 										self.container.position = project.view.center;
 
