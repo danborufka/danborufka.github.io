@@ -3,8 +3,8 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		var bear = scene.agentBear.item;
 
 		bear.frame = 1;
-		//bear.state = 'eyes.normal';
-		//bear.state = 'snout.normal';
+		bear.state = 'eyes.normal';
+		bear.state = 'snout.normal';
 
 		/* animate agent Bearinger */
 		if(false)
