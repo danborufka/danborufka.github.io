@@ -142,11 +142,31 @@ var _HOVER_STYLES = {
 	}
 };
 
+var LOADING_STATES = [];
+
 var PANEL_TOLERANCE = 10;
 
 var _isBoundsItem = function(item) {
 	return ['PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
 };
+
+/* helpers for loading states */
+function setLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) < 0) {
+		LOADING_STATES.push(label);
+	}
+	if(LOADING_STATES.length) {
+		$(element || 'body').addClass('loading');
+	}
+}
+function resetLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) >= 0) {
+		_.pull(LOADING_STATES, label);
+	}
+	if(!LOADING_STATES.length) {
+		$(element || 'body').removeClass('loading');
+	}
+}
 
 /* helpers for internal panel calcs */
 function _asGroup(config) {
@@ -1285,6 +1305,7 @@ Game.onLoad = function(project, name, options) {
 	self.time 	= 0;
 
 	self.saveAll = function(saveAs) {
+		setLoading('saveAll');
 		_.each(currentGame.files, function(file, type) {
 			//if(!file.saved) {
 				switch(type) {
@@ -1313,6 +1334,8 @@ Game.onLoad = function(project, name, options) {
 				}
 			//}
 		});
+		alertify && alertify.notify('All saved!', 'success');
+		resetLoading('saveAll');
 	}	
 
 	Danimator.onTimeChanged = function(time) {

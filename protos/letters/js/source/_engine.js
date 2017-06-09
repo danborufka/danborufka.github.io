@@ -1,6 +1,5 @@
 // animation and game engine
 // TODOS:
-// o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
 // o make audio a separate, optional module
@@ -49,6 +48,12 @@ Danimator.init = function DanimatorInit(item) {
 	Object.defineProperty(paper.scene, 'symbols', { enumerable: false, 
 		value: 	[] 
 	});
+
+	if(Danimator.removeClip) {				// if removeClip option is set to true (default)
+		if(item.firstChild.clipMask) {		// and the first child of the scene is a clipping mask
+			item.firstChild.remove();		// remove it!
+		}
+	}
 
 	/* collect all symbols as name:symbol map under paper.scene.symbols */
 	_.each(paper.project.symbolDefinitions, function(definition) {
@@ -474,6 +479,7 @@ Danimator.sound = function(name, options) {
 Danimator.sounds 		= {};
 Danimator.interactive 	= false;					// interactive mode suppresses checks of animationEnd and thus never removes them from stack
 Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initialized?
+Danimator.removeClip 	= true;						// if there's a clipping mask on the whole scene auto-remove it
 
 var _importSVG = paper.Project.prototype.importSVG;
 

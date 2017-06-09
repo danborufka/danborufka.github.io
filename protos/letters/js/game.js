@@ -54,6 +54,14 @@ Game = function(project, name, options, onLoad) {
 		return false;
 	};
 
+	var _resize;
+
+	self.onResize = function(event) {
+		_resize && _resize(event);
+	}
+
+	var showBounds = true;
+
 	/* omnipotent file loader - triggered by filedrop on body */
 	self.load = function(files) {
 		files = self._resolveFiles(files);
@@ -69,10 +77,21 @@ Game = function(project, name, options, onLoad) {
 					expandShapes: 	true,
 					onLoad: 		function() {
 										self.scene = this;
-										self.container 	= self.scene.item;
+										self.container 	= this.item;
 
-										(self.resize = function(event) {
-											self.container.position = new paper.Rectangle(new paper.Point(0,0), event.size).center;
+										(_resize = function(event) {
+											var screenCenter = new paper.Point(event.size).multiply(0.5);
+											var halfSize 	 = new paper.Point(self.container.bounds.size).multiply(0.5).add(project.view.bounds.point);
+
+											self.container.position = paper.Point.max(screenCenter, halfSize);
+
+											if(showBounds) {
+												showBounds.remove && showBounds.remove();
+												showBounds = new paper.Shape.Rectangle(self.container.bounds);
+												showBounds.strokeColor = 'crimson';
+												showBounds.strokeWidth = 1;
+												showBounds.dashArray = [2,2];
+											}
 										})({size: project.view.viewSize});
 
 										try {

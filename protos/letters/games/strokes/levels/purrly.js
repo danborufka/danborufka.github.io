@@ -50,21 +50,22 @@ var purrlyGame = new strokeGame(project,
 	}, 
 	function onGameStart(scene, container, game) {
 
-		eyes  = container.getItem({ name: 'eyes' });
-		frown = container.getItem({ name: 'frown' });
-		mouth = container.getItem({ name: 'mouth.open' });
+		eyes  = scene.purrly.face.eyes.item;
+		frown = scene.purrly.face.frown.item;
+		mouth = scene.purrly.face.mouth_open.item;
 
-		var path 		= scene.UI.getItem({ name: 'explainerStroke' });
-		var start 		= scene.UI.getItem({ name: 'start' 	});
-		var end 		= scene.UI.getItem({ name: 'end' 	});
-		var label 		= scene.UI.getItem({ name: 'label' 	});
+		var UI 			= scene.UI.explainer;
+		var path 		= UI.explainerStroke.item;
+		var start 		= UI.start.item;
+		var end 		= UI.end.item;
+		var label 		= UI.label.item;
 		var endColor 	= end && (end.fillColor.hue + 0);
 
 		end.visible = false;
 		path.growth = 0;
 
 		/* animate short explainer */
-		Danimator.fadeIn(scene.UI.children.explainer, .3, { from: 0, delay: 1.5 });
+		Danimator.fadeIn(UI.item, .3, { from: 0, delay: 1.5 });
 		Danimator.fadeIn(end, .3, { from: 0, delay: 2.5 });
 
 		Danimator(path, 'growth', 0, 1, 3, {
@@ -82,35 +83,35 @@ var purrlyGame = new strokeGame(project,
 		})
 		.then('fadeOut', start, .6, {
 			onStep: 	function(step) {
-							label.opacity = step;
+							//label.opacity = step;
 							return step;
 						},
 			delay: 		.5
 		})
-		.then('fadeOut', scene.UI.children.explainer, 1, { 
+		.then('fadeOut', UI.item, 1, { 
 			delay: 		1.5
 		});
 
 		/* show progress color onMouseDrag */
 		container.onMouseDown = function onContainerMousedown(event) {
-			if(_.has(scene.UI.children, 'status')) {
-				scene.UI.children.status.fillColor.hue = start.fillColor.hue;
-				Danimator.fadeIn(scene.UI.children.status, .3, { from: 0 });
+			if(_.has(scene.UI, 'status')) {
+				scene.UI.status.item.fillColor.hue = start.fillColor.hue;
+				Danimator.fadeIn(scene.UI.status.item, .3, { from: 0 });
 			}
-			Danimator.stopAll(scene.UI.children.explainer);
-	    	Danimator.fadeOut(scene.UI.children.explainer, .3);
+			Danimator.stopAll(UI.item);
+	    	Danimator.fadeOut(UI.item, .3);
 		}
 		container.onMouseUp = function onContainerMouseUp() {
-			if(_.has(scene.UI.children, 'status')) {
-				Danimator.stopAll(scene.UI.children.status);
-				Danimator.fadeOut(scene.UI.children.status, .3);
+			if(_.has(scene.UI, 'status')) {
+				Danimator.stopAll(scene.UI.status.item);
+				Danimator.fadeOut(scene.UI.status.item, .3);
 			}
 		}
 
 		game.onStrokeStart = function onStrokeStart(data) {
 			// init sound:
     		purringSound = Danimator.sound('letters/rolling-r', { volume: 0.2, loop: true, fadeIn: 600 });
-	    	scene.UI.children.explainer.visible = false;
+	    	scene.UI.explainer.item.visible = false;
 		};
 
 		game.onStroke = function onStroke(data, offset, wrongDirection, cheating, delta) {
@@ -133,7 +134,7 @@ var purrlyGame = new strokeGame(project,
 				}, 1000);
 			} else _changeState(offset, game);
 
-			scene.UI.children.status.fillColor.hue = start.fillColor.hue + (end.fillColor.hue - start.fillColor.hue) * offset;
+			scene.UI.status.item.fillColor.hue = start.fillColor.hue + (end.fillColor.hue - start.fillColor.hue) * offset;
 		};
 
 		game.onStrokeStop = function(data) {
@@ -156,4 +157,4 @@ onFrame = function(event) {
 			eyes.visible = !(event.count % 90 < 10);
 		}
 }
-onResize = purrlyGame.resize;
+onResize = purrlyGame.onResize;

@@ -106,7 +106,7 @@ function strokeGame(project, level, options, onLoad) {
 						// all strokes done
 						if(step === (options.repetitions || 1)) {
 
-							var phonetics = scene.UI.children.phonetics.item;
+							var phonetics = scene.UI.phonetics.item;
 
 							Danimator.fadeIn(phonetics, .3, {
 								from: 0,
