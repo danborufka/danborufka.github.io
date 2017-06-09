@@ -72,7 +72,6 @@ Game = function(project, name, options, onLoad) {
 										self.container 	= self.scene.item;
 
 										(self.resize = function(event) {
-											console.log('self', self);
 											self.container.position = new paper.Rectangle(new paper.Point(0,0), event.size).center;
 										})({size: project.view.viewSize});
 

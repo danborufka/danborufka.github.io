@@ -489,12 +489,20 @@ var _createDanimatorScene = function(parent) {
 	Object.defineProperty(tree, 'find', { enumerable: false, writable: false, configurable: false, 
 		value: 	function(selector) {
 					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
-					var $doms = this.$element.find('[data-name="' + selector + '"],[id="' + selector + '"]');
+					var $doms = this.$element.find('[data-name="' + selector + '"],#' + selector);
+					console.log('selector', '[data-name="' + selector + '"],#' + selector, '$element', this.$element, $doms.length);
 					return $doms.map(function() {
 						// and map to their according paperScene element rather than DOM elements
 						return $(this).data('paper-scene-element');
 					}).get();
 				}
+	});
+
+	// (non-enumerable) getter to retrieve children as disassociative array
+	Object.defineProperty(tree, 'ordered', { enumerable: false,
+		get: function() {
+			return _.values(this);
+		}
 	});
 
 	// save (non-enumerable) reference to DOM element
