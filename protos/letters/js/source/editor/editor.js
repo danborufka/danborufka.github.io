@@ -1,5 +1,6 @@
 // animation editor engine
 // TODOS:
+// o replace all instances of find() and findAndModify()
 // o make everything undoable
 // o #keyframes panel: fix value display when animated prop is of type string
 // ø load files properly on "bodyDrop"
@@ -1299,11 +1300,9 @@ Danimator.onSound = _.debounce(_createAudio, 100);
 /* game engine for loading SVG skeletons, extended to editing capabilities */
 Game.onLoad = function(project, name, options) {
 
-	var self = this;
-	currentGame = self;
+	var self = currentGame = this;
 
-	self.time 	= 0;
-
+	self.time = 0;
 	self.saveAll = function(saveAs) {
 		setLoading('saveAll');
 		_.each(currentGame.files, function(file, type) {
@@ -1620,8 +1619,6 @@ Game.onLoad = function(project, name, options) {
 			$panel.css(pos);
 		}
 	});
-
-	console.log('currentGame.files', currentGame.files);
 
 	$('body').addClass('ready');
 
