@@ -1664,9 +1664,9 @@ Game.onLoad = function(project, name, options) {
 				}
 
 				if(hover.item.className === 'PointText') {
-					_hoverClone.style = _HOVER_STYLES.TEXT;
+					_hoverClone.set(_HOVER_STYLES.TEXT);
 				} else {
-					_hoverClone.style = _HOVER_STYLES.PATHS;
+					_hoverClone.set(_HOVER_STYLES.PATHS);
 				}
 
 				if(_hoverClone.style.strokeWidth) {
