@@ -25,15 +25,16 @@ function strokeGame(project, level, options, onLoad) {
 	var strokeLoader = function(scene, container) {
 
 		strokes 		= scene.strokes.ordered;
-		stroke 			= strokes[currentStroke];
-		self.stroke   	= stroke.item;
+		stroke 			= strokes[currentStroke].item;
+		self.stroke   	= stroke;
 
 		// let's get closer!
 		project.view.zoom = 1.5;
 
-		// remove all clippingMasks
+		// remove first clippingMask
 		// project.getItem({ clipMask: true }).remove();
 
+		console.log('stroke', stroke, 'segs', stroke.segments);
 
 		scene.control.item.onMouseDown = function(data) {
 			if(!self.locked) {
@@ -126,8 +127,8 @@ function strokeGame(project, level, options, onLoad) {
 					}
 
 					currentStroke = ++currentStroke % strokes.length;
-					stroke 		  = strokes[currentStroke];
-					self.stroke   = stroke.item;
+					stroke 		  = strokes[currentStroke].item;
+					self.stroke   = stroke;
 				};
 				_reset(self);
 			}
