@@ -51,13 +51,9 @@ var tubyGame = new strokeGame(project,
 
 		button 	= scene.find('button-top')[0].item;
 
-		//console.log('door', scene.find('door_1_'));
-		//door 	= scene.find('door_1_')[0].item;			// clipping items have automatic renaming
-
+		door 	= scene.find('door_1_')[0].item;			// clipping items have automatic renaming, thus door_1_ instead of "door"
 		hamster = scene.find('hamster')[0].item;
-		console.log('hamster', hamster);
 		body 	= scene.find('hamsterbody')[0].item;
-		console.log('eye', eye);
 		eye  	= scene.find('eye')[0].item;
 
 		bodyLength = body.length;
@@ -136,10 +132,10 @@ var tubyGame = new strokeGame(project,
 
 					Danimator.sound('buttons/up');
 
-					//hamster.position = hamster_front.position = door.position + [0, 0];
+					hamster.position = hamster_front.position = door.position + [0, 0];
 					game.locked = true;
 
-					/* animate opening door
+					// animate opening door
 					Danimator(door, 'bounds.height', null, 0.1, 1, { 
 						delay: .2,
 						onDone: function() {
@@ -180,7 +176,7 @@ var tubyGame = new strokeGame(project,
 							scene.UI.children.explainer.item.visible = true;
 							Danimator.fadeIn(scene.UI.children.explainer.item, .4, { delay: 1 });
 						} 
-					});*/
+					});
 					Danimator.sound('door-open.wav');
 					break;
 

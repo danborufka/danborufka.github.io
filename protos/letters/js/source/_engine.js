@@ -490,10 +490,15 @@ var _createDanimatorScene = function(parent) {
 		value: 	function(selector) {
 					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
 					var $doms = this.$element.find('[data-name="' + selector + '"],#' + selector);
-					console.log('selector', '[data-name="' + selector + '"],#' + selector, '$element', this.$element, $doms.length);
 					return $doms.map(function() {
 						// and map to their according paperScene element rather than DOM elements
-						return $(this).data('paper-scene-element');
+						var element = $(this).data('paper-scene-element');
+						if(!element) {
+							var item = paper.project.getItem({ name: selector });
+							element = item.data.paperSceneElement = _createDanimatorScene(item);
+							$(this).data('paper-scene-element', element);
+						}
+						return element;
 					}).get();
 				}
 	});

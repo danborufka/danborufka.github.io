@@ -223,12 +223,14 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
 // o make everything undoable
-// ø load files properly on "bodyDrop"
-// o saving of SVGs once properties have been changed
 // o #keyframes panel: fix value display when animated prop is of type string
-// o #properties panel: add states
+// ø load files properly on "bodyDrop"
+// o finish save statii (statusbar?)
+// o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
+// o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
+// o saving of SVGs once properties have been changed
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
 var tracks   		= {};
@@ -1669,8 +1671,8 @@ Game.onLoad = function(project, name, options) {
 					_hoverClone.set(_HOVER_STYLES.PATHS);
 				}
 
-				if(_hoverClone.style.strokeWidth) {
-					_hoverClone.style.strokeWidth /= project.view.zoom;
+				if(_hoverClone.strokeWidth) {
+					_hoverClone.strokeWidth /= project.view.zoom;
 				}
 				_hoverClone.guide = true;
 
