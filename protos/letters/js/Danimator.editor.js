@@ -222,11 +222,16 @@ jQuery(window).on('popstate', function(event, state) {
 plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",plotRangeDisplay:!1,plotRangeUnits:"",plotRangePrecision:4,plotRangeIgnoreOutliers:!1,plotRangeFontSize:12,plotRangeFontType:"Ariel",waveDrawMedianLine:!0,plotFileDelimiter:"\t"},plotTimeStart:0,plotTimeEnd:-1,plotArrayLoaded:!1,plotArray:[],plotPoints:[],plotMin:0,plotMax:1,initDrawer:function(a){var b=this;for(var c in this.defaultPlotParams)void 0===this.params[c]&&(this.params[c]=this.defaultPlotParams[c]);if(this.plotTimeStart=this.params.plotTimeStart,void 0!==this.params.plotTimeEnd&&(this.plotTimeEnd=this.params.plotTimeEnd),Array.isArray(a.plotArray))this.plotArray=a.plotArray,this.plotArrayLoaded=!0;else{var d=function(a){b.plotArray=a,b.plotArrayLoaded=!0,b.fireEvent("plot_array_loaded")};this.loadPlotArrayFromFile(a.plotFileUrl,d,this.params.plotFileDelimiter)}},drawPeaks:function(a,b,c,d){if(1==this.plotArrayLoaded)this.setWidth(b),this.splitChannels=!0,this.params.height=this.params.height/2,a[0]instanceof Array&&(a=a[0]),this.params.barWidth?this.drawBars(a,1,c,d):this.drawWave(a,1,c,d),this.params.height=2*this.params.height,this.calculatePlots(),this.drawPlots();else{var e=this;e.on("plot-array-loaded",function(){e.drawPeaks(a,b,c,d)})}},drawPlots:function(){var a=this.params.height*this.params.pixelRatio/2,b=.5/this.params.pixelRatio;this.waveCc.fillStyle=this.params.plotColor,this.progressCc&&(this.progressCc.fillStyle=this.params.plotProgressColor);for(var c in this.plotPoints){var d=parseInt(c),e=a-this.params.plotPointHeight-this.plotPoints[c]*(a-this.params.plotPointHeight),f=this.params.plotPointHeight;this.waveCc.fillRect(d,e,this.params.plotPointWidth,f),this.progressCc&&this.progressCc.fillRect(d,e,this.params.plotPointWidth,f)}this.params.plotSeparator&&(this.waveCc.fillStyle=this.params.plotSeparatorColor,this.waveCc.fillRect(0,a,this.width,b)),this.params.plotRangeDisplay&&this.displayPlotRange()},displayPlotRange:function(){var a=this.params.plotRangeFontSize*this.params.pixelRatio,b=this.plotMax.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits,c=this.plotMin.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits;this.waveCc.font=a.toString()+"px "+this.params.plotRangeFontType,this.waveCc.fillText(b,3,a),this.waveCc.fillText(c,3,this.height/2)},calculatePlots:function(){this.plotPoints={},this.calculatePlotTimeEnd();for(var a=[],b=-1,c=0,d=99999999999999,e=0,f=99999999999999,g=this.plotTimeEnd-this.plotTimeStart,h=0;h<this.plotArray.length;h++){var i=this.plotArray[h];if(i.value>c&&(c=i.value),i.value<d&&(d=i.value),i.time>=this.plotTimeStart&&i.time<=this.plotTimeEnd){var j=Math.round(this.width*(i.time-this.plotTimeStart)/g);if(a.push(i.value),j!==b&&a.length>0){var k=this.avg(a);k>e&&(e=k),k<f&&(f=k),this.plotPoints[b]=k,a=[]}b=j}}"whole"==this.params.plotNormalizeTo?(this.plotMin=d,this.plotMax=c):"values"==this.params.plotNormalizeTo?(this.plotMin=this.params.plotMin,this.plotMax=this.params.plotMax):(this.plotMin=f,this.plotMax=e),this.normalizeValues()},normalizeValues:function(){var a={};if("none"!==this.params.plotNormalizeTo){for(var b in this.plotPoints){var c=(this.plotPoints[b]-this.plotMin)/(this.plotMax-this.plotMin);c>1?this.params.plotRangeIgnoreOutliers||(a[b]=1):c<0?this.params.plotRangeIgnoreOutliers||(a[b]=0):a[b]=c}this.plotPoints=a}},loadPlotArrayFromFile:function(b,c,d){void 0===d&&(d="\t");var e=[],f={url:b,responseType:"text"},g=a.util.ajax(f);g.on("load",function(a){if(200==a.currentTarget.status){for(var b=a.currentTarget.responseText.split("\n"),f=0;f<b.length;f++){var g=b[f].split(d);2==g.length&&e.push({time:parseFloat(g[0]),value:parseFloat(g[1])})}c(e)}})},calculatePlotTimeEnd:function(){void 0!==this.params.plotTimeEnd?this.plotTimeEnd=this.params.plotTimeEnd:this.plotTimeEnd=this.plotArray[this.plotArray.length-1].time},avg:function(a){var b=a.reduce(function(a,b){return a+b});return b/a.length}}),a.util.extend(a.Drawer.SplitWavePointPlot,a.Observer),a.PeakCache={init:function(){this.clearPeakCache()},clearPeakCache:function(){this.peakCacheRanges=[],this.peakCacheLength=-1},addRangeToPeakCache:function(a,b,c){a!=this.peakCacheLength&&(this.clearPeakCache(),this.peakCacheLength=a);for(var d=[],e=0;e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<b;)e++;for(e%2==0&&d.push(b);e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<=c;)d.push(this.peakCacheRanges[e]),e++;e%2==0&&d.push(c),d=d.filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]}),this.peakCacheRanges=this.peakCacheRanges.concat(d),this.peakCacheRanges=this.peakCacheRanges.sort(function(a,b){return a-b}).filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]});var f=[];for(e=0;e<d.length;e+=2)f.push([d[e],d[e+1]]);return f},getCacheRanges:function(){for(var a=[],b=0;b<this.peakCacheRanges.length;b+=2)a.push([this.peakCacheRanges[b],this.peakCacheRanges[b+1]]);return a}},function(){var b=function(){var b=document.querySelectorAll("wavesurfer");Array.prototype.forEach.call(b,function(b){var c=a.util.extend({container:b,backend:"MediaElement",mediaControls:!0},b.dataset);b.style.display="block";var d=a.create(c);if(b.dataset.peaks)var e=JSON.parse(b.dataset.peaks);d.load(b.dataset.url,e)})};"complete"===document.readyState?b():window.addEventListener("load",b)}(),a});
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
+// o replace all instances of find() and findAndModify()
 // o make everything undoable
+// o #keyframes panel: fix value display when animated prop is of type string
 // ø load files properly on "bodyDrop"
-// o saving of SVGs once properties have been changed
+// o finish save statii (statusbar?)
+// o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
+// o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
+// o saving of SVGs once properties have been changed
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
 var tracks   		= {};
@@ -245,6 +250,7 @@ var selectionId;
 
 var $time;
 var $animationValue;
+var $currentTrack;
 
 var snapKeyframes 	= new Snappables(.4);
 
@@ -344,11 +350,46 @@ var ANIMATABLE_PROPERTIES = {
 	Group: 		_ANIMATABLE_DEFAULTS,
 	PointText: 	_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY)
 }
+
+var _HOVER_STYLES = {
+	PATHS: {
+		opacity: 	 1,
+		strokeColor: '#009dec',
+		strokeWidth: 1,
+		fillColor: 	 null
+	},
+	TEXT: {
+		opacity: 	 1,
+		strokeWidth: 0,
+		fillColor: 	 '#009dec'
+	}
+};
+
+var LOADING_STATES = [];
+
 var PANEL_TOLERANCE = 10;
 
 var _isBoundsItem = function(item) {
-	return ['PointText', 'Shape', 'PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
+	return ['PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
 };
+
+/* helpers for loading states */
+function setLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) < 0) {
+		LOADING_STATES.push(label);
+	}
+	if(LOADING_STATES.length) {
+		$(element || 'body').addClass('loading');
+	}
+}
+function resetLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) >= 0) {
+		_.pull(LOADING_STATES, label);
+	}
+	if(!LOADING_STATES.length) {
+		$(element || 'body').removeClass('loading');
+	}
+}
 
 /* helpers for internal panel calcs */
 function _asGroup(config) {
@@ -562,7 +603,7 @@ Danimator.load = function(aniName) {
 			})
 			tracks = _.extend(tracks, json);
 			_createTracks();
-			currentGame.setTime(currentGame.time);
+			Danimator.time = Danimator.time;
 		} else {
 			console.warn('Animations "' + filename + '" couldn\'t be loaded :(');
 		}
@@ -713,9 +754,9 @@ jQuery(function($){
 			var $this = $(this);
 			var value = Number($this.text().replace(/[^\d\.\,]*/g, ''));
 			if(isNaN(value)) {
-				value = currentGame.time;
+				value = Danimator.time;
 			} else {
-				currentGame.setTime(value);
+				Danimator.time = value;
 			}
 			$this.text(value + 's');
 		})
@@ -763,7 +804,9 @@ jQuery(function($){
 					if(event.shiftKey) {
 						t = snapKeyframes.snap(t);
 					}
-					currentGame && currentGame.setTime(t, $this);
+
+					$currentTrack = $this;
+					Danimator.time = t;
 				}
 		})
 		.on('mouseup', '.timeline .track', function(event) {
@@ -781,7 +824,7 @@ jQuery(function($){
 			$input.parentsUntil('ul.main').filter('li').addClass('open');
 			$input.focus();
 
-			currentGame.setTime($this.data('time'));
+			Danimator.time = $this.data('time');
 
 			event.stopImmediatePropagation();
 		})
@@ -790,7 +833,7 @@ jQuery(function($){
 			var prop 	= $this.closest('li.timeline').data('property');
 			var item 	= $this.closest('li.item').data('track').item;
 			var value 	= _.get(item, prop);
-			var time 	= currentGame.time;
+			var time 	= Danimator.time;
 
 			var currentTracks = _.clone(tracks[item.id].properties[prop]);
 			var isFirst = _getStartTime(currentTracks[0]) > time;
@@ -808,7 +851,7 @@ jQuery(function($){
 				});
 			} else {
 				var currentTrackIndex = _.findIndex(currentTracks, function(track) {
-					return _.inRange(currentGame.time, _getStartTime(track), _getEndTime(track));
+					return _.inRange(Danimator.time, _getStartTime(track), _getEndTime(track));
 				});
 				var currentTrack = currentTracks[currentTrackIndex];
 				var lastTrack = _.get(currentTracks, currentTrackIndex-1, false);
@@ -919,7 +962,7 @@ jQuery(function($){
 			if(data.track) {
 				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
 
-				if(currentGame.time === _getStartTime(currentTrack)) {
+				if(Danimator.time === _getStartTime(currentTrack)) {
 					currentTrack.from = value;
 					if(data.track.id === 0) {
 						currentTrack.initValue = value;
@@ -984,12 +1027,12 @@ jQuery(function($){
 						if(_playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
-								if(currentGame.time >= Danimator.maxDuration) {
+								if(Danimator.time >= Danimator.maxDuration) {
 									clearInterval(playInterval);
-									currentGame.setTime(0);
+									Danimator.time = 0;
 								} else {
 									var delta = ((new Date).getTime() - lastTime) / 1000;
-									currentGame.setTime(currentGame.time + delta);
+									Danimator.time = Danimator.time + delta;
 									lastTime = (new Date).getTime();
 								}
 							}, 1000/12);
@@ -999,19 +1042,19 @@ jQuery(function($){
 						return false;
 					/* prevFrame */
 					case ',':
-						currentGame.setTime( Danimator.limit(currentGame.time - 1/12, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time - 1/12, 0, Danimator.maxDuration);
 						return false;
 					/* nextFrame */
 					case '.':
-						currentGame.setTime( Danimator.limit(currentGame.time + 1/12, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time + 1/12, 0, Danimator.maxDuration);
 						return false;
 					/* prevFrame * 10 */
 					case ';':
-						currentGame.setTime( Danimator.limit(currentGame.time - 1/2, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time - 1/2, 0, Danimator.maxDuration);
 						return false;
 					/* nextFrame * 10 */
 					case ':':
-						currentGame.setTime( Danimator.limit(currentGame.time + 1/2, 0, Danimator.maxDuration) );
+						Danimator.time = Danimator.limit(Danimator.time + 1/2, 0, Danimator.maxDuration);
 						return false;	
 					/* zoomIn */
 					case '+':
@@ -1053,7 +1096,7 @@ jQuery(function($){
 						break;
 					case 's':
 						if(event.ctrlKey || event.metaKey) {
-							currentGame.saveAll();
+							currentGame.saveAll(event.shiftKey);
 							event.preventDefault();
 							event.stopImmediatePropagation();
 						}
@@ -1072,11 +1115,11 @@ jQuery(function($){
 				var delta = { x: event.originalEvent.deltaX, y: event.originalEvent.deltaY };
 
 				if(Math.abs(delta.x) > 0.1) {
-					var time = currentGame.time + delta.x * 1/24;
+					var time = Danimator.time + delta.x * 1/24;
 					if(event.shiftKey) {
 						time = snapKeyframes.snap(time);
 					}
-					currentGame.setTime(time);
+					Danimator.time = time;
 				}
 
 				event.preventDefault();
@@ -1308,7 +1351,7 @@ function _createTracks() {
 							ui.position.left = x + 1;
 						}
 
-						currentGame.setTime(t);
+						Danimator.time = t;
 
 						var $nextRange 		= $this.next('.range');
 						var $prevRange 		= $this.prev('.range');
@@ -1368,11 +1411,11 @@ function _createProperties(properties, $props, item, subitem, path) {
 			if(propertyTrack) {
 				keyed.push('animated');
 
-				var isKey = _.find(propertyTrack, {options: { delay: currentGame.time }});
+				var isKey = _.find(propertyTrack, {options: { delay: Danimator.time }});
 
 				if(!isKey) {
 					isKey = _.some(propertyTrack, function(track) {
-						return _getEndTime(track) === currentGame.time;
+						return _getEndTime(track) === Danimator.time;
 					});
 				}
 				
@@ -1459,7 +1502,7 @@ function _createAudio() {
 
 		wave.on('seek', function(progess, stuff) {
 			if(!_timeScrubbing) {
-				currentGame.setTime( currentWave.getCurrentTime() );
+				Danimator.time = currentWave.getCurrentTime();
 			}
 		});
 
@@ -1472,23 +1515,18 @@ function _createAudio() {
 		wave.load('audio/' + name);
 		$sound.data('wave', wave);
 	});
-
-	if(wave) {
-		
-	}
 }
 
 Danimator.onSound = _.debounce(_createAudio, 100);
 
 /* game engine for loading SVG skeletons, extended to editing capabilities */
-Game.onLoad = function(project, name, options, scene, container) {
+Game.onLoad = function(project, name, options) {
 
-	var self = this;
-	currentGame = self;
+	var self = currentGame = this;
 
-	self.time 	= 0;
-
-	self.saveAll = function() {
+	self.time = 0;
+	self.saveAll = function(saveAs) {
+		setLoading('saveAll');
 		_.each(currentGame.files, function(file, type) {
 			//if(!file.saved) {
 				switch(type) {
@@ -1498,11 +1536,14 @@ Game.onLoad = function(project, name, options, scene, container) {
 						var path = _basepath(currentGame.files.svg.path);
 						var name = _basename(currentGame.files.svg.path) + '.ani.json';
 
-						Danimator.save(export_tracks, path + name);
-						file.saved = true;
+						if(saveAs) {
+							var export_JSON = JSON.stringify(export_tracks);
+							saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
+						} else {
+							Danimator.save(export_tracks, path + name);
+						}
 
-						//var export_JSON = JSON.stringify(export_tracks);
-						//saveAs(new Blob([export_JSON], {type: 'application/json;charset=utf-8'}), filename);
+						file.saved = true;
 
 						// garbageCollect
 						delete export_tracks;
@@ -1514,11 +1555,11 @@ Game.onLoad = function(project, name, options, scene, container) {
 				}
 			//}
 		});
+		alertify && alertify.notify('All saved!', 'success');
+		resetLoading('saveAll');
 	}	
 
-	self.setTime = function(seconds, $target) {
-		var time = Math.max(seconds, 0);
-
+	Danimator.onTimeChanged = function(time) {
 		self.time = time;
 
 		var $inputs = $('#properties').find('li').removeClass('keyed');
@@ -1586,8 +1627,8 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 				var ani = Danimator.step(currentTrack, t);
 
-				if($target && $target.length)
-					if($.contains($target[0], $scrubber[0])) {
+				if($currentTrack && $currentTrack.length)
+					if($.contains($currentTrack[0], $scrubber[0])) {
 						$animationValue.text(property + ' = ' + _.round(ani.value,2));
 					}
 			}
@@ -1612,7 +1653,7 @@ Game.onLoad = function(project, name, options, scene, container) {
 		return self.find(id).set(props);
 	};
 
-	var layers = Danimator.layers = self.scene.slice(0).reverse();
+	var layers = Danimator.layers = self.scene.item.children.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
 	var _hoverClone;
 	var _hoverItem;
@@ -1638,25 +1679,33 @@ Game.onLoad = function(project, name, options, scene, container) {
 
 		if(hover) {
 			if(hover.item !== _hoverItem) _clearHover();
+			if(_hoverClone === undefined && hover.item.selected === false) {
 
-			if(!_isBoundsItem(hover.item)) {
-				if(_hoverClone === undefined && hover.item.selected === false) {
+				if(_isBoundsItem(hover.item)) {
+					_hoverClone = new paper.Shape.Rectangle(hover.item.bounds);
+				} else {
 					_hoverClone = hover.item.clone();
-					_hoverClone.guide = true;
-					_hoverClone.opacity = 1;
-					_hoverClone.strokeWidth = 1/project.view.zoom;
-					_hoverClone.strokeColor = '#009dec';
-					_hoverClone.fillColor = null;
-					self.container.appendTop( _hoverClone );
-					_hoverItem = hover.item;
 				}
+
+				if(hover.item.className === 'PointText') {
+					_hoverClone.set(_HOVER_STYLES.TEXT);
+				} else {
+					_hoverClone.set(_HOVER_STYLES.PATHS);
+				}
+
+				if(_hoverClone.strokeWidth) {
+					_hoverClone.strokeWidth /= project.view.zoom;
+				}
+				_hoverClone.guide = true;
+
+				self.container.appendTop( _hoverClone );
+				_hoverItem = hover.item;
 			}
 		} else _clearHover();
 	}
 
 	/* selection of elements (by clicking them) */
 	paper.view.onMouseDown = function onCanvasMouseDown(event) {
-		
 		if(!(event.event.altKey || event.event.metaKey)) {
 			if(!isNaN(event.target.id)) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
@@ -1792,8 +1841,6 @@ Game.onLoad = function(project, name, options, scene, container) {
 			$panel.css(pos);
 		}
 	});
-
-	console.log('currentGame.files', currentGame.files);
 
 	$('body').addClass('ready');
 

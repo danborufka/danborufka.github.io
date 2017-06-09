@@ -1,15 +1,12 @@
 // animation and game engine
 // TODOS:
-// o make states animatable thru morphs
-// o fix autocenter of stage when resizing window
 // ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
 // o make audio a separate, optional module
-// o performance optimizations:
-// 	  * use SVG mirror DOM for special ops (like "similar-names")
 // o test morph chaining
+// o make states animatable thru morphs
 // o compress SVGs
-// o add support for nested frame animations
+// o (add support for nested frame animations?)
 
 /* check dependencies */
 var missing;
@@ -22,110 +19,47 @@ try {
 
 var animations = [];
 
-paper.Item.inject({
-	/* frame animation capability for paperjs Items */
-	getFrame: function() {
-		if(!this.data._frame) {
-			this.data._frame = 1;
-		}
-		return this.data._frame;
-	},
-	setFrame: function(nr) {
-		var frame 		 = parseInt(nr);
-		/* find child layer called "f1" (or using the according presaved frame number) */
-		var currentFrame = this.children['f' + (this.data._frame || 1)] || this.data._frameLayer;
-		var newFrame 	 = this.children['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
-
-		/* if we don't have a current frame number yet */
-		if(this.data._frame === undefined) {
-			_.each(this.children, function(child) {
-				/* walk thru all children and check if follows pattern "f" + int  */
-				if(child.name.match(/^f\d+/g)) {
-					/* if the frame number doesn't match the newly set frame hide it */
-					if(parseInt( child.name.slice(1) ) != frame) {
-						child.visible = false;
-					}
-				}
-			});
-		} else if(currentFrame) {
-			this.data._frameLayer = currentFrame;
-			currentFrame.visible = false;
-		}
-
-		if(newFrame) {
-			newFrame.visible = true;
-		}
-		this.data._frame = frame;
-		this.data.onFrameChanged && this.data.onFrameChanged(frame);
-	},
-	/* get all children's frame numbers and return the highest one */
-	getFrames: function() {
-		var children = _.map(this.children, function(child) {
-			return parseInt( child.name.slice(1) ) || 0;
-		});
-		children.sort();
-		children.reverse();
-		return children[0];
-	},
-	/* state capability – switch visibility of children layers on and off using meaningful labels */
-	getState: function(childname) {
-		if(childname) {
-			return this.getItem({
-				match: 		Danimator.matchBase(childname),
-				recursive: 	true
-			}).getState();
-		}
-		return this.data._state || 0;
-	},
-	// example: bear.setState('open', 'snout') vs. bear.setState('closed', 'snout') will hide layer #open of bear's childrens starting with "snout" (so snout-1, snout-2, …)
-	setState: function(state, childname) {
-		var self = this;
-		if(childname) {
-			return _.each(self.getItems({
-						match: 		Danimator.matchBase(childname),		// find all items starting with the same name
-						recursive: 	true
-					}), function(item) {
-						item.setState(state);							// and change their state
-					});
-		} else {
-			var states = self.getStates();				// retrieve all states
-
-			if(self.data._state === undefined) {
-				self.data._state = _.keys(states)[0];	// set default state to first key of states object
-				_.each(states, function(state) {		// and turn all states invisible for now
-					state.visible = false;
-				});
-			} else {
-				states[self.data._state].visible = false;	// hide current state 
-			}
-			states[state].visible = true;				// show newly set state
-			self.data._state = state;
-		}
-		self.data.onStateChanged && self.data.onStateChanged(state, childname);
-		return self;
-	},
-	/* retrieve all states of an item */
-	getStates: function() {
-		var self = this;
-		if(!this.data._states) {
-			this.data._states = [];
-			// find all children which names begin with either underscore (_) or hash (#) and save them as state
-			_.each(this.children, function(child) {
-				if(child.name.match(/^[#_][a-z0-9_-]+.*$/i)) {
-					var name = child.name.match(/^[#_](.*?)(\-\d+)?$/)[1];
-					self.data._states[name] = child;
-					self.data._states.push(child); // add numeric index, too
-					child.visible = false;
-				}
-			});
-		}
-		return this.data._states;
-	},
-});
-
 /* create Danimator as main object and in the same time shortcut to Danimator.animate */
 if(!this.Danimator) {
 	Danimator = function Danimator() { return Danimator.animate.apply(Danimator, arguments); };
+}
+
+Danimator._time = 0;
+
+/* adding time getter/setter to Danimator */
+Object.defineProperty(Danimator, 'time', {
+  get: function()     { return Danimator._time },
+  set: function(secs) {
+  	Danimator._time = Math.max(secs, 0);						// limit seconds to positive value
+  	if(Danimator.onTimeChanged) Danimator.onTimeChanged(Danimator._time);		// call global hook everytime time gets changed
+  	return Danimator;
+  }
+});
+
+/* initializes a Danimator scene from the passed item and creates index of symbol defs */
+Danimator.init = function DanimatorInit(item) {
+	item.data.sceneRoot = true;
+	item.name = 'scene';
+
+	/* prep work: create scene abstraction off of imported item */
+	paper.scene = _createDanimatorScene(item);
+
+	// add empty (non-enumerable) symbols array to scene
+	Object.defineProperty(paper.scene, 'symbols', { enumerable: false, 
+		value: 	[] 
+	});
+
+	if(Danimator.removeClip) {				// if removeClip option is set to true (default)
+		if(item.firstChild.clipMask) {		// and the first child of the scene is a clipping mask
+			item.firstChild.remove();		// remove it!
+		}
+	}
+
+	/* collect all symbols as name:symbol map under paper.scene.symbols */
+	_.each(paper.project.symbolDefinitions, function(definition) {
+		if(definition.item.name)
+			paper.scene.symbols[definition.item.name] = definition;
+	});
 }
 
 /* core animation function (adds animation to animatable stack) */
@@ -275,20 +209,18 @@ Danimator.limit = function(nr, mi, ma) {
 	}
 	return Math.max(Math.min(nr, ma), mi);
 }
-/* returns an iteratee to check whether a collection's item's names starting with "base" */
-// example: _.filter( collection, Danimator.matchBase('bear') ) only returns those items of collection starting with "bear"
-Danimator.matchBase = function(base) {
-	return function(item) {
-		return !!(item.name && item.name.match(new RegExp('^' + base + '([-_]\d+)?' , 'i')));
-	};
-}
 
 /* calculate single step of animation */
 Danimator.step = function(animatable, progress) {
 	var value = _.get(animatable.item, animatable.property);
 
 	if(animatable.from == undefined) 		animatable.from = value;
-	if(typeof animatable.to === 'string') 	animatable.to 	= animatable.from + Number(animatable.to);
+
+	if(typeof animatable.to === 'string') {		// if animatable.to is a String
+		if(!isNaN(animatable.to)) {				// yet contains a number
+			animatable.to = animatable.from + Number(animatable.to); 	// increment by that number instead
+		}
+	}
 
 	var ascending = animatable.to > animatable.from;	// check whether values are animated ascending or descending
 	var range 	  = animatable.to - animatable.from;	// calculate range of animation values
@@ -316,9 +248,15 @@ Danimator.step = function(animatable, progress) {
 				console.warn('Easing helpers not loaded!');
 			}
 		}
-		
+
 		if(typeof animatable.from === 'string') {
-			newValue = (progress === 1 ? animatable.to : animatable.from);
+			if(progress >= 1) {
+				newValue = animatable.to;
+				isDone = Danimator.interactive;
+			} else {
+				newValue = animatable.from;
+			}
+		
 		} else {
 			/* calculate new value and limit to "from" and "to" */
 			newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
@@ -541,124 +479,201 @@ Danimator.sound = function(name, options) {
 Danimator.sounds 		= {};
 Danimator.interactive 	= false;					// interactive mode suppresses checks of animationEnd and thus never removes them from stack
 Danimator.startTime 	= (new Date).getTime();		// when did Danimator get initialized?
+Danimator.removeClip 	= true;						// if there's a clipping mask on the whole scene auto-remove it
 
-/* game engine for loading SVG skeletons */
-Game = function(project, name, options, onLoad) {
+var _importSVG = paper.Project.prototype.importSVG;
 
-	var self 			= this;
-	self.name 			= name;
-	self.type 			= options.type;
-	self.file 			= 'games/' + self.type + '/' + name + '.svg';
-	self.project 		= project;
-	self.options 		= options || {};
-	self.files 			= { 
-		'ani.json': {
-			 name: 'untitled.json', 
-			 saved: false 
-		} 
-	};
-	self.symbols 		= [];
+var _createDanimatorScene = function(parent) {
+	var tree = {};
 
-	self.resize = function(event) {};
-
-	self.reset = function() {
-		this.dragging = false;
-	};
-
-	/* 	internal omnipotent helper to determine which supplied file is which.  
-		examples:
-		_resolveFiles({ svg: 'image.svg' }) 	-> { svg: { path: 'image.svg' } 		}
-		_resolveFiles('<svg>…</svg>') 			-> { svg: { content: '<svg>…</svg>'}	}
-		_resolveFiles('jQuery.ready(…);') 		-> { js:  { content: 'jQuery.ready(…);'}}
-		_resolveFiles('image.svg') 				-> { svg: { path: 'image.svg' } 		}
-		_resolveFiles('image.svg', 'script.js') -> { svg: { path: 'image.svg' }, js: { path: 'script.js' }}
-	*/
-	self._resolveFiles = function(files) {
-		var resolved = {};
-
-		switch(typeof files) {
-			case 'object':
-				if(_.isArray(files)) {
-					return _.merge.apply(_, _.map(files, self._resolveFiles));
+	// save (non-enumerable) reference to paperjs item
+	Object.defineProperty(tree, 'item', { enumerable: false, writable: false, configurable: false, 
+		value: 	parent 
+	});
+	
+	// helper to find elements within other elements by name given in Illustrator (ignoring naming convention used in SVG)
+	Object.defineProperty(tree, 'find', { enumerable: false, writable: false, configurable: false, 
+		value: 	function(selector) {
+					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
+					var $doms = this.$element.find('[data-name="' + selector + '"],#' + selector);
+					return $doms.map(function() {
+						// and map to their according paperScene element rather than DOM elements
+						var element = $(this).data('paper-scene-element');
+						if(!element) {
+							var item = paper.project.getItem({ name: selector });
+							element = item.data.paperSceneElement = _createDanimatorScene(item);
+							$(this).data('paper-scene-element', element);
+						}
+						return element;
+					}).get();
 				}
-				return files;	
-			case 'string':
-				var extension = files.match(/\.([^\.]{2,5})$/g);
-				if(extension) {
-					resolved[extension[0].slice(1)] = { path: files, saved: true };
-					return resolved;
-				}
-				/* if SVG */
-				if(files.match(/<svg.*>/g)) {
-					return { svg: { content: files, saved: true } };
-				}
-				if(files.match(/\n/g)) {
-					return { js: { content: files, saved: true } };
-				}
-			default:
+	});
+
+	// (non-enumerable) getter to retrieve children as disassociative array
+	Object.defineProperty(tree, 'ordered', { enumerable: false,
+		get: function() {
+			return _.values(this);
 		}
-		return false;
-	};
+	});
 
-	/* omnipotent file loader - triggered by filedrop on body */
-	self.load = function(files) {
-		files = self._resolveFiles(files);
-		
-		if(files) {
-			// add passed files to game's file object, overwriting only on a per-filetype basis
-			self.files = _.extend(_.get(self, 'files', {}), files);
-
-			if(files.svg) {
-				project.clear();
-				project.view.update();
-				project.importSVG(files.svg.content || files.svg.path, {
-					expandShapes: 	true,
-					onLoad: 		function(item, svg) {
-										self.container 	= item;
-										self.scene 		= self.container.children;
-										try {
-											self.DOM = $(svg);
-											//console.log('SVG DOM', self.DOM);
-										} catch(e) {}
-
-										_.each(project.symbolDefinitions, function(definition) {
-											if(definition.item.name)
-												self.symbols[definition.item.name] = definition;
-										});
-
-										if(self.scene.UI) {
-											_.each(self.scene.UI.children, function(ui) {
-												ui.visible = false;
-											});
-										}
-
-										self.resize({size: project.view.viewSize});
-										item.position = project.view.center;
-
-										try {
-											if(onLoad) onLoad(self.scene, self.container, self);
-											if(Game.onLoad) Game.onLoad.call(self, project, name, options);
-											console.log('%c SVG loaded ', 'background-color:#444; color:#CCC', files.svg);
-										} catch(e) {
-											console.error('Game could not be properly initialized. %c ' + e + ' ', 'background-color:red; color: #fff;');
-										}
-									}
-				});
-			}
-
-			if(files.js) {
-				console.log('files.js', files.js);
-				jQuery.ajax({
-			        url: files.js,
-			        dataType: 'script',
-			        success: function(){ console.log('success! arguments', arguments); },
-			        async: true
-			    });
-			}
-		}
+	// save (non-enumerable) reference to DOM element
+	if(parent.name) {
+		Object.defineProperty(tree, '$element', { enumerable: false, writable: false, configurable: false, 
+			value: 	parent.data.sceneRoot ? paper.$dom : paper.$dom.find('#' + parent.name)
+		});
 	}
 
-	self.load(self.file);
+	if(parent.children)
+		_.each(parent.children, function(child) {
+			if(child.name) {
+				var $element = paper.$dom.find('#' + child.name);
+				var branch = _createDanimatorScene(child);
 
-	return this;
+				var originalName = $element.data('name') || child.name;
+				var frameMatch;
+
+				// state detected!
+				if(originalName[0] === '#') {
+					if(!parent.data._states) parent.data._states = {};
+
+					originalName = originalName.slice(1);
+					parent.data._states[originalName] = child;
+
+					if(_.size(parent.data._states) > 1) { 
+						child.visible = false;
+					} else {
+						parent.data._state = parent.data._state || originalName;
+					}
+				// frame detected!
+				} else if(frameMatch = originalName.match(/^f(\d+)/)) {
+					var frame = parseInt(Number(frameMatch[1]));
+					parent.data._frames = Math.max(parent.data._frames || 1, frame);
+					if(frame > 1) child.visible = false;
+				}
+				//child.name = originalName;
+
+				$element.data('paper-scene-element', branch);
+				
+				tree[originalName] = branch;
+
+				child.data.paperSceneElement = branch;
+			}
+		});
+	return tree;
+};
+
+/* hijacking paper's importSVG method */
+paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
+	var _options = {};
+	var _onLoad;
+
+	if(typeof optionsOrOnLoad === 'object') {		// if second argument is a map
+		_options = optionsOrOnLoad;
+		_onLoad = optionsOrOnLoad.onLoad;
+	} else {										// if second argument is a function
+		_onLoad = optionsOrOnLoad;
+	}
+
+	_options.onLoad = function(item, svg) {
+		paper.$dom = $(svg);
+		
+		Danimator.init(item);
+
+		_onLoad && _onLoad.call(paper.scene);
+	};
+
+	_importSVG.call(this, svgPath, _options);
 }
+
+paper.Item.inject({
+	/* frame animation capability for paperjs Items */
+	getFrame: function() {
+		if(!this.data._frame) {
+			this.data._frame = 1;
+		}
+		return this.data._frame;
+	},
+	setFrame: function(nr) {
+		var frame 		 = parseInt(nr);
+		var element 	 = this.data.paperSceneElement;
+		/* find child layer called "f1" (or using the according presaved frame number) */
+		var currentFrame = element['f' + this.getFrame()] || this.data._frameLayer;
+		var newFrame 	 = element['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
+
+		/* if we have a currentFrame */
+		if(currentFrame) {
+			this.data._frameLayer = currentFrame;
+			currentFrame.item.visible = false;
+		}
+
+		if(newFrame) {
+			newFrame.item.visible = true;
+		}
+		this.data._frame = frame;
+
+		if(!_.isEmpty(this.state)) {
+			this.state = this.state;
+		}
+
+		this.data.onFrameChanged && this.data.onFrameChanged(frame);
+	},
+	/* get all children's frame numbers and return the highest one */
+	getFrames: function() {
+		return this.data._frames || 1;
+	},
+	/* state capability – switch visibility of children layers on and off using meaningful labels */
+	getState: function() {
+		// accept childname as first argument (but do it in hindsight for paper to pickup getter and setter properly)
+		if(typeof arguments[0] === 'string') {
+			return _.get(this.data, '_state.' + arguments[0], false);
+		}
+		return this.data._state || {};
+	},
+	// example: bear.state = 'snout.open';
+	// 			will show layer #open of bear's childrens starting with "snout" (so snout-1, snout-2, …) 
+	// 			and hide all its siblings
+	setState: function(state) {
+		var self = this;
+		var childname;
+
+		if(typeof state === 'object') {
+			return _.each(state, function(currentState, name) {
+				self.setState(name + '.' + currentState);
+			});
+		}
+
+		// if this is the state of a subelement
+		if(state.indexOf('.') > -1) {
+			state = state.split('.');
+			childname = state[0] + '';
+			state = state.slice(1).join('.');
+		}
+
+		if(childname) {
+			self.data._state = self.data._state || {};
+			self.data._state[childname] = state;
+
+			var element = self.data.paperSceneElement;
+
+			return _.each(element['f' + self.frame].find(childname), function(child) {
+						child.item.setState(state);						// and change their state
+					});
+		} else {
+			var states = self.getStates();								// retrieve all states
+
+			if(self.data._state === undefined) {
+				self.data._state = _.keys(states)[0];					// set default state to first key of states object
+			} 
+
+			states[self.data._state].visible = false;					// hide current state 
+			states[state].visible = true;								// and show newly set state instead
+			self.data._state = state;
+		}
+		self.data.onStateChanged && self.data.onStateChanged(state, childname);
+		return self;
+	},
+	/* retrieve all states of an item */
+	getStates: function() {
+		return _.get(this.data, '_states', {});
+	},
+});

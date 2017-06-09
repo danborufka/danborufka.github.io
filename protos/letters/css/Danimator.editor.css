@@ -4,6 +4,9 @@ html, body {
   width: 100%;
   height: 100%; }
 
+.loading {
+  cursor: wait; }
+
 /* snap & drag'n'drop helper */
 #dummy {
   border: 4px solid transparent;
@@ -328,6 +331,9 @@ canvas[resize] {
 .panel .description output {
   float: right;
   margin-right: 10px; }
+
+.alertify-notifier {
+  font-family: Roboto, Helvetica, Arial, sans-serif; }
 
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome

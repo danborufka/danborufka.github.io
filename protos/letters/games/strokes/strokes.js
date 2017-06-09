@@ -1,4 +1,3 @@
-
 // strokeGame
 var currentStroke 	= 0;
 var lastOffset 	  	= 0;
@@ -14,9 +13,9 @@ function _reset(game) {
 	game.dragging = false;
 
 	if(game.scene) {
-		var position = strokes[currentStroke].firstSegment.point;
-		game.scene.control.position = position;
-		game.scene.control.onMouseMove({ point: position });
+		var position = strokes[currentStroke].item.firstSegment.point;
+		game.scene.control.item.position = position;
+		game.scene.control.item.onMouseMove({ point: position });
 
 		game.onReset && game.onReset(currentStroke);
 	}
@@ -25,18 +24,14 @@ function _reset(game) {
 function strokeGame(project, level, options, onLoad) {
 	var strokeLoader = function(scene, container) {
 
-		strokes 		= scene.strokes.children;
-		stroke 			= strokes[currentStroke];
+		strokes 		= scene.strokes.ordered;
+		stroke 			= strokes[currentStroke].item;
 		self.stroke   	= stroke;
 
-		// let's get closer!
+		// let's size it up!
 		project.view.zoom = 1.5;
 
-		// remove all clippingMasks
-		project.getItem({ clipMask: true }).remove();
-
-
-		scene.control.onMouseDown = function(data) {
+		scene.control.item.onMouseDown = function(data) {
 			if(!self.locked) {
 		    	self.dragging = true;
 
@@ -50,11 +45,11 @@ function strokeGame(project, level, options, onLoad) {
 			}
 		};
 
-		scene.control.onMouseMove = _.throttle(function(data) {
+		scene.control.item.onMouseMove = _.throttle(function(data) {
 			if(!self.locked)
 				if(self.dragging && stroke.segments.length > 1) {
 
-					scene.control.position = data.point;
+					scene.control.item.position = data.point;
 
 					var hits = project.hitTest(data.point, { 
 						class: 		paper.Path,
@@ -92,7 +87,7 @@ function strokeGame(project, level, options, onLoad) {
 				}
 		}, 100);
 
-		scene.control.onMouseUp = function(data) {
+		scene.control.item.onMouseUp = function(data) {
 			if(!self.locked) {
 				var newOffset = stroke.data.newOffset;
 
@@ -106,7 +101,7 @@ function strokeGame(project, level, options, onLoad) {
 						// all strokes done
 						if(step === (options.repetitions || 1)) {
 
-							var phonetics = scene.UI.children.phonetics;
+							var phonetics = scene.UI.phonetics.item;
 
 							Danimator.fadeIn(phonetics, .3, {
 								from: 0,
@@ -127,7 +122,7 @@ function strokeGame(project, level, options, onLoad) {
 					}
 
 					currentStroke = ++currentStroke % strokes.length;
-					stroke 		  = strokes[currentStroke];
+					stroke 		  = strokes[currentStroke].item;
 					self.stroke   = stroke;
 				};
 				_reset(self);
