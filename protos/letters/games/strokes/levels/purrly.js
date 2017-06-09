@@ -11,29 +11,31 @@ var mouth;
 
 /* helper to switch out "caressed" fur */
 function _changeState(offset, game) {
-	var states = game.scene.fur.children;
+	var states = game.scene.fur.ordered;
 	var range  = [parseInt(-STATE_RANGE/2), parseInt(STATE_RANGE/2)];
 	var stateOffset = states.length - (offset * states.length);
 
 	for(var i=range[0]; i <=range[1]; i++) {
-		var current = Danimator.limit(parseInt(stateOffset) + i, 0, states.length-1);
-		
-		if(states[current].data.aniTimeout) {
-			clearTimeout(states[current].data.aniTimeout);
-		}
+		if(_.inRange(parseInt(stateOffset) + i, 0, states,length-1)) {
+			var current = parseInt(stateOffset) + i;
+			
+			if(states[current].item.data.aniTimeout) {
+				clearTimeout(states[current].item.data.aniTimeout);
+			}
 
-		states[current].definition = game.symbols['fur-caressed'];
+			states[current].item.definition = game.symbols['fur-caressed'];
 
-		states[current].data.aniTimeout = setTimeout(function(){
-			states[current].definition = game.symbols['fur-flat'];
-		}, 300);
+			states[current].item.data.aniTimeout = setTimeout(function(){
+				states[current].item.definition = game.symbols['fur-flat'];
+			}, 300);
 
-		// reset the old ones
-		if(lastStateOffset >= 0) {
-			var last = Danimator.limit(parseInt(lastStateOffset) + i, 0, states.length-1);
-			setTimeout(function(){
-				states[last].definition = game.symbols['fur-flat'];
-			}, 200);
+			// reset the old ones
+			if(lastStateOffset >= 0) {
+				var last = parseInt(lastStateOffset) + i;
+				setTimeout(function(){
+					states[last].item.definition = game.symbols['fur-flat'];
+				}, 200);
+			}
 		}
 	}
 	lastStateOffset = stateOffset;
@@ -47,6 +49,7 @@ var purrlyGame = new strokeGame(project,
 		cheatTolerance: 	.4
 	}, 
 	function onGameStart(scene, container, game) {
+
 		eyes  = container.getItem({ name: 'eyes' });
 		frown = container.getItem({ name: 'frown' });
 		mouth = container.getItem({ name: 'mouth.open' });

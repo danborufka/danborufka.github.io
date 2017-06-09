@@ -47,24 +47,25 @@ var tubyGame = new strokeGame(project,
 	}, 
 	function onGameStart(scene, container, game) {
 
-		console.log('scene', scene, 'this', this);
-		console.log('container', container, 'game', game);
+		var hamster_front = scene.find('hamster_front')[0].item;
 
+		button 	= scene.find('button-top')[0].item;
 
-		var hamster_front = container.getItem({ name: 'hamster.front' });
+		//console.log('door', scene.find('door_1_'));
+		//door 	= scene.find('door_1_')[0].item;			// clipping items have automatic renaming
 
-		button 	= container.getItem({ name: 'button-top' });
-		door 	= container.getItem({ name: 'door_1_' });		// clipping items have automatic renaming
-		hamster = container.getItem({ name: 'hamster' });
-		body 	= container.getItem({ name: 'hamsterbody'});
-		eye  	= container.getItem({ name: 'eye' });
+		hamster = scene.find('hamster')[0].item;
+		console.log('hamster', hamster);
+		body 	= scene.find('hamsterbody')[0].item;
+		console.log('eye', eye);
+		eye  	= scene.find('eye')[0].item;
 
 		bodyLength = body.length;
 
 		// animate hamster popping into tube
 		hamster_front.opacity = 0;
 		hamster.opacity = 0;
-		hamster_front.rotation = scene.strokes.lastChild.getNormalAt(0).angle-270;
+		hamster_front.rotation = scene.strokes.item.lastChild.getNormalAt(0).angle-270;
 
 		//Danimator.load('games/strokes/levels/tuby');
 
@@ -92,7 +93,7 @@ var tubyGame = new strokeGame(project,
 		    		tubeSound = Danimator.sound('drag-thru-tube', { volume: 0.2, loop: true, fadeIn: 600 });
 			    	break;
 			}
-	    	scene.UI.children.explainer.visible = false;
+	    	scene.UI.explainer.item.visible = false;
 		};
 
 		game.onStroke = function onStroke(data, offset, wrongDirection, cheating, delta) {
@@ -117,7 +118,7 @@ var tubyGame = new strokeGame(project,
 				tubeSound.stop();
 				Danimator.sound('wrong');
 				// show menacing X if user cheated or went into wrong direction
-				scene.UI.children.no.set({
+				scene.UI.no.item.set({
 					position: data.point,
 					visible: true
 				});
@@ -135,10 +136,10 @@ var tubyGame = new strokeGame(project,
 
 					Danimator.sound('buttons/up');
 
-					hamster.position = hamster_front.position = door.position + [0, 0];
+					//hamster.position = hamster_front.position = door.position + [0, 0];
 					game.locked = true;
 
-					// animate opening door
+					/* animate opening door
 					Danimator(door, 'bounds.height', null, 0.1, 1, { 
 						delay: .2,
 						onDone: function() {
@@ -175,17 +176,17 @@ var tubyGame = new strokeGame(project,
 								game.locked = false;
 							}, 1100);
 
-							scene.UI.children.explainer.opacity = 0;
-							scene.UI.children.explainer.visible = true;
-							Danimator.fadeIn(scene.UI.children.explainer, .4, { delay: 1 });
+							scene.UI.children.explainer.item.opacity = 0;
+							scene.UI.children.explainer.item.visible = true;
+							Danimator.fadeIn(scene.UI.children.explainer.item, .4, { delay: 1 });
 						} 
-					});
+					});*/
 					Danimator.sound('door-open.wav');
 					break;
 
 				case 1:
 					tubeSound.stop();
-					scene.UI.children.no.visible = false;
+					scene.UI.no.item.visible = false;
 
 					// if we haven't reached the end of the stroke
 					if(offset < game.options.completionTolerance) {
