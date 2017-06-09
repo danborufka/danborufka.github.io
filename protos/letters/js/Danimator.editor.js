@@ -1525,7 +1525,6 @@ Game.onLoad = function(project, name, options) {
 	var self = currentGame = this;
 
 	self.time = 0;
-
 	self.saveAll = function(saveAs) {
 		setLoading('saveAll');
 		_.each(currentGame.files, function(file, type) {

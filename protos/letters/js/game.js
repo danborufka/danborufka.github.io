@@ -90,6 +90,7 @@ Game = function(project, name, options, onLoad) {
 												self.showBounds.strokeWidth = .5;
 												self.showBounds.opacity = .6;
 												self.showBounds.dashArray = [1,.5];
+												self.showBounds.guide = true;
 											}
 										})({size: project.view.viewSize});
 
