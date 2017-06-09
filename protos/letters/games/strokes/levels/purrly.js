@@ -16,24 +16,24 @@ function _changeState(offset, game) {
 	var stateOffset = states.length - (offset * states.length);
 
 	for(var i=range[0]; i <=range[1]; i++) {
-		if(_.inRange(parseInt(stateOffset) + i, 0, states,length-1)) {
+		if(_.inRange(parseInt(stateOffset) + i, 0, states.length-1)) {
 			var current = parseInt(stateOffset) + i;
 			
 			if(states[current].item.data.aniTimeout) {
 				clearTimeout(states[current].item.data.aniTimeout);
 			}
 
-			states[current].item.definition = game.symbols['fur-caressed'];
+			states[current].item.definition = game.scene.symbols['fur-caressed'];
 
 			states[current].item.data.aniTimeout = setTimeout(function(){
-				states[current].item.definition = game.symbols['fur-flat'];
+				states[current].item.definition = game.scene.symbols['fur-flat'];
 			}, 300);
 
 			// reset the old ones
 			if(lastStateOffset >= 0) {
 				var last = parseInt(lastStateOffset) + i;
 				setTimeout(function(){
-					states[last].item.definition = game.symbols['fur-flat'];
+					states[last].item.definition = game.scene.symbols['fur-flat'];
 				}, 200);
 			}
 		}
