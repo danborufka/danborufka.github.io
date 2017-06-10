@@ -151,25 +151,6 @@ var PANEL_TOLERANCE = 10;
 var _isBoundsItem = function(item) {
 	return ['PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
 };
-
-/* helpers for loading states */
-function setLoading(label, element) {
-	if(LOADING_STATES.indexOf(label) < 0) {
-		LOADING_STATES.push(label);
-	}
-	if(LOADING_STATES.length) {
-		$(element || 'body').addClass('loading');
-	}
-}
-function resetLoading(label, element) {
-	if(LOADING_STATES.indexOf(label) >= 0) {
-		_.pull(LOADING_STATES, label);
-	}
-	if(!LOADING_STATES.length) {
-		$(element || 'body').removeClass('loading');
-	}
-}
-
 /* helpers for internal panel calcs */
 function _asGroup(config) {
 	return { 
@@ -260,6 +241,24 @@ function alert(msg) 	{
 /* helper to turn a string into alphachars only */
 function slug(name) 	{ return name.replace(/[^a-z0-9_\-]+/g, '_'); }
 function noop(anything) { return anything; };
+
+/* helpers for loading states */
+function setLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) < 0) {
+		LOADING_STATES.push(label);
+	}
+	if(LOADING_STATES.length) {
+		$(element || 'body').addClass('loading');
+	}
+}
+function resetLoading(label, element) {
+	if(LOADING_STATES.indexOf(label) >= 0) {
+		_.pull(LOADING_STATES, label);
+	}
+	if(!LOADING_STATES.length) {
+		$(element || 'body').removeClass('loading');
+	}
+}
 
 /* jQuery helpers to get/set the boundaries of an element */
 $.fn.left = function(x) {
@@ -398,7 +397,7 @@ Danimator.load = function(aniName) {
 
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
-	if(selection.has(animatable.item.data.sceneElement)) {
+	if(selection.has(Danimator.sceneElement(animatable.item))) {
 		_changesProp(animatable.property, value);
 	}
 }
@@ -456,7 +455,7 @@ jQuery(function($){
 		/* layer-specific events */
 		.on('click', '.panel .layer', function(event) {
 			$(this).trigger($.Event('selected', {
-				item: $(this).data('sceneElement').item
+				item: Danimator.sceneElement(this).item
 			}));
 
 			event.preventDefault();
@@ -485,7 +484,7 @@ jQuery(function($){
 			$keyframesPanel.toggleClass('hasSelection', selected);
 
 			if(selected) {
-				selection.add($layer.data('sceneElement'));
+				selection.add( Danimator.sceneElement($layer) );
 
 				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
@@ -526,11 +525,11 @@ jQuery(function($){
 		/* toggle layer visibility */
 		.on('click', '.panel .layer .visible', function(event) {
 			var $layer 	= $(this).closest('.layer');
-			var id 		= $layer.data('id');
 			var hidden 	= !$layer.is('.hidden');
 
 			$layer.toggleClass('hidden');
-			currentGame.findAndModify(id, { visible: !hidden });
+
+			Danimator.sceneElement($layer).item.visible = !hidden;
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -603,9 +602,10 @@ jQuery(function($){
 		.on('dblclick', '#keyframes .keyframe', function(event) {
 			var $this 	= $(this);
 			var prop 	= $this.closest('li.timeline').data('property');
-			var item 	= $this.closest('li.item').data('track').item;
+			var element = Danimator.sceneElement($this.closest('li.item'));
 
-			$('#layers').find('#layer-' + item.id).not('.selected').trigger($.Event('selected', {item: item}));
+			// trigger selection of corresponding layer
+			element.data.$layer.not('.selected').trigger( $.Event('selected', {item: element.item}) );
 			
 			var $input = $('#properties').find('input[data-prop="' + prop + '"]');
 			$input.parentsUntil('ul.main').filter('li').addClass('open');
@@ -967,7 +967,7 @@ function _createLayers(layers, $layers) {
 
 	_.each(layers, function(layer, index) {
 		if(layer) {
-			var sceneElement = layer.data.sceneElement;
+			var sceneElement = Danimator.sceneElement(layer);
 			var $layer = $(layerTmpl({
 							name: 			layer.name || ('[Layer ' + layer.id + ']'),
 							hasChildren: 	!!(layer.children && layer.children.length),
@@ -1069,7 +1069,7 @@ function _createTracks() {
 	_.each(tracks, function(track) {
 		if(track) {
 			var properties = _.mapValues(track.properties, _.partial(_.sortBy, _, 'options.delay'));
-			var sceneElement = track.item.data.sceneElement;
+			var sceneElement = Danimator.sceneElement(track.item);
 
 			var $keys = $(keyItemTmpl({
 					maxDuration: 	_.round(track.maxDuration, 2),
@@ -1085,7 +1085,7 @@ function _createTracks() {
 						}
 						return ' triggered';
 					}
-				})).data({id: track.item.id, track: track, sceneElement: sceneElement, element: $keys });
+				})).data({ track: track, sceneElement: sceneElement, element: $keys });
 
 			sceneElement.data.$keys = $keys;
 			
@@ -1346,15 +1346,16 @@ Game.onLoad = function(project, name, options) {
 
 		/* update all scrubbes */
 		$('.timeline .scrubber').each(function(){
-			var $scrubber 	= $(this);
-			var data 		= $scrubber.closest('li.item').data();
-			var property 	= $scrubber.closest('li.timeline').data('property');
+			var $scrubber 	 = $(this);
+			var sceneElement = Danimator.sceneElement($scrubber.closest('li.item'));
+			var property 	 = $scrubber.closest('li.timeline').data('property');
+			var itemId 		 = sceneElement.item.id;
 			var currentTrack;
 
 			$time.text(_.round(time, 2) + 's');
 			$scrubber.css('left', time * TIME_FACTOR);
 
-			var allTracks = tracks[data.id].properties[property];
+			var allTracks = tracks[itemId].properties[property];
 
 			/* retrieve all tracks before current time and sort them chronologically */
 			currentTracks = _.sortBy(_.filter(allTracks, function(track) {
@@ -1396,11 +1397,11 @@ Game.onLoad = function(project, name, options) {
 				var endTime 	= _getEndTime(currentTrack);
 				var t 			= Math.max((time - startTime) / (endTime - startTime), 0);
 
-				currentTrack.item 		= tracks[data.id].item;
+				currentTrack.item 		= tracks[itemId].item;
 				currentTrack.property 	= property;
 
 				if(hasActives) {
-					if(selection.has(data.sceneElement)) {
+					if(selection.has(sceneElement)) {
 						$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
 					}
 				}
@@ -1424,14 +1425,6 @@ Game.onLoad = function(project, name, options) {
 
 		self.time = time;
 	}
-
-	self.find = function(id) {
-		return self.container.getItem({ id: id });
-	};
-
-	self.findAndModify  = function(id, props) {
-		return self.find(id).set(props);
-	};
 
 	var layers = Danimator.layers = self.scene.item.children.slice(0).reverse();
 	var $borderDummy = $('#border-dummy');
@@ -1487,8 +1480,10 @@ Game.onLoad = function(project, name, options) {
 	/* selection of elements (by clicking them) */
 	paper.view.onMouseDown = function onCanvasMouseDown(event) {
 		if(!(event.event.altKey || event.event.metaKey)) {
-			if(!isNaN(event.target.id)) {
-				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
+			var sceneElement = Danimator.sceneElement(event.target);
+
+			if(sceneElement) {
+				sceneElement.data.$layer.trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
 		} else _clearHover();

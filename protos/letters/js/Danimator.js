@@ -100,6 +100,14 @@ Danimator.init = function DanimatorInit(item) {
 	});
 }
 
+/* retrieve sceneElement from DOM element, jQuery element, paper item or Danimator sceneElement */
+Danimator.sceneElement = function DanimatorSceneElement(element) {
+	if(element.$element) return element;
+	if(element instanceof jQuery) return element.data('sceneElement');
+	if(element instanceof HTMLElement) return $(element).data('sceneElement');
+	return _.get(element, 'data.sceneElement');
+}
+
 /* core animation function (adds animation to animatable stack) */
 Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
@@ -541,11 +549,11 @@ var _createDanimatorScene = function(parent) {
 					var $doms = this.$element.find('[data-name="' + selector + '"],#' + selector);
 					return $doms.map(function() {
 						// and map to their according scene element rather than DOM elements
-						var element = $(this).data('scene-element');
+						var element = $(this).data('sceneElement');
 						if(!element) {
 							var item = paper.project.getItem({ name: selector });
 							element = item.data.sceneElement = _createDanimatorScene(item);
-							$(this).data('scene-element', element);
+							$(this).data('sceneElement', element);
 						}
 						return element;
 					}).get();
@@ -599,7 +607,7 @@ var _createDanimatorScene = function(parent) {
 				if(frame > 1) child.visible = false;
 			}
 
-			$element.data('scene-element', branch);
+			$element.data('sceneElement', branch);
 			
 			tree[originalName] = branch;
 
@@ -641,7 +649,7 @@ paper.Item.inject({
 	},
 	setFrame: function(nr) {
 		var frame 		 = parseInt(nr);
-		var element 	 = this.data.sceneElement;
+		var element 	 = Danimator.sceneElement(this);
 		/* find child layer called "f1" (or using the according presaved frame number) */
 		var currentFrame = element['f' + this.getFrame()] || this.data._frameLayer;
 		var newFrame 	 = element['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
@@ -699,7 +707,7 @@ paper.Item.inject({
 			self.data._state = self.data._state || {};
 			self.data._state[childname] = state;
 
-			var element = self.data.sceneElement;
+			var element = Danimator.sceneElement(self);
 
 			return _.each(element['f' + self.frame].find(childname), function(child) {
 						child.item.setState(state);						// and change their state
