@@ -19,6 +19,8 @@ var muted = false;
 var human;
 var sound;
 
+alert('Streez began!');
+
 var streezGame = new strokeGame(project, 
 	'streez', 
 	{ 

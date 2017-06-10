@@ -10,8 +10,9 @@ Game = function(project, name, options, onLoad) {
 	self.files 			= { 
 		'ani.json': {
 			 name: 'untitled.json', 
+			 loaded: false,
 			 saved: false 
-		} 
+		},
 	};
 	self.symbols 		= [];
 
@@ -37,17 +38,19 @@ Game = function(project, name, options, onLoad) {
 				}
 				return files;	
 			case 'string':
-				var extension = files.match(/\.([^\.]{2,5})$/g);
+				var extension = files.match(/\.([a-zA-Z0-9]{2,5})$/g);
 				if(extension) {
-					resolved[extension[0].slice(1)] = { path: files, saved: true };
+					// add to loading queue
+					resolved[extension[0].slice(1)] = { path: files, saved: true, loaded: false };
 					return resolved;
 				}
-				/* if SVG */
+				// if inline SVG
 				if(files.match(/<svg.*>/g)) {
-					return { svg: { content: files, saved: true } };
+					return { svg: { content: files, saved: true, loaded: true } };
 				}
+				// if inline JS
 				if(files.match(/\n/g)) {
-					return { js: { content: files, saved: true } };
+					return { js: { content: files, saved: true, loaded: true } };
 				}
 			default:
 		}
@@ -66,7 +69,7 @@ Game = function(project, name, options, onLoad) {
 		
 		if(files) {
 			// add passed files to game's file object, overwriting only on a per-filetype basis
-			self.files = _.extend(_.get(self, 'files', {}), files);
+			_.extend(_.get(self, 'files', {}), files);
 
 			if(files.svg) {
 				project.clear();
@@ -74,6 +77,8 @@ Game = function(project, name, options, onLoad) {
 				project.importSVG(files.svg.content || files.svg.path, {
 					expandShapes: 	true,
 					onLoad: 		function() {
+										files.svg.loaded = true;
+
 										self.scene = this;
 										self.container 	= this.item;
 
@@ -82,16 +87,6 @@ Game = function(project, name, options, onLoad) {
 											var halfSize 	 = new paper.Point(self.container.bounds.size).multiply(0.5).add(project.view.bounds.point);
 
 											self.container.position = paper.Point.max(screenCenter, halfSize);
-
-											if(self.showBounds) {
-												self.showBounds.remove && self.showBounds.remove();
-												self.showBounds = new paper.Shape.Rectangle(self.container.bounds);
-												self.showBounds.strokeColor = 'crimson';
-												self.showBounds.strokeWidth = .5;
-												self.showBounds.opacity = .6;
-												self.showBounds.dashArray = [1,.5];
-												self.showBounds.guide = true;
-											}
 										})({size: project.view.viewSize});
 
 										try {
@@ -106,13 +101,19 @@ Game = function(project, name, options, onLoad) {
 			}
 
 			if(files.js) {
-				console.log('files.js', files.js);
-				jQuery.ajax({
-			        url: files.js,
-			        dataType: 'script',
-			        success: function(){ console.log('success! arguments', arguments); },
-			        async: true
-			    });
+				if(files.js.path) {
+					jQuery.getScript({
+				        url: files.js.path,
+				        dataType: 'script',
+				        success: function() { 
+				        	files.js.loaded = true;
+				        	console.log('success! arguments', arguments, files);
+				        }
+				    });
+				} else {
+					$('<script>' + files.js.content + '</script>').appendTo('body');
+					files.js.loaded = true;
+				}
 			}
 		}
 	}
