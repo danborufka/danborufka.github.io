@@ -1,6 +1,7 @@
 // animation editor engine
 // TODOS:
-// o replace all instances of find() and findAndModify()
+// ø fix selection: element instead of id
+// ø replace all instances of find() and findAndModify()
 // o make everything undoable
 // o #keyframes panel: fix value display when animated prop is of type string
 // ø load files properly on "bodyDrop"
@@ -9,6 +10,7 @@
 // o #keyframes panel: making ani labels editable
 // o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
+// o check layers vs. groups (reimport from Illu)
 // o saving of SVGs once properties have been changed
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -25,6 +27,7 @@ var propItemTemplate;
 var audioTemplate;
 
 var selectionId;
+var selection = new Set;
 
 var $time;
 var $animationValue;
@@ -208,6 +211,9 @@ function _deepOmit(obj, keysToOmit) {
   } 
   return omitFromObject(obj); // return the inner function result
 }
+function _firstFromSet(set) {
+	return set.values().next().value;
+}
 function _changesFile(filetype) {
 	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
 }
@@ -234,12 +240,18 @@ function _getAnimationName(item, property, type) {
 }
 /* internal helper to deselect all paperJS items and update panels accordingly */
 function _resetSelection() {
-	$('#layers')
-		.find('.layer').removeClass('selected').end()
-		.find('#layer-' + selectionId).removeClass('open');
 
-	selectionId = false;
 	currentGame.project.deselectAll();
+
+	$('#layers').find('.layer').removeClass('selected');
+
+	selection.forEach(function(selectedElement){
+		selectedElement.data.$layer.removeClass('open');
+	});
+	selection.clear();
+	// ###TODO: remove
+	selectionId = false;
+
 	_anchorViz.visible = false;
 	$('#properties')
 		.find('.type').text('').end()
@@ -390,7 +402,7 @@ Danimator.load = function(aniName) {
 
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
-	if(animatable.item.id === selectionId) {
+	if(selection.has(animatable.item.data.sceneElement)) {
 		_changesProp(animatable.property, value);
 	}
 }
@@ -448,7 +460,7 @@ jQuery(function($){
 		/* layer-specific events */
 		.on('click', '.panel .layer', function(event) {
 			$(this).trigger($.Event('selected', {
-				item: currentGame.find($(this).data('id'))
+				item: $(this).data('sceneElement').item
 			}));
 
 			event.preventDefault();
@@ -477,6 +489,7 @@ jQuery(function($){
 			$keyframesPanel.toggleClass('hasSelection', selected);
 
 			if(selected) {
+				selection.add($layer.data('sceneElement'));
 				selectionId = id;
 				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
@@ -659,99 +672,83 @@ jQuery(function($){
 				_createTracks();
 			}
 		})
-		/*
-		.on('click', '#keyframes .animate-btn', function(event) {
-			var item = currentGame.find(selectionId);
-			var track = {
-				item: 		item,
-				properties: {
-					test: [{
-						from: 	  0,
-						to:  	  1,
-						initValue: 0,
-						duration: 1,
-						options: { delay: 0.5 }
-					}]
-				},
-				startTime: 	Danimator.startTime,
-			};
-			alert('Not yet implemented.');
-			//tracks[item.name] = track;
-			//_createTracks();
-		})
 
 		/* interactivity of property inputs */
 		.on('change', '#properties :input', function() {
-			var $this 	 = $(this);
-			var prop  	 = $this.data('prop');
-			var data 	 = $this.closest('li').data();
-			var oldValue = $this.data('oldValue') || this.defaultValue;
-			var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
-			var item  	 = currentGame.find(selectionId);
+			var hasSelection = _firstFromSet(selection);
 
-			var index 	 = 0;
-			var props 	 = {};
-			var converter;
+			if(hasSelection) {
+				var $this 	 = $(this);
+				var prop  	 = $this.data('prop');
+				var data 	 = $this.closest('li').data();
+				var oldValue = $this.data('oldValue') || this.defaultValue;
+				var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
+				var item  	 = hasSelection.item;
+				var index 	 = 0;
+				var props 	 = {};
+				var converter;
 
-			/* use lodash's _.toString, _.toNumber, etc. depending on type */
-			if(converter = _['to' + _.capitalize(data.type)]) {
-				value = _['to' + _.capitalize(data.type)](value);
-			}
-
-			/* coerce to number */
-			if($this.prop('type') === 'number') {
-				value = Number(value);
-			}
-
-			/* if property is part of segment */
-			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
-				new Undoable(function() {
-					_.set( item.segments[parseInt(index[1])], index[2], value );
-					_changesProp(index[2], value);
-				}, function() {
-					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
-					_changesProp(index[2], oldValue);
-				}, 'change segment of ' + _getAnimationName(item));
-			} else {
-				props[prop] = value;
-
-				var isPivot = !!prop.match(/^pivot\.?/);
-				var isPosition = !!prop.match(/^position\.?/);
-
-				new Undoable(function() {
-					_.set(item, prop, value);
-					_changesProp(prop, value);
-					if(isPosition) {
-						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
-						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
-					}
-					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-				}, function() {
-					_.set(item, prop, oldValue);
-					_changesProp(prop, oldValue);
-					if(isPosition) {
-						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
-						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
-					}
-					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-				}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
-			}
-
-			if(data.track) {
-				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
-
-				if(Danimator.time === _getStartTime(currentTrack)) {
-					currentTrack.from = value;
-					if(data.track.id === 0) {
-						currentTrack.initValue = value;
-					}
-				} else {
-					currentTrack.to = value;
+				/* use lodash's _.toString, _.toNumber, etc. depending on type */
+				if(converter = _['to' + _.capitalize(data.type)]) {
+					value = _['to' + _.capitalize(data.type)](value);
 				}
-				_createTracks();
-			}
 
-			$this.data('oldValue', value);
+				/* coerce to number */
+				if($this.prop('type') === 'number') {
+					value = Number(value);
+				}
+
+				/* if property is part of segment */
+				if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
+					new Undoable(function() {
+						_.set( item.segments[parseInt(index[1])], index[2], value );
+						_changesProp(index[2], value);
+					}, function() {
+						_.set(item.segments[parseInt(index[1])], index[2], oldValue);
+						_changesProp(index[2], oldValue);
+					}, 'change segment of ' + _getAnimationName(item));
+				} else {
+					props[prop] = value;
+
+					var isPivot = !!prop.match(/^pivot\.?/);
+					var isPosition = !!prop.match(/^position\.?/);
+
+					new Undoable(function() {
+						_.set(item, prop, value);
+						_changesProp(prop, value);
+						if(isPosition) {
+							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
+							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
+						}
+						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
+					}, function() {
+						_.set(item, prop, oldValue);
+						_changesProp(prop, oldValue);
+						if(isPosition) {
+							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
+							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+						}
+						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
+					}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
+				}
+
+				if(data.track) {
+					var itemId = _firstFromSet(selection).item.id;
+					var currentTrack = tracks[itemId].properties[prop][data.track.id];
+
+					if(Danimator.time === _getStartTime(currentTrack)) {
+						currentTrack.from = value;
+						if(data.track.id === 0) {
+							currentTrack.initValue = value;
+						}
+					} else {
+						currentTrack.to = value;
+					}
+					_createTracks();
+				}
+
+				$this.data('oldValue', value);
+			}
 		})
 		.on('keyup', '#properties :input', function(event) {
 			/* use shiftKey + arrow keys to jump in tens instead of ones */
@@ -778,6 +775,9 @@ jQuery(function($){
 					// we limit to min/max attrs and hack rounding errors by setting a limit on the decimals
 					$this.val( _.round( Danimator.limit(value, range[0], range[1]), _decimalPlaces(step * 10)) ).trigger('change');
 				}
+			} else if(event.key === 'Escape') {
+				var $this = $(this);
+				$this.val($this.attr('value')).blur();
 			}
 		})
 		/* allow number manipulation using the mousewheel (with a small lag) */
@@ -971,12 +971,15 @@ function _createLayers(layers, $layers) {
 
 	_.each(layers, function(layer, index) {
 		if(layer) {
+			var sceneElement = layer.data.sceneElement;
 			var $layer = $(layerTmpl({
 							name: 			layer.name || ('[Layer ' + layer.id + ']'),
 							hasChildren: 	!!(layer.children && layer.children.length),
 							hidden: 		!layer.visible,
 							id: 			layer.id
-						})).data('id', layer.id);
+						})).data('sceneElement', sceneElement);
+
+			sceneElement.data.$layer = $layer;
 
 			layer.data.onStateChanged = layer.data.onFrameChanged = function() {
 				_createLayers(layers, $layers.empty());

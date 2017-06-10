@@ -222,7 +222,8 @@ jQuery(window).on('popstate', function(event, state) {
 plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",plotRangeDisplay:!1,plotRangeUnits:"",plotRangePrecision:4,plotRangeIgnoreOutliers:!1,plotRangeFontSize:12,plotRangeFontType:"Ariel",waveDrawMedianLine:!0,plotFileDelimiter:"\t"},plotTimeStart:0,plotTimeEnd:-1,plotArrayLoaded:!1,plotArray:[],plotPoints:[],plotMin:0,plotMax:1,initDrawer:function(a){var b=this;for(var c in this.defaultPlotParams)void 0===this.params[c]&&(this.params[c]=this.defaultPlotParams[c]);if(this.plotTimeStart=this.params.plotTimeStart,void 0!==this.params.plotTimeEnd&&(this.plotTimeEnd=this.params.plotTimeEnd),Array.isArray(a.plotArray))this.plotArray=a.plotArray,this.plotArrayLoaded=!0;else{var d=function(a){b.plotArray=a,b.plotArrayLoaded=!0,b.fireEvent("plot_array_loaded")};this.loadPlotArrayFromFile(a.plotFileUrl,d,this.params.plotFileDelimiter)}},drawPeaks:function(a,b,c,d){if(1==this.plotArrayLoaded)this.setWidth(b),this.splitChannels=!0,this.params.height=this.params.height/2,a[0]instanceof Array&&(a=a[0]),this.params.barWidth?this.drawBars(a,1,c,d):this.drawWave(a,1,c,d),this.params.height=2*this.params.height,this.calculatePlots(),this.drawPlots();else{var e=this;e.on("plot-array-loaded",function(){e.drawPeaks(a,b,c,d)})}},drawPlots:function(){var a=this.params.height*this.params.pixelRatio/2,b=.5/this.params.pixelRatio;this.waveCc.fillStyle=this.params.plotColor,this.progressCc&&(this.progressCc.fillStyle=this.params.plotProgressColor);for(var c in this.plotPoints){var d=parseInt(c),e=a-this.params.plotPointHeight-this.plotPoints[c]*(a-this.params.plotPointHeight),f=this.params.plotPointHeight;this.waveCc.fillRect(d,e,this.params.plotPointWidth,f),this.progressCc&&this.progressCc.fillRect(d,e,this.params.plotPointWidth,f)}this.params.plotSeparator&&(this.waveCc.fillStyle=this.params.plotSeparatorColor,this.waveCc.fillRect(0,a,this.width,b)),this.params.plotRangeDisplay&&this.displayPlotRange()},displayPlotRange:function(){var a=this.params.plotRangeFontSize*this.params.pixelRatio,b=this.plotMax.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits,c=this.plotMin.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits;this.waveCc.font=a.toString()+"px "+this.params.plotRangeFontType,this.waveCc.fillText(b,3,a),this.waveCc.fillText(c,3,this.height/2)},calculatePlots:function(){this.plotPoints={},this.calculatePlotTimeEnd();for(var a=[],b=-1,c=0,d=99999999999999,e=0,f=99999999999999,g=this.plotTimeEnd-this.plotTimeStart,h=0;h<this.plotArray.length;h++){var i=this.plotArray[h];if(i.value>c&&(c=i.value),i.value<d&&(d=i.value),i.time>=this.plotTimeStart&&i.time<=this.plotTimeEnd){var j=Math.round(this.width*(i.time-this.plotTimeStart)/g);if(a.push(i.value),j!==b&&a.length>0){var k=this.avg(a);k>e&&(e=k),k<f&&(f=k),this.plotPoints[b]=k,a=[]}b=j}}"whole"==this.params.plotNormalizeTo?(this.plotMin=d,this.plotMax=c):"values"==this.params.plotNormalizeTo?(this.plotMin=this.params.plotMin,this.plotMax=this.params.plotMax):(this.plotMin=f,this.plotMax=e),this.normalizeValues()},normalizeValues:function(){var a={};if("none"!==this.params.plotNormalizeTo){for(var b in this.plotPoints){var c=(this.plotPoints[b]-this.plotMin)/(this.plotMax-this.plotMin);c>1?this.params.plotRangeIgnoreOutliers||(a[b]=1):c<0?this.params.plotRangeIgnoreOutliers||(a[b]=0):a[b]=c}this.plotPoints=a}},loadPlotArrayFromFile:function(b,c,d){void 0===d&&(d="\t");var e=[],f={url:b,responseType:"text"},g=a.util.ajax(f);g.on("load",function(a){if(200==a.currentTarget.status){for(var b=a.currentTarget.responseText.split("\n"),f=0;f<b.length;f++){var g=b[f].split(d);2==g.length&&e.push({time:parseFloat(g[0]),value:parseFloat(g[1])})}c(e)}})},calculatePlotTimeEnd:function(){void 0!==this.params.plotTimeEnd?this.plotTimeEnd=this.params.plotTimeEnd:this.plotTimeEnd=this.plotArray[this.plotArray.length-1].time},avg:function(a){var b=a.reduce(function(a,b){return a+b});return b/a.length}}),a.util.extend(a.Drawer.SplitWavePointPlot,a.Observer),a.PeakCache={init:function(){this.clearPeakCache()},clearPeakCache:function(){this.peakCacheRanges=[],this.peakCacheLength=-1},addRangeToPeakCache:function(a,b,c){a!=this.peakCacheLength&&(this.clearPeakCache(),this.peakCacheLength=a);for(var d=[],e=0;e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<b;)e++;for(e%2==0&&d.push(b);e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<=c;)d.push(this.peakCacheRanges[e]),e++;e%2==0&&d.push(c),d=d.filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]}),this.peakCacheRanges=this.peakCacheRanges.concat(d),this.peakCacheRanges=this.peakCacheRanges.sort(function(a,b){return a-b}).filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]});var f=[];for(e=0;e<d.length;e+=2)f.push([d[e],d[e+1]]);return f},getCacheRanges:function(){for(var a=[],b=0;b<this.peakCacheRanges.length;b+=2)a.push([this.peakCacheRanges[b],this.peakCacheRanges[b+1]]);return a}},function(){var b=function(){var b=document.querySelectorAll("wavesurfer");Array.prototype.forEach.call(b,function(b){var c=a.util.extend({container:b,backend:"MediaElement",mediaControls:!0},b.dataset);b.style.display="block";var d=a.create(c);if(b.dataset.peaks)var e=JSON.parse(b.dataset.peaks);d.load(b.dataset.url,e)})};"complete"===document.readyState?b():window.addEventListener("load",b)}(),a});
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
-// o replace all instances of find() and findAndModify()
+// ø fix selection: element instead of id
+// ø replace all instances of find() and findAndModify()
 // o make everything undoable
 // o #keyframes panel: fix value display when animated prop is of type string
 // ø load files properly on "bodyDrop"
@@ -231,6 +232,7 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 // o #keyframes panel: making ani labels editable
 // o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
+// o check layers vs. groups (reimport from Illu)
 // o saving of SVGs once properties have been changed
 // o performance: use _createTrack, _createProp, and _createLayer for single elements rather than rerendering the whole panel every time
 
@@ -247,6 +249,7 @@ var propItemTemplate;
 var audioTemplate;
 
 var selectionId;
+var selection = new Set;
 
 var $time;
 var $animationValue;
@@ -430,6 +433,9 @@ function _deepOmit(obj, keysToOmit) {
   } 
   return omitFromObject(obj); // return the inner function result
 }
+function _firstFromSet(set) {
+	return set.values().next().value;
+}
 function _changesFile(filetype) {
 	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
 }
@@ -456,12 +462,18 @@ function _getAnimationName(item, property, type) {
 }
 /* internal helper to deselect all paperJS items and update panels accordingly */
 function _resetSelection() {
-	$('#layers')
-		.find('.layer').removeClass('selected').end()
-		.find('#layer-' + selectionId).removeClass('open');
 
-	selectionId = false;
 	currentGame.project.deselectAll();
+
+	$('#layers').find('.layer').removeClass('selected');
+
+	selection.forEach(function(selectedElement){
+		selectedElement.data.$layer.removeClass('open');
+	});
+	selection.clear();
+	// ###TODO: remove
+	selectionId = false;
+
 	_anchorViz.visible = false;
 	$('#properties')
 		.find('.type').text('').end()
@@ -612,7 +624,7 @@ Danimator.load = function(aniName) {
 
 /* update properties panel on every step of the animation */
 Danimator.onStep = function(animatable, value) {
-	if(animatable.item.id === selectionId) {
+	if(selection.has(animatable.item.data.sceneElement)) {
 		_changesProp(animatable.property, value);
 	}
 }
@@ -670,7 +682,7 @@ jQuery(function($){
 		/* layer-specific events */
 		.on('click', '.panel .layer', function(event) {
 			$(this).trigger($.Event('selected', {
-				item: currentGame.find($(this).data('id'))
+				item: $(this).data('sceneElement').item
 			}));
 
 			event.preventDefault();
@@ -699,6 +711,7 @@ jQuery(function($){
 			$keyframesPanel.toggleClass('hasSelection', selected);
 
 			if(selected) {
+				selection.add($layer.data('sceneElement'));
 				selectionId = id;
 				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
@@ -881,99 +894,83 @@ jQuery(function($){
 				_createTracks();
 			}
 		})
-		/*
-		.on('click', '#keyframes .animate-btn', function(event) {
-			var item = currentGame.find(selectionId);
-			var track = {
-				item: 		item,
-				properties: {
-					test: [{
-						from: 	  0,
-						to:  	  1,
-						initValue: 0,
-						duration: 1,
-						options: { delay: 0.5 }
-					}]
-				},
-				startTime: 	Danimator.startTime,
-			};
-			alert('Not yet implemented.');
-			//tracks[item.name] = track;
-			//_createTracks();
-		})
 
 		/* interactivity of property inputs */
 		.on('change', '#properties :input', function() {
-			var $this 	 = $(this);
-			var prop  	 = $this.data('prop');
-			var data 	 = $this.closest('li').data();
-			var oldValue = $this.data('oldValue') || this.defaultValue;
-			var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
-			var item  	 = currentGame.find(selectionId);
+			var hasSelection = _firstFromSet(selection);
 
-			var index 	 = 0;
-			var props 	 = {};
-			var converter;
+			if(hasSelection) {
+				var $this 	 = $(this);
+				var prop  	 = $this.data('prop');
+				var data 	 = $this.closest('li').data();
+				var oldValue = $this.data('oldValue') || this.defaultValue;
+				var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
+				var item  	 = hasSelection.item;
+				var index 	 = 0;
+				var props 	 = {};
+				var converter;
 
-			/* use lodash's _.toString, _.toNumber, etc. depending on type */
-			if(converter = _['to' + _.capitalize(data.type)]) {
-				value = _['to' + _.capitalize(data.type)](value);
-			}
-
-			/* coerce to number */
-			if($this.prop('type') === 'number') {
-				value = Number(value);
-			}
-
-			/* if property is part of segment */
-			if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
-				new Undoable(function() {
-					_.set( item.segments[parseInt(index[1])], index[2], value );
-					_changesProp(index[2], value);
-				}, function() {
-					_.set(item.segments[parseInt(index[1])], index[2], oldValue);
-					_changesProp(index[2], oldValue);
-				}, 'change segment of ' + _getAnimationName(item));
-			} else {
-				props[prop] = value;
-
-				var isPivot = !!prop.match(/^pivot\.?/);
-				var isPosition = !!prop.match(/^position\.?/);
-
-				new Undoable(function() {
-					_.set(item, prop, value);
-					_changesProp(prop, value);
-					if(isPosition) {
-						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
-						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
-					}
-					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-				}, function() {
-					_.set(item, prop, oldValue);
-					_changesProp(prop, oldValue);
-					if(isPosition) {
-						_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
-						_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
-					}
-					if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-				}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
-			}
-
-			if(data.track) {
-				var currentTrack = tracks[selectionId].properties[prop][data.track.id];
-
-				if(Danimator.time === _getStartTime(currentTrack)) {
-					currentTrack.from = value;
-					if(data.track.id === 0) {
-						currentTrack.initValue = value;
-					}
-				} else {
-					currentTrack.to = value;
+				/* use lodash's _.toString, _.toNumber, etc. depending on type */
+				if(converter = _['to' + _.capitalize(data.type)]) {
+					value = _['to' + _.capitalize(data.type)](value);
 				}
-				_createTracks();
-			}
 
-			$this.data('oldValue', value);
+				/* coerce to number */
+				if($this.prop('type') === 'number') {
+					value = Number(value);
+				}
+
+				/* if property is part of segment */
+				if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
+					new Undoable(function() {
+						_.set( item.segments[parseInt(index[1])], index[2], value );
+						_changesProp(index[2], value);
+					}, function() {
+						_.set(item.segments[parseInt(index[1])], index[2], oldValue);
+						_changesProp(index[2], oldValue);
+					}, 'change segment of ' + _getAnimationName(item));
+				} else {
+					props[prop] = value;
+
+					var isPivot = !!prop.match(/^pivot\.?/);
+					var isPosition = !!prop.match(/^position\.?/);
+
+					new Undoable(function() {
+						_.set(item, prop, value);
+						_changesProp(prop, value);
+						if(isPosition) {
+							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
+							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
+						}
+						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
+					}, function() {
+						_.set(item, prop, oldValue);
+						_changesProp(prop, oldValue);
+						if(isPosition) {
+							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
+							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
+						}
+						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
+					}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
+				}
+
+				if(data.track) {
+					var itemId = _firstFromSet(selection).item.id;
+					var currentTrack = tracks[itemId].properties[prop][data.track.id];
+
+					if(Danimator.time === _getStartTime(currentTrack)) {
+						currentTrack.from = value;
+						if(data.track.id === 0) {
+							currentTrack.initValue = value;
+						}
+					} else {
+						currentTrack.to = value;
+					}
+					_createTracks();
+				}
+
+				$this.data('oldValue', value);
+			}
 		})
 		.on('keyup', '#properties :input', function(event) {
 			/* use shiftKey + arrow keys to jump in tens instead of ones */
@@ -1000,6 +997,9 @@ jQuery(function($){
 					// we limit to min/max attrs and hack rounding errors by setting a limit on the decimals
 					$this.val( _.round( Danimator.limit(value, range[0], range[1]), _decimalPlaces(step * 10)) ).trigger('change');
 				}
+			} else if(event.key === 'Escape') {
+				var $this = $(this);
+				$this.val($this.attr('value')).blur();
 			}
 		})
 		/* allow number manipulation using the mousewheel (with a small lag) */
@@ -1193,12 +1193,15 @@ function _createLayers(layers, $layers) {
 
 	_.each(layers, function(layer, index) {
 		if(layer) {
+			var sceneElement = layer.data.sceneElement;
 			var $layer = $(layerTmpl({
 							name: 			layer.name || ('[Layer ' + layer.id + ']'),
 							hasChildren: 	!!(layer.children && layer.children.length),
 							hidden: 		!layer.visible,
 							id: 			layer.id
-						})).data('id', layer.id);
+						})).data('sceneElement', sceneElement);
+
+			sceneElement.data.$layer = $layer;
 
 			layer.data.onStateChanged = layer.data.onFrameChanged = function() {
 				_createLayers(layers, $layers.empty());
