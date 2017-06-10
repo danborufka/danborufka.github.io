@@ -222,7 +222,6 @@ jQuery(window).on('popstate', function(event, state) {
 plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",plotRangeDisplay:!1,plotRangeUnits:"",plotRangePrecision:4,plotRangeIgnoreOutliers:!1,plotRangeFontSize:12,plotRangeFontType:"Ariel",waveDrawMedianLine:!0,plotFileDelimiter:"\t"},plotTimeStart:0,plotTimeEnd:-1,plotArrayLoaded:!1,plotArray:[],plotPoints:[],plotMin:0,plotMax:1,initDrawer:function(a){var b=this;for(var c in this.defaultPlotParams)void 0===this.params[c]&&(this.params[c]=this.defaultPlotParams[c]);if(this.plotTimeStart=this.params.plotTimeStart,void 0!==this.params.plotTimeEnd&&(this.plotTimeEnd=this.params.plotTimeEnd),Array.isArray(a.plotArray))this.plotArray=a.plotArray,this.plotArrayLoaded=!0;else{var d=function(a){b.plotArray=a,b.plotArrayLoaded=!0,b.fireEvent("plot_array_loaded")};this.loadPlotArrayFromFile(a.plotFileUrl,d,this.params.plotFileDelimiter)}},drawPeaks:function(a,b,c,d){if(1==this.plotArrayLoaded)this.setWidth(b),this.splitChannels=!0,this.params.height=this.params.height/2,a[0]instanceof Array&&(a=a[0]),this.params.barWidth?this.drawBars(a,1,c,d):this.drawWave(a,1,c,d),this.params.height=2*this.params.height,this.calculatePlots(),this.drawPlots();else{var e=this;e.on("plot-array-loaded",function(){e.drawPeaks(a,b,c,d)})}},drawPlots:function(){var a=this.params.height*this.params.pixelRatio/2,b=.5/this.params.pixelRatio;this.waveCc.fillStyle=this.params.plotColor,this.progressCc&&(this.progressCc.fillStyle=this.params.plotProgressColor);for(var c in this.plotPoints){var d=parseInt(c),e=a-this.params.plotPointHeight-this.plotPoints[c]*(a-this.params.plotPointHeight),f=this.params.plotPointHeight;this.waveCc.fillRect(d,e,this.params.plotPointWidth,f),this.progressCc&&this.progressCc.fillRect(d,e,this.params.plotPointWidth,f)}this.params.plotSeparator&&(this.waveCc.fillStyle=this.params.plotSeparatorColor,this.waveCc.fillRect(0,a,this.width,b)),this.params.plotRangeDisplay&&this.displayPlotRange()},displayPlotRange:function(){var a=this.params.plotRangeFontSize*this.params.pixelRatio,b=this.plotMax.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits,c=this.plotMin.toPrecision(this.params.plotRangePrecision)+" "+this.params.plotRangeUnits;this.waveCc.font=a.toString()+"px "+this.params.plotRangeFontType,this.waveCc.fillText(b,3,a),this.waveCc.fillText(c,3,this.height/2)},calculatePlots:function(){this.plotPoints={},this.calculatePlotTimeEnd();for(var a=[],b=-1,c=0,d=99999999999999,e=0,f=99999999999999,g=this.plotTimeEnd-this.plotTimeStart,h=0;h<this.plotArray.length;h++){var i=this.plotArray[h];if(i.value>c&&(c=i.value),i.value<d&&(d=i.value),i.time>=this.plotTimeStart&&i.time<=this.plotTimeEnd){var j=Math.round(this.width*(i.time-this.plotTimeStart)/g);if(a.push(i.value),j!==b&&a.length>0){var k=this.avg(a);k>e&&(e=k),k<f&&(f=k),this.plotPoints[b]=k,a=[]}b=j}}"whole"==this.params.plotNormalizeTo?(this.plotMin=d,this.plotMax=c):"values"==this.params.plotNormalizeTo?(this.plotMin=this.params.plotMin,this.plotMax=this.params.plotMax):(this.plotMin=f,this.plotMax=e),this.normalizeValues()},normalizeValues:function(){var a={};if("none"!==this.params.plotNormalizeTo){for(var b in this.plotPoints){var c=(this.plotPoints[b]-this.plotMin)/(this.plotMax-this.plotMin);c>1?this.params.plotRangeIgnoreOutliers||(a[b]=1):c<0?this.params.plotRangeIgnoreOutliers||(a[b]=0):a[b]=c}this.plotPoints=a}},loadPlotArrayFromFile:function(b,c,d){void 0===d&&(d="\t");var e=[],f={url:b,responseType:"text"},g=a.util.ajax(f);g.on("load",function(a){if(200==a.currentTarget.status){for(var b=a.currentTarget.responseText.split("\n"),f=0;f<b.length;f++){var g=b[f].split(d);2==g.length&&e.push({time:parseFloat(g[0]),value:parseFloat(g[1])})}c(e)}})},calculatePlotTimeEnd:function(){void 0!==this.params.plotTimeEnd?this.plotTimeEnd=this.params.plotTimeEnd:this.plotTimeEnd=this.plotArray[this.plotArray.length-1].time},avg:function(a){var b=a.reduce(function(a,b){return a+b});return b/a.length}}),a.util.extend(a.Drawer.SplitWavePointPlot,a.Observer),a.PeakCache={init:function(){this.clearPeakCache()},clearPeakCache:function(){this.peakCacheRanges=[],this.peakCacheLength=-1},addRangeToPeakCache:function(a,b,c){a!=this.peakCacheLength&&(this.clearPeakCache(),this.peakCacheLength=a);for(var d=[],e=0;e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<b;)e++;for(e%2==0&&d.push(b);e<this.peakCacheRanges.length&&this.peakCacheRanges[e]<=c;)d.push(this.peakCacheRanges[e]),e++;e%2==0&&d.push(c),d=d.filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]}),this.peakCacheRanges=this.peakCacheRanges.concat(d),this.peakCacheRanges=this.peakCacheRanges.sort(function(a,b){return a-b}).filter(function(a,b,c){return 0==b?a!=c[b+1]:b==c.length-1?a!=c[b-1]:a!=c[b-1]&&a!=c[b+1]});var f=[];for(e=0;e<d.length;e+=2)f.push([d[e],d[e+1]]);return f},getCacheRanges:function(){for(var a=[],b=0;b<this.peakCacheRanges.length;b+=2)a.push([this.peakCacheRanges[b],this.peakCacheRanges[b+1]]);return a}},function(){var b=function(){var b=document.querySelectorAll("wavesurfer");Array.prototype.forEach.call(b,function(b){var c=a.util.extend({container:b,backend:"MediaElement",mediaControls:!0},b.dataset);b.style.display="block";var d=a.create(c);if(b.dataset.peaks)var e=JSON.parse(b.dataset.peaks);d.load(b.dataset.url,e)})};"complete"===document.readyState?b():window.addEventListener("load",b)}(),a});
 //# sourceMappingURL=wavesurfer.min.js.map;// animation editor engine
 // TODOS:
-// ø fix selection: element instead of id
 // ø replace all instances of find() and findAndModify()
 // o make everything undoable
 // o #keyframes panel: fix value display when animated prop is of type string
@@ -248,7 +247,6 @@ var keyItemTemplate;
 var propItemTemplate;
 var audioTemplate;
 
-var selectionId;
 var selection = new Set;
 
 var $time;
@@ -437,7 +435,7 @@ function _firstFromSet(set) {
 	return set.values().next().value;
 }
 function _changesFile(filetype) {
-	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
+	_.set(currentGame.files[filetype], 'saved', false);
 }
 function _changesProp(prop, value) {
 	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
@@ -471,8 +469,6 @@ function _resetSelection() {
 		selectedElement.data.$layer.removeClass('open');
 	});
 	selection.clear();
-	// ###TODO: remove
-	selectionId = false;
 
 	_anchorViz.visible = false;
 	$('#properties')
@@ -712,7 +708,7 @@ jQuery(function($){
 
 			if(selected) {
 				selection.add($layer.data('sceneElement'));
-				selectionId = id;
+
 				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
 				_createProperties(ANIMATABLE_PROPERTIES[event.item.className], $propertiesPanel.find('ul.main').empty(), event.item);
@@ -1075,12 +1071,12 @@ jQuery(function($){
 						}
 						break;
 					case 'o':
-						if(selectionId) {
+						if(selection.size) {
 							$('#properties input[data-prop=opacity]').focus()[0].select();
 						}
 						break;
 					case 'r':
-						if(selectionId) {
+						if(selection.size) {
 							$('#properties input[data-prop=rotation]').focus()[0].select();
 						}
 						break;
@@ -1295,6 +1291,7 @@ function _createTracks() {
 	_.each(tracks, function(track) {
 		if(track) {
 			var properties = _.mapValues(track.properties, _.partial(_.sortBy, _, 'options.delay'));
+			var sceneElement = track.item.data.sceneElement;
 
 			var $keys = $(keyItemTmpl({
 					maxDuration: 	_.round(track.maxDuration, 2),
@@ -1310,7 +1307,9 @@ function _createTracks() {
 						}
 						return ' triggered';
 					}
-				})).data({id: track.item.id, track: track, element: $keys });
+				})).data({id: track.item.id, track: track, sceneElement: sceneElement, element: $keys });
+
+			sceneElement.data.$keys = $keys;
 			
 			var $frames = $tracks.append($keys).find('.keyframe');
 
@@ -1623,7 +1622,7 @@ Game.onLoad = function(project, name, options) {
 				currentTrack.property 	= property;
 
 				if(hasActives) {
-					if(data.id === selectionId) {
+					if(selection.has(data.sceneElement)) {
 						$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
 					}
 				}
@@ -1714,14 +1713,14 @@ Game.onLoad = function(project, name, options) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
-		}
+		} else _clearHover();
 	};
 	// allow moving of canvas when commandKey is held
 	paper.view.onMouseDrag = function onCanvasMouseDrag(event) {
 		if(event.event.button === 0)
 			if(event.event.metaKey) {
-				if(selectionId) {
-					var selectedItem = self.find(selectionId);
+				if(selection.size) {
+					var selectedItem = _firstFromSet(selection).item;
 					selectedItem.position = selectedItem.position.add(event.delta);
 
 					_changesFile('ani.json');
@@ -1799,7 +1798,7 @@ Game.onLoad = function(project, name, options) {
 		/* move anchor point onAltKey */
 		if(event.event.altKey) {
 			this.position = event.point;
-			currentGame.findAndModify(selectionId, { pivot: this.position });
+			_firstFromSet(selection).item.pivot = this.position;
 			_changesProp('pivot.x', this.position.x);
 			_changesProp('pivot.y', this.position.y);
 		}
@@ -1807,17 +1806,18 @@ Game.onLoad = function(project, name, options) {
 
 	_anchorViz.onMouseUp = function(event) {
 		var item = this;
+		var selectedItem = _firstFromSet(selection).item;
 
 		if(event.event.altKey)
 			new Undoable(function(){ 
 				item.position = event.point;
-				currentGame.findAndModify(selectionId, { pivot: item.position });
+				selectedItem.pivot = item.position;
 			}, function(){ 
 				if(item.data.oldPosition) {
 					item.position = item.data.oldPosition;
-					currentGame.findAndModify(selectionId, { pivot: item.position });
+					selectedItem.pivot = item.position;
 				}
-			}, 'setting pivot of ' + _getAnimationName(currentGame.find(selectionId)), true);
+			}, 'setting pivot of ' + _getAnimationName(selectedItem), true);
 	};
 
 	self.container.appendTop(_anchorViz);

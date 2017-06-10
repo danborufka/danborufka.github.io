@@ -1,6 +1,5 @@
 // animation editor engine
 // TODOS:
-// ø fix selection: element instead of id
 // ø replace all instances of find() and findAndModify()
 // o make everything undoable
 // o #keyframes panel: fix value display when animated prop is of type string
@@ -26,7 +25,6 @@ var keyItemTemplate;
 var propItemTemplate;
 var audioTemplate;
 
-var selectionId;
 var selection = new Set;
 
 var $time;
@@ -215,7 +213,7 @@ function _firstFromSet(set) {
 	return set.values().next().value;
 }
 function _changesFile(filetype) {
-	console.log('files', _.get(currentGame.files[filetype], 'saved', 'none'), currentGame.files[filetype]);
+	_.set(currentGame.files[filetype], 'saved', false);
 }
 function _changesProp(prop, value) {
 	var $input = $('#properties').find('input[data-prop="' + prop + '"]');
@@ -249,8 +247,6 @@ function _resetSelection() {
 		selectedElement.data.$layer.removeClass('open');
 	});
 	selection.clear();
-	// ###TODO: remove
-	selectionId = false;
 
 	_anchorViz.visible = false;
 	$('#properties')
@@ -490,7 +486,7 @@ jQuery(function($){
 
 			if(selected) {
 				selection.add($layer.data('sceneElement'));
-				selectionId = id;
+
 				/* update title of property panel and trigger refresh */
 				$propertiesPanel.find('.type').text(' OF ' + event.item.className + ' ' + (event.item.name || ''));
 				_createProperties(ANIMATABLE_PROPERTIES[event.item.className], $propertiesPanel.find('ul.main').empty(), event.item);
@@ -853,12 +849,12 @@ jQuery(function($){
 						}
 						break;
 					case 'o':
-						if(selectionId) {
+						if(selection.size) {
 							$('#properties input[data-prop=opacity]').focus()[0].select();
 						}
 						break;
 					case 'r':
-						if(selectionId) {
+						if(selection.size) {
 							$('#properties input[data-prop=rotation]').focus()[0].select();
 						}
 						break;
@@ -1073,6 +1069,7 @@ function _createTracks() {
 	_.each(tracks, function(track) {
 		if(track) {
 			var properties = _.mapValues(track.properties, _.partial(_.sortBy, _, 'options.delay'));
+			var sceneElement = track.item.data.sceneElement;
 
 			var $keys = $(keyItemTmpl({
 					maxDuration: 	_.round(track.maxDuration, 2),
@@ -1088,7 +1085,9 @@ function _createTracks() {
 						}
 						return ' triggered';
 					}
-				})).data({id: track.item.id, track: track, element: $keys });
+				})).data({id: track.item.id, track: track, sceneElement: sceneElement, element: $keys });
+
+			sceneElement.data.$keys = $keys;
 			
 			var $frames = $tracks.append($keys).find('.keyframe');
 
@@ -1401,7 +1400,7 @@ Game.onLoad = function(project, name, options) {
 				currentTrack.property 	= property;
 
 				if(hasActives) {
-					if(data.id === selectionId) {
+					if(selection.has(data.sceneElement)) {
 						$inputs.find('input[data-prop="' + property + '"]').parent().addClass('keyed');
 					}
 				}
@@ -1492,14 +1491,14 @@ Game.onLoad = function(project, name, options) {
 				$('#layer-' + event.target.id).trigger($.Event('selected', { item: event.target, handpicked: true }));
 			}
 			else _resetSelection();
-		}
+		} else _clearHover();
 	};
 	// allow moving of canvas when commandKey is held
 	paper.view.onMouseDrag = function onCanvasMouseDrag(event) {
 		if(event.event.button === 0)
 			if(event.event.metaKey) {
-				if(selectionId) {
-					var selectedItem = self.find(selectionId);
+				if(selection.size) {
+					var selectedItem = _firstFromSet(selection).item;
 					selectedItem.position = selectedItem.position.add(event.delta);
 
 					_changesFile('ani.json');
@@ -1577,7 +1576,7 @@ Game.onLoad = function(project, name, options) {
 		/* move anchor point onAltKey */
 		if(event.event.altKey) {
 			this.position = event.point;
-			currentGame.findAndModify(selectionId, { pivot: this.position });
+			_firstFromSet(selection).item.pivot = this.position;
 			_changesProp('pivot.x', this.position.x);
 			_changesProp('pivot.y', this.position.y);
 		}
@@ -1585,17 +1584,18 @@ Game.onLoad = function(project, name, options) {
 
 	_anchorViz.onMouseUp = function(event) {
 		var item = this;
+		var selectedItem = _firstFromSet(selection).item;
 
 		if(event.event.altKey)
 			new Undoable(function(){ 
 				item.position = event.point;
-				currentGame.findAndModify(selectionId, { pivot: item.position });
+				selectedItem.pivot = item.position;
 			}, function(){ 
 				if(item.data.oldPosition) {
 					item.position = item.data.oldPosition;
-					currentGame.findAndModify(selectionId, { pivot: item.position });
+					selectedItem.pivot = item.position;
 				}
-			}, 'setting pivot of ' + _getAnimationName(currentGame.find(selectionId)), true);
+			}, 'setting pivot of ' + _getAnimationName(selectedItem), true);
 	};
 
 	self.container.appendTop(_anchorViz);

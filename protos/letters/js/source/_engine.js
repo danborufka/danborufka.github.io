@@ -490,6 +490,11 @@ var _createDanimatorScene = function(parent) {
 	Object.defineProperty(tree, 'item', { enumerable: false, writable: false, configurable: false, 
 		value: 	parent 
 	});
+
+	// add (non-enumerable) data holder
+	Object.defineProperty(tree, 'data', { enumerable: false,
+		value: 	{}
+	});
 	
 	// helper to find elements within other elements by name given in Illustrator (ignoring naming convention used in SVG)
 	Object.defineProperty(tree, 'find', { enumerable: false, writable: false, configurable: false, 
@@ -497,12 +502,12 @@ var _createDanimatorScene = function(parent) {
 					// find in DOM by data-name, which is the attrib Illustrator saves the original layer names in
 					var $doms = this.$element.find('[data-name="' + selector + '"],#' + selector);
 					return $doms.map(function() {
-						// and map to their according paperScene element rather than DOM elements
-						var element = $(this).data('paper-scene-element');
+						// and map to their according scene element rather than DOM elements
+						var element = $(this).data('scene-element');
 						if(!element) {
 							var item = paper.project.getItem({ name: selector });
-							element = item.data.paperSceneElement = _createDanimatorScene(item);
-							$(this).data('paper-scene-element', element);
+							element = item.data.sceneElement = _createDanimatorScene(item);
+							$(this).data('scene-element', element);
 						}
 						return element;
 					}).get();
@@ -524,40 +529,43 @@ var _createDanimatorScene = function(parent) {
 	}
 
 	if(parent.children)
-		_.each(parent.children, function(child) {
-			if(child.name) {
-				var $element = paper.$dom.find('#' + child.name);
-				var branch = _createDanimatorScene(child);
+		_.each(parent.children, function(child, childId) {
 
-				var originalName = $element.data('name') || child.name;
-				var frameMatch;
-
-				// state detected!
-				if(originalName[0] === '#') {
-					if(!parent.data._states) parent.data._states = {};
-
-					originalName = originalName.slice(1);
-					parent.data._states[originalName] = child;
-
-					if(_.size(parent.data._states) > 1) { 
-						child.visible = false;
-					} else {
-						parent.data._state = parent.data._state || originalName;
-					}
-				// frame detected!
-				} else if(frameMatch = originalName.match(/^f(\d+)/)) {
-					var frame = parseInt(Number(frameMatch[1]));
-					parent.data._frames = Math.max(parent.data._frames || 1, frame);
-					if(frame > 1) child.visible = false;
-				}
-				//child.name = originalName;
-
-				$element.data('paper-scene-element', branch);
-				
-				tree[originalName] = branch;
-
-				child.data.paperSceneElement = branch;
+			if(!child.name) {
+				child.name = 'element_' + child.id;
+				tree.$element.children(':eq(' + childId + ')').attr('id', child.name);
 			}
+
+			var $element = paper.$dom.find('#' + child.name);
+			var branch = _createDanimatorScene(child);
+
+			var originalName = $element.data('name') || child.name;
+			var frameMatch;
+
+			// state detected!
+			if(originalName[0] === '#') {
+				if(!parent.data._states) parent.data._states = {};
+
+				originalName = originalName.slice(1);
+				parent.data._states[originalName] = child;
+
+				if(_.size(parent.data._states) > 1) { 
+					child.visible = false;
+				} else {
+					parent.data._state = parent.data._state || originalName;
+				}
+			// frame detected!
+			} else if(frameMatch = originalName.match(/^f(\d+)/)) {
+				var frame = parseInt(Number(frameMatch[1]));
+				parent.data._frames = Math.max(parent.data._frames || 1, frame);
+				if(frame > 1) child.visible = false;
+			}
+
+			$element.data('scene-element', branch);
+			
+			tree[originalName] = branch;
+
+			child.data.sceneElement = branch;
 		});
 	return tree;
 };
@@ -595,7 +603,7 @@ paper.Item.inject({
 	},
 	setFrame: function(nr) {
 		var frame 		 = parseInt(nr);
-		var element 	 = this.data.paperSceneElement;
+		var element 	 = this.data.sceneElement;
 		/* find child layer called "f1" (or using the according presaved frame number) */
 		var currentFrame = element['f' + this.getFrame()] || this.data._frameLayer;
 		var newFrame 	 = element['f' + Danimator.limit(frame, 0, this.frames)] || this.data._frameLayer;
@@ -653,7 +661,7 @@ paper.Item.inject({
 			self.data._state = self.data._state || {};
 			self.data._state[childname] = state;
 
-			var element = self.data.paperSceneElement;
+			var element = self.data.sceneElement;
 
 			return _.each(element['f' + self.frame].find(childname), function(child) {
 						child.item.setState(state);						// and change their state
