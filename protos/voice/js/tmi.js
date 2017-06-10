@@ -5,6 +5,8 @@ var _regExify = function(expectation) {
 	return new RegExp('^' + expectation.answers.join('|') + '$', 'i');
 }
 
+var commands = {};
+
 TMI = this.TMI || {
 
 	_default_lang: 	'en-US',
@@ -73,7 +75,6 @@ TMI = this.TMI || {
 							}
 
 							if(currentExpectation.answers.length) {
-								var commands = {};
 								var _next = function(value) {
 									currentExpectation.callback(value);
 									if(TMI.index < TMI.expectations.length) {
@@ -81,6 +82,7 @@ TMI = this.TMI || {
 										TMI.run();
 									} else TMI.onDone && TMI.onDone();
 								}
+								commands = {};
 
 								commands['step #' + (TMI.index+1)] = {
 									regexp: 	new RegExp('^' + currentExpectation.answers.join('|') + '$', 'i'),
