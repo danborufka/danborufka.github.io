@@ -1,8 +1,6 @@
-// animation editor engine
+/* animation editor engine */
 // TODOS:
-// ø replace all instances of find() and findAndModify()
 // o make everything undoable
-// o #keyframes panel: fix value display when animated prop is of type string
 // ø load files properly on "bodyDrop"
 // o finish save statii (statusbar?)
 // o #keyframes panel: fix prefilling of segment points and handles
@@ -1407,10 +1405,18 @@ Game.onLoad = function(project, name, options) {
 				}
 
 				var ani = Danimator.step(currentTrack, t);
+				var value;
+
+				// round all numbers to 2 decimals
+				if(_.isNumber(ani.value)) {
+					value = _.round(ani.value,2);
+				} else {
+					value = '"' + ani.value + '"';
+				}
 
 				if($currentTrack && $currentTrack.length)
 					if($.contains($currentTrack[0], $scrubber[0])) {
-						$animationValue.text(property + ' = ' + _.round(ani.value,2));
+						$animationValue.text(property + ' = ' + value);
 					}
 			}
 		});

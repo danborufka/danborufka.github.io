@@ -1,6 +1,5 @@
-// animation and game engine
+/* animation engine */
 // TODOS:
-// ø figure out a way to detangle animation from game engine
 // o make Danimator own repo
 // o make audio a separate, optional module
 // o test morph chaining
@@ -264,7 +263,6 @@ Danimator.step = function(animatable, progress) {
 			} else {
 				newValue = animatable.from;
 			}
-		
 		} else {
 			/* calculate new value and limit to "from" and "to" */
 			newValue = Danimator.limit(animatable.from + (range * progress), animatable.from, animatable.to);
