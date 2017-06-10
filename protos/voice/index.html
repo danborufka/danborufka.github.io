@@ -107,7 +107,8 @@
 
 			// What's your native language?
 			.expect({ 
-						answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) are allowed answers on first question
+						answers:  Object.keys(_LANGUAGES), 		// keys of _LANGUAGES map (like English, French, …) 
+																// are allowed answers on first question
 						saveIn:   'language'					// save recorded answer in a variable called data.language
 					})								
 			// What's your name?
@@ -118,8 +119,8 @@
 					})
 			// Is your name '…'?
 			.expect({ 
-						answers:  ['yes', 'no', 'no .*' ],		// allow "yes" or "no (…)" as answer,
-						listen:   [''],							// yet listen to any other answers
+						answers:  ['yes', 'yes .*', 'no', 'no .*'],  // allow "yes" or "no (…)" as answer,
+						listen:   [''],								 // yet listen to any other answers
 
 						callback: (userSaid) => {				// whichever answer is given,
 							var noIts = userSaid.match(/no,? it'?s ([a-zA-Z]+)/i);
@@ -127,7 +128,7 @@
 							if(noIts) {
 								TMI.data.name = noIts[1];
 								noes++;
-							} else if(TMI.value.toLowerCase() === 'yes') {
+							} else if(TMI.value.match(/^yes\b/gi)) {
 								_QUESTION_INDEX = 3;
 							} else if(noes) {
 								TMI.data.name = prompt("What is it then?");
@@ -142,8 +143,12 @@
 						}
 					});
 
-		TMI.onSpeak = function(userSaid) {
-			$('output').text('It sounded like you said "' + userSaid + '"');
+		TMI.onSpeak = function(userSaid, orMaybe) {
+			var output = 'It sounded like you said "' + userSaid + '"';
+			if(TMI.answers.length && orMaybe.length) {
+				output += ' (or maybe <a class="maybe" href="#">' + orMaybe[0] + '</a>?)';
+			}
+			$('output').html(output);
 		}
 
 		TMI.onAnswer = function(answer) {
@@ -155,7 +160,24 @@
 			} else {
 				TMI.stop();
 			}
-		}	
+		}
+
+		TMI.onDone = function() {
+			alert("Aaaand we are done! Your data is: \n\n" + JSON.stringify(TMI.data));
+			console.log('we are done!', TMI.data);
+		}
+
+		$(document).on('click', '.maybe', function(event) {
+			var suggestion = $(this).text();
+			var lastSaveIn = TMI.expectations[TMI.index-1].saveIn;
+
+			if(lastSaveIn) {
+				TMI.data[lastSaveIn] = suggestion;
+			}
+
+			event.preventDefault();
+			event.stopImmediatePropagation();
+		});
 
 		$('.start').click(TMI.run);
 	</script>

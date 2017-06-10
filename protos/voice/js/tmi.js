@@ -1,11 +1,13 @@
 // ### TODO: 
 // o fix constant listening to keywords
 
+// helper to turn multiple answers into a regular expression joined by | (pipe) as regex alternatives
 var _regExify = function(expectation) {
 	return new RegExp('^' + expectation.answers.join('|') + '$', 'i');
 }
 
 var commands = {};
+var _TMI_data_snapshot;
 
 TMI = this.TMI || {
 
@@ -13,10 +15,19 @@ TMI = this.TMI || {
 	_last_cmds: 	false,
 	_value: 		'',
 
+	// expectations are listened to until an (expected) answer has been given
 	expectations: 	[],
+	// listeners are listened to until forever or until they are removed
 	listeners: 		[],
 
+	// reference to the props of the current expectation
+	answers: 		false,
+	callback: 		false,
+	in: 			false,
+	saveIn: 		null,
+
 	debug: 			false,
+	// data store for saved spoken user input
 	data: 			{},
 	index: 			0,
 	language: 		'en-US',
@@ -28,71 +39,17 @@ TMI = this.TMI || {
 						if(TMI.debug)
 							console.log('run #', TMI.index, 'expectation:', currentExpectation, 'firstRun?', isFirstRun);
 
+						// save snapshot of data commited by code to remove before passing user generated data to onDone()
+						if(isFirstRun)
+							_TMI_data_snapshot = Object.keys(TMI.data);
+
 						if(currentExpectation) {
-							if(isFirstRun) {
-								annyang.addCallback('result', function(matches) {
-									var thisExpectation = TMI.expectations[TMI.index];
 
-									TMI.value = matches[0];
-									TMI.onSpeak && TMI.onSpeak(TMI.value);
-
-									if(thisExpectation) {
-										var blocking = false;
-
-										TMI.value = _.find(matches, function(match) { 
-											return match.match(_regExify(thisExpectation)); 
-										}) || matches[0];
-										
-										if(TMI.listeners.length) {
-											_.each(TMI.listeners, function(listener) {
-												_.each(listener.for, function(keyword) {
-													if(matches.indexOf(keyword) > -1) {
-														blocking = true;
-														return listener.callback && listener.callback(matches);
-													}
-												});
-											});
-										}
-
-										if(!blocking)
-											if(!thisExpectation.answers.length) {
-												thisExpectation.callback(TMI.value);
-												TMI.index++;
-												TMI.run();
-											}
-									} else {
-										TMI.onDone && TMI.onDone();
-									}
-
-								});
-							} else {
-								// if there were any commands from last expectation – remove them
-								if(TMI._last_cmds) {
-									if(TMI.debug) console.log('Removing commands for', Object.keys(TMI._last_cmds));
-									annyang.removeCommands(Object.keys(TMI._last_cmds));
-									TMI._last_cmds = false;
-								}
-							}
-
-							if(currentExpectation.answers.length) {
-								var _next = function(value) {
-									currentExpectation.callback(value);
-									if(TMI.index < TMI.expectations.length) {
-										TMI.index++;
-										TMI.run();
-									} else TMI.onDone && TMI.onDone();
-								}
-								commands = {};
-
-								commands['step #' + (TMI.index+1)] = {
-									regexp: 	new RegExp('^' + currentExpectation.answers.join('|') + '$', 'i'),
-									callback: 	function() { _next(TMI.value); }
-								};
-								
-								annyang.addCommands(commands);
-								// save last cmd to remove it on next expectation
-								TMI._last_cmds = commands;
-							}
+							// update TMI shorthand props
+							TMI.answers 	= currentExpectation.answers;
+							TMI.in 			= currentExpectation.in;
+							TMI.saveIn 		= currentExpectation.saveIn;
+							TMI.callback 	= currentExpectation.callback;
 
 							// get language, falling back to _default_lang
 							var lang = _.get(currentExpectation, 'in', TMI._default_lang);
@@ -114,6 +71,9 @@ TMI = this.TMI || {
 								if(TMI.debug) annyang.debug();
 								annyang.start({ autoRestart: true, continuous: false });
 							}
+						} else {
+							TMI.data = _.omit(TMI.data, _TMI_data_snapshot);
+							TMI.onDone && TMI.onDone();
 						}
 						TMI.onAnswer && TMI.onAnswer(TMI.value);
 						return TMI;
@@ -151,6 +111,7 @@ TMI = this.TMI || {
 						TMI.expectations.push({  
 							answers,
 							in: lang,
+							saveIn: options.saveIn,
 							callback,
 						});
 
@@ -170,6 +131,57 @@ TMI = this.TMI || {
 						return TMI;
 					}
 };
+
+annyang.addCallback('result', function(matches) {
+	var thisExpectation = TMI.expectations[TMI.index];
+
+	TMI.value = matches[0];
+
+	if(thisExpectation) {
+		var blocking = false;
+
+		TMI.value = _.find(matches, function(match) { 
+			return match.match(_regExify(thisExpectation)); 
+		}) || matches[0];
+
+		matches = matches.filter(function(match) {
+			return match.toLowerCase() !== TMI.value.toLowerCase();
+		});
+		
+		if(TMI.listeners.length) {
+			_.each(TMI.listeners, function(listener) {
+				_.each(listener.for, function(keyword) {
+					if(matches.indexOf(keyword) > -1) {
+						blocking = true;
+						return listener.callback && listener.callback(matches);
+					}
+				});
+			});
+		}
+
+		if(!blocking) {
+			var _next = function() {
+				thisExpectation.callback(TMI.value);			
+				TMI.index++;
+				TMI.run();
+				console.log('TMI.value', TMI.value, 'matches', matches, thisExpectation.answers);
+			}
+			
+			// fulfill this expectation if no answers required
+			if(!thisExpectation.answers.length) {
+				_next();
+			// fulfill this expectation if current input matches one of the expected answers
+			} else if(_.find(thisExpectation.answers, TMI.value.match.bind(TMI.value))) {
+				_next();
+			}
+		}
+	} else {
+		TMI.data = _.omit(TMI.data, _TMI_data_snapshot);
+		TMI.onDone && TMI.onDone();
+	}
+
+	TMI.onSpeak && TMI.onSpeak(TMI.value, matches.slice(1));
+});
 
 /* Example: 
 
