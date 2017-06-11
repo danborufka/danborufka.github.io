@@ -1,4 +1,5 @@
 // strokeGame: "tuby"
+// ###TODO: fix
 
 var tubeSound;
 
@@ -61,7 +62,6 @@ var tubyGame = new strokeGame(project,
 		// animate hamster popping into tube
 		hamster_front.opacity = 0;
 		hamster.opacity = 0;
-		console.log('angle here?');
 		hamster_front.rotation = scene.strokes.item.lastChild.getNormalAt(0).angle-270;
 
 		//Danimator.load('games/strokes/levels/tuby');
@@ -109,9 +109,7 @@ var tubyGame = new strokeGame(project,
 				tubeSound.set('volume', .2);
 			}
 
-			if(!wrongDirection && !cheating)
-				_changeState(data.location.offset, game);
-			else {
+			if(wrongDirection && cheating) {
 				tubeSound.stop();
 				Danimator.sound('wrong');
 				// show menacing X if user cheated or went into wrong direction
@@ -119,6 +117,8 @@ var tubyGame = new strokeGame(project,
 					position: data.point,
 					visible: true
 				});
+			} else {
+				_changeState(data.location.offset, game);
 			}
 		};
 
@@ -187,8 +187,9 @@ var tubyGame = new strokeGame(project,
 
 					// if we haven't reached the end of the stroke
 					if(offset < game.options.completionTolerance) {
-						hamster.data._strokePosition = offset * strokes[stroke].length;
+						hamster.data._strokePosition = offset * strokes[stroke].item.length;
 						// retract the hamster back to his original position
+
 						Danimator(hamster, 'data._strokePosition', null, 6, .6, {
 							easing: 'linear',
 							onStep: function(step) {

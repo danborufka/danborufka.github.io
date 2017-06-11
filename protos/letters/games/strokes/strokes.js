@@ -31,6 +31,9 @@ function strokeGame(project, level, options, onLoad) {
 		// let's size it up!
 		project.view.zoom = 1.5;
 
+		//scene.control.item.guide = true;
+		scene.control.item.firstChild.guide = true;
+
 		scene.control.item.onMouseDown = function(data) {
 			if(!self.locked) {
 		    	self.dragging = true;
@@ -56,6 +59,7 @@ function strokeGame(project, level, options, onLoad) {
 						fill: 		false,
 						stroke: 	true,
 						segments: 	true,
+						guide: 		false,
 						tolerance: 	options.strokeTolerance || 20,
 					});
 
