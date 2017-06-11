@@ -808,6 +808,7 @@ jQuery(function($){
 								} else {
 									var delta = ((new Date).getTime() - lastTime) / 1000;
 									Danimator.time = Danimator.time + delta;
+									console.log('delta', delta, 'frameDur', 1/12);
 									lastTime = (new Date).getTime();
 								}
 							}, 1000/12);
@@ -1344,8 +1345,6 @@ Game.onLoad = function(project, name, options) {
 	}	
 
 	Danimator.onTimeChanged = function(time) {
-		self.time = time;
-
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
 		/* update all scrubbes */
