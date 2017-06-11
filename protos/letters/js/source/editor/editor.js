@@ -556,6 +556,9 @@ jQuery(function($){
 
 			TIME_FACTOR = _linearTolog(1-zoom, minZoom, maxZoom);
 			$(this).attr('title', parseInt(10 + (TIME_FACTOR-minZoom) / (maxZoom-minZoom) * 190) + '%');
+			_.each(Danimator.sounds, function(sound) {
+				sound.wave.zoom(TIME_FACTOR);
+			});
 
 			_createTracks();
 		})
@@ -1250,10 +1253,11 @@ function _createAudio() {
 			container: 		'#audio_' + slug(name),
 			cursorColor: 	'crimson',
 			fillParent: 	false,
+			scrollParent: 	true,
 			loop: 			sound.get('loop'),
 			height: 		40,
 			width: 			200,
-			minPxPerSec: 	80,
+			minPxPerSec: 	TIME_FACTOR,
 			normalize: 		true,
 			progressColor: 	'crimson',
 			waveColor: 		'white'
@@ -1278,18 +1282,20 @@ function _createAudio() {
 			}
 		});
 
-		wave.on('seek', function(progess, stuff) {
+		wave.on('seek', function onWaveSeek(progress, stuff) {
 			if(!_timeScrubbing) {
 				Danimator.time = currentWave.getCurrentTime();
 			}
 		});
 
+		if(false)
 		if(sound === Danimator._activeSound) {
 			currentWave.on('ready', function() { 
 				currentWave.play();
 			});
 		}
 
+		sound.wave = wave;
 		wave.load('audio/' + name);
 		$sound.data('wave', wave);
 	});
@@ -1421,13 +1427,19 @@ Game.onLoad = function(project, name, options) {
 			}
 		});
 
-		var _revert = !!_timeScrubbing;
-		_timeScrubbing = true;
-		/* update all sounds */
-		$('#audio .audio').each(function(){
-			$(this).data('wave').seekTo(time);
-		});
-		_timeScrubbing = _revert;
+		// get name of function that triggered Danimator.setTime which triggered Danimator.onTimeChanged (parent of parent func)
+		var _calledBy = arguments.callee.caller.caller.name;
+
+		// only if onTime hasn't been triggered by scrubbing thru waveform
+		if(_calledBy !== 'onWaveSeek') {
+			var _revert = !!_timeScrubbing;
+			_timeScrubbing = true;
+			/* update all waveforms */
+			_.each(Danimator.sounds, function(sound) {
+				sound.wave.seekTo(time / sound.wave.getDuration());
+			});
+			_timeScrubbing = _revert;
+		}
 
 		self.time = time;
 	}

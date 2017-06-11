@@ -60,7 +60,8 @@ canvas[resize] {
   left: 20px; }
 
 #audio {
-  top: 400px; }
+  top: 400px;
+  max-width: 300px; }
 
 /* panel style */
 .panel {

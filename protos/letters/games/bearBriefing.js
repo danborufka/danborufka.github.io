@@ -6,6 +6,8 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 		bear.state = 'eyes.normal';
 		bear.state = 'snout.normal';
 
+		Danimator.sound('bearinger-good-day');
+
 		/* animate agent Bearinger */
 		if(false)
 		Danimator.play(bear,  {	
