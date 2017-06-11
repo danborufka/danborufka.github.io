@@ -61,6 +61,7 @@ var tubyGame = new strokeGame(project,
 		// animate hamster popping into tube
 		hamster_front.opacity = 0;
 		hamster.opacity = 0;
+		console.log('angle here?');
 		hamster_front.rotation = scene.strokes.item.lastChild.getNormalAt(0).angle-270;
 
 		//Danimator.load('games/strokes/levels/tuby');
@@ -172,9 +173,9 @@ var tubyGame = new strokeGame(project,
 								game.locked = false;
 							}, 1100);
 
-							scene.UI.children.explainer.item.opacity = 0;
-							scene.UI.children.explainer.item.visible = true;
-							Danimator.fadeIn(scene.UI.children.explainer.item, .4, { delay: 1 });
+							scene.UI.explainer.item.opacity = 0;
+							scene.UI.explainer.item.visible = true;
+							Danimator.fadeIn(scene.UI.explainer.item, .4, { delay: 1 });
 						} 
 					});
 					Danimator.sound('door-open.wav');
