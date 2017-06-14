@@ -253,6 +253,8 @@ var $currentTrack;
 
 var snapKeyframes 	= new Snappables(.4);
 
+var currentSpeed = 1;
+
 var _playing 		= false;
 var _frameDragging 	= false;
 var _timeScrubbing  = false;
@@ -533,13 +535,13 @@ function Snappables(tolerance) {
 }
 
 /* override animate method to add animations to animation stack for keyframes panel */
-Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
+Danimator.animate = function danimatorAnimate(item, property, fr, to, duration, options) {
 
 	var ease 	  = (property === 'frame' ? null : 'cubicOut');
 	var startTime = (options && options.delay) || 0;
-	var caller 	  = arguments.callee.caller.caller.name;
+	var caller 	  = danimatorAnimate.caller.caller.name;
 
-	if(caller.match(/^Danimator([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
+	if(caller.match(/^danimator([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
 		caller = 'root';
 	}
 
@@ -597,7 +599,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 };
 
 /* override load method to create tracks instead of animation calls */
-Danimator.load = function(aniName) {
+Danimator.load = function danimatorLoad(aniName) {
 	var filename = aniName + '.ani.json';
 
 	$.getJSON(filename, null, function(json, status) {
@@ -616,7 +618,7 @@ Danimator.load = function(aniName) {
 }
 
 /* update properties panel on every step of the animation */
-Danimator.onStep = function(animatable, value) {
+Danimator.onStep = function danimatorStep(animatable, value) {
 	if(selection.has(Danimator.sceneElement(animatable.item))) {
 		_changesProp(animatable.property, value);
 	}
@@ -626,7 +628,7 @@ Danimator.onMorph = function() {
 	_createLayers(Danimator.layers, $('.panel#layers ul').empty());
 }
 
-Danimator.save = function(data, filename) {
+Danimator.save = function danimatorSave(data, filename) {
 	return $.ajax({
 		url: 	   		'http://localhost:8080/save',
 		type: 		 	'POST',
@@ -903,7 +905,7 @@ jQuery(function($){
 				var oldValue = $this.data('oldValue') || this.defaultValue;
 				var value 	 = $this.is(':checkbox') ? $this.is(':checked') : $this.val();
 				var item  	 = hasSelection.item;
-				var index 	 = 0;
+				var segmentProp = false;
 				var props 	 = {};
 				var converter;
 
@@ -917,39 +919,46 @@ jQuery(function($){
 					value = Number(value);
 				}
 
-				/* if property is part of segment */
-				if(index = prop.match(/^segments\.(\d+)\.(.*)/)) {
-					new Undoable(function() {
-						_.set( item.segments[parseInt(index[1])], index[2], value );
-						_changesProp(index[2], value);
-					}, function() {
-						_.set(item.segments[parseInt(index[1])], index[2], oldValue);
-						_changesProp(index[2], oldValue);
-					}, 'change segment of ' + _getAnimationName(item));
-				} else {
-					props[prop] = value;
+				var isPivot = !!prop.match(/^pivot\.?/);
+				var isPosition = !!prop.match(/^position\.?/);
+				segmentProp = prop.match(/^segments\.(\d+)\.(.*)/);
 
-					var isPivot = !!prop.match(/^pivot\.?/);
-					var isPosition = !!prop.match(/^position\.?/);
+				var label = segmentProp ? 
+								'change segment of ' + _getAnimationName(item) : 
+								'change property ' + prop + ' of ' + _getAnimationName(item, prop);
 
-					new Undoable(function() {
+				new Undoable(function() {
+					// if property is part of segment
+					if(segmentProp) {
+						_.set( item.segments[parseInt(segmentProp[1])], segmentProp[2], value );
+						_changesProp(segmentProp[2], value);
+					} else {
+						props[prop] = value;
 						_.set(item, prop, value);
 						_changesProp(prop, value);
+
 						if(isPosition) {
 							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));	// update property field "pivot.x"
 							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
 						}
 						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-					}, function() {
+					}
+				}, function() {
+					// if property is part of segment
+					if(segmentProp) {
+						_.set(item.segments[parseInt(segmentProp[1])], segmentProp[2], oldValue);
+						_changesProp(segmentProp[2], oldValue);
+					} else {
 						_.set(item, prop, oldValue);
 						_changesProp(prop, oldValue);
+
 						if(isPosition) {
 							_changesProp('pivot.x', _.get(item.pivot, 'x', item.bounds.center.x));
 							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));
 						}
 						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
-					}, 'change property ' + prop + ' of ' + _getAnimationName(item, prop));
-				}
+					}
+				}, label);
 
 				if(data.track) {
 					var itemId = _firstFromSet(selection).item.id;
@@ -1021,6 +1030,22 @@ jQuery(function($){
 					case ' ':
 						_playing = !_playing;
 
+						Danimator._activeSound.wave.playPause();
+
+						var _updateTime = function(event) {
+							if(Danimator.time >= Danimator.maxDuration) {
+								currentGame.scene.item.off('frame', _updateTime);
+								Danimator.time = 0;
+								Danimator._activeSound.wave.stop();
+							} else {
+								Danimator.time = event.time;
+							}
+						}
+
+						// attach/detach frame handler _updateTime
+						currentGame.scene.item[_playing ? 'on' : 'off']('frame', _updateTime);
+
+						if(false)
 						if(_playing) {
 							lastTime = (new Date).getTime();
 							playInterval = setInterval(function(){
@@ -1030,7 +1055,9 @@ jQuery(function($){
 								} else {
 									var delta = ((new Date).getTime() - lastTime) / 1000;
 									Danimator.time = Danimator.time + delta;
-									console.log('delta', delta, 'frameDur', 1/12);
+									currentSpeed = delta / (1/12);
+									console.log('Danimator._activeSound', Danimator._activeSound);
+									//### Danimator._activeSound.wave.setPlaybackRate(currentSpeed);
 									lastTime = (new Date).getTime();
 								}
 							}, 1000/12);
@@ -1216,7 +1243,7 @@ function _createLayers(layers, $layers) {
 }
 
 /* UI helpers for keyframes panel */
-function _getStartTime(track) 	{ return track.options.delay; 					}
+function _getStartTime(track) 	{ return _.get(track ,'options.delay', 0);		}
 function _getEndTime(track) 	{ return _getStartTime(track) + track.duration; }
 
 /* colorisation & gradient styles for timeline tracks in keyframes panel */
@@ -1466,7 +1493,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 }
 
 /* create waves (UI) for audio panel */
-function _createAudio() { 
+function _createAudio(name, options) { 
 	var $sounds 	= $('.panel#audio').find('ul.main').empty();
 	var audioTmpl 	= _.template(_.unescape(audioTemplate));
 	var wave 		= false;
@@ -1476,7 +1503,6 @@ function _createAudio() {
 			container: 		'#audio_' + slug(name),
 			cursorColor: 	'crimson',
 			fillParent: 	false,
-			scrollParent: 	true,
 			loop: 			sound.get('loop'),
 			height: 		40,
 			width: 			200,
@@ -1491,13 +1517,15 @@ function _createAudio() {
 		}));
 
 		$sounds.append($sound);
-
 		wave = WaveSurfer.create(config);
 		var currentWave = wave;
 
+		wave.on('ready', function(event) {
+			sound.duration = wave.getDuration();
+		});
+
 		wave.on('finish', function(event) { 
 			currentWave.seekTo(0); 
-			
 			if(config.loop) {
 				if(!Danimator.sounds[name].stopped) {
 					currentWave.play();
@@ -1511,20 +1539,29 @@ function _createAudio() {
 			}
 		});
 
-		if(false)
-		if(sound === Danimator._activeSound) {
-			currentWave.on('ready', function() { 
-				currentWave.play();
-			});
-		}
+		// if(sound === Danimator._activeSound) {
+		// 	currentWave.on('ready', function() { 
+		// 		currentWave.play();
+		// 	});
+		// }
 
+		sound.duration = 0;
+		sound.options = options;
 		sound.wave = wave;
+
+		console.log('sound', sound);
+
 		wave.load('audio/' + name);
 		$sound.data('wave', wave);
 	});
 }
 
-Danimator.onSound = _.debounce(_createAudio, 100);
+var _throttledCreateAudio = _.debounce(_createAudio, 100);
+
+Danimator.onSound = function danimatorOnSound() {
+	console.log('Danimator.onSound.callee.caller.name', danimatorOnSound.caller.name, 'danimatorOnSound.caller.caller', danimatorOnSound.caller.caller, 'danimatorSound.caller', danimatorSound.caller);
+	_throttledCreateAudio.apply(this, arguments);
+}
 
 /* game engine for loading SVG skeletons, extended to editing capabilities */
 Game.onLoad = function(project, name, options) {
@@ -1566,7 +1603,7 @@ Game.onLoad = function(project, name, options) {
 		resetLoading('saveAll');
 	}	
 
-	Danimator.onTimeChanged = function(time) {
+	Danimator.onTimeChanged = function danimatorTimeChanged(time) {
 		var $inputs = $('#properties').find('li').removeClass('keyed');
 
 		/* update all scrubbes */
@@ -1649,7 +1686,7 @@ Game.onLoad = function(project, name, options) {
 		});
 
 		// get name of function that triggered Danimator.setTime which triggered Danimator.onTimeChanged (parent of parent func)
-		var _calledBy = arguments.callee.caller.caller.name;
+		var _calledBy = danimatorTimeChanged.caller.caller.name;
 
 		// only if onTime hasn't been triggered by scrubbing thru waveform
 		if(_calledBy !== 'onWaveSeek') {
@@ -1657,7 +1694,10 @@ Game.onLoad = function(project, name, options) {
 			_timeScrubbing = true;
 			/* update all waveforms */
 			_.each(Danimator.sounds, function(sound) {
-				sound.wave.seekTo(time / sound.wave.getDuration());
+				var _soundDuration = _getEndTime(sound) - _getStartTime(sound);
+				console.log('sound', time, _soundDuration);
+
+				sound.wave.seekTo(time / _soundDuration);
 			});
 			_timeScrubbing = _revert;
 		}

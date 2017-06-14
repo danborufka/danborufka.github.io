@@ -36,7 +36,7 @@ Object.defineProperty(Danimator, 'time', {
 });
 
 /* initializes a Danimator scene from the passed item and creates index of symbol defs */
-Danimator.init = function DanimatorInit(item) {
+Danimator.init = function danimatorInit(item) {
 	item.data.sceneRoot = true;
 	item.name = 'scene';
 
@@ -62,7 +62,7 @@ Danimator.init = function DanimatorInit(item) {
 }
 
 /* retrieve sceneElement from DOM element, jQuery element, paper item or Danimator sceneElement */
-Danimator.sceneElement = function DanimatorSceneElement(element) {
+Danimator.sceneElement = function danimatorSceneElement(element) {
 	if(element.$element) return element;
 	if(element instanceof jQuery) return element.data('sceneElement');
 	if(element instanceof HTMLElement) return $(element).data('sceneElement');
@@ -70,7 +70,7 @@ Danimator.sceneElement = function DanimatorSceneElement(element) {
 }
 
 /* core animation function (adds animation to animatable stack) */
-Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, options) {
+Danimator.animate = function danimatorAnimate(item, property, fr, to, duration, options) {
 	if(!_animateFrame) {
 		/* create _animateFrame function to be executed every item.onFrame() */
 		function _animateFrame(event) {
@@ -168,7 +168,7 @@ Danimator.animate = function DanimatorAnimate(item, property, fr, to, duration, 
 	};
 }
 
-Danimator.then = function DanimatorThen() {
+Danimator.then = function danimatorThen() {
 	var args = _.toArray(arguments);
 	var action = args.shift();
 	var newOptions = _.last(args);
@@ -178,7 +178,7 @@ Danimator.then = function DanimatorThen() {
 	return Danimator[action].apply(this, args);
 }
 
-Danimator.load = function(aniName) {
+Danimator.load = function danimatorLoad(aniName) {
 	var filename = aniName + '.ani.json';
 
 	$.getJSON(filename, null, function(json, status) {
@@ -218,7 +218,7 @@ Danimator.limit = function(nr, mi, ma) {
 }
 
 /* calculate single step of animation */
-Danimator.step = function(animatable, progress) {
+Danimator.step = function danimatorStep(animatable, progress) {
 	var value = _.get(animatable.item, animatable.property);
 
 	if(animatable.from == undefined) 		animatable.from = value;
@@ -289,7 +289,7 @@ Danimator.step = function(animatable, progress) {
 }
 
 /* fx */
-Danimator.fadeIn = function(item, duration, options) {
+Danimator.fadeIn = function danimatorFadeIn(item, duration, options) {
 	var fromv = options && options.from;
 	if(fromv !== undefined) {
 		item.opacity = fromv;
@@ -298,7 +298,7 @@ Danimator.fadeIn = function(item, duration, options) {
 	item.visible = true;
 	return Danimator(item, 'opacity', fromv, _.get(options, 'to', 1), duration, options);
 };
-Danimator.fadeOut = function(item, duration, options) {
+Danimator.fadeOut = function danimatorFadeOut(item, duration, options) {
 	var fromv = options && options.from;
 	if(fromv !== undefined) {
 		item.opacity = fromv;
@@ -309,7 +309,7 @@ Danimator.fadeOut = function(item, duration, options) {
 };
 
 /* morph between two shapes (works for subitems too) */
-Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
+Danimator.morph = function danimatorMorph(fromItem, toItem, duration, options) {
 	var fromItems = [fromItem];
 	var toItems   = [toItem];
 
@@ -365,7 +365,7 @@ Danimator.morph = function DanimatorMorph(fromItem, toItem, duration, options) {
 }
 
 /* basic frame animation support */
-Danimator.play = function(item, options) {
+Danimator.play = function danimatorPlay(item, options) {
 	var frames = item.frames;
 	var range  = frames - item.frame;
 	var duration = range / (options && options.fps || 12);	// calculate duration from fps and number of available frames
@@ -377,12 +377,12 @@ Danimator.play = function(item, options) {
 }
 
 /* interrupt frame animations */
-Danimator.stop = function(item) {
+Danimator.stop = function danimatorStop(item) {
 	item.data._playing = false;
 }
 
 /* stop all animations on passed item */
-Danimator.stopAll = function(item) {
+Danimator.stopAll = function danimatorStopAll(item) {
 	_.each(animations[item.id], function(ani, id){
 		clearTimeout(ani);
 		delete animations[id];
@@ -391,7 +391,7 @@ Danimator.stopAll = function(item) {
 };
 
 /* sound factory */
-Danimator.sound = function(name, options) {
+Danimator.sound = function danimatorSound(name, options) {
 	var config 	= _.extend({ 
 		name: 	name, 
 		src: 	['audio/' + name] 
@@ -458,7 +458,7 @@ Danimator.sound = function(name, options) {
 	sound.lastOptions = options;
 
 	/* account for delay param */
-	setTimeout(function() {
+	setTimeout(function danimatorSound() {
 		if(!Danimator.interactive) {
 			sound.play();
 			

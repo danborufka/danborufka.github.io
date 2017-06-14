@@ -89,9 +89,11 @@ Game = function(project, name, options, onLoad) {
 											self.container.position = paper.Point.max(screenCenter, halfSize);
 										})({size: project.view.viewSize});
 
-										_.each(self.scene.UI.item.children, function(uiElement) {
-											uiElement.visible = false;
-										});
+										// hide all UI elements
+										if(self.scene.UI)
+											_.each(self.scene.UI.item.children, function(uiElement) {
+												uiElement.visible = false;
+											});
 
 										try {
 											if(onLoad) onLoad(self.scene, self.container, self);
