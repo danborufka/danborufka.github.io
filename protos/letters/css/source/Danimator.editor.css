@@ -164,7 +164,7 @@ canvas[resize] {
     .panel#properties .animated select {
       background-color: #FEBEC1; }
     .panel#properties .animated.keyed input,
-    .panel#properties .animated select {
+    .panel#properties .animated.keyed select {
       background-color: #FC7580; }
     .panel#properties .triggered input, .panel#properties .triggered select {
       background-color: #E4ACFE; }

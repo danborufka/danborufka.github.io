@@ -218,9 +218,8 @@ canvas[resize] 			{
 			select 		{
 							background-color: 		#FEBEC1;
 			}
-		&.keyed 
-			input, 
-			select 		{
+		&.keyed input, 
+		&.keyed select 	{
 							background-color: 		#FC7580;
 			}
 		}
