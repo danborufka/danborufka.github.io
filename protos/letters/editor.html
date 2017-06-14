@@ -102,6 +102,7 @@
 
 				case String:
 					if(allowedValues) { 
+						console.log('allowedValues', allowedValues, value, name);
 			%>
 				<select data-prop="<%= path %><%= name %>">
 					<% _.each(allowedValues, function(aValue) { %>

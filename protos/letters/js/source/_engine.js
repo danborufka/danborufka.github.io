@@ -542,7 +542,7 @@ var _createDanimatorScene = function(parent) {
 			if(!child.name) {
 				child.name = 'element_' + child.id;
 				tree.$element.children(':eq(' + childId + ')').attr('id', child.name);
-			} else console.log('child.name is', child.name);
+			}
 
 			var $element = paper.$dom.find('#' + child.name);
 			var branch = _createDanimatorScene(child);
@@ -568,8 +568,6 @@ var _createDanimatorScene = function(parent) {
 				parent.data._frames = Math.max(parent.data._frames || 1, frame);
 				if(frame > 1) child.visible = false;
 			}
-
-			console.log('after…?');
 
 			$element.data('sceneElement', branch);
 			

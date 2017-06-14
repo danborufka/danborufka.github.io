@@ -607,8 +607,6 @@ var _createDanimatorScene = function(parent) {
 				if(frame > 1) child.visible = false;
 			}
 
-			console.log('after…?');
-
 			$element.data('sceneElement', branch);
 			
 			tree[originalName] = branch;

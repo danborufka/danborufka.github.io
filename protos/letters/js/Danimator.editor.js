@@ -305,12 +305,7 @@ var _ANIMATABLE_RECT = _.extend({}, _ANIMATABLE_POS, _ANIMATABLE_SIZE, {
 	bottom: { type: Number },
 	point: 	_asGroup(_ANIMATABLE_POS),
 });
-var _ANIMATABLE_DEFAULTS = {
-	blendMode: {
-					allowedValues: ['normal', 'multiply', 'screen', 'overlay', 'soft-light', 'hard- light', 'color-dodge', 'color-burn', 'darken', 'lighten', 'difference', 'exclusion', 'hue', 'saturation', 'luminosity', 'color', 'add', 'subtract', 'average', 'pin-light', 'negation', 'source- over', 'source-in', 'source-out', 'source-atop', 'destination-over', 'destination-in', 'destination-out', 'destination-atop', 'lighter', 'darker', 'copy', 'xor'],
-					type: String
-				},
-	bounds: 	_asGroup(_ANIMATABLE_RECT),
+var _ANIMATABLE_GROUP = {
 	frame: 		{
 					range: [0,Math.Infinity],
 					type: 	Number
@@ -319,6 +314,17 @@ var _ANIMATABLE_DEFAULTS = {
 					range: [0,1],
 					type: 	Number
 				},
+	state: 		{
+					allowedValues: 	[],
+					type: 			String
+				}
+};
+var _ANIMATABLE_DEFAULTS = {
+	blendMode: {
+					allowedValues: ['normal', 'multiply', 'screen', 'overlay', 'soft-light', 'hard- light', 'color-dodge', 'color-burn', 'darken', 'lighten', 'difference', 'exclusion', 'hue', 'saturation', 'luminosity', 'color', 'add', 'subtract', 'average', 'pin-light', 'negation', 'source- over', 'source-in', 'source-out', 'source-atop', 'destination-over', 'destination-in', 'destination-out', 'destination-atop', 'lighter', 'darker', 'copy', 'xor'],
+					type: String
+				},
+	bounds: 	_asGroup(_ANIMATABLE_RECT),
 	opacity: 	{
 					range: [0,1],
 					type: 	Number
@@ -329,22 +335,20 @@ var _ANIMATABLE_DEFAULTS = {
 					range: [-360,360],
 					type: 	Number
 				},
-	state: 		{
-					type: 	String
-				},
 	visible: 	{
 					type: 	Boolean
 				}
 }
 var ANIMATABLE_PROPERTIES = {
-	Path: 		_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY, {
+	Path: 		_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY, _ANIMATABLE_GROUP, {
 					growth: {
 						range: [0,1],
 						type: Number
 					},
 					segments: {
 						type: 	'elements'
-					}
+					},
+
 				}),
 	Segment: 	_asGroup({
 					point: 		_asGroup(_ANIMATABLE_PIVOT),
@@ -352,7 +356,7 @@ var ANIMATABLE_PROPERTIES = {
 					handleOut: 	_asGroup(_ANIMATABLE_PIVOT),
 				}),
 	SymbolItem: _ANIMATABLE_DEFAULTS,
-	Group: 		_ANIMATABLE_DEFAULTS,
+	Group: 		_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GROUP),
 	PointText: 	_.extend({}, _ANIMATABLE_DEFAULTS, _ANIMATABLE_GEOMETRY)
 }
 
@@ -1044,7 +1048,7 @@ jQuery(function($){
 						var _updateTime = function(event) {
 							if(_playing) {
 								if(Danimator.time >= Danimator.maxDuration) {
-									console.log('overing');
+
 									currentGame.scene.item.off('frame', _updateTime);
 									Danimator._activeSound.wave.pause();
 									Danimator.time = 0;
@@ -1060,7 +1064,8 @@ jQuery(function($){
 
 						// attach/detach frame handler _updateTime
 						currentGame.scene.item[_playing ? 'on' : 'off']('frame', _updateTime);
-						//Danimator._activeSound.wave[_playing ? 'stop' : 'play']();
+						// ### TODO: reintroduce playing of sound 
+						// Danimator._activeSound.wave[_playing ? 'stop' : 'play']();
 
 						return false;
 					/* prevFrame */
