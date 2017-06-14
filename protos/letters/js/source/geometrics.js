@@ -76,8 +76,6 @@ paper.Item.inject({
 		var path = this.data._master;
 		var len  = offset * path.length;
 
-		console.log('setting offset on path');
-
 		this.position = path.getPointAt(len);
 		this.rotation = path.getNormalAt(len).angle-90;
 		this.data._offsetOnPath = offset;

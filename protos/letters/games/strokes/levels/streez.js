@@ -19,8 +19,6 @@ var muted = false;
 var human;
 var sound;
 
-alert('Streez began!');
-
 var streezGame = new strokeGame(project, 
 	'streez', 
 	{ 
@@ -33,29 +31,26 @@ var streezGame = new strokeGame(project,
 
 		project.view.zoom = 2;
 
-		human = container.getItem({ name: 'human' });
+		human = scene.human.item;
 
 		Danimator.play(human, { 
 			fps: 6 * HUMAN_SPEED, 
 			onDone: 'pingpong'
 		});
 
-		var cars 	= container.getItem({ name: 'cars' });
-		var car 	= cars.firstChild;
-		var moPath 	= container.getItem({ name: 'carPath1' });
+		var cars = scene.cars.item;
 
-		car.attachToPath(moPath);
-		cars.children[1].attachToPath( container.getItem({ name: 'carPath3' }) );
-		cars.children[2].attachToPath( container.getItem({ name: 'carPath2' }) );
+		cars.children[0].attachToPath( scene.UI.carPath1.item );
+		cars.children[1].attachToPath( scene.UI.carPath3.item );
+		cars.children[2].attachToPath( scene.UI.carPath2.item );
 
-		Danimator(car, 'offsetOnPath', 0, 1, 10);
+		Danimator(cars.children[0], 'offsetOnPath', 0, 1, 10);
 		Danimator(cars.children[1], 'offsetOnPath', 0, 1, 10, { delay: 1 });
 		Danimator(cars.children[2], 'offsetOnPath', 0, 1, 10, { delay: 2 });
   
 		game.onStrokeStart = function(data, stroke) {
 			switch(stroke) {
 				case 0:
-					
 					break;
 				case 1:
 					

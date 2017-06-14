@@ -493,7 +493,9 @@ Danimator.sound = function danimatorSound(name, options) {
 		};
 	}
 	
-	sound.lastOptions = options;
+	sound.options = options;
+	// save who called this method
+	sound.caller = danimatorSound.caller.name;
 
 	/* account for delay param */
 	setTimeout(function danimatorSound() {
@@ -512,7 +514,7 @@ Danimator.sound = function danimatorSound(name, options) {
 
 		if(Danimator.onSound) {
 			/* global hook for starting of sound */
-			Danimator.onSound(name, options);
+			Danimator.onSound(name, sound);
 		}
 	}, _.get(options, 'delay', 0));
 
@@ -578,12 +580,12 @@ var _createDanimatorScene = function(parent) {
 			if(!child.name) {
 				child.name = 'element_' + child.id;
 				tree.$element.children(':eq(' + childId + ')').attr('id', child.name);
-			}
+			} else console.log('child.name is', child.name);
 
 			var $element = paper.$dom.find('#' + child.name);
 			var branch = _createDanimatorScene(child);
 
-			var originalName = $element.data('name') || child.name;
+			var originalName = String($element.data('name') || child.name);
 			var frameMatch;
 
 			// state detected!
@@ -605,6 +607,8 @@ var _createDanimatorScene = function(parent) {
 				if(frame > 1) child.visible = false;
 			}
 
+			console.log('after…?');
+
 			$element.data('sceneElement', branch);
 			
 			tree[originalName] = branch;
@@ -615,7 +619,7 @@ var _createDanimatorScene = function(parent) {
 };
 
 /* hijacking paper's importSVG method */
-paper.Project.prototype.importSVG = function(svgPath, optionsOrOnLoad) {
+paper.Project.prototype.importSVG = function importSVG(svgPath, optionsOrOnLoad) {
 	var _options = {};
 	var _onLoad;
 
@@ -843,8 +847,6 @@ paper.Item.inject({
 
 		var path = this.data._master;
 		var len  = offset * path.length;
-
-		console.log('setting offset on path');
 
 		this.position = path.getPointAt(len);
 		this.rotation = path.getNormalAt(len).angle-90;

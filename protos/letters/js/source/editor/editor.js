@@ -2,7 +2,8 @@
 // TODOS:
 // o make everything undoable
 // ø load files properly on "bodyDrop"
-// o finish save statii (statusbar?)
+// o fix spacebar play/pause (sounds interfering)
+// o finish save statii
 // o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
 // o #properties panel: add states
@@ -106,6 +107,9 @@ var _ANIMATABLE_DEFAULTS = {
 					range: [-360,360],
 					type: 	Number
 				},
+	state: 		{
+					type: 	String
+				},
 	visible: 	{
 					type: 	Boolean
 				}
@@ -151,6 +155,13 @@ var PANEL_TOLERANCE = 10;
 var _isBoundsItem = function(item) {
 	return ['PlacedSymbol', 'Group', 'SymbolItem', 'Raster'].indexOf(item.className) >= 0;
 };
+var _normalizeCaller = function(caller) {
+	if(caller.match(/^danimator([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
+		return 'root';
+	}
+	return caller;
+}
+
 /* helpers for internal panel calcs */
 function _asGroup(config) {
 	return { 
@@ -207,7 +218,7 @@ function _changesProp(prop, value) {
 /* helper to retrieve humanly readable name from a paperJS item */
 function _getAnimationName(item, property, type) {
 
-	var fx = type && type.match(/^Danimator(.*)$/);
+	var fx = type && type.match(/^danimator(.*)$/);
 	fx = fx && _.lowerFirst(fx[1]);
 
 	if(fx === 'then') fx = false;
@@ -317,11 +328,7 @@ Danimator.animate = function danimatorAnimate(item, property, fr, to, duration, 
 
 	var ease 	  = (property === 'frame' ? null : 'cubicOut');
 	var startTime = (options && options.delay) || 0;
-	var caller 	  = danimatorAnimate.caller.caller.name;
-
-	if(caller.match(/^danimator([A-Z].*)?$/g) || caller === 'onGameStart' || !caller.length) {
-		caller = 'root';
-	}
+	var caller 	  = _normalizeCaller(danimatorAnimate.caller.caller.name);
 
 	var track = tracks[item.id] || {
 			item: 		item,
@@ -808,40 +815,31 @@ jQuery(function($){
 					case ' ':
 						_playing = !_playing;
 
-						Danimator._activeSound.wave.playPause();
-
+						if(_playing) {
+							lastTime = (new Date).getTime() + Danimator.time;
+						}
+ 
 						var _updateTime = function(event) {
-							if(Danimator.time >= Danimator.maxDuration) {
-								currentGame.scene.item.off('frame', _updateTime);
-								Danimator.time = 0;
-								Danimator._activeSound.wave.stop();
+							if(_playing) {
+								if(Danimator.time >= Danimator.maxDuration) {
+									console.log('overing');
+									currentGame.scene.item.off('frame', _updateTime);
+									Danimator._activeSound.wave.pause();
+									Danimator.time = 0;
+									setTimeout(function(){ Danimator.time = 0; }, 10);
+									_playing = false;
+								} else {
+									Danimator.time += ((new Date).getTime() - lastTime) / 1000;
+								}
 							} else {
-								Danimator.time = event.time;
+								currentGame.scene.item.off('frame', _updateTime);
 							}
 						}
 
 						// attach/detach frame handler _updateTime
 						currentGame.scene.item[_playing ? 'on' : 'off']('frame', _updateTime);
+						//Danimator._activeSound.wave[_playing ? 'stop' : 'play']();
 
-						if(false)
-						if(_playing) {
-							lastTime = (new Date).getTime();
-							playInterval = setInterval(function(){
-								if(Danimator.time >= Danimator.maxDuration) {
-									clearInterval(playInterval);
-									Danimator.time = 0;
-								} else {
-									var delta = ((new Date).getTime() - lastTime) / 1000;
-									Danimator.time = Danimator.time + delta;
-									currentSpeed = delta / (1/12);
-									console.log('Danimator._activeSound', Danimator._activeSound);
-									//### Danimator._activeSound.wave.setPlaybackRate(currentSpeed);
-									lastTime = (new Date).getTime();
-								}
-							}, 1000/12);
-						} else {
-							clearInterval(playInterval);
-						}
 						return false;
 					/* prevFrame */
 					case ',':
@@ -1271,7 +1269,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 }
 
 /* create waves (UI) for audio panel */
-function _createAudio(name, options) { 
+function _createAudio() { 
 	var $sounds 	= $('.panel#audio').find('ul.main').empty();
 	var audioTmpl 	= _.template(_.unescape(audioTemplate));
 	var wave 		= false;
@@ -1317,15 +1315,9 @@ function _createAudio(name, options) {
 			}
 		});
 
-		// if(sound === Danimator._activeSound) {
-		// 	currentWave.on('ready', function() { 
-		// 		currentWave.play();
-		// 	});
-		// }
-
 		sound.duration = 0;
-		sound.options = options;
 		sound.wave = wave;
+		//sound.options = options;
 
 		console.log('sound', sound);
 
@@ -1336,8 +1328,7 @@ function _createAudio(name, options) {
 
 var _throttledCreateAudio = _.debounce(_createAudio, 100);
 
-Danimator.onSound = function danimatorOnSound() {
-	console.log('Danimator.onSound.callee.caller.name', danimatorOnSound.caller.name, 'danimatorOnSound.caller.caller', danimatorOnSound.caller.caller, 'danimatorSound.caller', danimatorSound.caller);
+Danimator.onSound = function danimatorOnSound(name, sound) {
 	_throttledCreateAudio.apply(this, arguments);
 }
 
@@ -1473,8 +1464,6 @@ Game.onLoad = function(project, name, options) {
 			/* update all waveforms */
 			_.each(Danimator.sounds, function(sound) {
 				var _soundDuration = _getEndTime(sound) - _getStartTime(sound);
-				console.log('sound', time, _soundDuration);
-
 				sound.wave.seekTo(time / _soundDuration);
 			});
 			_timeScrubbing = _revert;
