@@ -122,6 +122,8 @@ canvas[resize] {
         padding-left: 10px; }
       .panel ul.main ul {
         display: none; }
+        .prop .panel ul.main ul label {
+          padding-left: 5px; }
   .panel#properties {
     left: 240px; }
     .panel#properties ul.main {

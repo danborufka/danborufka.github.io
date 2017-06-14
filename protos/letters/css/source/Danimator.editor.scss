@@ -150,6 +150,10 @@ canvas[resize] 			{
 			}
 							
 			ul 			{	display: 				none;	
+				.prop &
+					label{
+							padding-left: 			5px;
+				}
 			}
 		}
 	}

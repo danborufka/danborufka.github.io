@@ -580,7 +580,7 @@ var _createDanimatorScene = function(parent) {
 			if(!child.name) {
 				child.name = 'element_' + child.id;
 				tree.$element.children(':eq(' + childId + ')').attr('id', child.name);
-			} else console.log('child.name is', child.name);
+			}
 
 			var $element = paper.$dom.find('#' + child.name);
 			var branch = _createDanimatorScene(child);
@@ -591,6 +591,8 @@ var _createDanimatorScene = function(parent) {
 			// state detected!
 			if(originalName[0] === '#') {
 				if(!parent.data._states) parent.data._states = {};
+
+				console.log('parent', parent.name, 'parent.data._states', parent.data._states);
 
 				originalName = originalName.slice(1);
 				parent.data._states[originalName] = child;

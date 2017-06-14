@@ -731,6 +731,11 @@ jQuery(function($){
 							_changesProp('pivot.y', _.get(item.pivot, 'y', item.bounds.center.y));	// update property field "pivot.y"
 						}
 						if(isPivot || isPosition) _anchorViz.position = item.pivot || item.bounds.center;
+
+						if(prop.match(/^state\.?/)) {
+							// force updating of state
+							item.state = item.state;
+						}
 					}
 				}, function() {
 					// if property is part of segment
@@ -1216,7 +1221,7 @@ function _createProperties(properties, $props, item, subitem, path) {
 					break;
 			}
 
-			/* highlighting of animated/triggered properties */
+			/* highlighting of animated/triggered properties (in red and violet) */
 			var property 	  = path + name;
 			var propertyTrack = tracks[item.id] && _.get(tracks[item.id].properties, property);
 
@@ -1250,7 +1255,6 @@ function _createProperties(properties, $props, item, subitem, path) {
 							type: 		prop.type,
 							value: 		_.get(subitem || item, name)
 						}, prop);
-			var $prop = $(propTmpl(config)).data('track', _.first(propertyTrack));
 
 			/* special case for Segments and other "subelements" of items */
 			if(config.type === 'elements') {
@@ -1264,6 +1268,24 @@ function _createProperties(properties, $props, item, subitem, path) {
 				config.type = 'group';
 			}
 
+			if(prop.allowedValues && !prop.allowedValues.length) {
+				if(typeof config.value === 'object') {
+					config.content = _.mapValues(config.value, function(value, key) {
+						return ANIMATABLE_PROPERTIES[item.className][name];
+					});
+					config.type = 'group';
+				} else {
+					if(path === 'state.') {
+						var states = Danimator.sceneElement(item).find(name)[0].item.states;
+						config.allowedValues = Object.keys(states);
+					}
+				}
+			}
+
+			// render template!
+			var $prop = $(propTmpl(config)).data('track', _.first(propertyTrack));
+
+			/* same routine for subelements ("property groups") like e.g. x and y keys of position property */
 			if(config.type === 'group') {
 				var $subprops = $('<ul>').appendTo($prop);
 				_createProperties(config.content, $subprops, item, _.get(item, name), property);

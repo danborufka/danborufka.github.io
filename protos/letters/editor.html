@@ -102,12 +102,15 @@
 
 				case String:
 					if(allowedValues) { 
-						console.log('allowedValues', allowedValues, value, name);
 			%>
 				<select data-prop="<%= path %><%= name %>">
-					<% _.each(allowedValues, function(aValue) { %>
-						<option><%= aValue %></option>
-					<% }); %>
+					<% _.each(allowedValues, function(aValue) { 
+							if(aValue === value) { 						%>
+								<option selected><%= aValue %></option>
+					<%		} else { 									%>
+								<option><%= aValue %></option>
+					<%		}
+						}); %>
 				</select>
 			<%		} else { 
 			%>
