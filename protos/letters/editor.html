@@ -83,9 +83,22 @@
 			<a class="toggle"></a>
 		</label>
 		<ul class="main">
-			<li><label>Waiting for a selection …</label></li>
+			<li><label><input type="checkbox" class="flag_changer" id="flag_view_selection" data-flag="view.selection" checked> show selection</label></li>
 		</ul>
 	</div>
+
+	<template id="property-panel-empty-item">
+		<li>
+			<label>
+			<% if(checked) { %>
+				<input type="checkbox" class="flag_changer" id="flag_view_selection" data-flag="view.selection" checked>
+			<% } else { %>
+				<input type="checkbox" class="flag_changer" id="flag_view_selection" data-flag="view.selection">
+			<% } %>
+		 		show selection
+		 	</label>
+		</li>
+	</template>
 
 	<template id="property-panel-item">
 		<li class="prop <%= keyed.join(' ') %>">

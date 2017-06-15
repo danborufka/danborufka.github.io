@@ -6,6 +6,7 @@
 // o finish save statii
 // o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
+// o add arrow hotkeys to adapt positions
 // o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
 // o check layers vs. groups (reimport from Illu)
@@ -18,6 +19,11 @@ var events 			= {};
 var currentGame;
 
 var TIME_FACTOR 	= 10;
+var FLAGS 			= {
+	view: {
+		selection: true
+	}
+};
 
 var layerTemplate;
 var keyItemTemplate;
@@ -243,11 +249,13 @@ function _resetSelection() {
 		selectedElement.data.$layer.removeClass('open');
 	});
 	selection.clear();
-
 	_anchorViz.visible = false;
+
+	var emptyState = _.template(_.unescape($('#property-panel-empty-item')[0].content.children[0].outerHTML));
+
 	$('#properties')
 		.find('.type').text('').end()
-		.find('ul.main').html('<li><label>Waiting for a selection …</label></li>');
+		.find('ul.main').html(emptyState({ checked: FLAGS.view.selection }));
 }
 /* mapping all alerts to the console */
 function alert(msg) 	{
@@ -480,7 +488,9 @@ jQuery(function($){
 
 			_resetSelection();
 
-			event.item.fullySelected = selected;
+			if(FLAGS.view.selection) {
+				event.item.fullySelected = selected;
+			}
 
 			/* change all parent layer's selected state */
 			var $allParents = $layer.parentsUntil('.main').andSelf().filter('.layer').toggleClass('selected', selected);
@@ -685,7 +695,10 @@ jQuery(function($){
 				_createTracks();
 			}
 		})
-
+		.on('change', '.flag_changer', function(event) {
+			var $this = $(this);
+			_.set(FLAGS, $this.data('flag'), $this.is(':checked'));
+		})
 		/* interactivity of property inputs */
 		.on('change', '#properties :input', function() {
 			var hasSelection = _firstFromSet(selection);
