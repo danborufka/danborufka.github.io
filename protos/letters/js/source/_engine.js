@@ -275,6 +275,11 @@ Danimator.step = function danimatorStep(animatable, progress) {
 
 		_.set(animatable.item, animatable.property, newValue);
 
+		// if we're animating a state force update by reassigning to itself (setState being called again)
+		if(animatable.property.match(/^state\.?/g)) {
+			animatable.item.state = animatable.item.state;
+		}
+
 		/* force-updating canvas drawing */
 		paper.project.view.requestUpdate();
 	}
@@ -670,8 +675,15 @@ paper.Item.inject({
 			self.data._state[childname] = state;
 
 			var element = Danimator.sceneElement(self);
+			var parent;
 
-			return _.each(element['f' + self.frame].find(childname), function(child) {
+			if(self.frames === 1) {										// if we don't have several frames
+				parent = element;										// search the whole element
+			} else {
+				parent = element['f' + self.frame];						// otherwise narrow search down to current frame for better performance
+			}
+
+			return _.each(parent.find(childname), function(child) {
 						child.item.setState(state);						// and change their state
 					});
 		} else {

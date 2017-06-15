@@ -224,6 +224,7 @@ plotPointHeight:2,plotPointWidth:2,plotSeparator:!0,plotSeparatorColor:"black",p
 // TODOS:
 // o finish save statii
 // o #keyframes panel: making ani labels editable
+// o fix scroll of panels
 // o fix _states of subitems
 // o make everything undoable
 // ø load files properly on "bodyDrop"
@@ -464,7 +465,9 @@ function _resetSelection() {
 
 	currentGame.project.deselectAll();
 
-	$('#layers').find('.layer').removeClass('selected');
+	$('#layers')
+		.find('.layer').removeClass('selected').end()
+		.find('ul.main').scrollTop(0);
 
 	selection.forEach(function(selectedElement){
 		selectedElement.data.$layer.removeClass('open');
@@ -700,6 +703,7 @@ jQuery(function($){
 		/* layer-specific events */
 		.on('click', '.panel .layer', function(event) {
 			$(this).trigger($.Event('selected', {
+				handpicked: true,
 				item: Danimator.sceneElement(this).item
 			}));
 
@@ -719,9 +723,10 @@ jQuery(function($){
 			}
 
 			/* change all parent layer's selected state */
-			var $allParents = $layer.parentsUntil('.main').andSelf().filter('.layer').toggleClass('selected', selected);
+			var $layers = $('#layers ul.main');
+			var $allParents = $layer.parentsUntil($layers).andSelf().filter('.layer').toggleClass('selected', selected);
 
-			// ###TODO: scroll layers to pos
+			$layers.scrollTop( $layer[0].offsetTop - ($layers.height() - $layer.height()) / 2 );
 
 			/* if human interaction triggered event open all parent layers */
 			if(event.handpicked) {
@@ -841,11 +846,11 @@ jQuery(function($){
 					if(event.shiftKey) {
 						t = snapKeyframes.snap(t);
 					}
-
+					// allow sound scrubbing by playing tiny chunks of it while dragging
+					Danimator._activeSound.wave.play(t, t + .08);
+					
 					$currentTrack = $this;
 					Danimator.time = t;
-					// allow sound scrubbing by playing tiny chunks of it while dragging
-					Danimator._activeSound.wave.play(Danimator.time, Danimator.time + .08);
 				}
 		})
 		.on('mouseup', '.timeline .track', function(event) {
@@ -1077,7 +1082,6 @@ jQuery(function($){
 									currentGame.scene.item.off('frame', _updateTime);
 									Danimator._activeSound.wave.stop();
 									Danimator.time = 0;
-									setTimeout(function(){ Danimator.time = 0; }, 10);
 									_playing = false;
 								} else {
 									Danimator.time = now - lastTime;
