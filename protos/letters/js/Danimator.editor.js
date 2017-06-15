@@ -662,8 +662,8 @@ jQuery(function($){
 	var draggingVisibles;
 	var draggingMaster;
 	var playInterval;
-	var lastTime;
 	var lastOffset;
+	var lastTime = 0;
 
 	var $keyframesPanel = $('#keyframes');
 	var $propertiesPanel = $('#properties');
@@ -1046,36 +1046,37 @@ jQuery(function($){
 				switch(event.key) {
 					/* play/pause on spacebar */
 					case ' ':
-						_playing = !_playing;
-
-						if(_playing) {
-							lastTime = (new Date).getTime() + Danimator.time;
-						}
- 
 						var _updateTime = function(event) {
+							var now = (new Date).getTime() / 1000;
 							if(_playing) {
 								if(Danimator.time >= Danimator.maxDuration) {
-
 									currentGame.scene.item.off('frame', _updateTime);
-									Danimator._activeSound.wave.pause();
+									Danimator._activeSound.wave.stop();
 									Danimator.time = 0;
-									setTimeout(function(){ Danimator.time = 0; }, 10);
+									setTimeout(function(){ Danimator.time = 0; }, 1);
 									_playing = false;
 								} else {
-									Danimator.time += ((new Date).getTime() - lastTime) / 1000;
+									Danimator.time = now - lastTime;
 								}
 							} else {
 								currentGame.scene.item.off('frame', _updateTime);
+								Danimator._activeSound.wave.pause();
 							}
 						}
 
-						// attach/detach frame handler _updateTime
-						currentGame.scene.item[_playing ? 'on' : 'off']('frame', _updateTime);
-						// ### TODO: reintroduce playing of sound 
-						// Danimator._activeSound.wave[_playing ? 'stop' : 'play']();
+						if(!_playing) {
+							lastTime = (new Date).getTime() / 1000 - Danimator.time;
+							// attach frame handler _updateTime
+							currentGame.scene.item.on('frame', _updateTime);
+							Danimator._activeSound.wave.play();
+						} else {
+							// detach frame handler _updateTime
+							currentGame.scene.item.off('frame', _updateTime);
+						}
+
+						_playing = !_playing;
 
 						return false;
-						
 					/* zoomReset */
 					case '0':
 						if(event.ctrlKey || event.metaKey) {
