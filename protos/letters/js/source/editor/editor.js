@@ -1,6 +1,6 @@
 /* animation editor engine */
 // TODOS:
-// o fix states of subitems
+// o fix _states of subitems
 // o make everything undoable
 // ø load files properly on "bodyDrop"
 // o fix sounds on spacebar play/pause
@@ -591,6 +591,7 @@ jQuery(function($){
 				_timeScrubbing = true;
 				event.type = 'mousemove';
 				$(this).trigger(event).addClass('scrubbing');
+				Danimator._activeSound.wave.play(Danimator.time, Danimator.time + .08);
 				$keyframesPanel.removeClass('hasSelection');
 			}
 		})
@@ -608,6 +609,8 @@ jQuery(function($){
 
 					$currentTrack = $this;
 					Danimator.time = t;
+					// allow sound scrubbing by playing tiny chunks of it while dragging
+					Danimator._activeSound.wave.play(Danimator.time, Danimator.time + .08);
 				}
 		})
 		.on('mouseup', '.timeline .track', function(event) {
@@ -812,6 +815,7 @@ jQuery(function($){
 		})
 		/* all resets onMouseUp */
 		.on('mouseup', function() {
+			if(_timeScrubbing) Danimator._activeSound.wave.pause();
 			_timeScrubbing = false;
 			_frameDragging = false;
 			draggingVisibles = -1;
