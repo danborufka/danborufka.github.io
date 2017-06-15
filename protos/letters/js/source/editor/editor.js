@@ -3,7 +3,6 @@
 // o fix _states of subitems
 // o make everything undoable
 // ø load files properly on "bodyDrop"
-// o fix sounds on spacebar play/pause
 // o finish save statii
 // o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
