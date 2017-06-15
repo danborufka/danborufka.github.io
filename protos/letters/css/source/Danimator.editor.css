@@ -199,21 +199,28 @@ canvas[resize] {
       padding-left: 5px; }
   .panel li.audio {
     background-color: #444;
-    height: 40px; }
+    height: 40px;
+    transition: .3s all; }
     .panel li.audio wave {
       overflow: hidden !important;
       mix-blend-mode: hard-light; }
     .panel li.audio > label {
-      background-color: #000;
+      background-color: crimson;
       color: #fff;
       cursor: pointer;
       font-size: 80%;
       margin-top: 22px;
-      opacity: .5;
+      opacity: .8;
       padding: 2px 4px;
       position: absolute;
       right: 3px;
+      transition: .3s all;
       z-index: 2; }
+    .panel li.audio.muted {
+      opacity: .8; }
+      .panel li.audio.muted > label {
+        opacity: .6;
+        background-color: #000; }
 
 .ready .panel {
   display: block;

@@ -1,13 +1,12 @@
 /* animation editor engine */
 // TODOS:
+// o finish save statii
+// o #keyframes panel: making ani labels editable
 // o fix _states of subitems
 // o make everything undoable
 // ø load files properly on "bodyDrop"
-// o finish save statii
 // o #keyframes panel: fix prefilling of segment points and handles
-// o #keyframes panel: making ani labels editable
 // o add arrow hotkeys to adapt positions
-// o #properties panel: add states
 // o #keyframes panel: add record mode incl. button
 // o check layers vs. groups (reimport from Illu)
 // o saving of SVGs once properties have been changed
@@ -337,6 +336,11 @@ function Snappables(tolerance) {
 
 /* override animate method to add animations to animation stack for keyframes panel */
 Danimator.animate = function danimatorAnimate(item, property, fr, to, duration, options) {
+
+	/* experiment: get line number of Danimator invocation to replace inline
+	var _scriptInfo = (function() { try { throw Error('') } catch(err) { return err; } })();
+	console.log('stack', _scriptInfo.stack, _scriptInfo.stack.match(/^\s*at\s+([^\s]+)\:(\d+)\:(\d+)/m), _scriptInfo.stack.split("\n"));
+	*/
 
 	var ease 	  = (property === 'frame' ? null : 'cubicOut');
 	var startTime = (options && options.delay) || 0;
@@ -825,6 +829,10 @@ jQuery(function($){
 		.on('dblclick', '.panel .audio', function() {
 			$(this).data('wave').play();
 		})
+		.on('click', '.panel .audio label', function() {
+			var $audio = $(this).parent().toggleClass('muted');
+			$audio.data('wave').setVolume($audio.is('.muted') ? 0 : 100);
+		})
 		/* all resets onMouseUp */
 		.on('mouseup', function() {
 			if(_timeScrubbing) Danimator._activeSound.wave.pause();
@@ -847,7 +855,7 @@ jQuery(function($){
 									currentGame.scene.item.off('frame', _updateTime);
 									Danimator._activeSound.wave.stop();
 									Danimator.time = 0;
-									setTimeout(function(){ Danimator.time = 0; }, 1);
+									setTimeout(function(){ Danimator.time = 0; }, 10);
 									_playing = false;
 								} else {
 									Danimator.time = now - lastTime;

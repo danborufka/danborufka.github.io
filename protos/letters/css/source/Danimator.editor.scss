@@ -279,21 +279,29 @@ canvas[resize] 			{
 	li.audio 			{		
 							background-color: 		#444;
 							height: 				40px;
+							transition: 			.3s all;
 		wave 			{		
 							overflow: 				hidden!important;
 							mix-blend-mode: 		hard-light;
 		}
-		> label {
-			background-color: 		#000;
-			color: 					#fff;
-			cursor: 				pointer;
-			font-size: 				80%;
-			margin-top: 			22px;
-			opacity: 				.5;
-			padding: 				2px 4px;
-			position: 				absolute;
-			right: 					3px;
-			z-index: 				2;
+		> label 		{
+							background-color: 		crimson;
+							color: 					#fff;
+							cursor: 				pointer;
+							font-size: 				80%;
+							margin-top: 			22px;
+							opacity: 				.8;
+							padding: 				2px 4px;
+							position: 				absolute;
+							right: 					3px;
+							transition: 			.3s all;
+							z-index: 				2;
+		}
+		&.muted 		{	opacity: 				.8;
+			> label 	{
+							opacity: 				.6;
+							background-color: 		#000;
+			}
 		}
 	}
 }
