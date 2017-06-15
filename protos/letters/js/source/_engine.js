@@ -554,8 +554,6 @@ var _createDanimatorScene = function(parent) {
 			if(originalName[0] === '#') {
 				if(!parent.data._states) parent.data._states = {};
 
-				console.log('parent', parent.name, 'parent.data._states', parent.data._states);
-
 				originalName = originalName.slice(1);
 				parent.data._states[originalName] = child;
 

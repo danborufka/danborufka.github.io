@@ -1,8 +1,9 @@
 /* animation editor engine */
 // TODOS:
+// o fix states of subitems
 // o make everything undoable
 // ø load files properly on "bodyDrop"
-// o fix spacebar play/pause (sounds interfering)
+// o fix sounds on spacebar play/pause
 // o finish save statii
 // o #keyframes panel: fix prefilling of segment points and handles
 // o #keyframes panel: making ani labels editable
@@ -817,6 +818,7 @@ jQuery(function($){
 			delete draggingMaster;
 			$animationValue.text('');
 		})
+		/* keyup for "trigger" hotkeys, keypress for continuous hotkeys */
 		.on('keyup', function(event) {
 			if(!$(event.target).is(':input,[contenteditable]')) {
 				switch(event.key) {
@@ -851,6 +853,37 @@ jQuery(function($){
 						// Danimator._activeSound.wave[_playing ? 'stop' : 'play']();
 
 						return false;
+					/* zoomReset */
+					case '0':
+						if(event.ctrlKey || event.metaKey) {
+							currentGame.project.view.zoom = 1.5;
+							_anchorViz.scale(1);
+							return false;
+						}
+						break;
+					case 'o':
+						if(selection.size) {
+							$('#properties input[data-prop=opacity]').focus()[0].select();
+						}
+						break;
+					case 'r':
+						if(selection.size) {
+							$('#properties input[data-prop=rotation]').focus()[0].select();
+						}
+						break;
+					case 's':
+						if(event.ctrlKey || event.metaKey) {
+							currentGame.saveAll(event.shiftKey);
+							event.preventDefault();
+							event.stopImmediatePropagation();
+						}
+						break;
+				}
+			}
+		})
+		.on('keypress', function(event) {
+			if(!$(event.target).is(':input,[contenteditable]')) {
+				switch(event.key) {
 					/* prevFrame */
 					case ',':
 						Danimator.time = Danimator.limit(Danimator.time - 1/12, 0, Danimator.maxDuration);
@@ -877,39 +910,16 @@ jQuery(function($){
 						currentGame.project.view.zoom -= .1;
 						_anchorViz.scale(1.1);
 						return false;
-					/* zoomReset */
-					case '0':
-						if(event.ctrlKey || event.metaKey) {
-							currentGame.project.view.zoom = 1.5;
-							_anchorViz.scale(1);
-							return false;
-						}
-						break;
-					case 'o':
-						if(selection.size) {
-							$('#properties input[data-prop=opacity]').focus()[0].select();
-						}
-						break;
-					case 'r':
-						if(selection.size) {
-							$('#properties input[data-prop=rotation]').focus()[0].select();
-						}
-						break;
+					/* undo */
 					case 'z':
 						if(event.ctrlKey || event.metaKey) {
 							history.back();
 						}
 						break;
+					/* redo */
 					case 'y':
 						if(event.ctrlKey || event.metaKey) {
 							history.forward();
-						}
-						break;
-					case 's':
-						if(event.ctrlKey || event.metaKey) {
-							currentGame.saveAll(event.shiftKey);
-							event.preventDefault();
-							event.stopImmediatePropagation();
 						}
 						break;
 				}
@@ -1344,9 +1354,6 @@ function _createAudio() {
 
 		sound.duration = 0;
 		sound.wave = wave;
-		//sound.options = options;
-
-		console.log('sound', sound);
 
 		wave.load('audio/' + name);
 		$sound.data('wave', wave);
