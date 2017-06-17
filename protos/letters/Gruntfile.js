@@ -4,13 +4,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     sass: {
-        editor: {
+        game: {
             src: 'css/source/game.scss',
             dest: 'css/game.css'
         }
     },
     cssmin: {
-        editor: {
+        game: {
             src: 'css/game.css',
             dest:'css/game.min.css'
         }
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
             mangle: true,
             sourceMap: true
         },
-        target: {
+        game: {
             files: {
                 'js/game.min.js': ['js/game.js']
             }
