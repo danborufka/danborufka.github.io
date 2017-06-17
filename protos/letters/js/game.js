@@ -74,13 +74,13 @@ Game = function(project, name, options, onLoad) {
 			if(files.svg) {
 				project.clear();
 				project.view.update();
-				project.importSVG(files.svg.content || files.svg.path, {
+				Danimator.import(files.svg.content || files.svg.path, {
 					expandShapes: 	true,
 					onLoad: 		function() {
 										files.svg.loaded = true;
 
 										self.scene = this;
-										self.container 	= this.item;
+										self.container = this.item;
 
 										(_resize = function(event) {
 											var screenCenter = new paper.Point(event.size).multiply(0.5);
