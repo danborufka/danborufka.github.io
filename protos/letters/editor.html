@@ -58,16 +58,18 @@
 									activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
 									activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
 							%>
-								<div class="range" rel="prev" style="left:<%= _.get(lastKey, 'options.delay', 0) * TIME_FACTOR + _.get(lastKey, 'duration', 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, type) %>;"></div>
+								<% if(key === 0 || _getEndTime(lastKey) !== _getStartTime(keyframe)) { %>
+									<div class="range" rel="prev/<%= keyframe.id%>" style="left:<%= (_getEndTime(lastKey) || 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, type) %>;"></div>
+									<div class="keyframe<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px;"></div>
+								<% } %>
+									<div class="range" rel="tween/<%= keyframe.id%>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, type) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
 
-								<div class="keyframe<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= keyframe.options.delay * TIME_FACTOR %>px;"></div>
-								<div class="range" rel="tween" style="left:<%= keyframe.options.delay * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, type) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
 								<% if(keyframe.duration > 0) { %>
-									<div class="keyframe<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= (keyframe.options.delay + keyframe.duration) * TIME_FACTOR %>px;"></div>
+									<div class="keyframe<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= _getEndTime(keyframe) * TIME_FACTOR %>px;"></div>
 								<% } %>
 							<% }); %>
 
-							<div class="range" rel="last" style="left:<%= (lastRange.options.delay + lastRange.duration) * TIME_FACTOR %>px; right: 0; <%= _getEndStyle(property, lastRange, type) %>;"></div>
+							<div class="range" rel="last" style="left:<%= _getEndTime(lastRange) * TIME_FACTOR %>px; right: 0; <%= _getEndStyle(property, lastRange, type) %>;"></div>
 							<div class="scrubber" style="left:<%= currentGame.time * TIME_FACTOR %>px"></div>
 							<label class="time" style="left:<%= maxDuration * TIME_FACTOR %>px"><%= maxDuration %></label>
 						</div>
@@ -170,10 +172,10 @@
 	<script src="js/libs/jquery-1.11.3.min.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/libs/lodash.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/libs/paper-full.min.js"></script>
-	<script src="http://localhost:8888/danimator/src/engine/libs/howler.core.min.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/libs/easing.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/engine.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/geometrics.js"></script>
+	<script src="http://localhost:8888/danimator/dist/js/Danimator.audio.min.js"></script>
 	<!-- <script src="http://localhost:8888/danimator/dist/js/Danimator.min.js"></script> -->
 	<script src="js/game.js"></script>
 
@@ -189,7 +191,7 @@
 	<script src="http://localhost:8888/danimator/src/editor/editor.js" type="text/javascript"></script>
 	<!-- <script src="http://localhost:8888/danimator/dist/js/Danimator.editor.min.js"></script> -->
 
-	<!-- <script src="games/strokes/strokes.js" type="text/javascript"></script> -->
-	<!-- <script src="games/strokes/levels/tuby.js" type="text/paperscript" canvas="mainCanvas"></script> -->
-	<script src="games/bearBriefing.js" type="text/paperscript" canvas="mainCanvas"></script>
+	<script src="games/strokes/strokes.js" type="text/javascript"></script>
+	<script src="games/strokes/levels/purrly.js" type="text/paperscript" canvas="mainCanvas"></script>
+	<!-- <script src="games/bearBriefing.js" type="text/paperscript" canvas="mainCanvas"></script> -->
 </body>

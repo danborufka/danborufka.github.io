@@ -469,14 +469,14 @@
 			C144.9,263.4,139.9,268.3,133.8,268.3z"/>
 		<text transform="matrix(1 0 0 1 79.3685 249.328)" class="st19 st20">[ r ]</text>
 	</g>
-	<g id="explainer" class="st21">
+	<g id="explainer" class="st21" style="opacity:0;">
 		<g id="label">
 			<text transform="matrix(1 0 0 1 98.3137 188.2498)" class="st22 st19 st23">  start stroking here</text>
 		</g>
 		<path id="explainerStroke" class="st24" d="M96.4,157.2c31.7-18.6,71.5-25.5,62.6-71.7c-6-39.5-55.1-61.8-88-67.3
 			c-63.5-13.7-52,42-50.9,86.3c1.3,53.9,1.8,81-0.1,130.4"/>
 		<circle id="end" class="st25" cx="19.6" cy="234.9" r="11.9"/>
-		<circle id="start" class="st22" cx="96.4" cy="157.2" r="11.9"/>
+		<circle id="start" class="st22" cx="96.4" cy="157.2" r="11.9" style="opacity:1"/>
 	</g>
 	<circle id="status" class="st26" cx="105.9" cy="237.7" r="11.9"/>
 </g>
