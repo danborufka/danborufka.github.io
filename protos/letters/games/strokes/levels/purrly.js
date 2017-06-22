@@ -65,8 +65,8 @@ var purrlyGame = new strokeGame(project,
 		path.growth = 0;
 
 		/* animate short explainer */
-		Danimator.fadeIn(UI.item, .3, { from: 0, delay: 1.5 });
-		Danimator.fadeIn(end, .3, { from: 0, delay: 2.5 });
+		Danimator.fadeIn(UI.item, 	.3, { from: 0, delay: 1.5 });
+		Danimator.fadeIn(end, 		.3, { from: 0, delay: 2.5 });
 
 		Danimator(path, 'growth', 0, 1, 3, {
 			onStep: 	function(step) {
@@ -75,21 +75,25 @@ var purrlyGame = new strokeGame(project,
 						},
 			delay: 		2.5
 		})
-		.then('animate', path, 'strokeColor.hue', null, endColor, 2, {
+		.then('animate', path, 'growth', 1, 0, 4)
+		.then('fadeOut', UI.item, 1, { 
+			delay: 		1.5
+		});
+
+		Danimator(path, 'strokeColor.hue', null, endColor, 2, {
+			delay: 		2.5,
 			onStep: 	function(step) { 
 							end.fillColor = path.strokeColor;
 							return step; 
 						}
-		})
-		.then('fadeOut', start, .6, {
+		});
+
+		Danimator.fadeOut(start, .6, {
 			onStep: 	function(step) {
 							//label.opacity = step;
 							return step;
 						},
-			delay: 		.5
-		})
-		.then('fadeOut', UI.item, 1, { 
-			delay: 		1.5
+			delay: 		3
 		});
 
 		/* show progress color onMouseDrag */
