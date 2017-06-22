@@ -20,7 +20,9 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 					}
 		});
 
-		Danimator(bear, 'state.snout', 'normal', 'a', 4);
+		Danimator(bear, 'state.snout', 'normal', 'o', .2);
+		//.then('animate', bear, 'state.snout', 'o', 'normal', .4)
+		//.then('animate', bear, 'state.snout', 'normal', 'i', .6)
 
 		$(document).on('keyup', function(event) {
 			switch(event.key) {
