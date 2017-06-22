@@ -75,7 +75,6 @@ var purrlyGame = new strokeGame(project,
 						},
 			delay: 		2.5
 		})
-		.then('animate', path, 'growth', 1, 0, 4)
 		.then('fadeOut', UI.item, 1, { 
 			delay: 		1.5
 		});
