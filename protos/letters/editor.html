@@ -90,8 +90,8 @@
 				<% _.each(ranges, function(keyframe, key) { 
 						lastRange 	= _.last(ranges);
 						lastKey   	= ranges[key-1];
-						activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
-						activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
+						activeFirst = _getStartTime(keyframe) == Danimator.time ? ' active' : '';
+						activeLast  = _getEndTime(keyframe)   == Danimator.time ? ' active' : '';
 				%>
 					<% if(key === 0 || _getEndTime(lastKey) !== _getStartTime(keyframe)) { %>
 						<div class="range prev" rel="prev/<%= keyframe.id%>" style="left:<%= (_getEndTime(lastKey) || 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, track.item.className) %>;"></div>
