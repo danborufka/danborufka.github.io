@@ -73,7 +73,7 @@
 			<a class="toggleGroup icon fa fa-caret-down"></a>
 			<ul>
 				<% _.each(properties, function(ranges, property) { %>
-					<%= _getTimeline(ranges, property, track) %>
+					<%= _getTimeline(property, track) %>
 				<% }); %>
 				<% 
 					/* ###TODO: move to JS */
