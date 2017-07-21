@@ -8,7 +8,7 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 
 		Danimator.sound('bearinger-good-day');
 
-		/* animate agent Bearinger */
+		/* animate agent Bearinger 
 		if(false)
 		Danimator.play(bear,  {	
 			fps: 	Danimator.interactive ? 1 : 6,
@@ -50,7 +50,11 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 			.then('animate', bear, 'state.snout', 'normal', 'i', .1)
 			.then('animate', bear, 'state.snout', 'i', 'normal', .2);
 
+		*/
 		Danimator(bear, 'frame', 1, 4, .4, { delay: .6 })
+
+
+		//Danimator.load('games/anis/bearBriefing');
 
 		$(document).on('keyup', function(event) {
 			switch(event.key) {

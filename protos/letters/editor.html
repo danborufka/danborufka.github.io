@@ -95,12 +95,12 @@
 				%>
 					<% if(key === 0 || _getEndTime(lastKey) !== _getStartTime(keyframe)) { %>
 						<div class="range prev" rel="prev/<%= keyframe.id%>" style="left:<%= (_getEndTime(lastKey) || 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, track.item.className) %>;"></div>
-						<div class="keyframe<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px;"></div>
+						<div class="keyframe fresh<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px;"></div>
 					<% } %>
 						<div class="range tween" rel="tween/<%= keyframe.id%>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, track.item.className) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
 
 					<% if(keyframe.duration > 0) { %>
-						<div class="keyframe<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= _getEndTime(keyframe) * TIME_FACTOR %>px;"></div>
+						<div class="keyframe fresh<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= _getEndTime(keyframe) * TIME_FACTOR %>px;"></div>
 					<% } %>
 				<% }); %>
 
@@ -209,7 +209,7 @@
 	<script src="http://localhost:8888/danimator/src/editor/editor.js"></script>
 	<!-- <script src="http://localhost:8888/danimator/dist/js/Danimator.editor.min.js"></script> -->
 
-	<!-- <script src="games/strokes/strokes.js" type="text/javascript"></script> -->
-	<!-- <script src="games/strokes/levels/purrly.js" type="text/paperscript" canvas="mainCanvas"></script> -->
+	<!-- <script src="games/strokes/strokes.js" type="text/javascript"></script>
+	<script src="games/strokes/levels/purrly.js" type="text/paperscript" canvas="mainCanvas"></script> -->
 	<script src="games/bearBriefing.js" type="text/paperscript" canvas="mainCanvas"></script>
 </body>
