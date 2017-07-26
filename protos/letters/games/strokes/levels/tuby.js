@@ -48,9 +48,11 @@ var tubyGame = new strokeGame(project,
 	}, 
 	function onGameStart(scene, container, game) {
 
+		console.log('he we are?', container, game, scene.find('hamster_front'));
 		var hamster_front = scene.find('hamster_front')[0].item;
 
 		button 	= scene.find('button-top')[0].item;
+
 
 		door 	= scene.find('door_1_')[0].item;			// clipping items have automatic renaming, thus door_1_ instead of "door"
 		hamster = scene.find('hamster')[0].item;
@@ -202,7 +204,6 @@ var tubyGame = new strokeGame(project,
 			}
 		};
 
-
 		var steps = [ 	container.getItem({ name: 'open-button' }), 
 						container.getItem({ name: 'pipes_and_stuff' })
 					];
@@ -226,6 +227,7 @@ var tubyGame = new strokeGame(project,
 			setTimeout(function(){ Danimator.sound('letters/kha'); }, 500);
 			setTimeout(function(){ location.reload(); }, 2500);
 		}
+
 	}
 );
 
