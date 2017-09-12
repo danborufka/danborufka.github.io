@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 </head>
 <body>
-	<div class="panel" id="layers">
+	<div class="panel" id="layers-panel">
 		<label>
 			<span class="title">Layers</span>
 			<a class="toggle"></a>
@@ -16,7 +16,7 @@
 		</ul>
 	</div>
 
-	<template id="layer-panel-item">
+	<template id="layers-panel-item">
 		<li class="layer<% if(hidden) { %> hidden<% } %>" id="layer-<%= id %>">
 			<a class="visible fa"></a>
 			<span class="name" title="(id #<%= id %>)"><%= name %></span>
@@ -24,7 +24,7 @@
 		</li>
 	</template>
 
-	<div class="panel" id="keyframes">
+	<div class="panel" id="animations-panel">
 		<label>
 			<span class="title">Animations</span>
 			<a class="toggle"></a>
@@ -36,50 +36,57 @@
 				<output></output>
 			</li>
 		</ul>
-		<ul class="main">
+		<ul class="main waiting">
 			<li class="timeline">
 				<p>Waiting for animations …</p>
 			</li>
 		</ul>
 	</div>
 
-	<template id="keyframe-panel-item">
-		<li class="item open">
-			<span class="name"><%= name %></span>
+	<template id="animations-panel-item">
+		<li id="animations-panel-item-<%= track.item.id %>" class="item open">
+			<span class="name"><%= track.item.name %></span>
 			<a class="toggleGroup icon fa fa-caret-down"></a>
 			<ul>
-				<% _.each(properties, function(ranges, property) { %>
-					<li class="timeline" data-property="<%= property %>">
-						<label><%= property %></label>
-						<div class="track">
-							<% _.each(ranges, function(keyframe, key) { 
-									lastRange 	= _.last(ranges);
-									lastKey   	= ranges[key-1];
-									activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
-									activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
-							%>
-								<% if(key === 0 || _getEndTime(lastKey) !== _getStartTime(keyframe)) { %>
-									<div class="range prev" rel="prev/<%= keyframe.id%>" style="left:<%= (_getEndTime(lastKey) || 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, type) %>;"></div>
-									<div class="keyframe<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px;"></div>
-								<% } %>
-									<div class="range tween" rel="tween/<%= keyframe.id%>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, type) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
-
-								<% if(keyframe.duration > 0) { %>
-									<div class="keyframe<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= _getEndTime(keyframe) * TIME_FACTOR %>px;"></div>
-								<% } %>
-							<% }); %>
-
-							<div class="range last" rel="last" style="left:<%= _getEndTime(lastRange) * TIME_FACTOR %>px; right: 0; <%= _getEndStyle(property, lastRange, type) %>;"></div>
-							<div class="scrubber" style="left:<%= currentGame.time * TIME_FACTOR %>px"></div>
-							<label class="time" style="left:<%= maxDuration * TIME_FACTOR %>px"><%= maxDuration %></label>
-						</div>
-					</li>
-				<% }); %>
+				<%  _.each(properties, function(ranges, property) { %>
+						<%= _getTimeline(property, track) %>
+				<%	}); %>
 			</ul>
 		</li>
 	</template>
 
-	<div class="panel" id="properties">
+	<template id="animations-panel-item-timeline">
+		<li id="animations-panel-item-<%= track.item.id %>-<%= slug(property) %>" class="timeline" data-property="<%= property %>">
+			<label><%= property %></label>
+			<div class="track">
+				<% _.each(ranges, function(keyframe, key) { 
+						lastRange 	= _.last(ranges);
+						lastKey   	= ranges[key-1];
+						activeFirst = _getStartTime(keyframe) == currentGame.time ? ' active' : '';
+						activeLast  = _getEndTime(keyframe)   == currentGame.time ? ' active' : '';
+				%>
+					<% if(key === 0 || _getEndTime(lastKey) !== _getStartTime(keyframe)) { %>
+						<div class="range prev" rel="prev/<%= keyframe.id%>" style="left:<%= (_getEndTime(lastKey) || 0) * TIME_FACTOR %>px; width:<%= (keyframe.options.delay - _.get(lastKey, 'duration', 0) - _.get(lastKey, 'options.delay', 0)) * TIME_FACTOR %>px; <%= _getStartStyle(property, ranges, key, type) %>;"></div>
+						<div class="keyframe fresh<%= getTrigger(keyframe) %><%= activeFirst %>" data-time="<%= _getStartTime(keyframe) %>" title="<%= keyframe.from || _.get(lastKey, 'to', keyframe.initValue) %>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px;"></div>
+					<% } %>
+						<div class="range tween" rel="tween/<%= keyframe.id%>" style="left:<%= _getStartTime(keyframe) * TIME_FACTOR %>px; width:<%= keyframe.duration * TIME_FACTOR %>px; <%= _getRangeStyle(property, ranges, key, type) %>" title="<%= keyframe.name %> triggered by <%= keyframe.caller %>"></div>
+
+					<% if(keyframe.duration > 0) { %>
+						<div class="keyframe fresh<%= getTrigger(keyframe) %><%= activeLast %>" data-time="<%= _getEndTime(keyframe) %>" title="<%= keyframe.to %>" style="left:<%= _getEndTime(keyframe) * TIME_FACTOR %>px;"></div>
+					<% } %>
+		<% if(false) { %>
+		<% } %>
+				<% }); %>
+
+				<div class="range last" rel="last" style="left:<%= _getEndTime(lastRange) * TIME_FACTOR %>px; right: 0; <%= _getEndStyle(property, lastRange, type) %>;"></div>
+		<% if(false) { %>
+		<% } %>
+				<div class="scrubber" style="left:<%= currentGame.time * TIME_FACTOR %>px"></div>
+			</div>
+		</li>
+	</template>
+
+	<div class="panel" id="properties-panel">
 		<label>
 			<span class="title">Properties</span><span class="type"></span>
 			<a class="toggle"></a>
@@ -89,7 +96,7 @@
 		</ul>
 	</div>
 
-	<template id="property-panel-empty-item">
+	<template id="properties-panel-empty-item">
 		<li>
 			<label>
 			<% if(checked) { %>
@@ -102,7 +109,7 @@
 		</li>
 	</template>
 
-	<template id="property-panel-item">
+	<template id="properties-panel-item">
 		<li class="prop <%= keyed.join(' ') %>">
 			<label><%= name %>
 				<% if(name.match(/color$/gi)) { %>
@@ -147,7 +154,7 @@
 		</li>
 	</template>
 
-	<div class="panel" id="audio">
+	<div class="panel" id="audio-panel">
 		<label>
 			<span class="title">Audio</span>
 			<a class="toggle"></a>
@@ -171,7 +178,7 @@
 	
 	<script src="js/libs/jquery-1.11.3.min.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/libs/lodash.js"></script>
-	<script src="http://localhost:8888/danimator/src/engine/libs/paper-full.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.4/paper-full.min.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/libs/easing.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/_engine.js"></script>
 	<script src="http://localhost:8888/danimator/src/engine/effectors.js"></script>

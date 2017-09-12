@@ -133,11 +133,11 @@ function strokeGame(project, level, options, onLoad) {
 			}
 		};
 		_reset(self);
-
 		if(onLoad) onLoad(scene, container, self);
 	}
 	options.type = 'strokes';
 	options.completionTolerance = (options.completionTolerance || .97);
+
 
 	var self = Game.call(this, project, options.letter, options, strokeLoader);
 	return self;

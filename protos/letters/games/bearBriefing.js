@@ -20,6 +20,7 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 					}
 		});
 
+		/*
 		Danimator(bear, 'state.snout', 'normal', 'o', .15)
 			.then('animate', bear, 'state.snout', 'o', 'normal', .1)
 			.then('animate', bear, 'state.snout', 'normal', 'i', .2)
@@ -49,6 +50,8 @@ var bearBriefing = new Game(project, 'bearBriefing', { type: 'anis' },
 			.then('animate', bear, 'state.snout', 'a', 'normal', .2)
 			.then('animate', bear, 'state.snout', 'normal', 'i', .1)
 			.then('animate', bear, 'state.snout', 'i', 'normal', .2);
+
+			*/
 
 		Danimator(bear, 'frame', 1, 4, .4, { delay: .6 })
 

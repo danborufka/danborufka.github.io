@@ -31,7 +31,7 @@ function _changeState(offset, game) {
 
 			// reset the old ones
 			if(lastStateOffset >= 0) {
-				var last = parseInt(lastStateOffset) + i;
+				var last = Danimator.limit( parseInt(lastStateOffset) + i, 0, states.length-1);
 				setTimeout(function(){
 					states[last].item.definition = game.scene.symbols['fur-flat'];
 				}, 200);
@@ -101,13 +101,17 @@ var purrlyGame = new strokeGame(project,
 				scene.UI.status.item.fillColor.hue = start.fillColor.hue;
 				Danimator.fadeIn(scene.UI.status.item, .3, { from: 0 });
 			}
-			Danimator.stopAll(UI.item);
-	    	Danimator.fadeOut(UI.item, .3);
+			if(UI.item.opacity) {
+				Danimator
+					.stopAll(UI.item)
+					.fadeOut(UI.item, .3);
+			}
 		}
 		container.onMouseUp = function onContainerMouseUp() {
 			if(_.has(scene.UI, 'status')) {
-				Danimator.stopAll(scene.UI.status.item);
-				Danimator.fadeOut(scene.UI.status.item, .3);
+				Danimator
+					.stopAll(scene.UI.status.item)
+					.fadeOut(scene.UI.status.item, .3);
 			}
 		}
 
