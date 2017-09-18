@@ -1,22 +1,28 @@
 <head>
 	<title>Letter test</title>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<style type="text/css">
 		body {
 			padding: 20%;
+			padding-top: 100px;
 		}
 		b {
 			background-color: orange;
+			cursor: pointer;
 			padding: 0 5px;
 			border-radius: 3px;
 			font-family:sans-serif;
 		}
 		#percent {
+			cursor: ew-resize;
 			width: 100%;
 		}
 	</style>
 </head>
 <body>
+	<small>Translation density:</small>
 	<input type="range" id="percent" min="0" max="100" value="0">
 	<br>
 	<p contenteditable>
@@ -104,19 +110,16 @@ His arms—the arms she had so admired earlier—reached out and closed around h
 						var replacements = replaced.replace('#','_').replace(regex, '#').split('#').length;
 						var i = 0;
 
-
 						if(parseInt(factor * replacements)) {
-
 							replaced = replaced.replace(regex, function(term) {
 								var ret = _.get(data, term.toLowerCase(), term);
-
 								i++;
 
 								if(i % parseInt(1/factor) === 0) {
 									if(term[0].toUpperCase() === term[0]) {
 										ret = ret[0].toUpperCase() + ret.slice(1);
 									}
-									return '<b title="' + term + '">' + ret + '</b>';
+									return '<b data-toggle="tooltip" title="' + term + '">' + ret + '</b>';
 								}
 								return term;
 							});
@@ -125,7 +128,10 @@ His arms—the arms she had so admired earlier—reached out and closed around h
 					return replaced;
 				}
 
-				$('#percent').on('input', () => $('p').html(calc()));
+				$('#percent').on('input', () => {
+					$('p').html(calc());
+					$('[data-toggle=tooltip]').tooltip();
+				});
 				$('p').on('input', () => {
 					sample = $('p').text();
 					$('#percent').trigger('input');
@@ -137,4 +143,5 @@ His arms—the arms she had so admired earlier—reached out and closed around h
 			});
 		});
 	</script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
