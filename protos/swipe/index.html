@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Swipe game: learn to distinguish verbs from adjectives</title>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+		<link href="fonts/stylesheet.css" rel="stylesheet">
+		<style type="text/css">
+			html,
+			body {
+				font-family: 'Varela Round', sans-serif;
+			    margin: 0;
+			    overflow: hidden;
+			    height: 100%;
+			}
+
+			body {
+				background: #f6d6a4;
+			}
+
+			canvas[resize] {
+				width: 	100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mainCanvas" resize></canvas>
+		<script src="js/libs/jquery-1.11.3.min.js"></script>
+		<script src="js/libs/jquery.detectswipe.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.3/howler.core.min.js"></script>
+
+		<script src="js/libs/paper-full.min.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.4/paper-full.js"></script> -->
+
+		<script src="/cdn/danimator/Danimator.min.js"></script>
+		<script src="/cdn/danimator/Danimator.audio.min.js"></script>
+
+		<script type="text/paperscript" canvas="mainCanvas">
+			jQuery(function($) {
+				$.detectSwipe.threshold = 20;
+
+				var words;
+				var ready = false;
+
+				var sounds = {
+					success: 	new Howl({ src: ['audio/success-chime.wav'] }),
+					fail: 		new Howl({ src: ['audio/fail-beeps.wav'] })
+				};
+
+				var stem;
+				var translation;
+				var ptsLbl;
+
+				var _viz;
+				var _repositionees = [];
+
+				$.get('js/es-freq1k.json', function(result, status) {
+					if(status === 'success') {
+						//words = result;
+						var wordsOfInterest = _.pickBy(result, function(word, name) {
+							word.name = name;
+							return ['adjective','verb'].indexOf(word.type) > -1;
+						});
+						words = _.sampleSize(wordsOfInterest, _.size(wordsOfInterest));
+					}
+				});
+
+
+				Item.inject({
+					getViewPosition: function() {
+						return this.data._viewPosition;
+					},
+					setViewPosition: function(pos) {
+						if(pos) {
+							if(typeof pos.x === 'string') {
+								pos.x = parseInt(pos.x)/100;
+							}
+							if(typeof pos.y === 'string') {
+								pos.y = parseInt(pos.y)/100;
+							}
+
+							this.data._viewPosition = pos;
+
+							var offset = pos.offset || { 
+								x: _.defaultTo(pos.offsetX, 0), 
+								y: _.defaultTo(pos.offsetY, 0) 
+							};
+
+							this.position = view.bounds.size.multiply(this.data._viewPosition).add(offset);
+							this.data._point = this.position;
+
+							if(_repositionees.indexOf(this) === -1) {
+								_repositionees.push(this);
+							}
+
+							this.reposition && this.reposition();
+						}
+					}
+				});
+
+				var originals = {
+					setContent: 	TextItem.prototype.setContent,
+					setPoint: 		TextItem.prototype.setPoint,
+					setPosition: 	TextItem.prototype.setPosition,
+				};
+
+				TextItem.inject({
+					getAlign: function() {
+						return this.data._align;
+					},
+					setAlign: function(align) {
+						this.data._align = align;
+						this.reposition();
+					},
+					getValign: function() {
+						return this.data._valign;
+					},
+					setValign: function(valign) {
+						this.data._valign = valign;
+						this.reposition();
+					},
+					setContent: function(content) {
+						originals.setContent.apply(this, arguments);
+						//this.resize();
+						this.reposition();
+						this.viewPosition = this.viewPosition;
+					},
+					setPosition: function(pos) {
+						this.data._point = pos;
+						originals.setPosition.apply(this, arguments);
+					},
+					setPoint: function() {
+						this.setPosition.apply(this, arguments);
+					},
+					reposition: function() {
+						var hfactor = 0;
+						var vfactor = 0;
+
+						switch(this.data._align) {
+							case 'right':
+								hfactor = -.5;
+								break;
+							case 'left':
+								hfactor = .5;
+								break;
+						}
+
+						switch(this.data._valign) {
+							case 'bottom':
+								vfactor = 1;
+								break;
+							case 'top':
+								vfactor = .5;
+								break;
+						}
+
+						if(!this.data._point) {
+							this.data._point = this.position;
+						}
+
+						this.position.x = this.data._point.x + this.bounds.width * hfactor;
+						this.position.y = this.data._point.y + this.fontSize * vfactor;
+					}
+				});
+
+				onResize = function() {
+					_.each(_repositionees, function(_repositionee) {
+						_repositionee.viewPosition = _repositionee.viewPosition;
+					});
+				}
+
+				PaddedText = Base.extend({
+					initialize: function PaddedText(config) {
+						this._padding = config.padding || 4; 
+						this._point = config.point;
+
+						var _labelConfig = _.extend({
+							name:  	'label',
+							fillColor: config.color,
+							fontSize: 16,
+							position: config.point
+						}, config);
+						var label 	= new PointText(_labelConfig);
+
+						var _bgConfig = _.extend({
+							name: 			'bg',
+							radius: 		3,
+							fillColor: 		config.bgColor,
+							rectangle: 		label.bounds
+						}, config);
+						var bg 		= new Shape.Rectangle(_bgConfig);
+
+						this.item 	= new Group([bg, label]);
+
+						this.label = label;
+						this.bg = bg;
+						
+						this.align  = config.align || 'left';
+						this.valign = config.valign || 'top';
+
+						this.item.data._text = config.content;
+
+						this.resize();
+					},
+					resize: function() {
+						this.bg.bounds = this.label.bounds.expand(this._padding * 2, 0);
+						this.bg.bounds.top--;	// optical hack
+						this.item.position = this.point;
+					}
+				}, {
+					beans: true,
+					getContent: function() {
+						return this.label.content;
+					},
+					setContent: function(text) {
+						this.label.content = text;
+						this.resize();
+					},
+					getBgColor: function() {
+						return this.bg.fillColor;
+					},
+					setBgColor: function(color) {
+						this.bg.fillColor = color;
+					},
+					getColor: function() {
+						return this.label.fillColor;
+					},
+					setColor: function(color) {
+						this.label.fillColor = color;
+					},
+					getOutline: function() {
+						return this.bg.strokeColor;
+					},
+					setOutline: function(color) {
+						this.bg.strokeColor = color;
+					},
+					getPadding: function() {
+						return this._padding;
+					},
+					setPadding: function(padd) {
+						this._padding = padd;
+						this.resize();
+					},
+					getPoint: function() {
+						return this._point;
+					},
+					setPoint: function(pos) {
+						this.item.translate(pos - this.point);
+						this._point = pos;
+					}
+				});
+
+				function flash(padtext, color, final) {
+					var bgColor = padtext.bgColor;
+					
+					Danimator.animate(padtext.bg, 	 'fillColor', color, final || bgColor, 	.6, { delay: .3 });
+					Danimator.animate(padtext.label, 'fillColor', 'white', 'black', 	 	.6, { delay: .3 });
+
+					padtext.bg.fillColor = color;
+					padtext.label.fillColor = 'white';
+				}
+
+				var padding = 20;
+
+				var colors = {
+					verb: 		'#16AE5A',
+					noun:  	'crimson',
+					adjective: 'orange'
+				};
+
+				Danimator.import('img/game-title.svg', function() {
+					this.item.fitBounds(view.bounds, view.bounds.width > 460);
+
+					var intro = this.item;
+
+					ptsLbl = new PointText({
+						name: 			'pointsLabel',
+						fillColor: 		'black',
+						fontSize: 		32,
+						content: 		'points: 0',
+						align: 			'right',
+						valign: 		'top',
+						opacity: 		0,
+						viewPosition: 	{ x: '100%', y: 0, offsetX: -padding, offsetY: padding }
+					});
+
+					stem = new PaddedText({
+						align: 		'center',
+						valign: 	'middle',
+						point: 		view.bounds.center,
+						content: 	'ready?',
+						bgColor: 	null,
+						color: 		'black',
+						fontFamily: 'Varela Round',
+						fontSize: 	48,
+						padding: 	10,
+						radius: 	6
+					});
+
+					translation = new PointText({
+						align: 		'center',
+						valign: 	'middle',
+						point: 		view.bounds.center,
+						viewPosition: { x: '50%', y: '50%' },
+						content: 	'[translation]',
+						fontFamily: 'Times',
+						fontSize: 	48,
+						opacity: 	0
+					});
+
+					stem.item.applyMatrix = false;
+					stem.item.opacity = 0;
+
+					function firstClick() {
+						ready = true;
+						onKeyUp({ key: 'space' });
+						
+						Danimator.fadeOut(intro, .3);
+						ptsLbl.opacity = 1;
+						stem.item.opacity = 1;
+
+						$(document)
+							.on('swipeleft', function() {
+								onKeyUp({ key: 'left' });
+							})
+							.on('swiperight', function() {
+								onKeyUp({ key: 'right' });
+							})
+							.off('click', firstClick);
+					}
+
+					$(document).on('click', firstClick);
+					Danimator.handlers.setCursor('pointer');
+				});
+
+				var _timeout;
+				var _points = 0;
+
+				var strikes = 0;
+				var strikeMax = 10;
+				var strike = 0;
+
+				var timing = 4000;
+
+				onKeyUp = function(event) {
+					if(ready) {
+						var input;
+						var sign;
+
+						switch(event.key) {
+							case 'left':
+								input = 'verb';
+								sign = '-';
+								break;
+							case 'right':
+								input = 'adjective';
+								sign = '+';
+								break;
+							case 'space':
+								_timeout = setTimeout(playRound, 2000);
+								break;
+						}
+
+						if(input) {
+							clearTimeout(_timeout);
+
+							translation.content = words[0].en;
+							Danimator.fadeIn(translation, .2);
+
+							if(words[0].type === input) {
+
+								sounds.success.play();
+
+								flash(stem, colors[input], 'white');
+								Danimator(stem.item, 'scaling', 1, 2, .3);
+								Danimator(stem.item, 'opacity', 1, 0, .3);
+								Danimator(stem.item, 'position.x', null, sign + '300', .3);
+
+								strike++;
+
+								strikes = parseInt(strike / strikeMax);
+
+								if(strikes > 0 && (strike % strikeMax === 0)) {
+									timing *= 0.9;
+									timing = Math.max(timing, 800);
+								}
+
+								_points += 30;
+								ptsLbl.content = 'points: ' + _points;
+
+								_timeout = setTimeout(function() {
+									clearTimeout(_timeout);
+									playRound();
+									stem.item.scaling = 1;
+									stem.item.opacity = 1;
+								}, 1000);
+							} else {
+
+								strike = 0;
+								strikes = 0;
+
+								sounds.fail.play();
+
+								Danimator.animate(stem.bg, 	  'fillColor', null, 'black', .2);
+								Danimator.animate(stem.label, 'fillColor', null, 'white', .2);
+								Danimator.animate(stem.item,  'rotation', 0, -3, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'rotation', -3, 3, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'rotation', 3, 0, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'position.y', null, '-10', .2, {
+									easing: Ease.cubicOut
+								}).then('animate', stem.item, 'position.y', null, '+' + view.bounds.height, .4, {
+									easing: Ease.cubicIn
+								}).then(function(){
+									_timeout = setTimeout(function() {
+										clearTimeout(_timeout);
+										playRound();
+										stem.item.scaling = 1;
+										stem.bg.fillColor = 'white';
+										stem.label.fillColor = 'black';
+										stem.item.position = view.bounds.center;
+										stem.item.opacity = 1;
+									}, 1000);
+								});
+							}
+
+						}
+					}
+				}
+
+				function playRound() {
+					translation.opacity = 0;
+					if(!Danimator.animating) {
+						stem.bgColor = 'white';
+						words.push(words.shift());
+						stem.content = words[0].name;
+						stem.item.opacity = 1;
+					}
+					_timeout = setTimeout(playRound, timing);
+				}
+			});
+		</script>
+	</body>
+</html>

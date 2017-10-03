@@ -1,0 +1,5352 @@
+{
+   "a": {
+      "type": "preposition",
+      "en": "to",
+      "soundex": "A000",
+      "stem": "1",
+      "language": "es"
+   },
+   "abuelo": {
+      "type": "noun",
+      "en": "grandfather",
+      "soundex": "A150",
+      "language": "es"
+   },
+   "avión": {
+      "type": "noun",
+      "en": "airplane",
+      "soundex": "A160",
+      "language": "es"
+   },
+   "abajo": {
+      "type": "preposition",
+      "en": "down",
+      "soundex": "A180",
+      "language": "es"
+   },
+   "abogado": {
+      "type": "noun",
+      "en": "attorney",
+      "soundex": "A183",
+      "language": "es"
+   },
+   "abre": {
+      "type": "noun",
+      "en": "opens",
+      "soundex": "A190",
+      "language": "es"
+   },
+   "ahí": {
+      "type": "preposition",
+      "en": "there",
+      "soundex": "A200",
+      "language": "es"
+   },
+   "ah": {
+      "type": "interjection",
+      "en": "ah",
+      "soundex": "A200",
+      "language": "es"
+   },
+   "ahi": {
+      "type": "preposition",
+      "en": "there",
+      "soundex": "A200",
+      "language": "es"
+   },
+   "ahora": {
+      "en": "now",
+      "soundex": "A290",
+      "language": "es"
+   },
+   "afuera": {
+      "en": "outside",
+      "soundex": "A290",
+      "language": "es"
+   },
+   "auto": {
+      "type": "noun",
+      "en": "car",
+      "soundex": "A300",
+      "language": "es"
+   },
+   "adiós": {
+      "en": "bye",
+      "soundex": "A340",
+      "language": "es"
+   },
+   "adelante": {
+      "type": "preposition",
+      "en": "ahead",
+      "soundex": "A356",
+      "language": "es"
+   },
+   "adónde": {
+      "type": "preposition",
+      "en": "where",
+      "soundex": "A363",
+      "language": "es"
+   },
+   "adentro": {
+      "type": "preposition",
+      "en": "in",
+      "soundex": "A363",
+      "language": "es"
+   },
+   "además": {
+      "en": "Besides",
+      "soundex": "A364",
+      "language": "es"
+   },
+   "atención": {
+      "type": "noun",
+      "en": "Attention",
+      "soundex": "A364",
+      "language": "es"
+   },
+   "ataque": {
+      "type": "noun",
+      "en": "attack",
+      "soundex": "A370",
+      "language": "es"
+   },
+   "atrás": {
+      "type": "preposition",
+      "en": "behind",
+      "soundex": "A394",
+      "language": "es"
+   },
+   "así": {
+      "en": "so",
+      "soundex": "A400",
+      "stem": "3",
+      "language": "es"
+   },
+   "acá": {
+      "en": "here",
+      "soundex": "A400",
+      "language": "es"
+   },
+   "asi": {
+      "en": "so",
+      "soundex": "A400",
+      "language": "es"
+   },
+   "acaba": {
+      "en": "just",
+      "soundex": "A410",
+      "language": "es"
+   },
+   "acabó": {
+      "type": "verb",
+      "en": "finished",
+      "soundex": "A410",
+      "language": "es"
+   },
+   "acabo": {
+      "type": "verb",
+      "en": "finished",
+      "soundex": "A410",
+      "language": "es"
+   },
+   "accidente": {
+      "en": "accident",
+      "soundex": "A436",
+      "language": "es"
+   },
+   "asesino": {
+      "en": "killer",
+      "soundex": "A446",
+      "language": "es"
+   },
+   "asunto": {
+      "en": "affair",
+      "soundex": "A463",
+      "language": "es"
+   },
+   "acuerdo": {
+      "en": "agreement",
+      "soundex": "A493",
+      "language": "es"
+   },
+   "acerca": {
+      "en": "about",
+      "soundex": "A494",
+      "language": "es"
+   },
+   "al": {
+      "en": "to the",
+      "soundex": "A500",
+      "stem": "2",
+      "language": "es"
+   },
+   "allí": {
+      "en": "there",
+      "soundex": "A500",
+      "language": "es"
+   },
+   "allá": {
+      "en": "there",
+      "soundex": "A500",
+      "language": "es"
+   },
+   "ay": {
+      "en": "Oh",
+      "soundex": "A500",
+      "language": "es"
+   },
+   "ayuda": {
+      "type": "noun",
+      "en": "help",
+      "soundex": "A530",
+      "language": "es"
+   },
+   "alto": {
+      "type": "adjective",
+      "en": "high",
+      "soundex": "A530",
+      "language": "es"
+   },
+   "ayudar": {
+      "type": "verb",
+      "en": "help",
+      "soundex": "A539",
+      "language": "es"
+   },
+   "alma": {
+      "en": "soul",
+      "soundex": "A560",
+      "language": "es"
+   },
+   "algo": {
+      "en": "something",
+      "soundex": "A580",
+      "language": "es"
+   },
+   "alguien": {
+      "en": "someone",
+      "soundex": "A586",
+      "language": "es"
+   },
+   "alguna": {
+      "en": "any",
+      "soundex": "A586",
+      "language": "es"
+   },
+   "algún": {
+      "en": "some",
+      "soundex": "A586",
+      "language": "es"
+   },
+   "algunos": {
+      "en": "Some",
+      "soundex": "A586",
+      "language": "es"
+   },
+   "algunas": {
+      "en": "some",
+      "soundex": "A586",
+      "language": "es"
+   },
+   "ayer": {
+      "en": "Yesterday",
+      "soundex": "A590",
+      "language": "es"
+   },
+   "alrededor": {
+      "en": "around",
+      "soundex": "A593",
+      "language": "es"
+   },
+   "aún": {
+      "en": "yet",
+      "soundex": "A600",
+      "language": "es"
+   },
+   "año": {
+      "en": "year",
+      "soundex": "A600",
+      "language": "es"
+   },
+   "amo": {
+      "type": "noun",
+      "en": "love",
+      "soundex": "A600",
+      "language": "es"
+   },
+   "aun": {
+      "en": "yet",
+      "soundex": "A600",
+      "language": "es"
+   },
+   "ambos": {
+      "en": "both of them",
+      "soundex": "A614",
+      "language": "es"
+   },
+   "anda": {
+      "en": "anda",
+      "soundex": "A630",
+      "language": "es"
+   },
+   "antes": {
+      "en": "before",
+      "soundex": "A634",
+      "language": "es"
+   },
+   "años": {
+      "en": "years",
+      "soundex": "A640",
+      "language": "es"
+   },
+   "anoche": {
+      "en": "last night",
+      "soundex": "A642",
+      "language": "es"
+   },
+   "aunque": {
+      "en": "although",
+      "soundex": "A670",
+      "language": "es"
+   },
+   "amigo": {
+      "en": "friend",
+      "type": "noun",
+      "soundex": "A680",
+      "language": "es"
+   },
+   "amiga": {
+      "en": "friend",
+      "type": "noun",
+      "soundex": "A680",
+      "language": "es"
+   },
+   "amigos": {
+      "en": "friends",
+      "type": "noun",
+      "soundex": "A684",
+      "language": "es"
+   },
+   "amor": {
+      "type": "noun",
+      "en": "love",
+      "soundex": "A690",
+      "language": "es"
+   },
+   "aquí": {
+      "en": "here",
+      "soundex": "A700",
+      "stem": "1,4",
+      "language": "es"
+   },
+   "aqui": {
+      "en": "here",
+      "soundex": "A700",
+      "language": "es"
+   },
+   "agua": {
+      "type": "noun",
+      "en": "Water",
+      "soundex": "A800",
+      "language": "es"
+   },
+   "agente": {
+      "type": "noun",
+      "en": "agent",
+      "soundex": "A863",
+      "language": "es"
+   },
+   "aire": {
+      "type": "noun",
+      "en": "air",
+      "soundex": "A900",
+      "language": "es"
+   },
+   "arriba": {
+      "en": "above",
+      "soundex": "A910",
+      "language": "es"
+   },
+   "arma": {
+      "type": "noun",
+      "en": "weapon",
+      "soundex": "A960",
+      "language": "es"
+   },
+   "armas": {
+      "en": "weapons",
+      "soundex": "A964",
+      "language": "es"
+   },
+   "bebé": {
+      "en": "baby",
+      "soundex": "B100",
+      "language": "es"
+   },
+   "boca": {
+      "type": "noun",
+      "en": "mouth",
+      "soundex": "B400",
+      "language": "es"
+   },
+   "busca": {
+      "type": "noun",
+      "en": "search",
+      "soundex": "B400",
+      "language": "es"
+   },
+   "basta": {
+      "en": "Enough",
+      "soundex": "B430",
+      "language": "es"
+   },
+   "bastante": {
+      "type": "adjective",
+      "en": "quite",
+      "soundex": "B436",
+      "language": "es"
+   },
+   "buscando": {
+      "en": "searching",
+      "soundex": "B463",
+      "language": "es"
+   },
+   "buscar": {
+      "en": "search",
+      "soundex": "B490",
+      "language": "es"
+   },
+   "basura": {
+      "en": "trash",
+      "soundex": "B490",
+      "language": "es"
+   },
+   "blanco": {
+      "type": "adjective",
+      "en": "White",
+      "soundex": "B564",
+      "language": "es"
+   },
+   "bien": {
+      "type": "adjective",
+      "en": "good",
+      "soundex": "B600",
+      "stem": "4",
+      "language": "es"
+   },
+   "bueno": {
+      "type": "adjective",
+      "en": "good",
+      "soundex": "B600",
+      "language": "es"
+   },
+   "buena": {
+      "type": "adjective",
+      "en": "good",
+      "soundex": "B600",
+      "language": "es"
+   },
+   "buen": {
+      "type": "adjective",
+      "en": "good",
+      "soundex": "B600",
+      "language": "es"
+   },
+   "baño": {
+      "en": "bath",
+      "soundex": "B600",
+      "language": "es"
+   },
+   "bonito": {
+      "type": "adjective",
+      "en": "beautiful",
+      "soundex": "B630",
+      "language": "es"
+   },
+   "buenas": {
+      "en": "good",
+      "soundex": "B640",
+      "language": "es"
+   },
+   "buenos": {
+      "en": "good ones",
+      "soundex": "B640",
+      "language": "es"
+   },
+   "banco": {
+      "type": "noun",
+      "en": "Bank",
+      "soundex": "B640",
+      "language": "es"
+   },
+   "bajo": {
+      "type": "adjective",
+      "en": "low",
+      "soundex": "B800",
+      "language": "es"
+   },
+   "baja": {
+      "type": "adjective",
+      "en": "low",
+      "soundex": "B800",
+      "language": "es"
+   },
+   "barco": {
+      "en": "ship",
+      "soundex": "B940",
+      "language": "es"
+   },
+   "cabeza": {
+      "en": "head",
+      "soundex": "C140",
+      "language": "es"
+   },
+   "caballeros": {
+      "en": "gentlemen",
+      "soundex": "C159",
+      "language": "es"
+   },
+   "café": {
+      "en": "coffee",
+      "soundex": "C200",
+      "language": "es"
+   },
+   "chica": {
+      "en": "girl",
+      "soundex": "C240",
+      "language": "es"
+   },
+   "chico": {
+      "en": "boy",
+      "soundex": "C240",
+      "language": "es"
+   },
+   "chicos": {
+      "type": "noun",
+      "en": "Boys",
+      "soundex": "C244",
+      "language": "es"
+   },
+   "chicas": {
+      "en": "girls",
+      "soundex": "C244",
+      "language": "es"
+   },
+   "cada": {
+      "en": "each",
+      "soundex": "C300",
+      "language": "es"
+   },
+   "cita": {
+      "en": "appointment",
+      "soundex": "C300",
+      "language": "es"
+   },
+   "cuidado": {
+      "en": "watch out",
+      "soundex": "C330",
+      "language": "es"
+   },
+   "ciudad": {
+      "type": "noun",
+      "en": "city",
+      "soundex": "C330",
+      "language": "es"
+   },
+   "capitán": {
+      "type": "noun",
+      "en": "captain",
+      "soundex": "C360",
+      "language": "es"
+   },
+   "cuatro": {
+      "en": "four",
+      "soundex": "C390",
+      "language": "es"
+   },
+   "casa": {
+      "en": "home",
+      "type": "noun",
+      "soundex": "C400",
+      "language": "es"
+   },
+   "cosa": {
+      "en": "thing",
+      "type": "noun",
+      "soundex": "C400",
+      "language": "es"
+   },
+   "casi": {
+      "en": "almost",
+      "soundex": "C400",
+      "language": "es"
+   },
+   "caso": {
+      "en": "case",
+      "type": "noun",
+      "soundex": "C400",
+      "language": "es"
+   },
+   "coche": {
+      "en": "car",
+      "type": "noun",
+      "soundex": "C420",
+      "language": "es"
+   },
+   "cosas": {
+      "en": "things",
+      "type": "noun",
+      "soundex": "C440",
+      "language": "es"
+   },
+   "cuál": {
+      "en": "which",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "culpa": {
+      "en": "guilt",
+      "type": "noun",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "cual": {
+      "en": "which",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "cielo": {
+      "en": "heaven",
+      "type": "noun",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "calle": {
+      "en": "Street",
+      "type": "noun",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "culo": {
+      "en": "ass",
+      "type": "noun",
+      "soundex": "C500",
+      "language": "es"
+   },
+   "club": {
+      "en": "club",
+      "type": "noun",
+      "soundex": "C510",
+      "language": "es"
+   },
+   "cállate": {
+      "type": "verb",
+      "en": "shut up",
+      "soundex": "C530",
+      "language": "es"
+   },
+   "clase": {
+      "type": "noun",
+      "en": "class",
+      "soundex": "C540",
+      "language": "es"
+   },
+   "cielos": {
+      "type": "noun",
+      "en": "Heavens",
+      "soundex": "C540",
+      "language": "es"
+   },
+   "calma": {
+      "type": "adjective",
+      "en": "calm",
+      "soundex": "C560",
+      "language": "es"
+   },
+   "cualquier": {
+      "en": "any",
+      "soundex": "C579",
+      "language": "es"
+   },
+   "cualquiera": {
+      "en": "anyone",
+      "soundex": "C579",
+      "language": "es"
+   },
+   "claro": {
+      "type": "adjective",
+      "en": "Clear",
+      "soundex": "C590",
+      "language": "es"
+   },
+   "con": {
+      "type": "conjunction",
+      "en": "with",
+      "soundex": "C600",
+      "stem": "3",
+      "language": "es"
+   },
+   "como": {
+      "en": "as",
+      "soundex": "C600",
+      "stem": "4",
+      "language": "es"
+   },
+   "cómo": {
+      "en": "how",
+      "soundex": "C600",
+      "stem": "4",
+      "language": "es"
+   },
+   "cama": {
+      "en": "bed",
+      "type": "noun",
+      "soundex": "C600",
+      "language": "es"
+   },
+   "campo": {
+      "en": "countryside",
+      "type": "noun",
+      "soundex": "C600",
+      "language": "es"
+   },
+   "cena": {
+      "type": "noun",
+      "en": "Dinner",
+      "soundex": "C600",
+      "language": "es"
+   },
+   "cambio": {
+      "en": "change",
+      "type": "noun",
+      "soundex": "C610",
+      "language": "es"
+   },
+   "cambiar": {
+      "en": "change",
+      "type": "verb",
+      "soundex": "C619",
+      "language": "es"
+   },
+   "cuando": {
+      "en": "when",
+      "soundex": "C630",
+      "stem": "5",
+      "language": "es"
+   },
+   "cuenta": {
+      "en": "account",
+      "soundex": "C630",
+      "language": "es"
+   },
+   "cuánto": {
+      "en": "how much",
+      "soundex": "C630",
+      "language": "es"
+   },
+   "cuándo": {
+      "en": "when",
+      "soundex": "C630",
+      "language": "es"
+   },
+   "comida": {
+      "en": "food",
+      "type": "noun",
+      "soundex": "C630",
+      "language": "es"
+   },
+   "cuanto": {
+      "en": "how much",
+      "soundex": "C630",
+      "language": "es"
+   },
+   "cuántos": {
+      "en": "how many",
+      "soundex": "C634",
+      "language": "es"
+   },
+   "contigo": {
+      "en": "with you",
+      "soundex": "C638",
+      "language": "es"
+   },
+   "contra": {
+      "en": "against",
+      "soundex": "C639",
+      "language": "es"
+   },
+   "control": {
+      "en": "control",
+      "type": "noun",
+      "soundex": "C639",
+      "language": "es"
+   },
+   "centro": {
+      "en": "center",
+      "type": "noun",
+      "soundex": "C639",
+      "language": "es"
+   },
+   "cinco": {
+      "en": "five",
+      "soundex": "C640",
+      "language": "es"
+   },
+   "conozco": {
+      "type": "verb",
+      "en": "I know",
+      "soundex": "C640",
+      "language": "es"
+   },
+   "conoce": {
+      "type": "verb",
+      "en": "known",
+      "soundex": "C640",
+      "language": "es"
+   },
+   "conoces": {
+      "type": "verb",
+      "en": "you know",
+      "soundex": "C644",
+      "language": "es"
+   },
+   "conseguir": {
+      "type": "verb",
+      "en": "get",
+      "soundex": "C648",
+      "language": "es"
+   },
+   "completamente": {
+      "en": "completely",
+      "type": "adverb",
+      "soundex": "C653",
+      "language": "es"
+   },
+   "cumpleaños": {
+      "en": "birthday",
+      "type": "noun",
+      "soundex": "C656",
+      "language": "es"
+   },
+   "camino": {
+      "en": "path",
+      "type": "noun",
+      "soundex": "C660",
+      "language": "es"
+   },
+   "compañía": {
+      "type": "noun",
+      "en": "company",
+      "soundex": "C660",
+      "language": "es"
+   },
+   "conmigo": {
+      "en": "with me",
+      "soundex": "C680",
+      "language": "es"
+   },
+   "comer": {
+      "type": "verb",
+      "en": "eat",
+      "soundex": "C690",
+      "language": "es"
+   },
+   "comprar": {
+      "type": "verb",
+      "en": "to buy",
+      "soundex": "C699",
+      "language": "es"
+   },
+   "caja": {
+      "en": "box",
+      "type": "noun",
+      "soundex": "C800",
+      "language": "es"
+   },
+   "creo": {
+      "type": "verb",
+      "en": "I believe",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "cara": {
+      "type": "adjective",
+      "en": "expensive",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "cree": {
+      "type": "verb",
+      "en": "cree",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "cuerpo": {
+      "type": "noun",
+      "en": "body",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "creí": {
+      "type": "verb",
+      "en": "I thought",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "corre": {
+      "type": "verb",
+      "en": "run",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "creía": {
+      "type": "verb",
+      "en": "thought",
+      "soundex": "C900",
+      "language": "es"
+   },
+   "cerebro": {
+      "en": "brain",
+      "type": "noun",
+      "soundex": "C919",
+      "language": "es"
+   },
+   "cierto": {
+      "en": "true",
+      "type": "adjective",
+      "soundex": "C930",
+      "language": "es"
+   },
+   "cuarto": {
+      "en": "fourth",
+      "soundex": "C930",
+      "language": "es"
+   },
+   "carta": {
+      "en": "letter",
+      "type": "noun",
+      "soundex": "C930",
+      "language": "es"
+   },
+   "crees": {
+      "en": "you think",
+      "type": "verb",
+      "soundex": "C940",
+      "language": "es"
+   },
+   "cerca": {
+      "en": "close",
+      "soundex": "C940",
+      "language": "es"
+   },
+   "correcto": {
+      "en": "right",
+      "type": "adjective",
+      "soundex": "C943",
+      "language": "es"
+   },
+   "corazón": {
+      "en": "heart",
+      "type": "noun",
+      "soundex": "C946",
+      "language": "es"
+   },
+   "cariño": {
+      "en": "sweetie",
+      "type": "noun",
+      "soundex": "C960",
+      "language": "es"
+   },
+   "creen": {
+      "en": "believe",
+      "type": "verb",
+      "soundex": "C960",
+      "language": "es"
+   },
+   "carne": {
+      "en": "meat",
+      "type": "noun",
+      "soundex": "C960",
+      "language": "es"
+   },
+   "carajo": {
+      "en": "fuck",
+      "type": "noun",
+      "soundex": "C980",
+      "language": "es"
+   },
+   "creer": {
+      "en": "believe",
+      "soundex": "C990",
+      "language": "es"
+   },
+   "carrera": {
+      "en": "career",
+      "type": "noun",
+      "soundex": "C990",
+      "language": "es"
+   },
+   "de": {
+      "en": "from",
+      "soundex": "D000",
+      "stem": "2",
+      "language": "es"
+   },
+   "día": {
+      "en": "day",
+      "type": "noun",
+      "soundex": "D000",
+      "language": "es"
+   },
+   "da": {
+      "en": "gives",
+      "type": "verb",
+      "soundex": "D000",
+      "language": "es"
+   },
+   "dio": {
+      "en": "it gave",
+      "type": "verb",
+      "soundex": "D000",
+      "language": "es"
+   },
+   "di": {
+      "en": "gave",
+      "type": "verb",
+      "soundex": "D000",
+      "language": "es"
+   },
+   "debe": {
+      "en": "should",
+      "type": "verb",
+      "soundex": "D100",
+      "language": "es"
+   },
+   "debo": {
+      "en": "I must",
+      "type": "verb",
+      "soundex": "D100",
+      "language": "es"
+   },
+   "debes": {
+      "en": "you must",
+      "type": "verb",
+      "soundex": "D140",
+      "language": "es"
+   },
+   "diablo": {
+      "en": "Devil",
+      "type": "noun",
+      "soundex": "D150",
+      "language": "es"
+   },
+   "diablos": {
+      "en": "Devils",
+      "type": "noun",
+      "soundex": "D154",
+      "language": "es"
+   },
+   "deben": {
+      "en": "should",
+      "type": "verb",
+      "soundex": "D160",
+      "language": "es"
+   },
+   "debemos": {
+      "en": "we must",
+      "type": "verb",
+      "soundex": "D164",
+      "language": "es"
+   },
+   "debería": {
+      "en": "should",
+      "type": "verb",
+      "soundex": "D190",
+      "language": "es"
+   },
+   "divertido": {
+      "en": "funny",
+      "type": "adjective",
+      "soundex": "D193",
+      "language": "es"
+   },
+   "deberías": {
+      "en": "you should",
+      "type": "verb",
+      "soundex": "D194",
+      "language": "es"
+   },
+   "deberíamos": {
+      "en": "we should",
+      "type": "verb",
+      "soundex": "D196",
+      "language": "es"
+   },
+   "difícil": {
+      "en": "difficult",
+      "type": "adjective",
+      "soundex": "D245",
+      "language": "es"
+   },
+   "diferente": {
+      "en": "different",
+      "type": "adjective",
+      "soundex": "D296",
+      "language": "es"
+   },
+   "dado": {
+      "en": "dice",
+      "type": "noun",
+      "soundex": "D300",
+      "language": "es"
+   },
+   "detective": {
+      "en": "detective",
+      "type": "noun",
+      "soundex": "D343",
+      "language": "es"
+   },
+   "detrás": {
+      "en": "behind",
+      "soundex": "D394",
+      "language": "es"
+   },
+   "dios": {
+      "en": "God",
+      "type": "noun",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "dos": {
+      "en": "two",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "dice": {
+      "en": "He says",
+      "type": "verb",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "días": {
+      "en": "days",
+      "type": "noun",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "diez": {
+      "en": "ten",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "das": {
+      "en": "you give",
+      "type": "verb",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "decía": {
+      "en": "He said",
+      "type": "verb",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "deseo": {
+      "en": "wish",
+      "type": "verb",
+      "soundex": "D400",
+      "language": "es"
+   },
+   "dicho": {
+      "en": "saying",
+      "type": "verb",
+      "soundex": "D420",
+      "language": "es"
+   },
+   "desde": {
+      "en": "since",
+      "soundex": "D430",
+      "language": "es"
+   },
+   "destino": {
+      "en": "destination",
+      "type": "noun",
+      "soundex": "D436",
+      "language": "es"
+   },
+   "doctor": {
+      "en": "doctor",
+      "type": "noun",
+      "soundex": "D439",
+      "language": "es"
+   },
+   "después": {
+      "en": "after",
+      "soundex": "D440",
+      "language": "es"
+   },
+   "dices": {
+      "en": "you say",
+      "type": "verb",
+      "soundex": "D440",
+      "language": "es"
+   },
+   "decisión": {
+      "en": "decision",
+      "type": "noun",
+      "soundex": "D446",
+      "language": "es"
+   },
+   "disculpe": {
+      "en": "sorry",
+      "soundex": "D450",
+      "language": "es"
+   },
+   "disculpa": {
+      "en": "Sorry",
+      "soundex": "D450",
+      "language": "es"
+   },
+   "dicen": {
+      "en": "they say",
+      "type": "verb",
+      "soundex": "D460",
+      "language": "es"
+   },
+   "diciendo": {
+      "en": "saying",
+      "type": "verb",
+      "soundex": "D463",
+      "language": "es"
+   },
+   "decir": {
+      "en": "say",
+      "type": "verb",
+      "soundex": "D490",
+      "language": "es"
+   },
+   "decirte": {
+      "en": "tell you",
+      "type": "verb",
+      "soundex": "D493",
+      "language": "es"
+   },
+   "decirle": {
+      "en": "tell",
+      "type": "verb",
+      "soundex": "D495",
+      "language": "es"
+   },
+   "decirme": {
+      "en": "tell me",
+      "type": "verb",
+      "soundex": "D496",
+      "language": "es"
+   },
+   "del": {
+      "en": "of the",
+      "soundex": "D500",
+      "stem": "3",
+      "language": "es"
+   },
+   "dile": {
+      "en": "tell him",
+      "type": "verb",
+      "soundex": "D500",
+      "language": "es"
+   },
+   "dale": {
+      "en": "Go ahead",
+      "type": "verb",
+      "soundex": "D500",
+      "language": "es"
+   },
+   "doy": {
+      "en": "I give",
+      "type": "verb",
+      "soundex": "D500",
+      "language": "es"
+   },
+   "dulce": {
+      "en": "sweet",
+      "soundex": "D540",
+      "language": "es"
+   },
+   "dolor": {
+      "en": "pain",
+      "type": "noun",
+      "soundex": "D590",
+      "language": "es"
+   },
+   "dólares": {
+      "en": "Dollars",
+      "type": "noun",
+      "soundex": "D594",
+      "language": "es"
+   },
+   "dame": {
+      "en": "give to me",
+      "type": "verb",
+      "soundex": "D600",
+      "language": "es"
+   },
+   "dime": {
+      "en": "tell me",
+      "type": "verb",
+      "soundex": "D600",
+      "language": "es"
+   },
+   "daño": {
+      "en": "hurt",
+      "soundex": "D600",
+      "language": "es"
+   },
+   "dan": {
+      "en": "give",
+      "type": "verb",
+      "soundex": "D600",
+      "language": "es"
+   },
+   "dónde": {
+      "en": "where",
+      "soundex": "D630",
+      "language": "es"
+   },
+   "donde": {
+      "en": "where",
+      "soundex": "D630",
+      "language": "es"
+   },
+   "dentro": {
+      "en": "inside",
+      "soundex": "D639",
+      "language": "es"
+   },
+   "demás": {
+      "en": "the rest",
+      "type": "noun",
+      "soundex": "D640",
+      "language": "es"
+   },
+   "demasiado": {
+      "en": "too",
+      "soundex": "D643",
+      "language": "es"
+   },
+   "demonios": {
+      "en": "got damn",
+      "type": "noun",
+      "soundex": "D664",
+      "language": "es"
+   },
+   "dinero": {
+      "en": "money",
+      "type": "noun",
+      "soundex": "D690",
+      "language": "es"
+   },
+   "dijo": {
+      "en": "He said",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "dije": {
+      "en": "said",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "digo": {
+      "en": "I say",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "deja": {
+      "en": "let",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "diga": {
+      "en": "tell",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "dejó": {
+      "en": "left",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "deje": {
+      "en": "leave",
+      "type": "verb",
+      "soundex": "D800",
+      "language": "es"
+   },
+   "digas": {
+      "en": "you say",
+      "type": "verb",
+      "soundex": "D840",
+      "language": "es"
+   },
+   "dijiste": {
+      "en": "said",
+      "type": "verb",
+      "soundex": "D843",
+      "language": "es"
+   },
+   "déjame": {
+      "en": "let me",
+      "type": "verb",
+      "soundex": "D860",
+      "language": "es"
+   },
+   "dejar": {
+      "en": "leave",
+      "type": "verb",
+      "soundex": "D890",
+      "language": "es"
+   },
+   "dijeron": {
+      "en": "they said",
+      "type": "verb",
+      "soundex": "D896",
+      "language": "es"
+   },
+   "dar": {
+      "en": "give",
+      "type": "verb",
+      "soundex": "D900",
+      "language": "es"
+   },
+   "diré": {
+      "en": "I will say",
+      "type": "verb",
+      "soundex": "D900",
+      "language": "es"
+   },
+   "duro": {
+      "en": "hard",
+      "type": "adjective",
+      "soundex": "D900",
+      "language": "es"
+   },
+   "daré": {
+      "en": "I'll give",
+      "type": "verb",
+      "soundex": "D900",
+      "language": "es"
+   },
+   "derecho": {
+      "en": "law",
+      "type": "noun",
+      "soundex": "D942",
+      "language": "es"
+   },
+   "derecha": {
+      "en": "right",
+      "soundex": "D942",
+      "language": "es"
+   },
+   "dirección": {
+      "en": "address",
+      "type": "noun",
+      "soundex": "D946",
+      "language": "es"
+   },
+   "darle": {
+      "en": "give him",
+      "soundex": "D950",
+      "language": "es"
+   },
+   "durante": {
+      "en": "during",
+      "soundex": "D963",
+      "language": "es"
+   },
+   "dormir": {
+      "en": "sleep",
+      "type": "verb",
+      "soundex": "D969",
+      "language": "es"
+   },
+   "e": {
+      "en": "and",
+      "soundex": "E000",
+      "language": "es"
+   },
+   "eh": {
+      "en": "Hey",
+      "soundex": "E200",
+      "language": "es"
+   },
+   "edificio": {
+      "en": "building",
+      "type": "noun",
+      "soundex": "E324",
+      "language": "es"
+   },
+   "edad": {
+      "en": "age",
+      "type": "noun",
+      "soundex": "E330",
+      "language": "es"
+   },
+   "es": {
+      "en": "is",
+      "type": "verb",
+      "soundex": "E400",
+      "stem": "2",
+      "language": "es"
+   },
+   "eso": {
+      "en": "that",
+      "soundex": "E400",
+      "stem": "2",
+      "language": "es"
+   },
+   "ese": {
+      "en": "that",
+      "soundex": "E400",
+      "language": "es"
+   },
+   "esa": {
+      "en": "that",
+      "soundex": "E400",
+      "language": "es"
+   },
+   "ése": {
+      "en": "that",
+      "soundex": "É400",
+      "language": "es"
+   },
+   "está": {
+      "en": "this",
+      "soundex": "E430",
+      "stem": "3",
+      "language": "es"
+   },
+   "esto": {
+      "en": "this",
+      "soundex": "E430",
+      "stem": "3",
+      "language": "es"
+   },
+   "esta": {
+      "en": "this",
+      "soundex": "E430",
+      "stem": "3",
+      "language": "es"
+   },
+   "este": {
+      "en": "East",
+      "soundex": "E430",
+      "stem": "3",
+      "language": "es"
+   },
+   "esté": {
+      "en": "East",
+      "soundex": "E430",
+      "language": "es"
+   },
+   "espada": {
+      "en": "sword",
+      "type": "noun",
+      "soundex": "E430",
+      "language": "es"
+   },
+   "éste": {
+      "en": "East",
+      "soundex": "É430",
+      "language": "es"
+   },
+   "ésta": {
+      "en": "this",
+      "soundex": "É430",
+      "language": "es"
+   },
+   "estaba": {
+      "en": "I was",
+      "type": "verb",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estabas": {
+      "en": "you were",
+      "type": "verb",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estuvo": {
+      "en": "he was",
+      "type": "verb",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estaban": {
+      "en": "They were",
+      "type": "verb",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estuve": {
+      "en": "I was",
+      "type": "verb",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estábamos": {
+      "en": "we were",
+      "soundex": "E431",
+      "language": "es"
+   },
+   "estado": {
+      "en": "state",
+      "type": "verb",
+      "soundex": "E433",
+      "language": "es"
+   },
+   "estúpido": {
+      "en": "stupid",
+      "type": "adjective",
+      "soundex": "E433",
+      "language": "es"
+   },
+   "estás": {
+      "en": "these",
+      "soundex": "E434",
+      "stem": "3",
+      "language": "es"
+   },
+   "estas": {
+      "en": "these",
+      "soundex": "E434",
+      "language": "es"
+   },
+   "estos": {
+      "en": "these",
+      "soundex": "E434",
+      "language": "es"
+   },
+   "estés": {
+      "en": "you're",
+      "soundex": "E434",
+      "language": "es"
+   },
+   "estoy": {
+      "en": "I am",
+      "soundex": "E435",
+      "stem": "3",
+      "language": "es"
+   },
+   "están": {
+      "en": "is it so",
+      "type": "verb",
+      "soundex": "E436",
+      "language": "es"
+   },
+   "estamos": {
+      "en": "we're",
+      "type": "verb",
+      "soundex": "E436",
+      "language": "es"
+   },
+   "estan": {
+      "en": "is it so",
+      "type": "verb",
+      "soundex": "E436",
+      "language": "es"
+   },
+   "estar": {
+      "en": "to be",
+      "type": "verb",
+      "soundex": "E439",
+      "language": "es"
+   },
+   "estará": {
+      "en": "will be",
+      "type": "verb",
+      "soundex": "E439",
+      "language": "es"
+   },
+   "extraño": {
+      "en": "strange",
+      "type": "adjective",
+      "soundex": "E439",
+      "language": "es"
+   },
+   "estaré": {
+      "en": "I will be",
+      "type": "verb",
+      "soundex": "E439",
+      "language": "es"
+   },
+   "estaría": {
+      "en": "It would",
+      "type": "verb",
+      "soundex": "E439",
+      "language": "es"
+   },
+   "esos": {
+      "en": "those",
+      "soundex": "E440",
+      "language": "es"
+   },
+   "esas": {
+      "en": "those",
+      "soundex": "E440",
+      "language": "es"
+   },
+   "esposa": {
+      "en": "wife",
+      "type": "noun",
+      "soundex": "E440",
+      "language": "es"
+   },
+   "esposo": {
+      "en": "husband",
+      "soundex": "E440",
+      "language": "es"
+   },
+   "escucha": {
+      "en": "listen out",
+      "soundex": "E442",
+      "language": "es"
+   },
+   "escúchame": {
+      "en": "listen to me",
+      "soundex": "E442",
+      "language": "es"
+   },
+   "exactamente": {
+      "en": "exactly",
+      "soundex": "E443",
+      "language": "es"
+   },
+   "existe": {
+      "en": "exists",
+      "soundex": "E443",
+      "language": "es"
+   },
+   "especial": {
+      "en": "special",
+      "soundex": "E445",
+      "language": "es"
+   },
+   "escuela": {
+      "en": "school",
+      "soundex": "E450",
+      "language": "es"
+   },
+   "excelente": {
+      "en": "Excellent",
+      "soundex": "E456",
+      "language": "es"
+   },
+   "espera": {
+      "en": "wait",
+      "soundex": "E490",
+      "language": "es"
+   },
+   "espero": {
+      "en": "I hope",
+      "soundex": "E490",
+      "language": "es"
+   },
+   "espere": {
+      "en": "I waited",
+      "soundex": "E490",
+      "language": "es"
+   },
+   "esperando": {
+      "en": "waiting",
+      "soundex": "E496",
+      "language": "es"
+   },
+   "esperen": {
+      "en": "expect",
+      "soundex": "E496",
+      "language": "es"
+   },
+   "esperar": {
+      "en": "wait",
+      "soundex": "E499",
+      "language": "es"
+   },
+   "el": {
+      "en": "he",
+      "soundex": "E500",
+      "stem": "2",
+      "language": "es"
+   },
+   "ella": {
+      "en": "she",
+      "soundex": "E500",
+      "language": "es"
+   },
+   "ello": {
+      "en": "it",
+      "soundex": "E500",
+      "language": "es"
+   },
+   "él": {
+      "en": "he",
+      "soundex": "É500",
+      "language": "es"
+   },
+   "ellos": {
+      "en": "they",
+      "soundex": "E540",
+      "language": "es"
+   },
+   "ellas": {
+      "en": "they",
+      "soundex": "E540",
+      "language": "es"
+   },
+   "en": {
+      "en": "in",
+      "soundex": "E600",
+      "stem": "2",
+      "language": "es"
+   },
+   "entonces": {
+      "en": "so",
+      "soundex": "E636",
+      "language": "es"
+   },
+   "entiendo": {
+      "en": "I get it",
+      "soundex": "E636",
+      "language": "es"
+   },
+   "entiendes": {
+      "en": "You understand",
+      "soundex": "E636",
+      "language": "es"
+   },
+   "entendido": {
+      "en": "it is understood",
+      "soundex": "E636",
+      "language": "es"
+   },
+   "entre": {
+      "en": "between",
+      "soundex": "E639",
+      "language": "es"
+   },
+   "entrar": {
+      "en": "get in",
+      "soundex": "E639",
+      "language": "es"
+   },
+   "entra": {
+      "en": "enters",
+      "soundex": "E639",
+      "language": "es"
+   },
+   "encontrar": {
+      "en": "find",
+      "soundex": "E646",
+      "language": "es"
+   },
+   "encima": {
+      "en": "above",
+      "soundex": "E646",
+      "language": "es"
+   },
+   "encontré": {
+      "en": "I found",
+      "soundex": "E646",
+      "language": "es"
+   },
+   "encanta": {
+      "en": "love",
+      "soundex": "E646",
+      "language": "es"
+   },
+   "encuentra": {
+      "en": "find",
+      "soundex": "E646",
+      "language": "es"
+   },
+   "enseguida": {
+      "en": "right away",
+      "soundex": "E648",
+      "language": "es"
+   },
+   "empezar": {
+      "en": "start",
+      "soundex": "E649",
+      "language": "es"
+   },
+   "enemigo": {
+      "en": "enemy",
+      "soundex": "E668",
+      "language": "es"
+   },
+   "equipo": {
+      "en": "equipment",
+      "soundex": "E700",
+      "language": "es"
+   },
+   "ejército": {
+      "en": "army",
+      "soundex": "E894",
+      "language": "es"
+   },
+   "era": {
+      "en": "was",
+      "soundex": "E900",
+      "language": "es"
+   },
+   "eres": {
+      "en": "you are",
+      "soundex": "E940",
+      "language": "es"
+   },
+   "eras": {
+      "en": "ages",
+      "soundex": "E940",
+      "language": "es"
+   },
+   "eran": {
+      "en": "they were",
+      "soundex": "E960",
+      "language": "es"
+   },
+   "error": {
+      "en": "error",
+      "soundex": "E990",
+      "language": "es"
+   },
+   "fue": {
+      "en": "It was",
+      "soundex": "F000",
+      "language": "es"
+   },
+   "fui": {
+      "en": "I was",
+      "soundex": "F000",
+      "language": "es"
+   },
+   "favor": {
+      "en": "favor",
+      "soundex": "F190",
+      "language": "es"
+   },
+   "foto": {
+      "en": "Photo",
+      "soundex": "F300",
+      "language": "es"
+   },
+   "fotos": {
+      "en": "Photos",
+      "soundex": "F340",
+      "language": "es"
+   },
+   "futuro": {
+      "en": "future",
+      "soundex": "F390",
+      "language": "es"
+   },
+   "fiesta": {
+      "en": "party",
+      "soundex": "F430",
+      "language": "es"
+   },
+   "fuiste": {
+      "en": "you were",
+      "soundex": "F430",
+      "language": "es"
+   },
+   "fácil": {
+      "en": "easy",
+      "soundex": "F450",
+      "language": "es"
+   },
+   "falta": {
+      "en": "lack",
+      "soundex": "F530",
+      "language": "es"
+   },
+   "feliz": {
+      "en": "happy",
+      "soundex": "F540",
+      "language": "es"
+   },
+   "fin": {
+      "en": "end",
+      "soundex": "F600",
+      "language": "es"
+   },
+   "funciona": {
+      "en": "it works",
+      "soundex": "F646",
+      "language": "es"
+   },
+   "familia": {
+      "en": "family",
+      "soundex": "F650",
+      "language": "es"
+   },
+   "final": {
+      "en": "final",
+      "soundex": "F650",
+      "language": "es"
+   },
+   "fuego": {
+      "en": "fire",
+      "soundex": "F800",
+      "language": "es"
+   },
+   "fuera": {
+      "en": "outside",
+      "soundex": "F900",
+      "language": "es"
+   },
+   "fuerte": {
+      "en": "strong",
+      "soundex": "F930",
+      "language": "es"
+   },
+   "fuerza": {
+      "en": "force",
+      "soundex": "F940",
+      "language": "es"
+   },
+   "forma": {
+      "en": "shape",
+      "soundex": "F960",
+      "language": "es"
+   },
+   "fueron": {
+      "en": "were",
+      "soundex": "F960",
+      "language": "es"
+   },
+   "frente": {
+      "en": "front",
+      "soundex": "F963",
+      "language": "es"
+   },
+   "gobierno": {
+      "en": "government",
+      "soundex": "G196",
+      "language": "es"
+   },
+   "gusta": {
+      "en": "like",
+      "soundex": "G430",
+      "language": "es"
+   },
+   "gusto": {
+      "en": "taste",
+      "soundex": "G430",
+      "language": "es"
+   },
+   "gustan": {
+      "en": "like",
+      "soundex": "G436",
+      "language": "es"
+   },
+   "gustaría": {
+      "en": "would like",
+      "soundex": "G439",
+      "language": "es"
+   },
+   "gente": {
+      "en": "people",
+      "soundex": "G630",
+      "language": "es"
+   },
+   "genial": {
+      "en": "great",
+      "soundex": "G650",
+      "language": "es"
+   },
+   "ganar": {
+      "en": "win",
+      "soundex": "G690",
+      "language": "es"
+   },
+   "general": {
+      "en": "general",
+      "soundex": "G695",
+      "language": "es"
+   },
+   "guerra": {
+      "en": "war",
+      "soundex": "G900",
+      "language": "es"
+   },
+   "grupo": {
+      "en": "group",
+      "soundex": "G900",
+      "language": "es"
+   },
+   "gracias": {
+      "en": "Thank you",
+      "soundex": "G944",
+      "language": "es"
+   },
+   "gracioso": {
+      "en": "funny",
+      "soundex": "G944",
+      "language": "es"
+   },
+   "gran": {
+      "en": "great",
+      "soundex": "G960",
+      "language": "es"
+   },
+   "grande": {
+      "en": "big",
+      "soundex": "G963",
+      "language": "es"
+   },
+   "grandes": {
+      "en": "big",
+      "soundex": "G963",
+      "language": "es"
+   },
+   "ha": {
+      "en": "he has",
+      "soundex": "H000",
+      "stem": "1",
+      "language": "es"
+   },
+   "he": {
+      "en": "I have",
+      "soundex": "H000",
+      "language": "es"
+   },
+   "había": {
+      "en": "there was",
+      "soundex": "H100",
+      "language": "es"
+   },
+   "hubo": {
+      "en": "there was",
+      "soundex": "H100",
+      "language": "es"
+   },
+   "habitación": {
+      "en": "room",
+      "soundex": "H134",
+      "language": "es"
+   },
+   "habla": {
+      "en": "speaks",
+      "soundex": "H150",
+      "language": "es"
+   },
+   "hablo": {
+      "en": "I speak",
+      "soundex": "H150",
+      "language": "es"
+   },
+   "hablas": {
+      "en": "speak",
+      "soundex": "H154",
+      "language": "es"
+   },
+   "hablando": {
+      "en": "speaking",
+      "soundex": "H156",
+      "language": "es"
+   },
+   "hablar": {
+      "en": "talk",
+      "soundex": "H159",
+      "language": "es"
+   },
+   "haber": {
+      "en": "to have",
+      "soundex": "H190",
+      "language": "es"
+   },
+   "hubiera": {
+      "en": "would",
+      "soundex": "H190",
+      "language": "es"
+   },
+   "habrá": {
+      "en": "there will be",
+      "soundex": "H190",
+      "language": "es"
+   },
+   "habría": {
+      "en": "there would be",
+      "soundex": "H190",
+      "language": "es"
+   },
+   "hotel": {
+      "en": "hotel",
+      "soundex": "H350",
+      "language": "es"
+   },
+   "hace": {
+      "en": "does",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "has": {
+      "en": "you",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "hizo": {
+      "en": "did",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "hice": {
+      "en": "I did",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "hacia": {
+      "en": "toward",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "haz": {
+      "en": "make",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "hacía": {
+      "en": "toward",
+      "soundex": "H400",
+      "language": "es"
+   },
+   "hecho": {
+      "en": "fact",
+      "soundex": "H420",
+      "language": "es"
+   },
+   "hasta": {
+      "en": "until",
+      "soundex": "H430",
+      "language": "es"
+   },
+   "hospital": {
+      "en": "hospital",
+      "soundex": "H435",
+      "language": "es"
+   },
+   "historia": {
+      "en": "history",
+      "soundex": "H439",
+      "language": "es"
+   },
+   "haces": {
+      "en": "you do",
+      "soundex": "H440",
+      "language": "es"
+   },
+   "hiciste": {
+      "en": "did",
+      "soundex": "H443",
+      "language": "es"
+   },
+   "hazlo": {
+      "en": "do it",
+      "soundex": "H450",
+      "language": "es"
+   },
+   "hacen": {
+      "en": "make",
+      "soundex": "H460",
+      "language": "es"
+   },
+   "haciendo": {
+      "en": "doing",
+      "soundex": "H463",
+      "language": "es"
+   },
+   "hacemos": {
+      "en": "we make",
+      "soundex": "H464",
+      "language": "es"
+   },
+   "hicimos": {
+      "en": "we did",
+      "soundex": "H464",
+      "language": "es"
+   },
+   "hacer": {
+      "en": "do",
+      "soundex": "H490",
+      "language": "es"
+   },
+   "hacerlo": {
+      "en": "do what",
+      "soundex": "H495",
+      "language": "es"
+   },
+   "hicieron": {
+      "en": "they did",
+      "soundex": "H496",
+      "language": "es"
+   },
+   "hay": {
+      "en": "there are",
+      "soundex": "H500",
+      "stem": "2",
+      "language": "es"
+   },
+   "hola": {
+      "en": "Hello",
+      "soundex": "H500",
+      "language": "es"
+   },
+   "hoy": {
+      "en": "today",
+      "soundex": "H500",
+      "language": "es"
+   },
+   "hey": {
+      "en": "hey",
+      "soundex": "H500",
+      "language": "es"
+   },
+   "haya": {
+      "en": "beech",
+      "soundex": "H500",
+      "language": "es"
+   },
+   "han": {
+      "en": "they have",
+      "soundex": "H600",
+      "language": "es"
+   },
+   "hombre": {
+      "en": "man",
+      "type": "noun",
+      "soundex": "H619",
+      "language": "es"
+   },
+   "hombres": {
+      "en": "mens",
+      "soundex": "H619",
+      "language": "es"
+   },
+   "hambre": {
+      "en": "hungry",
+      "soundex": "H619",
+      "language": "es"
+   },
+   "hemos": {
+      "en": "we have",
+      "soundex": "H640",
+      "language": "es"
+   },
+   "humano": {
+      "en": "human",
+      "soundex": "H660",
+      "language": "es"
+   },
+   "honor": {
+      "en": "honor",
+      "soundex": "H690",
+      "language": "es"
+   },
+   "hijo": {
+      "en": "son",
+      "soundex": "H800",
+      "language": "es"
+   },
+   "hija": {
+      "en": "daughter",
+      "soundex": "H800",
+      "language": "es"
+   },
+   "hago": {
+      "en": "I make",
+      "soundex": "H800",
+      "language": "es"
+   },
+   "haga": {
+      "en": "make",
+      "soundex": "H800",
+      "language": "es"
+   },
+   "hagas": {
+      "en": "you do",
+      "soundex": "H840",
+      "language": "es"
+   },
+   "hijos": {
+      "en": "children",
+      "soundex": "H840",
+      "language": "es"
+   },
+   "hora": {
+      "en": "hour",
+      "soundex": "H900",
+      "language": "es"
+   },
+   "haré": {
+      "en": "I will do",
+      "soundex": "H900",
+      "language": "es"
+   },
+   "hará": {
+      "en": "will",
+      "soundex": "H900",
+      "language": "es"
+   },
+   "haría": {
+      "en": "would do",
+      "soundex": "H900",
+      "language": "es"
+   },
+   "horas": {
+      "en": "hours",
+      "soundex": "H940",
+      "language": "es"
+   },
+   "haremos": {
+      "en": "will",
+      "soundex": "H964",
+      "language": "es"
+   },
+   "hermosa": {
+      "en": "beautiful",
+      "type": "adjective",
+      "soundex": "H964",
+      "language": "es"
+   },
+   "hermoso": {
+      "en": "beautiful",
+      "type": "adjective",
+      "soundex": "H964",
+      "language": "es"
+   },
+   "hermano": {
+      "en": "brother",
+      "soundex": "H966",
+      "language": "es"
+   },
+   "hermana": {
+      "en": "sister",
+      "soundex": "H966",
+      "language": "es"
+   },
+   "iba": {
+      "en": "I was going",
+      "soundex": "I100",
+      "language": "es"
+   },
+   "idea": {
+      "en": "idea",
+      "soundex": "I300",
+      "language": "es"
+   },
+   "ido": {
+      "en": "gone",
+      "soundex": "I300",
+      "language": "es"
+   },
+   "idiota": {
+      "en": "moron",
+      "soundex": "I330",
+      "language": "es"
+   },
+   "izquierda": {
+      "en": "left",
+      "soundex": "I479",
+      "language": "es"
+   },
+   "información": {
+      "en": "information",
+      "soundex": "I629",
+      "language": "es"
+   },
+   "infierno": {
+      "en": "hell",
+      "soundex": "I629",
+      "language": "es"
+   },
+   "interesante": {
+      "en": "interesting",
+      "type": "adjective",
+      "soundex": "I639",
+      "language": "es"
+   },
+   "imposible": {
+      "en": "impossible",
+      "type": "adjective",
+      "soundex": "I641",
+      "language": "es"
+   },
+   "incluso": {
+      "en": "even",
+      "soundex": "I645",
+      "language": "es"
+   },
+   "increíble": {
+      "en": "amazing",
+      "type": "adjective",
+      "soundex": "I649",
+      "language": "es"
+   },
+   "importa": {
+      "en": "matters",
+      "soundex": "I693",
+      "language": "es"
+   },
+   "importante": {
+      "en": "important",
+      "type": "adjective",
+      "soundex": "I693",
+      "language": "es"
+   },
+   "igual": {
+      "en": "same",
+      "soundex": "I850",
+      "language": "es"
+   },
+   "iglesia": {
+      "en": "church",
+      "soundex": "I854",
+      "language": "es"
+   },
+   "ir": {
+      "en": "go",
+      "soundex": "I900",
+      "language": "es"
+   },
+   "iré": {
+      "en": "I will go",
+      "soundex": "I900",
+      "language": "es"
+   },
+   "irme": {
+      "en": "leave",
+      "soundex": "I960",
+      "language": "es"
+   },
+   "irnos": {
+      "en": "leave",
+      "soundex": "I964",
+      "language": "es"
+   },
+   "joven": {
+      "en": "young",
+      "type": "adjective",
+      "soundex": "J160",
+      "language": "es"
+   },
+   "jefe": {
+      "en": "boss",
+      "soundex": "J200",
+      "language": "es"
+   },
+   "justo": {
+      "en": "fair",
+      "soundex": "J430",
+      "language": "es"
+   },
+   "jesús": {
+      "en": "Jesus",
+      "soundex": "J440",
+      "language": "es"
+   },
+   "juntos": {
+      "en": "together",
+      "soundex": "J634",
+      "language": "es"
+   },
+   "jamás": {
+      "en": "Never",
+      "soundex": "J640",
+      "language": "es"
+   },
+   "juego": {
+      "en": "game",
+      "soundex": "J800",
+      "language": "es"
+   },
+   "jugar": {
+      "en": "to play",
+      "soundex": "J890",
+      "language": "es"
+   },
+   "juro": {
+      "en": "I swear",
+      "soundex": "J900",
+      "language": "es"
+   },
+   "la": {
+      "en": "the",
+      "soundex": "L000",
+      "stem": "2",
+      "language": "es"
+   },
+   "lo": {
+      "en": "the",
+      "soundex": "L000",
+      "stem": "2",
+      "language": "es"
+   },
+   "le": {
+      "en": "you",
+      "soundex": "L000",
+      "stem": "2",
+      "language": "es"
+   },
+   "lleva": {
+      "en": "carries",
+      "soundex": "L100",
+      "language": "es"
+   },
+   "llevo": {
+      "en": "I wear",
+      "soundex": "L100",
+      "language": "es"
+   },
+   "llave": {
+      "en": "key",
+      "soundex": "L100",
+      "language": "es"
+   },
+   "libro": {
+      "en": "book",
+      "soundex": "L190",
+      "language": "es"
+   },
+   "libre": {
+      "en": "free",
+      "soundex": "L190",
+      "language": "es"
+   },
+   "llevar": {
+      "en": "carry",
+      "soundex": "L190",
+      "language": "es"
+   },
+   "libertad": {
+      "en": "freedom",
+      "soundex": "L193",
+      "language": "es"
+   },
+   "lado": {
+      "en": "side",
+      "soundex": "L300",
+      "language": "es"
+   },
+   "los": {
+      "en": "the",
+      "soundex": "L400",
+      "stem": "3",
+      "language": "es"
+   },
+   "las": {
+      "en": "the",
+      "soundex": "L400",
+      "stem": "2",
+      "language": "es"
+   },
+   "les": {
+      "en": "them",
+      "soundex": "L400",
+      "language": "es"
+   },
+   "loco": {
+      "en": "crazy",
+      "soundex": "L400",
+      "language": "es"
+   },
+   "luz": {
+      "en": "light",
+      "type": "noun",
+      "soundex": "L400",
+      "language": "es"
+   },
+   "loca": {
+      "en": "crazy",
+      "type": "adjective",
+      "soundex": "L400",
+      "language": "es"
+   },
+   "listo": {
+      "en": "ready",
+      "type": "adjective",
+      "soundex": "L430",
+      "language": "es"
+   },
+   "lista": {
+      "en": "list",
+      "soundex": "L430",
+      "language": "es"
+   },
+   "listos": {
+      "en": "ready",
+      "type": "adjective",
+      "soundex": "L434",
+      "language": "es"
+   },
+   "ley": {
+      "en": "law",
+      "soundex": "L500",
+      "language": "es"
+   },
+   "llama": {
+      "en": "call",
+      "soundex": "L600",
+      "language": "es"
+   },
+   "llamo": {
+      "en": "I call",
+      "soundex": "L600",
+      "language": "es"
+   },
+   "línea": {
+      "en": "line",
+      "soundex": "L600",
+      "language": "es"
+   },
+   "luna": {
+      "en": "Moon",
+      "soundex": "L600",
+      "language": "es"
+   },
+   "llamado": {
+      "en": "called",
+      "soundex": "L630",
+      "language": "es"
+   },
+   "llamada": {
+      "en": "call",
+      "soundex": "L630",
+      "language": "es"
+   },
+   "lindo": {
+      "en": "cute",
+      "type": "adjective",
+      "soundex": "L630",
+      "language": "es"
+   },
+   "linda": {
+      "en": "beautiful",
+      "type": "adjective",
+      "soundex": "L630",
+      "language": "es"
+   },
+   "llamas": {
+      "en": "flames",
+      "soundex": "L640",
+      "language": "es"
+   },
+   "lamento": {
+      "en": "lament",
+      "soundex": "L663",
+      "language": "es"
+   },
+   "llamar": {
+      "en": "to call",
+      "soundex": "L690",
+      "language": "es"
+   },
+   "luego": {
+      "en": "then",
+      "soundex": "L800",
+      "language": "es"
+   },
+   "llegó": {
+      "en": "I arrive",
+      "soundex": "L800",
+      "language": "es"
+   },
+   "llegado": {
+      "en": "arrived",
+      "soundex": "L830",
+      "language": "es"
+   },
+   "lejos": {
+      "en": "far",
+      "soundex": "L840",
+      "language": "es"
+   },
+   "lugar": {
+      "en": "place",
+      "soundex": "L890",
+      "language": "es"
+   },
+   "llegar": {
+      "en": "arrive",
+      "soundex": "L890",
+      "language": "es"
+   },
+   "largo": {
+      "en": "long",
+      "soundex": "L980",
+      "language": "es"
+   },
+   "me": {
+      "en": "me",
+      "soundex": "M000",
+      "stem": "2",
+      "language": "es"
+   },
+   "mi": {
+      "en": "my",
+      "soundex": "M000",
+      "stem": "2",
+      "language": "es"
+   },
+   "mí": {
+      "en": "my",
+      "soundex": "M000",
+      "language": "es"
+   },
+   "mío": {
+      "en": "my own",
+      "soundex": "M000",
+      "language": "es"
+   },
+   "mía": {
+      "en": "mine",
+      "soundex": "M000",
+      "language": "es"
+   },
+   "miedo": {
+      "en": "fear",
+      "soundex": "M300",
+      "language": "es"
+   },
+   "medio": {
+      "en": "medium",
+      "soundex": "M300",
+      "language": "es"
+   },
+   "mató": {
+      "en": "he killed",
+      "soundex": "M300",
+      "language": "es"
+   },
+   "modo": {
+      "en": "mode",
+      "soundex": "M300",
+      "language": "es"
+   },
+   "media": {
+      "en": "half",
+      "soundex": "M300",
+      "language": "es"
+   },
+   "mitad": {
+      "en": "half",
+      "soundex": "M330",
+      "language": "es"
+   },
+   "médico": {
+      "en": "doctor",
+      "soundex": "M340",
+      "language": "es"
+   },
+   "madre": {
+      "en": "mother",
+      "soundex": "M390",
+      "language": "es"
+   },
+   "matar": {
+      "en": "to kill",
+      "soundex": "M390",
+      "language": "es"
+   },
+   "más": {
+      "en": "plus",
+      "soundex": "M400",
+      "stem": "3",
+      "language": "es"
+   },
+   "mis": {
+      "en": "my",
+      "soundex": "M400",
+      "language": "es"
+   },
+   "mas": {
+      "en": "more",
+      "soundex": "M400",
+      "language": "es"
+   },
+   "mes": {
+      "en": "month",
+      "soundex": "M400",
+      "language": "es"
+   },
+   "mesa": {
+      "en": "table",
+      "soundex": "M400",
+      "language": "es"
+   },
+   "mucho": {
+      "en": "a lot",
+      "soundex": "M420",
+      "language": "es"
+   },
+   "mucha": {
+      "en": "a lot",
+      "soundex": "M420",
+      "language": "es"
+   },
+   "muchas": {
+      "en": "many",
+      "soundex": "M424",
+      "language": "es"
+   },
+   "muchos": {
+      "en": "Many",
+      "soundex": "M424",
+      "language": "es"
+   },
+   "muchachos": {
+      "en": "boys",
+      "soundex": "M424",
+      "language": "es"
+   },
+   "muchacho": {
+      "en": "boy",
+      "type": "noun",
+      "soundex": "M424",
+      "language": "es"
+   },
+   "maestro": {
+      "en": "teacher",
+      "soundex": "M439",
+      "language": "es"
+   },
+   "meses": {
+      "en": "months",
+      "soundex": "M440",
+      "language": "es"
+   },
+   "música": {
+      "en": "music",
+      "soundex": "M440",
+      "language": "es"
+   },
+   "mismo": {
+      "en": "same",
+      "soundex": "M460",
+      "language": "es"
+   },
+   "misma": {
+      "en": "same",
+      "soundex": "M460",
+      "language": "es"
+   },
+   "misión": {
+      "en": "mission",
+      "soundex": "M460",
+      "language": "es"
+   },
+   "muy": {
+      "en": "very",
+      "soundex": "M500",
+      "stem": "3",
+      "language": "es"
+   },
+   "mal": {
+      "en": "wrong",
+      "type": "adjective",
+      "soundex": "M500",
+      "language": "es"
+   },
+   "malo": {
+      "en": "bad",
+      "type": "adjective",
+      "soundex": "M500",
+      "language": "es"
+   },
+   "mil": {
+      "en": "one thousand",
+      "soundex": "M500",
+      "language": "es"
+   },
+   "mala": {
+      "en": "bad",
+      "type": "adjective",
+      "soundex": "M500",
+      "language": "es"
+   },
+   "maldito": {
+      "en": "damned",
+      "type": "adjective",
+      "soundex": "M533",
+      "language": "es"
+   },
+   "maldita": {
+      "en": "damn",
+      "type": "adjective",
+      "soundex": "M533",
+      "language": "es"
+   },
+   "maldición": {
+      "en": "curse",
+      "soundex": "M534",
+      "language": "es"
+   },
+   "millones": {
+      "en": "millions",
+      "soundex": "M564",
+      "language": "es"
+   },
+   "mayor": {
+      "en": "higher",
+      "type": "adjective",
+      "soundex": "M590",
+      "language": "es"
+   },
+   "mamá": {
+      "en": "mom",
+      "soundex": "M600",
+      "language": "es"
+   },
+   "mano": {
+      "en": "hand",
+      "soundex": "M600",
+      "language": "es"
+   },
+   "mundo": {
+      "en": "world",
+      "soundex": "M630",
+      "language": "es"
+   },
+   "minuto": {
+      "en": "minute",
+      "soundex": "M630",
+      "language": "es"
+   },
+   "mente": {
+      "en": "mind",
+      "soundex": "M630",
+      "language": "es"
+   },
+   "minutos": {
+      "en": "minutes",
+      "soundex": "M634",
+      "language": "es"
+   },
+   "mientras": {
+      "en": "While",
+      "soundex": "M639",
+      "language": "es"
+   },
+   "menos": {
+      "en": "less",
+      "soundex": "M640",
+      "language": "es"
+   },
+   "manos": {
+      "en": "hands",
+      "soundex": "M640",
+      "language": "es"
+   },
+   "mensaje": {
+      "en": "message",
+      "soundex": "M648",
+      "language": "es"
+   },
+   "mañana": {
+      "en": "morning",
+      "soundex": "M660",
+      "language": "es"
+   },
+   "momento": {
+      "en": "moment",
+      "soundex": "M663",
+      "language": "es"
+   },
+   "manera": {
+      "en": "way",
+      "soundex": "M690",
+      "language": "es"
+   },
+   "mejor": {
+      "en": "best",
+      "type": "adjective",
+      "soundex": "M890",
+      "language": "es"
+   },
+   "mujer": {
+      "en": "woman",
+      "soundex": "M890",
+      "language": "es"
+   },
+   "mujeres": {
+      "en": "women",
+      "soundex": "M894",
+      "language": "es"
+   },
+   "mejores": {
+      "en": "top",
+      "soundex": "M894",
+      "language": "es"
+   },
+   "mira": {
+      "en": "look",
+      "soundex": "M900",
+      "language": "es"
+   },
+   "murió": {
+      "en": "died",
+      "soundex": "M900",
+      "language": "es"
+   },
+   "mire": {
+      "en": "Look",
+      "soundex": "M900",
+      "language": "es"
+   },
+   "maravilloso": {
+      "en": "wonderful",
+      "soundex": "M915",
+      "language": "es"
+   },
+   "mierda": {
+      "en": "shit",
+      "type": "noun",
+      "soundex": "M930",
+      "language": "es"
+   },
+   "muerto": {
+      "en": "dead",
+      "type": "adjective",
+      "soundex": "M930",
+      "language": "es"
+   },
+   "muerte": {
+      "en": "death",
+      "soundex": "M930",
+      "language": "es"
+   },
+   "marido": {
+      "en": "husband",
+      "soundex": "M930",
+      "language": "es"
+   },
+   "muerta": {
+      "en": "dead",
+      "soundex": "M930",
+      "language": "es"
+   },
+   "muertos": {
+      "en": "dead",
+      "soundex": "M934",
+      "language": "es"
+   },
+   "miren": {
+      "en": "look",
+      "soundex": "M960",
+      "language": "es"
+   },
+   "mirando": {
+      "en": "looking",
+      "soundex": "M963",
+      "language": "es"
+   },
+   "morir": {
+      "en": "die",
+      "soundex": "M990",
+      "language": "es"
+   },
+   "no": {
+      "en": "do not",
+      "soundex": "N000",
+      "stem": "2",
+      "language": "es"
+   },
+   "ni": {
+      "en": "neither",
+      "soundex": "N000",
+      "language": "es"
+   },
+   "nuevo": {
+      "en": "new",
+      "type": "adjective",
+      "soundex": "N100",
+      "language": "es"
+   },
+   "nueva": {
+      "en": "new",
+      "type": "adjective",
+      "soundex": "N100",
+      "language": "es"
+   },
+   "nave": {
+      "en": "ship",
+      "soundex": "N100",
+      "language": "es"
+   },
+   "novia": {
+      "en": "girlfriend",
+      "soundex": "N100",
+      "language": "es"
+   },
+   "novio": {
+      "en": "boyfriend",
+      "soundex": "N100",
+      "language": "es"
+   },
+   "navidad": {
+      "en": "Christmas",
+      "soundex": "N133",
+      "language": "es"
+   },
+   "nada": {
+      "en": "nothing",
+      "soundex": "N300",
+      "stem": "4",
+      "language": "es"
+   },
+   "nadie": {
+      "en": "no one",
+      "soundex": "N300",
+      "language": "es"
+   },
+   "noticias": {
+      "en": "news",
+      "soundex": "N344",
+      "language": "es"
+   },
+   "nos": {
+      "en": "us",
+      "soundex": "N400",
+      "stem": "3",
+      "language": "es"
+   },
+   "noche": {
+      "en": "night",
+      "soundex": "N420",
+      "language": "es"
+   },
+   "noches": {
+      "en": "nights",
+      "soundex": "N424",
+      "language": "es"
+   },
+   "nosotros": {
+      "en": "us",
+      "soundex": "N439",
+      "language": "es"
+   },
+   "nuestro": {
+      "en": "our",
+      "soundex": "N439",
+      "language": "es"
+   },
+   "nuestra": {
+      "en": "our",
+      "soundex": "N439",
+      "language": "es"
+   },
+   "nuestros": {
+      "en": "our",
+      "soundex": "N439",
+      "language": "es"
+   },
+   "nuestras": {
+      "en": "our",
+      "soundex": "N439",
+      "language": "es"
+   },
+   "necesito": {
+      "en": "I need",
+      "soundex": "N443",
+      "language": "es"
+   },
+   "necesitamos": {
+      "en": "we need",
+      "soundex": "N443",
+      "language": "es"
+   },
+   "necesita": {
+      "en": "needs to",
+      "soundex": "N443",
+      "language": "es"
+   },
+   "necesitas": {
+      "en": "you need",
+      "soundex": "N443",
+      "language": "es"
+   },
+   "necesitan": {
+      "en": "they need",
+      "soundex": "N443",
+      "language": "es"
+   },
+   "necesario": {
+      "en": "necessary",
+      "soundex": "N449",
+      "language": "es"
+   },
+   "niño": {
+      "en": "boy",
+      "soundex": "N600",
+      "language": "es"
+   },
+   "niña": {
+      "en": "girl",
+      "soundex": "N600",
+      "language": "es"
+   },
+   "nena": {
+      "en": "baby",
+      "soundex": "N600",
+      "language": "es"
+   },
+   "nombre": {
+      "en": "first name",
+      "soundex": "N619",
+      "language": "es"
+   },
+   "nunca": {
+      "en": "never",
+      "soundex": "N640",
+      "language": "es"
+   },
+   "niños": {
+      "en": "children",
+      "soundex": "N640",
+      "language": "es"
+   },
+   "ningún": {
+      "en": "any",
+      "soundex": "N686",
+      "language": "es"
+   },
+   "ninguna": {
+      "en": "any",
+      "soundex": "N686",
+      "language": "es"
+   },
+   "número": {
+      "en": "number",
+      "soundex": "N690",
+      "language": "es"
+   },
+   "negocio": {
+      "en": "deal",
+      "soundex": "N840",
+      "language": "es"
+   },
+   "negocios": {
+      "en": "business",
+      "soundex": "N844",
+      "language": "es"
+   },
+   "negro": {
+      "en": "black",
+      "type": "adjective",
+      "soundex": "N890",
+      "language": "es"
+   },
+   "norte": {
+      "en": "north",
+      "soundex": "N930",
+      "language": "es"
+   },
+   "normal": {
+      "en": "normal",
+      "type": "adjective",
+      "soundex": "N965",
+      "language": "es"
+   },
+   "o": {
+      "en": "or",
+      "soundex": "O000",
+      "language": "es"
+   },
+   "oí": {
+      "en": "I heard",
+      "soundex": "O000",
+      "language": "es"
+   },
+   "oh": {
+      "en": "oh",
+      "soundex": "O200",
+      "language": "es"
+   },
+   "oficial": {
+      "en": "official",
+      "soundex": "O245",
+      "language": "es"
+   },
+   "oficina": {
+      "en": "office",
+      "soundex": "O246",
+      "language": "es"
+   },
+   "odio": {
+      "en": "hate",
+      "soundex": "O300",
+      "language": "es"
+   },
+   "oído": {
+      "en": "ear",
+      "soundex": "O300",
+      "language": "es"
+   },
+   "otra": {
+      "en": "other",
+      "soundex": "O390",
+      "language": "es"
+   },
+   "otro": {
+      "en": "other",
+      "soundex": "O390",
+      "language": "es"
+   },
+   "otros": {
+      "en": "others",
+      "soundex": "O394",
+      "language": "es"
+   },
+   "otras": {
+      "en": "other",
+      "soundex": "O394",
+      "language": "es"
+   },
+   "os": {
+      "en": "you",
+      "soundex": "O400",
+      "language": "es"
+   },
+   "ocurre": {
+      "en": "occurs",
+      "soundex": "O490",
+      "language": "es"
+   },
+   "ocurrió": {
+      "en": "occurred",
+      "soundex": "O490",
+      "language": "es"
+   },
+   "oye": {
+      "en": "hears",
+      "soundex": "O500",
+      "language": "es"
+   },
+   "ok": {
+      "en": "okay",
+      "soundex": "O700",
+      "language": "es"
+   },
+   "ojos": {
+      "en": "eyes",
+      "soundex": "O840",
+      "language": "es"
+   },
+   "oro": {
+      "en": "gold",
+      "soundex": "O900",
+      "language": "es"
+   },
+   "oportunidad": {
+      "en": "opportunity",
+      "soundex": "O936",
+      "language": "es"
+   },
+   "orden": {
+      "en": "order",
+      "soundex": "O936",
+      "language": "es"
+   },
+   "papá": {
+      "en": "dad",
+      "soundex": "P000",
+      "language": "es"
+   },
+   "pie": {
+      "en": "foot",
+      "soundex": "P000",
+      "language": "es"
+   },
+   "pueblo": {
+      "en": "town",
+      "soundex": "P150",
+      "language": "es"
+   },
+   "pobre": {
+      "en": "poor",
+      "soundex": "P190",
+      "language": "es"
+   },
+   "puedo": {
+      "en": "may l",
+      "soundex": "P300",
+      "stem": "1",
+      "language": "es"
+   },
+   "puede": {
+      "en": "can",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "pueda": {
+      "en": "can",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "puta": {
+      "en": "bitch",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "podía": {
+      "en": "I could",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "pudo": {
+      "en": "could",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "pude": {
+      "en": "I could",
+      "soundex": "P300",
+      "language": "es"
+   },
+   "puedes": {
+      "en": "can",
+      "soundex": "P340",
+      "language": "es"
+   },
+   "pueden": {
+      "en": "may",
+      "soundex": "P360",
+      "language": "es"
+   },
+   "podemos": {
+      "en": "we can",
+      "soundex": "P364",
+      "language": "es"
+   },
+   "padre": {
+      "en": "father",
+      "type": "noun",
+      "soundex": "P390",
+      "language": "es"
+   },
+   "podría": {
+      "en": "might",
+      "soundex": "P390",
+      "language": "es"
+   },
+   "poder": {
+      "en": "power",
+      "soundex": "P390",
+      "language": "es"
+   },
+   "pudiera": {
+      "en": "I could",
+      "soundex": "P390",
+      "language": "es"
+   },
+   "padres": {
+      "en": "parents",
+      "soundex": "P394",
+      "language": "es"
+   },
+   "podrías": {
+      "en": "could you",
+      "soundex": "P394",
+      "language": "es"
+   },
+   "podríamos": {
+      "en": "we could",
+      "soundex": "P396",
+      "language": "es"
+   },
+   "poco": {
+      "en": "little bit",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "pasa": {
+      "en": "pass",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "pasó": {
+      "en": "He passed",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "pues": {
+      "en": "well",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "paso": {
+      "en": "He passed",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "paz": {
+      "en": "peace",
+      "type": "noun",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "país": {
+      "en": "country",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "pase": {
+      "en": "pass",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "piso": {
+      "en": "floor",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "pies": {
+      "en": "feet",
+      "soundex": "P400",
+      "language": "es"
+   },
+   "posible": {
+      "en": "possible",
+      "type": "adjective",
+      "soundex": "P415",
+      "language": "es"
+   },
+   "pasado": {
+      "en": "past",
+      "soundex": "P430",
+      "language": "es"
+   },
+   "puesto": {
+      "en": "Market Stall",
+      "soundex": "P430",
+      "language": "es"
+   },
+   "pasando": {
+      "en": "going",
+      "soundex": "P463",
+      "language": "es"
+   },
+   "pasar": {
+      "en": "happen",
+      "soundex": "P490",
+      "language": "es"
+   },
+   "pelo": {
+      "en": "hair",
+      "soundex": "P500",
+      "language": "es"
+   },
+   "pelea": {
+      "en": "Fight",
+      "soundex": "P500",
+      "language": "es"
+   },
+   "palabra": {
+      "en": "word",
+      "type": "noun",
+      "soundex": "P519",
+      "language": "es"
+   },
+   "palabras": {
+      "en": "words",
+      "soundex": "P519",
+      "language": "es"
+   },
+   "policía": {
+      "en": "police",
+      "soundex": "P540",
+      "language": "es"
+   },
+   "película": {
+      "en": "movie",
+      "soundex": "P545",
+      "language": "es"
+   },
+   "placer": {
+      "en": "pleasure",
+      "soundex": "P549",
+      "language": "es"
+   },
+   "plan": {
+      "en": "plan",
+      "soundex": "P560",
+      "language": "es"
+   },
+   "peligro": {
+      "en": "danger",
+      "type": "noun",
+      "soundex": "P589",
+      "language": "es"
+   },
+   "peligroso": {
+      "en": "dangerous",
+      "type": "adjective",
+      "soundex": "P589",
+      "language": "es"
+   },
+   "pena": {
+      "en": "pain",
+      "soundex": "P600",
+      "language": "es"
+   },
+   "punto": {
+      "en": "point",
+      "soundex": "P630",
+      "language": "es"
+   },
+   "pensé": {
+      "en": "I thought",
+      "soundex": "P640",
+      "language": "es"
+   },
+   "pienso": {
+      "en": "I think",
+      "soundex": "P640",
+      "language": "es"
+   },
+   "piensa": {
+      "en": "think",
+      "soundex": "P640",
+      "language": "es"
+   },
+   "pensaba": {
+      "en": "thought",
+      "soundex": "P641",
+      "language": "es"
+   },
+   "piensas": {
+      "en": "you think",
+      "soundex": "P644",
+      "language": "es"
+   },
+   "pensando": {
+      "en": "thinking",
+      "type": "verb",
+      "soundex": "P646",
+      "language": "es"
+   },
+   "pensar": {
+      "en": "think",
+      "soundex": "P649",
+      "language": "es"
+   },
+   "poner": {
+      "en": "place",
+      "soundex": "P690",
+      "language": "es"
+   },
+   "pequeño": {
+      "en": "little",
+      "type": "adjective",
+      "soundex": "P760",
+      "language": "es"
+   },
+   "pequeña": {
+      "en": "little",
+      "type": "adjective",
+      "soundex": "P760",
+      "language": "es"
+   },
+   "pagar": {
+      "en": "pay",
+      "soundex": "P890",
+      "language": "es"
+   },
+   "por": {
+      "en": "by",
+      "soundex": "P900",
+      "stem": "3",
+      "language": "es"
+   },
+   "para": {
+      "en": "for",
+      "soundex": "P900",
+      "stem": "3",
+      "language": "es"
+   },
+   "pero": {
+      "en": "but",
+      "soundex": "P900",
+      "stem": "4",
+      "language": "es"
+   },
+   "perro": {
+      "en": "dog",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "par": {
+      "en": "pair",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "peor": {
+      "en": "worst",
+      "type": "adjective",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "perra": {
+      "en": "female dog",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "propia": {
+      "en": "own",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "propio": {
+      "en": "own",
+      "soundex": "P900",
+      "language": "es"
+   },
+   "prueba": {
+      "en": "proof",
+      "soundex": "P910",
+      "language": "es"
+   },
+   "probablemente": {
+      "en": "probably",
+      "type": "adverb",
+      "soundex": "P911",
+      "language": "es"
+   },
+   "pruebas": {
+      "en": "tests",
+      "soundex": "P914",
+      "language": "es"
+   },
+   "problema": {
+      "en": "problem",
+      "soundex": "P915",
+      "language": "es"
+   },
+   "problemas": {
+      "en": "problems",
+      "soundex": "P915",
+      "language": "es"
+   },
+   "perfecto": {
+      "en": "perfect",
+      "type": "adjective",
+      "soundex": "P924",
+      "language": "es"
+   },
+   "profesor": {
+      "en": "teacher",
+      "soundex": "P924",
+      "language": "es"
+   },
+   "parte": {
+      "en": "part",
+      "soundex": "P930",
+      "language": "es"
+   },
+   "puerta": {
+      "en": "door",
+      "soundex": "P930",
+      "language": "es"
+   },
+   "perdido": {
+      "en": "lost",
+      "soundex": "P933",
+      "language": "es"
+   },
+   "perdón": {
+      "en": "sorry",
+      "soundex": "P936",
+      "language": "es"
+   },
+   "perder": {
+      "en": "to lose",
+      "soundex": "P939",
+      "language": "es"
+   },
+   "parece": {
+      "en": "looks like",
+      "soundex": "P940",
+      "language": "es"
+   },
+   "presidente": {
+      "en": "President",
+      "soundex": "P943",
+      "language": "es"
+   },
+   "preocupes": {
+      "en": "worry",
+      "soundex": "P944",
+      "language": "es"
+   },
+   "personas": {
+      "en": "people",
+      "soundex": "P946",
+      "language": "es"
+   },
+   "persona": {
+      "en": "person",
+      "soundex": "P946",
+      "language": "es"
+   },
+   "personal": {
+      "en": "personal",
+      "soundex": "P946",
+      "language": "es"
+   },
+   "próxima": {
+      "en": "next",
+      "soundex": "P946",
+      "language": "es"
+   },
+   "pronto": {
+      "en": "soon",
+      "soundex": "P963",
+      "language": "es"
+   },
+   "prometo": {
+      "en": "I promise",
+      "soundex": "P963",
+      "language": "es"
+   },
+   "permiso": {
+      "en": "permission",
+      "soundex": "P964",
+      "language": "es"
+   },
+   "primera": {
+      "en": "first",
+      "soundex": "P969",
+      "language": "es"
+   },
+   "primero": {
+      "en": "First",
+      "soundex": "P969",
+      "language": "es"
+   },
+   "primer": {
+      "en": "first",
+      "soundex": "P969",
+      "language": "es"
+   },
+   "porque": {
+      "en": "why",
+      "soundex": "P970",
+      "language": "es"
+   },
+   "porqué": {
+      "en": "why",
+      "soundex": "P970",
+      "language": "es"
+   },
+   "pregunta": {
+      "en": "Question",
+      "soundex": "P986",
+      "language": "es"
+   },
+   "preguntas": {
+      "en": "questions",
+      "soundex": "P986",
+      "language": "es"
+   },
+   "programa": {
+      "en": "Program",
+      "soundex": "P989",
+      "language": "es"
+   },
+   "que": {
+      "en": "what",
+      "soundex": "Q000",
+      "stem": "3",
+      "language": "es"
+   },
+   "qué": {
+      "en": "what",
+      "soundex": "Q000",
+      "stem": "3",
+      "language": "es"
+   },
+   "queda": {
+      "en": "remains",
+      "soundex": "Q300",
+      "language": "es"
+   },
+   "quédate": {
+      "en": "stay",
+      "soundex": "Q330",
+      "language": "es"
+   },
+   "quizá": {
+      "en": "maybe",
+      "soundex": "Q400",
+      "language": "es"
+   },
+   "quise": {
+      "en": "I wanted",
+      "soundex": "Q400",
+      "language": "es"
+   },
+   "quizás": {
+      "en": "maybe",
+      "soundex": "Q440",
+      "language": "es"
+   },
+   "quisiera": {
+      "en": "I would like",
+      "soundex": "Q490",
+      "language": "es"
+   },
+   "quién": {
+      "en": "who",
+      "soundex": "Q600",
+      "language": "es"
+   },
+   "quien": {
+      "en": "who",
+      "soundex": "Q600",
+      "language": "es"
+   },
+   "quiero": {
+      "en": "I want",
+      "soundex": "Q900",
+      "stem": "4",
+      "language": "es"
+   },
+   "quiere": {
+      "en": "wants",
+      "soundex": "Q900",
+      "language": "es"
+   },
+   "quería": {
+      "en": "wanted to",
+      "soundex": "Q900",
+      "language": "es"
+   },
+   "quiera": {
+      "en": "want",
+      "soundex": "Q900",
+      "language": "es"
+   },
+   "querida": {
+      "en": "Dear",
+      "soundex": "Q930",
+      "language": "es"
+   },
+   "querido": {
+      "en": "Dear",
+      "soundex": "Q930",
+      "language": "es"
+   },
+   "quieres": {
+      "en": "you want",
+      "soundex": "Q940",
+      "language": "es"
+   },
+   "quieras": {
+      "en": "you want",
+      "soundex": "Q940",
+      "language": "es"
+   },
+   "querías": {
+      "en": "you wanted",
+      "soundex": "Q940",
+      "language": "es"
+   },
+   "quieren": {
+      "en": "they want",
+      "soundex": "Q960",
+      "language": "es"
+   },
+   "queremos": {
+      "en": "we want",
+      "soundex": "Q964",
+      "language": "es"
+   },
+   "ropa": {
+      "en": "clothes",
+      "soundex": "R000",
+      "language": "es"
+   },
+   "rápido": {
+      "en": "Quick",
+      "type": "adjective",
+      "soundex": "R300",
+      "language": "es"
+   },
+   "resto": {
+      "en": "rest",
+      "soundex": "R430",
+      "language": "es"
+   },
+   "respuesta": {
+      "en": "answer",
+      "soundex": "R443",
+      "language": "es"
+   },
+   "razón": {
+      "en": "reason",
+      "soundex": "R460",
+      "language": "es"
+   },
+   "recuerdo": {
+      "en": "memory",
+      "soundex": "R493",
+      "language": "es"
+   },
+   "recuerdas": {
+      "en": "remember",
+      "soundex": "R493",
+      "language": "es"
+   },
+   "recuerda": {
+      "en": "remember",
+      "soundex": "R493",
+      "language": "es"
+   },
+   "rey": {
+      "en": "king",
+      "soundex": "R500",
+      "language": "es"
+   },
+   "real": {
+      "en": "real",
+      "type": "adjective",
+      "soundex": "R500",
+      "language": "es"
+   },
+   "realidad": {
+      "en": "reality",
+      "soundex": "R533",
+      "language": "es"
+   },
+   "realmente": {
+      "en": "Really",
+      "soundex": "R566",
+      "language": "es"
+   },
+   "regalo": {
+      "en": "present",
+      "soundex": "R850",
+      "language": "es"
+   },
+   "regresar": {
+      "en": "to return",
+      "soundex": "R894",
+      "language": "es"
+   },
+   "regreso": {
+      "en": "he came back",
+      "soundex": "R894",
+      "language": "es"
+   },
+   "raro": {
+      "en": "rare",
+      "soundex": "R900",
+      "language": "es"
+   },
+   "se": {
+      "en": "herself",
+      "soundex": "S000",
+      "stem": "2",
+      "language": "es"
+   },
+   "si": {
+      "en": "yes",
+      "soundex": "S000",
+      "stem": "2",
+      "language": "es"
+   },
+   "sí": {
+      "en": "yes",
+      "soundex": "S000",
+      "stem": "2",
+      "language": "es"
+   },
+   "su": {
+      "en": "his",
+      "soundex": "S000",
+      "stem": "2",
+      "language": "es"
+   },
+   "sé": {
+      "en": "know",
+      "soundex": "S000",
+      "stem": "1",
+      "language": "es"
+   },
+   "sea": {
+      "en": "be",
+      "soundex": "S000",
+      "language": "es"
+   },
+   "sabe": {
+      "en": "knows",
+      "soundex": "S100",
+      "language": "es"
+   },
+   "sabía": {
+      "en": "I knew",
+      "soundex": "S100",
+      "language": "es"
+   },
+   "sabes": {
+      "en": "you know",
+      "soundex": "S140",
+      "language": "es"
+   },
+   "saben": {
+      "en": "they know",
+      "soundex": "S160",
+      "language": "es"
+   },
+   "sabemos": {
+      "en": "we know",
+      "soundex": "S164",
+      "language": "es"
+   },
+   "sobre": {
+      "en": "on",
+      "soundex": "S190",
+      "language": "es"
+   },
+   "saber": {
+      "en": "to know",
+      "soundex": "S190",
+      "language": "es"
+   },
+   "suficiente": {
+      "en": "enough",
+      "soundex": "S246",
+      "language": "es"
+   },
+   "sido": {
+      "en": "been",
+      "soundex": "S300",
+      "language": "es"
+   },
+   "sitio": {
+      "en": "site",
+      "soundex": "S300",
+      "language": "es"
+   },
+   "siete": {
+      "en": "seven",
+      "soundex": "S300",
+      "language": "es"
+   },
+   "situación": {
+      "en": "situation",
+      "soundex": "S346",
+      "language": "es"
+   },
+   "sus": {
+      "en": "their",
+      "soundex": "S400",
+      "language": "es"
+   },
+   "seis": {
+      "en": "six",
+      "soundex": "S400",
+      "language": "es"
+   },
+   "seas": {
+      "en": "you are",
+      "soundex": "S400",
+      "language": "es"
+   },
+   "sexo": {
+      "en": "sex",
+      "type": "noun",
+      "soundex": "S400",
+      "language": "es"
+   },
+   "supuesto": {
+      "en": "supposed",
+      "soundex": "S430",
+      "language": "es"
+   },
+   "sucede": {
+      "en": "happens",
+      "soundex": "S430",
+      "language": "es"
+   },
+   "sucedió": {
+      "en": "it happened",
+      "soundex": "S430",
+      "language": "es"
+   },
+   "sistema": {
+      "en": "system",
+      "soundex": "S436",
+      "language": "es"
+   },
+   "secreto": {
+      "en": "secret",
+      "soundex": "S493",
+      "language": "es"
+   },
+   "sólo": {
+      "en": "alone",
+      "type": "adjective",
+      "soundex": "S500",
+      "stem": "4",
+      "language": "es"
+   },
+   "soy": {
+      "en": "I am",
+      "soundex": "S500",
+      "stem": "2",
+      "language": "es"
+   },
+   "solo": {
+      "en": "alone",
+      "type": "adjective",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "sola": {
+      "en": "alone",
+      "type": "adjective",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "sal": {
+      "en": "Salt",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "sol": {
+      "en": "Sun",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "sale": {
+      "en": "comes out",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "salió": {
+      "en": "he left",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "sala": {
+      "en": "living room",
+      "soundex": "S500",
+      "language": "es"
+   },
+   "salvo": {
+      "en": "except",
+      "soundex": "S510",
+      "language": "es"
+   },
+   "salvar": {
+      "en": "save",
+      "soundex": "S519",
+      "language": "es"
+   },
+   "silencio": {
+      "en": "silence",
+      "soundex": "S564",
+      "language": "es"
+   },
+   "salir": {
+      "en": "get out",
+      "soundex": "S590",
+      "language": "es"
+   },
+   "son": {
+      "en": "They are",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "sin": {
+      "en": "without",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "sueño": {
+      "en": "dream",
+      "type": "noun",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "sino": {
+      "en": "if not",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "suena": {
+      "en": "it sounds",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "sean": {
+      "en": "are",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "supone": {
+      "en": "supposed",
+      "soundex": "S600",
+      "language": "es"
+   },
+   "siento": {
+      "en": "I feel",
+      "soundex": "S630",
+      "language": "es"
+   },
+   "siendo": {
+      "en": "being",
+      "soundex": "S630",
+      "language": "es"
+   },
+   "siente": {
+      "en": "feels",
+      "soundex": "S630",
+      "language": "es"
+   },
+   "santo": {
+      "en": "holy",
+      "soundex": "S630",
+      "language": "es"
+   },
+   "sentido": {
+      "en": "sense",
+      "soundex": "S633",
+      "language": "es"
+   },
+   "siéntate": {
+      "en": "Sit down",
+      "soundex": "S633",
+      "language": "es"
+   },
+   "sientes": {
+      "en": "you feel",
+      "soundex": "S634",
+      "language": "es"
+   },
+   "sentir": {
+      "en": "feel",
+      "soundex": "S639",
+      "language": "es"
+   },
+   "somos": {
+      "en": "we are",
+      "soundex": "S640",
+      "language": "es"
+   },
+   "sueños": {
+      "en": "dreams",
+      "soundex": "S640",
+      "language": "es"
+   },
+   "señal": {
+      "en": "signal",
+      "soundex": "S650",
+      "language": "es"
+   },
+   "simplemente": {
+      "en": "simply",
+      "type": "adverb",
+      "soundex": "S656",
+      "language": "es"
+   },
+   "semana": {
+      "en": "week",
+      "type": "noun",
+      "soundex": "S660",
+      "language": "es"
+   },
+   "semanas": {
+      "en": "weeks",
+      "type": "noun",
+      "soundex": "S664",
+      "language": "es"
+   },
+   "supongo": {
+      "en": "I suppose",
+      "type": "verb",
+      "soundex": "S680",
+      "language": "es"
+   },
+   "sangre": {
+      "en": "blood",
+      "soundex": "S689",
+      "language": "es"
+   },
+   "señor": {
+      "en": "Mr",
+      "soundex": "S690",
+      "language": "es"
+   },
+   "siempre": {
+      "en": "always",
+      "soundex": "S690",
+      "language": "es"
+   },
+   "señora": {
+      "en": "Mrs",
+      "soundex": "S690",
+      "language": "es"
+   },
+   "señorita": {
+      "en": "miss",
+      "soundex": "S693",
+      "language": "es"
+   },
+   "siquiera": {
+      "en": "at least",
+      "soundex": "S790",
+      "language": "es"
+   },
+   "sigue": {
+      "en": "follow",
+      "soundex": "S800",
+      "language": "es"
+   },
+   "significa": {
+      "en": "it means",
+      "soundex": "S862",
+      "language": "es"
+   },
+   "segundo": {
+      "en": "second",
+      "soundex": "S863",
+      "language": "es"
+   },
+   "segundos": {
+      "en": "seconds",
+      "soundex": "S863",
+      "language": "es"
+   },
+   "siguiente": {
+      "en": "following",
+      "type": "adjective",
+      "soundex": "S863",
+      "language": "es"
+   },
+   "seguro": {
+      "en": "insurance",
+      "soundex": "S890",
+      "language": "es"
+   },
+   "seguir": {
+      "en": "follow",
+      "soundex": "S890",
+      "language": "es"
+   },
+   "segura": {
+      "en": "safe",
+      "type": "adjective",
+      "soundex": "S890",
+      "language": "es"
+   },
+   "seguridad": {
+      "en": "security",
+      "soundex": "S893",
+      "language": "es"
+   },
+   "ser": {
+      "en": "be",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "sr": {
+      "en": "Mr",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "será": {
+      "en": "be",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "serio": {
+      "en": "serious",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "sería": {
+      "en": "would",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "sra": {
+      "en": "Mrs",
+      "soundex": "S900",
+      "language": "es"
+   },
+   "servicio": {
+      "en": "service",
+      "type": "noun",
+      "soundex": "S914",
+      "language": "es"
+   },
+   "suerte": {
+      "en": "luck",
+      "type": "noun",
+      "soundex": "S930",
+      "language": "es"
+   },
+   "srta": {
+      "en": "Ms",
+      "soundex": "S930",
+      "language": "es"
+   },
+   "sargento": {
+      "en": "sergeant",
+      "type": "noun",
+      "soundex": "S986",
+      "language": "es"
+   },
+   "sorpresa": {
+      "en": "surprise",
+      "type": "noun",
+      "soundex": "S994",
+      "language": "es"
+   },
+   "te": {
+      "en": "tea",
+      "soundex": "T000",
+      "stem": "2",
+      "language": "es"
+   },
+   "tu": {
+      "en": "you",
+      "soundex": "T000",
+      "stem": "2",
+      "language": "es"
+   },
+   "tú": {
+      "en": "you",
+      "soundex": "T000",
+      "stem": "2",
+      "language": "es"
+   },
+   "ti": {
+      "en": "you",
+      "soundex": "T000",
+      "language": "es"
+   },
+   "tipo": {
+      "en": "kind",
+      "soundex": "T000",
+      "language": "es"
+   },
+   "tío": {
+      "en": "uncle",
+      "soundex": "T000",
+      "language": "es"
+   },
+   "tuve": {
+      "en": "I had",
+      "soundex": "T100",
+      "language": "es"
+   },
+   "tuvo": {
+      "en": "He had",
+      "soundex": "T100",
+      "language": "es"
+   },
+   "todo": {
+      "en": "all",
+      "soundex": "T300",
+      "stem": "3",
+      "language": "es"
+   },
+   "toda": {
+      "en": "all",
+      "soundex": "T300",
+      "language": "es"
+   },
+   "todavía": {
+      "en": "still",
+      "soundex": "T310",
+      "language": "es"
+   },
+   "todos": {
+      "en": "everybody",
+      "soundex": "T340",
+      "language": "es"
+   },
+   "todas": {
+      "en": "all",
+      "soundex": "T340",
+      "language": "es"
+   },
+   "totalmente": {
+      "en": "totally",
+      "type": "adverb",
+      "soundex": "T356",
+      "language": "es"
+   },
+   "tus": {
+      "en": "your",
+      "soundex": "T400",
+      "language": "es"
+   },
+   "tipos": {
+      "en": "types",
+      "soundex": "T400",
+      "language": "es"
+   },
+   "tal": {
+      "en": "such",
+      "soundex": "T500",
+      "language": "es"
+   },
+   "tuyo": {
+      "en": "of yours",
+      "soundex": "T500",
+      "language": "es"
+   },
+   "tuya": {
+      "en": "yours",
+      "soundex": "T500",
+      "language": "es"
+   },
+   "teléfono": {
+      "en": "phone",
+      "soundex": "T526",
+      "language": "es"
+   },
+   "tiene": {
+      "en": "has",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "tan": {
+      "en": "so",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "tiempo": {
+      "en": "weather",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "tenía": {
+      "en": "had",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "toma": {
+      "en": "taking",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "ten": {
+      "en": "ten",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "temo": {
+      "en": "I fear",
+      "soundex": "T600",
+      "language": "es"
+   },
+   "también": {
+      "en": "as well",
+      "soundex": "T616",
+      "language": "es"
+   },
+   "tanto": {
+      "en": "so much",
+      "soundex": "T630",
+      "language": "es"
+   },
+   "tenido": {
+      "en": "had",
+      "soundex": "T630",
+      "language": "es"
+   },
+   "tonto": {
+      "en": "fool",
+      "soundex": "T630",
+      "language": "es"
+   },
+   "tendrá": {
+      "en": "will have",
+      "soundex": "T639",
+      "language": "es"
+   },
+   "tendrás": {
+      "en": "will you have",
+      "soundex": "T639",
+      "language": "es"
+   },
+   "tendré": {
+      "en": "I will have",
+      "soundex": "T639",
+      "language": "es"
+   },
+   "tendremos": {
+      "en": "we will have",
+      "soundex": "T639",
+      "language": "es"
+   },
+   "tienes": {
+      "en": "do you have",
+      "soundex": "T640",
+      "language": "es"
+   },
+   "tampoco": {
+      "en": "neither",
+      "soundex": "T640",
+      "language": "es"
+   },
+   "tenías": {
+      "en": "you had",
+      "soundex": "T640",
+      "language": "es"
+   },
+   "tienen": {
+      "en": "they have",
+      "soundex": "T660",
+      "language": "es"
+   },
+   "teniente": {
+      "en": "lieutenant",
+      "type": "noun",
+      "soundex": "T663",
+      "language": "es"
+   },
+   "tenemos": {
+      "en": "we have",
+      "soundex": "T664",
+      "language": "es"
+   },
+   "tengo": {
+      "en": "I have",
+      "soundex": "T680",
+      "stem": "3",
+      "language": "es"
+   },
+   "tenga": {
+      "en": "have",
+      "soundex": "T680",
+      "language": "es"
+   },
+   "tengas": {
+      "en": "you have",
+      "soundex": "T684",
+      "language": "es"
+   },
+   "tener": {
+      "en": "to have",
+      "soundex": "T690",
+      "language": "es"
+   },
+   "tomar": {
+      "en": "drink",
+      "soundex": "T690",
+      "language": "es"
+   },
+   "tierra": {
+      "en": "Earth",
+      "type": "noun",
+      "soundex": "T900",
+      "language": "es"
+   },
+   "trae": {
+      "en": "brings",
+      "soundex": "T900",
+      "language": "es"
+   },
+   "través": {
+      "en": "through",
+      "soundex": "T914",
+      "language": "es"
+   },
+   "terrible": {
+      "en": "terrible",
+      "type": "adjective",
+      "soundex": "T915",
+      "language": "es"
+   },
+   "trabajo": {
+      "en": "work",
+      "type": "noun",
+      "soundex": "T918",
+      "language": "es"
+   },
+   "trabajar": {
+      "en": "to work",
+      "type": "verb",
+      "soundex": "T918",
+      "language": "es"
+   },
+   "trabajando": {
+      "en": "working",
+      "type": "verb",
+      "soundex": "T918",
+      "language": "es"
+   },
+   "tarde": {
+      "en": "late",
+      "soundex": "T930",
+      "language": "es"
+   },
+   "trata": {
+      "en": "about",
+      "soundex": "T930",
+      "language": "es"
+   },
+   "trato": {
+      "en": "treatment",
+      "soundex": "T930",
+      "language": "es"
+   },
+   "tratando": {
+      "en": "trying",
+      "soundex": "T936",
+      "language": "es"
+   },
+   "tres": {
+      "en": "three",
+      "soundex": "T940",
+      "language": "es"
+   },
+   "tras": {
+      "en": "after",
+      "soundex": "T940",
+      "language": "es"
+   },
+   "trasero": {
+      "en": "rear",
+      "soundex": "T949",
+      "language": "es"
+   },
+   "tren": {
+      "en": "train",
+      "type": "noun",
+      "soundex": "T960",
+      "language": "es"
+   },
+   "terminar": {
+      "en": "end up",
+      "type": "verb",
+      "soundex": "T966",
+      "language": "es"
+   },
+   "terminado": {
+      "en": "finished",
+      "soundex": "T966",
+      "language": "es"
+   },
+   "tranquilo": {
+      "en": "quiet",
+      "type": "adjective",
+      "soundex": "T967",
+      "language": "es"
+   },
+   "traje": {
+      "en": "suit",
+      "type": "noun",
+      "soundex": "T980",
+      "language": "es"
+   },
+   "ud": {
+      "en": "You",
+      "soundex": "U300",
+      "language": "es"
+   },
+   "uds": {
+      "en": "You",
+      "soundex": "U340",
+      "language": "es"
+   },
+   "usted": {
+      "en": "you",
+      "soundex": "U433",
+      "language": "es"
+   },
+   "ustedes": {
+      "en": "you",
+      "soundex": "U433",
+      "language": "es"
+   },
+   "usar": {
+      "en": "use",
+      "type": "verb",
+      "soundex": "U490",
+      "language": "es"
+   },
+   "última": {
+      "en": "last",
+      "type": "adjective",
+      "soundex": "Ú536",
+      "language": "es"
+   },
+   "último": {
+      "en": "latest",
+      "type": "adjective",
+      "soundex": "Ú536",
+      "language": "es"
+   },
+   "un": {
+      "en": "a",
+      "soundex": "U600",
+      "stem": "2",
+      "language": "es"
+   },
+   "una": {
+      "en": "a",
+      "soundex": "U600",
+      "stem": "3",
+      "language": "es"
+   },
+   "uno": {
+      "en": "one",
+      "soundex": "U600",
+      "language": "es"
+   },
+   "unos": {
+      "en": "some",
+      "soundex": "U640",
+      "language": "es"
+   },
+   "unas": {
+      "en": "nail",
+      "type": "noun",
+      "soundex": "U640",
+      "language": "es"
+   },
+   "único": {
+      "en": "only",
+      "type": "adjective",
+      "soundex": "Ú640",
+      "language": "es"
+   },
+   "única": {
+      "en": "only",
+      "soundex": "Ú640",
+      "language": "es"
+   },
+   "va": {
+      "en": "goes",
+      "type": "verb",
+      "soundex": "V000",
+      "language": "es"
+   },
+   "ve": {
+      "en": "go",
+      "type": "verb",
+      "soundex": "V000",
+      "language": "es"
+   },
+   "veo": {
+      "en": "I see",
+      "type": "verb",
+      "soundex": "V000",
+      "language": "es"
+   },
+   "vi": {
+      "en": "saw",
+      "type": "verb",
+      "soundex": "V000",
+      "language": "es"
+   },
+   "vio": {
+      "en": "he saw",
+      "soundex": "V000",
+      "language": "es"
+   },
+   "vivo": {
+      "en": "alive",
+      "type": "adjective",
+      "soundex": "V100",
+      "language": "es"
+   },
+   "vive": {
+      "en": "lives",
+      "type": "verb",
+      "soundex": "V100",
+      "language": "es"
+   },
+   "vivir": {
+      "en": "live",
+      "type": "verb",
+      "soundex": "V190",
+      "language": "es"
+   },
+   "vida": {
+      "en": "lifetime",
+      "type": "noun",
+      "soundex": "V300",
+      "language": "es"
+   },
+   "vete": {
+      "en": "go away",
+      "type": "verb",
+      "soundex": "V300",
+      "language": "es"
+   },
+   "vidas": {
+      "en": "lives",
+      "type": "noun",
+      "soundex": "V340",
+      "language": "es"
+   },
+   "vez": {
+      "en": "time",
+      "type": "noun",
+      "soundex": "V400",
+      "language": "es"
+   },
+   "vas": {
+      "en": "you go",
+      "type": "verb",
+      "soundex": "V400",
+      "language": "es"
+   },
+   "ves": {
+      "en": "you see",
+      "type": "verb",
+      "soundex": "V400",
+      "language": "es"
+   },
+   "voz": {
+      "en": "voice",
+      "type": "noun",
+      "soundex": "V400",
+      "language": "es"
+   },
+   "visto": {
+      "en": "viewed",
+      "soundex": "V430",
+      "language": "es"
+   },
+   "viste": {
+      "en": "Dresses",
+      "soundex": "V430",
+      "language": "es"
+   },
+   "vista": {
+      "en": "view",
+      "type": "noun",
+      "soundex": "V430",
+      "language": "es"
+   },
+   "veces": {
+      "en": "times",
+      "soundex": "V440",
+      "language": "es"
+   },
+   "voy": {
+      "en": "I go",
+      "type": "verb",
+      "soundex": "V500",
+      "language": "es"
+   },
+   "vaya": {
+      "en": "go",
+      "soundex": "V500",
+      "language": "es"
+   },
+   "vale": {
+      "en": "okay",
+      "soundex": "V500",
+      "language": "es"
+   },
+   "vuelve": {
+      "en": "returns",
+      "type": "verb",
+      "soundex": "V510",
+      "language": "es"
+   },
+   "volver": {
+      "en": "return",
+      "type": "verb",
+      "soundex": "V519",
+      "language": "es"
+   },
+   "vuelta": {
+      "en": "return",
+      "type": "verb",
+      "soundex": "V530",
+      "language": "es"
+   },
+   "vuelto": {
+      "en": "turned",
+      "type": "verb",
+      "soundex": "V530",
+      "language": "es"
+   },
+   "vayas": {
+      "en": "go",
+      "type": "verb",
+      "soundex": "V540",
+      "language": "es"
+   },
+   "vayan": {
+      "en": "go",
+      "type": "verb",
+      "soundex": "V560",
+      "language": "es"
+   },
+   "ven": {
+      "en": "come",
+      "type": "verb",
+      "soundex": "V600",
+      "language": "es"
+   },
+   "van": {
+      "en": "go",
+      "type": "verb",
+      "soundex": "V600",
+      "language": "es"
+   },
+   "viene": {
+      "en": "comes",
+      "type": "verb",
+      "soundex": "V600",
+      "language": "es"
+   },
+   "vino": {
+      "en": "came",
+      "type": "verb",
+      "soundex": "V600",
+      "language": "es"
+   },
+   "vine": {
+      "en": "came",
+      "type": "verb",
+      "soundex": "V600",
+      "language": "es"
+   },
+   "venido": {
+      "en": "I come",
+      "type": "verb",
+      "soundex": "V630",
+      "language": "es"
+   },
+   "vamos": {
+      "en": "come on",
+      "type": "verb",
+      "soundex": "V640",
+      "stem": "5",
+      "language": "es"
+   },
+   "vemos": {
+      "en": "we see",
+      "type": "verb",
+      "soundex": "V640",
+      "language": "es"
+   },
+   "veamos": {
+      "en": "let's see",
+      "type": "verb",
+      "soundex": "V640",
+      "language": "es"
+   },
+   "vienen": {
+      "en": "they come",
+      "type": "verb",
+      "soundex": "V660",
+      "language": "es"
+   },
+   "vámonos": {
+      "en": "let's move on",
+      "type": "verb",
+      "soundex": "V664",
+      "language": "es"
+   },
+   "venga": {
+      "en": "come on",
+      "type": "verb",
+      "soundex": "V680",
+      "language": "es"
+   },
+   "venir": {
+      "en": "come",
+      "type": "verb",
+      "soundex": "V690",
+      "language": "es"
+   },
+   "viejo": {
+      "en": "old",
+      "type": "adjective",
+      "soundex": "V800",
+      "language": "es"
+   },
+   "viaje": {
+      "en": "travel",
+      "type": "noun",
+      "soundex": "V800",
+      "language": "es"
+   },
+   "ver": {
+      "en": "see",
+      "type": "verb",
+      "soundex": "V900",
+      "language": "es"
+   },
+   "veré": {
+      "en": "I will see",
+      "soundex": "V900",
+      "language": "es"
+   },
+   "verte": {
+      "en": "to see you",
+      "soundex": "V930",
+      "language": "es"
+   },
+   "verdad": {
+      "en": "true",
+      "soundex": "V933",
+      "language": "es"
+   },
+   "verdadero": {
+      "en": "true",
+      "type": "adjective",
+      "soundex": "V933",
+      "language": "es"
+   },
+   "veras": {
+      "en": "you will see",
+      "soundex": "V940",
+      "language": "es"
+   },
+   "verlo": {
+      "en": "see him",
+      "soundex": "V950",
+      "language": "es"
+   },
+   "y": {
+      "en": "and",
+      "soundex": "Y000",
+      "stem": "1",
+      "language": "es"
+   },
+   "yo": {
+      "en": "I",
+      "soundex": "Y000",
+      "stem": "2",
+      "language": "es"
+   },
+   "ya": {
+      "en": "already",
+      "soundex": "Y000",
+      "stem": "2",
+      "language": "es"
+   },
+   "york": {
+      "en": "york",
+      "soundex": "Y970",
+      "language": "es"
+   }
+}
