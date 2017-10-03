@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Conjugation Tetris</title>
+		<title>Swipe game: learn to distinguish verbs from adjectives</title>
 		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
 		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
 		<link href="fonts/stylesheet.css" rel="stylesheet">
@@ -41,11 +41,19 @@
 				$.detectSwipe.threshold = 20;
 
 				var words;
+				var ready = false;
 
 				var sounds = {
 					success: 	new Howl({ src: ['audio/success-chime.wav'] }),
 					fail: 		new Howl({ src: ['audio/fail-beeps.wav'] })
 				};
+
+				var stem;
+				var translation;
+				var ptsLbl;
+
+				var _viz;
+				var _repositionees = [];
 
 				$.get('js/es-freq1k.json', function(result, status) {
 					if(status === 'success') {
@@ -58,8 +66,6 @@
 					}
 				});
 
-				var _viz;
-				var _repositionees = [];
 
 				Item.inject({
 					getViewPosition: function() {
@@ -263,210 +269,166 @@
 					adjective: 'orange'
 				};
 
-				var verbsLbl = new PointText({
-					name: 		'verbs_label',
-					point: 		view.bounds.bottomCenter,
-					fontSize: 	22,
-					align: 		'right',
-					valign: 	'bottom',
-					content: 	'verbs ',
-					fillColor: 	colors.verb
+				Danimator.import('img/game-title.svg', function() {
+					this.item.fitBounds(view.bounds, view.bounds.width > 460);
+
+					var intro = this.item;
+
+					ptsLbl = new PointText({
+						name: 			'pointsLabel',
+						fillColor: 		'black',
+						fontSize: 		32,
+						content: 		'points: 0',
+						align: 			'right',
+						valign: 		'top',
+						opacity: 		0,
+						viewPosition: 	{ x: '100%', y: 0, offsetX: -padding, offsetY: padding }
+					});
+
+					stem = new PaddedText({
+						align: 		'center',
+						valign: 	'middle',
+						point: 		view.bounds.center,
+						content: 	'ready?',
+						bgColor: 	null,
+						color: 		'black',
+						fontFamily: 'Varela Round',
+						fontSize: 	48,
+						padding: 	10,
+						radius: 	6
+					});
+
+					translation = new PointText({
+						align: 		'center',
+						valign: 	'middle',
+						point: 		view.bounds.center,
+						viewPosition: { x: '50%', y: '50%' },
+						content: 	'[translation]',
+						fontFamily: 'Times',
+						fontSize: 	48,
+						opacity: 	0
+					});
+
+					stem.item.applyMatrix = false;
+					stem.item.opacity = 0;
+
+					function firstClick() {
+						ready = true;
+						onKeyUp({ key: 'space' });
+						
+						Danimator.fadeOut(intro, .3);
+						ptsLbl.opacity = 1;
+						stem.item.opacity = 1;
+
+						$(document)
+							.on('swipeleft', function() {
+								onKeyUp({ key: 'left' });
+							})
+							.on('swiperight', function() {
+								onKeyUp({ key: 'right' });
+							})
+							.off('click', firstClick);
+					}
+
+					$(document).on('click', firstClick);
+					Danimator.handlers.setCursor('pointer');
 				});
-
-				/*
-				var nounsLbl = new PointText({
-					point: view.bounds.bottomCenter,
-					content: 'nouns',
-					fillColor: colors.noun
-				});
-				*/
-
-				var adjLbl = new PointText({
-					name: 		'adjectives_label',
-					point: 		view.bounds.bottomCenter, //verbsLbl.point + [nounsLbl.bounds.width + padding * 2,0],
-					fontSize: 	22,
-					align: 		'left',
-					valign: 	'bottom',
-					content: 	' adjectives',
-					fillColor: 	colors.adjective
-				})
-
-				var legend = new Group([verbsLbl, /*nounsLbl,*/ adjLbl]);
-				//legend.position.y -= padding;
-
-				legend.viewPosition = { x: '50%', y: '100%', offsetY: -padding };
-
-				var ptsLbl = new PointText({
-					name: 			'pointsLabel',
-					fillColor: 		'black',
-					fontSize: 		32,
-					content: 		'points: 0',
-					align: 			'right',
-					valign: 		'top',
-					viewPosition: 	{ x: '100%', y: 0, offsetX: -padding, offsetY: padding }
-				});
-
-				/* draw grid!
-				project.currentStyle.strokeColor = 'black';
-				project.currentStyle.strokeColor.alpha = .1;
-
-				var gridSize = new Size(100,100);
-				var W = view.bounds.width;
-				var H = view.bounds.height;
-				var grid = new Group();
-
-				for(var x = 0; x < W; x += gridSize.width )
-					grid.insertChild(new Path.Line([x, 0], [x, H]));
-
-				for(var y = 0; y < H; y += gridSize.height )
-					grid.insertChild(new Path.Line([0, y], [W, y]));
-
-				grid.sendToBack();
-				project.currentStyle.strokeColor = null;
-				*/
 
 				var _timeout;
 				var _points = 0;
+
 				var strikes = 0;
 				var strikeMax = 10;
 				var strike = 0;
 
 				var timing = 4000;
 
-				var stem = new PaddedText({
-					align: 		'center',
-					valign: 	'middle',
-					point: 		view.bounds.center,
-					content: 	'ready?',
-					bgColor: 	null,
-					color: 		'black',
-					fontFamily: 'Varela Round',
-					fontSize: 	48,
-					padding: 	10,
-					radius: 	6
-				});
-
-				var translation = new PointText({
-					align: 		'center',
-					valign: 	'middle',
-					point: 		view.bounds.center,
-					viewPosition: { x: '50%', y: '50%' },
-					content: 	'[translation]',
-					fontFamily: 'Times',
-					fontSize: 	48,
-					opacity: 	0
-				});
-
-				stem.item.applyMatrix = false;
-
 				onKeyUp = function(event) {
-					var input;
-					var sign;
+					if(ready) {
+						var input;
+						var sign;
 
-					switch(event.key) {
-						case 'left':
-							input = 'verb';
-							sign = '-';
-							break;
-						case 'right':
-							input = 'adjective';
-							sign = '+';
-							break;
-						/*	
-						case 'down':
-						case 'up':
-							input = 'noun';
-							break;
-						*/
-						case 'space':
-							_timeout = setTimeout(playRound, 2000);
-							break;
-					}
+						switch(event.key) {
+							case 'left':
+								input = 'verb';
+								sign = '-';
+								break;
+							case 'right':
+								input = 'adjective';
+								sign = '+';
+								break;
+							case 'space':
+								_timeout = setTimeout(playRound, 2000);
+								break;
+						}
 
-					if(input) {
-						clearTimeout(_timeout);
+						if(input) {
+							clearTimeout(_timeout);
 
-						translation.content = words[0].en;
-						Danimator.fadeIn(translation, .2);
+							translation.content = words[0].en;
+							Danimator.fadeIn(translation, .2);
 
-						if(words[0].type === input) {
+							if(words[0].type === input) {
 
-							sounds.success.play();
+								sounds.success.play();
 
-							flash(stem, colors[input], 'white');
-							Danimator(stem.item, 'scaling', 1, 2, .3);
-							Danimator(stem.item, 'opacity', 1, 0, .3);
-							Danimator(stem.item, 'position.x', null, sign + '300', .3);
+								flash(stem, colors[input], 'white');
+								Danimator(stem.item, 'scaling', 1, 2, .3);
+								Danimator(stem.item, 'opacity', 1, 0, .3);
+								Danimator(stem.item, 'position.x', null, sign + '300', .3);
 
-							strike++;
+								strike++;
 
-							strikes = parseInt(strike / strikeMax);
+								strikes = parseInt(strike / strikeMax);
 
-							if(strikes > 0 && (strike % strikeMax === 0)) {
-								timing *= 0.9;
-								timing = Math.max(timing, 800);
-							}
+								if(strikes > 0 && (strike % strikeMax === 0)) {
+									timing *= 0.9;
+									timing = Math.max(timing, 800);
+								}
 
-							_points += 30;
-							ptsLbl.content = 'points: ' + _points;
+								_points += 30;
+								ptsLbl.content = 'points: ' + _points;
 
-							_timeout = setTimeout(function() {
-								clearTimeout(_timeout);
-								playRound();
-								stem.item.scaling = 1;
-								stem.item.opacity = 1;
-							}, 1000);
-						} else {
-
-							strike = 0;
-							strikes = 0;
-
-							sounds.fail.play();
-
-							Danimator.animate(stem.bg, 	  'fillColor', null, 'black', .2);
-							Danimator.animate(stem.label, 'fillColor', null, 'white', .2);
-							Danimator.animate(stem.item,  'rotation', 0, -3, .15, {
-								easing: Ease.bounceOut
-							}).then('animate', stem.item, 'rotation', -3, 3, .15, {
-								easing: Ease.bounceOut
-							}).then('animate', stem.item, 'rotation', 3, 0, .15, {
-								easing: Ease.bounceOut
-							}).then('animate', stem.item, 'position.y', null, '-10', .2, {
-								easing: Ease.cubicOut
-							}).then('animate', stem.item, 'position.y', null, '+' + view.bounds.height, .4, {
-								easing: Ease.cubicIn
-							}).then(function(){
 								_timeout = setTimeout(function() {
 									clearTimeout(_timeout);
 									playRound();
 									stem.item.scaling = 1;
-									stem.bg.fillColor = 'white';
-									stem.label.fillColor = 'black';
-									stem.item.position = view.bounds.center;
 									stem.item.opacity = 1;
 								}, 1000);
-							});
+							} else {
+
+								strike = 0;
+								strikes = 0;
+
+								sounds.fail.play();
+
+								Danimator.animate(stem.bg, 	  'fillColor', null, 'black', .2);
+								Danimator.animate(stem.label, 'fillColor', null, 'white', .2);
+								Danimator.animate(stem.item,  'rotation', 0, -3, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'rotation', -3, 3, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'rotation', 3, 0, .15, {
+									easing: Ease.bounceOut
+								}).then('animate', stem.item, 'position.y', null, '-10', .2, {
+									easing: Ease.cubicOut
+								}).then('animate', stem.item, 'position.y', null, '+' + view.bounds.height, .4, {
+									easing: Ease.cubicIn
+								}).then(function(){
+									_timeout = setTimeout(function() {
+										clearTimeout(_timeout);
+										playRound();
+										stem.item.scaling = 1;
+										stem.bg.fillColor = 'white';
+										stem.label.fillColor = 'black';
+										stem.item.position = view.bounds.center;
+										stem.item.opacity = 1;
+									}, 1000);
+								});
+							}
+
 						}
-
 					}
-
-				}
-
-				$(document).on('click', firstClick);
-
-				var _time = Date.now();
-
-				function firstClick() {
-					onKeyUp({ key: 'space' });
-					stem.item.opacity = 0;
-					$(document)
-						.on('swipeleft', function() {
-							onKeyUp({ key: 'left' });
-						})
-						.on('swiperight', function() {
-							onKeyUp({ key: 'right' });
-						})
-						.off('click', firstClick);
 				}
 
 				function playRound() {
@@ -477,11 +439,8 @@
 						stem.content = words[0].name;
 						stem.item.opacity = 1;
 					}
-					_time = Date.now();
 					_timeout = setTimeout(playRound, timing);
 				}
-
-				Danimator.handlers.setCursor('pointer');
 			});
 		</script>
 	</body>
