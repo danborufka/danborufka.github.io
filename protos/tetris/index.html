@@ -361,13 +361,16 @@
 
 				onKeyUp = function(event) {
 					var input;
+					var sign;
 
 					switch(event.key) {
 						case 'left':
 							input = 'verb';
+							sign = '-';
 							break;
 						case 'right':
 							input = 'adjective';
+							sign = '+';
 							break;
 						/*	
 						case 'down':
@@ -393,6 +396,7 @@
 							flash(stem, colors[input], 'white');
 							Danimator(stem.item, 'scaling', 1, 2, .3);
 							Danimator(stem.item, 'opacity', 1, 0, .3);
+							Danimator(stem.item, 'position.x', null, sign + '300', .3);
 
 							strike++;
 
@@ -448,16 +452,22 @@
 
 				}
 
-				$(document)
-					.on('swipeleft', function() {
-						onKeyUp({ key: 'left' });
-					})
-					.on('swiperight', function() {
-						onKeyUp({ key: 'right' });
-					})
-					;
+				$(document).on('click', firstClick);
 
 				var _time = Date.now();
+
+				function firstClick() {
+					onKeyUp({ key: 'space' });
+					stem.item.opacity = 0;
+					$(document)
+						.on('swipeleft', function() {
+							onKeyUp({ key: 'left' });
+						})
+						.on('swiperight', function() {
+							onKeyUp({ key: 'right' });
+						})
+						.off('click', firstClick);
+				}
 
 				function playRound() {
 					translation.opacity = 0;
@@ -465,11 +475,13 @@
 						stem.bgColor = 'white';
 						words.push(words.shift());
 						stem.content = words[0].name;
+						stem.item.opacity = 1;
 					}
 					_time = Date.now();
 					_timeout = setTimeout(playRound, timing);
 				}
 
+				Danimator.handlers.setCursor('pointer');
 			});
 		</script>
 	</body>

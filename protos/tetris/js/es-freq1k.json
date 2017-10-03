@@ -818,7 +818,7 @@
    },
    "completamente": {
       "en": "completely",
-      "type": "adjective",
+      "type": "adverb",
       "soundex": "C653",
       "language": "es"
    },
@@ -1702,7 +1702,7 @@
    },
    "esposa": {
       "en": "wife",
-      "type": "verb",
+      "type": "noun",
       "soundex": "E440",
       "language": "es"
    },
