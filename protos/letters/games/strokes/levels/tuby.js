@@ -27,6 +27,7 @@ function _changeState(offset, game) {
 	body.lastSegment.handleOut 	= game.stroke.getTangentAt(offsetB) * 10;
 
 	_.each(hamster.children, function(child) {
+		child.applyMatrix = false;
 		// use suffix of layer name to determine which segment to attach it to
 		var segmentId = child.name.match(/\-(\d+)$/);
 		if(segmentId && (segmentId = segmentId[1])) {
