@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Swipe game: learn to distinguish verbs from adjectives</title>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+		<link href="fonts/stylesheet.css" rel="stylesheet">
+		<style type="text/css">
+			html,
+			body {
+				font-family: 'Varela Round', sans-serif;
+				font-size: 42px;
+			    margin: 0;
+			    overflow: hidden;
+			    height: 100%;
+			}
+
+			body {
+				background: #f6d6a4;
+			}
+
+			.progress {
+				position: 	fixed;
+				left: 		0;
+				bottom: 	0;
+				height: 	4px;
+				width: 		0;
+				background: crimson;
+			}
+			.progress.full {
+				width: 100%;
+				transition: all 4s linear;
+			}
+
+			div[resize] {
+				border: 1px solid crimson;
+				display: flex;
+				align-items: baseline;
+				justify-content: center;
+				padding-top: 25vh;
+				width: 	100%;
+				height: 100%;
+			}
+
+			.word {
+				background-color: #fff;
+				border-radius: 10px;
+				display: inline-flex;
+				padding: 10px 20px;
+				color: #262a40;
+				margin-right: 40px;
+			}
+
+			.translation {
+				padding-left: 20px;
+				font-size: 80%;
+				font-style: italic;
+				margin-top: 10px;
+			}
+
+			.adjective {
+				color: orange;
+			}
+			.noun {
+				color: crimson;
+			}
+			.verb {
+				color: #16AE5A;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mainCanvas" resize>
+			<div class="es">
+				<div class="word">hablo</div> 
+			<div class="translation">I speak</div>
+			</div>
+				<div class="type verb">(verb)</div>
+		</div>
+		<div class="progress"></div>
+		<script src="js/libs/jquery-1.11.3.min.js"></script>
+		<script src="js/libs/lodash.js"></script>
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.4/paper-full.js"></script> -->
+
+		<script type="text/javascript">
+			jQuery(function($) {
+
+				var colors = {
+					verb: 		'#16AE5A',
+					noun:  	'crimson',
+					adjective: 'orange'
+				};
+
+				var words;
+				var ready = false;
+
+				$.get('js/es-freq1k.json', function(result, status) {
+					if(status === 'success') {
+						//words = result;
+						var wordsOfInterest = _.pickBy(result, function(word, name) {
+							word.name = name;
+							return ['adjective','verb'].indexOf(word.type) > -1;
+						});
+						words = _.sampleSize(wordsOfInterest, _.size(wordsOfInterest));
+						playRound();
+					}
+				});
+
+				var _timeout;
+				var timing = 4000;
+
+				var $word 		 = $('.word');
+				var $translation = $('.translation');
+				var $progress	 = $('.progress');
+				var $type 		 = $('.type');
+
+				function playRound() {
+					words.push(words.shift());
+					var word = words[0];
+
+					$word.text(word.name);
+					$translation.text(word.en);
+					$type.text('(' + word.type + ')').prop('class', 'type ' + word.type);
+					$progress.addClass('full');
+
+					setTimeout(function() {
+						$progress.removeClass('full');
+					}, timing - 30);
+
+					_timeout = setTimeout(playRound, timing);
+				}
+
+				function cancelRound() {
+					$progress.removeClass('full');
+					clearTimeout(_timeout);
+				}
+			});
+		</script>
+	</body>
+</html>
