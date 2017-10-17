@@ -40,6 +40,22 @@
 			jQuery(function($) {
 				$.detectSwipe.threshold = 20;
 
+				var _mouseDown = false;
+				var _mouseOriginX = 0;
+
+				$(document)
+					.on('mousedown', function(event) {
+						_mouseDown = true;
+						_mouseOriginX = event.clientX;
+					})
+					.on('mouseup', function() {
+						var deltaX = event.clientX - _mouseOriginX;
+						if(deltaX !== 0) {
+							$(this).trigger('drag' + (deltaX > 0 ? 'right' : 'left'));
+						}
+						_mouseDown = false;
+					});
+
 				var words;
 				var ready = false;
 
@@ -321,10 +337,10 @@
 						stem.item.opacity = 1;
 
 						$(document)
-							.on('swipeleft', function() {
+							.on('swipeleft dragleft', function() {
 								onKeyUp({ key: 'left' });
 							})
-							.on('swiperight', function() {
+							.on('swiperight dragright', function() {
 								onKeyUp({ key: 'right' });
 							})
 							.off('click', firstClick);
