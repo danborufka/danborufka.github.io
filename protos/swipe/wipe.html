@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104705641-2"></script>
 		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-		gtag('config', 'UA-104705641-2');
+		var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-104705641-2']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
 		</script>
 		<title>Swipe game: learn to distinguish verbs from adjectives</title>
 		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
