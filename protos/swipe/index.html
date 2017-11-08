@@ -3,8 +3,18 @@
 	<head>
 		<title>Swipe game: learn to distinguish verbs from adjectives</title>
 		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-104705641-2"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-104705641-2');
+		</script>
 		<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
 		<link href="fonts/stylesheet.css" rel="stylesheet">
+
 		<style type="text/css">
 			html,
 			body {
@@ -51,6 +61,9 @@
 
 		<script src="/cdn/danimator/Danimator.min.js"></script>
 		<script src="/cdn/danimator/Danimator.audio.min.js"></script>
+		<script src="js/danimator.extensions.js"></script>
+		<script src="js/PaddedText.js"></script>
+		<script type="text/javascript" src="../wordbase/js/wordbase.js"></script>
 
 		<script type="text/paperscript" canvas="mainCanvas">
 			jQuery(function($) {
@@ -87,18 +100,20 @@
 				var _viz;
 				var _repositionees = [];
 
-				$.get('js/es-freq1k.json', function(result, status) {
+				$.get('../swipe/js/es-freq1k.json', function(result, status) {
 					if(status === 'success') {
-						//words = result;
-						var wordsOfInterest = _.pickBy(result, function(word, name) {
-							word.name = name;
-							return ['adjective','verb'].indexOf(word.type) > -1;
-						});
-						words = _.sampleSize(wordsOfInterest, _.size(wordsOfInterest));
+						var spanishFreq1k = new WordBase( _.map(result, Word.fromPair) ).shuffle();
+						var _wpg = { limit: 50 };
+
+						spanishFreq1k
+							.filter({ type: 'adjective' }, _wpg)
+							.or({ type: 'verb' }, _wpg)
+							.shuffle();
+
+						words = spanishFreq1k.words;
 					}
 				});
-
-
+			
 				Item.inject({
 					getViewPosition: function() {
 						return this.data._viewPosition;
@@ -131,157 +146,11 @@
 					}
 				});
 
-				var originals = {
-					setContent: 	TextItem.prototype.setContent,
-					setPoint: 		TextItem.prototype.setPoint,
-					setPosition: 	TextItem.prototype.setPosition,
-				};
-
-				TextItem.inject({
-					getAlign: function() {
-						return this.data._align;
-					},
-					setAlign: function(align) {
-						this.data._align = align;
-						this.reposition();
-					},
-					getValign: function() {
-						return this.data._valign;
-					},
-					setValign: function(valign) {
-						this.data._valign = valign;
-						this.reposition();
-					},
-					setContent: function(content) {
-						originals.setContent.apply(this, arguments);
-						//this.resize();
-						this.reposition();
-						this.viewPosition = this.viewPosition;
-					},
-					setPosition: function(pos) {
-						this.data._point = pos;
-						originals.setPosition.apply(this, arguments);
-					},
-					setPoint: function() {
-						this.setPosition.apply(this, arguments);
-					},
-					reposition: function() {
-						var hfactor = 0;
-						var vfactor = 0;
-
-						switch(this.data._align) {
-							case 'right':
-								hfactor = -.5;
-								break;
-							case 'left':
-								hfactor = .5;
-								break;
-						}
-
-						switch(this.data._valign) {
-							case 'bottom':
-								vfactor = 1;
-								break;
-							case 'top':
-								vfactor = .5;
-								break;
-						}
-
-						if(!this.data._point) {
-							this.data._point = this.position;
-						}
-
-						this.position.x = this.data._point.x + this.bounds.width * hfactor;
-						this.position.y = this.data._point.y + this.fontSize * vfactor;
-					}
-				});
-
 				onResize = function() {
 					_.each(_repositionees, function(_repositionee) {
 						_repositionee.viewPosition = _repositionee.viewPosition;
 					});
 				}
-
-				PaddedText = Base.extend({
-					initialize: function PaddedText(config) {
-						this._padding = config.padding || 4; 
-						this._point = config.point;
-
-						var _labelConfig = _.extend({
-							name:  	'label',
-							fillColor: config.color,
-							fontSize: 16,
-							position: config.point
-						}, config);
-						var label 	= new PointText(_labelConfig);
-
-						var _bgConfig = _.extend({
-							name: 			'bg',
-							radius: 		3,
-							fillColor: 		config.bgColor,
-							rectangle: 		label.bounds
-						}, config);
-						var bg 		= new Shape.Rectangle(_bgConfig);
-
-						this.item 	= new Group([bg, label]);
-
-						this.label = label;
-						this.bg = bg;
-						
-						this.align  = config.align || 'left';
-						this.valign = config.valign || 'top';
-
-						this.item.data._text = config.content;
-
-						this.resize();
-					},
-					resize: function() {
-						this.bg.bounds = this.label.bounds.expand(this._padding * 2, 0);
-						this.bg.bounds.top--;	// optical hack
-						this.item.position = this.point;
-					}
-				}, {
-					beans: true,
-					getContent: function() {
-						return this.label.content;
-					},
-					setContent: function(text) {
-						this.label.content = text;
-						this.resize();
-					},
-					getBgColor: function() {
-						return this.bg.fillColor;
-					},
-					setBgColor: function(color) {
-						this.bg.fillColor = color;
-					},
-					getColor: function() {
-						return this.label.fillColor;
-					},
-					setColor: function(color) {
-						this.label.fillColor = color;
-					},
-					getOutline: function() {
-						return this.bg.strokeColor;
-					},
-					setOutline: function(color) {
-						this.bg.strokeColor = color;
-					},
-					getPadding: function() {
-						return this._padding;
-					},
-					setPadding: function(padd) {
-						this._padding = padd;
-						this.resize();
-					},
-					getPoint: function() {
-						return this._point;
-					},
-					setPoint: function(pos) {
-						this.item.translate(pos - this.point);
-						this._point = pos;
-					}
-				});
 
 				function flash(padtext, color, final) {
 					var bgColor = padtext.bgColor;
@@ -479,6 +348,7 @@
 						stem.content = words[0].name;
 						stem.item.opacity = 1;
 					}
+					/*
 
 					$progress.css('transitionDuration', '').addClass('full');
 
@@ -487,6 +357,7 @@
 					}, timing - 30);
 
 					_timeout = setTimeout(playRound, timing);
+					*/
 				}
 
 				function cancelRound() {

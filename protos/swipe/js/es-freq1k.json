@@ -3,7 +3,7 @@
       "type": "preposition",
       "en": "to",
       "soundex": "A000",
-      "stem": "1",
+      "stem": [1],
       "language": "es"
    },
    "abuelo": {
@@ -94,13 +94,13 @@
       "language": "es"
    },
    "además": {
-      "en": "Besides",
+      "en": "besides",
       "soundex": "A364",
       "language": "es"
    },
    "atención": {
       "type": "noun",
-      "en": "Attention",
+      "en": "attention",
       "soundex": "A364",
       "language": "es"
    },
@@ -119,7 +119,7 @@
    "así": {
       "en": "so",
       "soundex": "A400",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "acá": {
@@ -177,7 +177,7 @@
    "al": {
       "en": "to the",
       "soundex": "A500",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "allí": {
@@ -191,7 +191,7 @@
       "language": "es"
    },
    "ay": {
-      "en": "Oh",
+      "en": "oh",
       "soundex": "A500",
       "language": "es"
    },
@@ -209,7 +209,7 @@
    },
    "ayudar": {
       "type": "verb",
-      "en": "help",
+      "en": "to help",
       "soundex": "A539",
       "language": "es"
    },
@@ -239,7 +239,7 @@
       "language": "es"
    },
    "algunos": {
-      "en": "Some",
+      "en": "some",
       "soundex": "A586",
       "language": "es"
    },
@@ -249,7 +249,7 @@
       "language": "es"
    },
    "ayer": {
-      "en": "Yesterday",
+      "en": "yesterday",
       "soundex": "A590",
       "language": "es"
    },
@@ -265,6 +265,7 @@
    },
    "año": {
       "en": "year",
+      "type": "noun",
       "soundex": "A600",
       "language": "es"
    },
@@ -336,7 +337,7 @@
    "aquí": {
       "en": "here",
       "soundex": "A700",
-      "stem": "1,4",
+      "stem": [1],
       "language": "es"
    },
    "aqui": {
@@ -346,7 +347,7 @@
    },
    "agua": {
       "type": "noun",
-      "en": "Water",
+      "en": "water",
       "soundex": "A800",
       "language": "es"
    },
@@ -396,7 +397,7 @@
       "language": "es"
    },
    "basta": {
-      "en": "Enough",
+      "en": "enough",
       "soundex": "B430",
       "language": "es"
    },
@@ -412,7 +413,8 @@
       "language": "es"
    },
    "buscar": {
-      "en": "search",
+      "en": "to search",
+      "type": "verb",
       "soundex": "B490",
       "language": "es"
    },
@@ -423,7 +425,7 @@
    },
    "blanco": {
       "type": "adjective",
-      "en": "White",
+      "en": "white",
       "soundex": "B564",
       "language": "es"
    },
@@ -431,7 +433,7 @@
       "type": "adjective",
       "en": "good",
       "soundex": "B600",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "bueno": {
@@ -475,7 +477,7 @@
    },
    "banco": {
       "type": "noun",
-      "en": "Bank",
+      "en": "bank",
       "soundex": "B640",
       "language": "es"
    },
@@ -523,7 +525,7 @@
    },
    "chicos": {
       "type": "noun",
-      "en": "Boys",
+      "en": "boys",
       "soundex": "C244",
       "language": "es"
    },
@@ -622,7 +624,7 @@
       "language": "es"
    },
    "calle": {
-      "en": "Street",
+      "en": "street",
       "type": "noun",
       "soundex": "C500",
       "language": "es"
@@ -653,7 +655,7 @@
    },
    "cielos": {
       "type": "noun",
-      "en": "Heavens",
+      "en": "heavens",
       "soundex": "C540",
       "language": "es"
    },
@@ -675,7 +677,7 @@
    },
    "claro": {
       "type": "adjective",
-      "en": "Clear",
+      "en": "clear",
       "soundex": "C590",
       "language": "es"
    },
@@ -683,19 +685,19 @@
       "type": "conjunction",
       "en": "with",
       "soundex": "C600",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "como": {
       "en": "as",
       "soundex": "C600",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "cómo": {
       "en": "how",
       "soundex": "C600",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "cama": {
@@ -712,7 +714,7 @@
    },
    "cena": {
       "type": "noun",
-      "en": "Dinner",
+      "en": "dinner",
       "soundex": "C600",
       "language": "es"
    },
@@ -723,7 +725,7 @@
       "language": "es"
    },
    "cambiar": {
-      "en": "change",
+      "en": "to change",
       "type": "verb",
       "soundex": "C619",
       "language": "es"
@@ -731,7 +733,7 @@
    "cuando": {
       "en": "when",
       "soundex": "C630",
-      "stem": "5",
+      "stem": [5],
       "language": "es"
    },
    "cuenta": {
@@ -989,7 +991,7 @@
    "de": {
       "en": "from",
       "soundex": "D000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "día": {
@@ -1035,13 +1037,13 @@
       "language": "es"
    },
    "diablo": {
-      "en": "Devil",
+      "en": "devil",
       "type": "noun",
       "soundex": "D150",
       "language": "es"
    },
    "diablos": {
-      "en": "Devils",
+      "en": "devils",
       "type": "noun",
       "soundex": "D154",
       "language": "es"
@@ -1112,7 +1114,7 @@
       "language": "es"
    },
    "dios": {
-      "en": "God",
+      "en": "god",
       "type": "noun",
       "soundex": "D400",
       "language": "es"
@@ -1123,7 +1125,7 @@
       "language": "es"
    },
    "dice": {
-      "en": "He says",
+      "en": "he says",
       "type": "verb",
       "soundex": "D400",
       "language": "es"
@@ -1146,7 +1148,7 @@
       "language": "es"
    },
    "decía": {
-      "en": "He said",
+      "en": "he said",
       "type": "verb",
       "soundex": "D400",
       "language": "es"
@@ -1203,7 +1205,7 @@
       "language": "es"
    },
    "disculpa": {
-      "en": "Sorry",
+      "en": "sorry",
       "soundex": "D450",
       "language": "es"
    },
@@ -1246,7 +1248,7 @@
    "del": {
       "en": "of the",
       "soundex": "D500",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "dile": {
@@ -1256,7 +1258,7 @@
       "language": "es"
    },
    "dale": {
-      "en": "Go ahead",
+      "en": "go ahead",
       "type": "verb",
       "soundex": "D500",
       "language": "es"
@@ -1279,7 +1281,7 @@
       "language": "es"
    },
    "dólares": {
-      "en": "Dollars",
+      "en": "dollars",
       "type": "noun",
       "soundex": "D594",
       "language": "es"
@@ -1346,7 +1348,7 @@
       "language": "es"
    },
    "dijo": {
-      "en": "He said",
+      "en": "he said",
       "type": "verb",
       "soundex": "D800",
       "language": "es"
@@ -1405,7 +1407,7 @@
       "language": "es"
    },
    "dejar": {
-      "en": "leave",
+      "en": "to leave",
       "type": "verb",
       "soundex": "D890",
       "language": "es"
@@ -1417,7 +1419,7 @@
       "language": "es"
    },
    "dar": {
-      "en": "give",
+      "en": "to give",
       "type": "verb",
       "soundex": "D900",
       "language": "es"
@@ -1435,7 +1437,7 @@
       "language": "es"
    },
    "daré": {
-      "en": "I'll give",
+      "en": "i'll give",
       "type": "verb",
       "soundex": "D900",
       "language": "es"
@@ -1479,7 +1481,7 @@
       "language": "es"
    },
    "eh": {
-      "en": "Hey",
+      "en": "hey",
       "soundex": "E200",
       "language": "es"
    },
@@ -1499,13 +1501,13 @@
       "en": "is",
       "type": "verb",
       "soundex": "E400",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "eso": {
       "en": "that",
       "soundex": "E400",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "ese": {
@@ -1526,29 +1528,29 @@
    "está": {
       "en": "this",
       "soundex": "E430",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "esto": {
       "en": "this",
       "soundex": "E430",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "esta": {
       "en": "this",
       "soundex": "E430",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "este": {
-      "en": "East",
+      "en": "east",
       "soundex": "E430",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "esté": {
-      "en": "East",
+      "en": "east",
       "soundex": "E430",
       "language": "es"
    },
@@ -1559,7 +1561,7 @@
       "language": "es"
    },
    "éste": {
-      "en": "East",
+      "en": "east",
       "soundex": "É430",
       "language": "es"
    },
@@ -1587,7 +1589,7 @@
       "language": "es"
    },
    "estaban": {
-      "en": "They were",
+      "en": "they were",
       "type": "verb",
       "soundex": "E431",
       "language": "es"
@@ -1618,7 +1620,7 @@
    "estás": {
       "en": "these",
       "soundex": "E434",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "estas": {
@@ -1639,7 +1641,7 @@
    "estoy": {
       "en": "I am",
       "soundex": "E435",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "están": {
@@ -1685,7 +1687,7 @@
       "language": "es"
    },
    "estaría": {
-      "en": "It would",
+      "en": "it would",
       "type": "verb",
       "soundex": "E439",
       "language": "es"
@@ -1742,7 +1744,7 @@
       "language": "es"
    },
    "excelente": {
-      "en": "Excellent",
+      "en": "excellent",
       "soundex": "E456",
       "language": "es"
    },
@@ -1772,14 +1774,15 @@
       "language": "es"
    },
    "esperar": {
-      "en": "wait",
+      "en": "to wait",
+      "type": "verb",
       "soundex": "E499",
       "language": "es"
    },
    "el": {
       "en": "he",
       "soundex": "E500",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "ella": {
@@ -1810,7 +1813,7 @@
    "en": {
       "en": "in",
       "soundex": "E600",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "entonces": {
@@ -1824,7 +1827,7 @@
       "language": "es"
    },
    "entiendes": {
-      "en": "You understand",
+      "en": "you understand",
       "soundex": "E636",
       "language": "es"
    },
@@ -1839,7 +1842,8 @@
       "language": "es"
    },
    "entrar": {
-      "en": "get in",
+      "en": "to get in",
+      "type": "verb",
       "soundex": "E639",
       "language": "es"
    },
@@ -1849,7 +1853,8 @@
       "language": "es"
    },
    "encontrar": {
-      "en": "find",
+      "en": "to find",
+      "type": "verb",
       "soundex": "E646",
       "language": "es"
    },
@@ -1879,7 +1884,8 @@
       "language": "es"
    },
    "empezar": {
-      "en": "start",
+      "en": "to start",
+      "type": "verb",
       "soundex": "E649",
       "language": "es"
    },
@@ -1924,7 +1930,7 @@
       "language": "es"
    },
    "fue": {
-      "en": "It was",
+      "en": "it was",
       "soundex": "F000",
       "language": "es"
    },
@@ -1939,12 +1945,12 @@
       "language": "es"
    },
    "foto": {
-      "en": "Photo",
+      "en": "photo",
       "soundex": "F300",
       "language": "es"
    },
    "fotos": {
-      "en": "Photos",
+      "en": "photos",
       "soundex": "F340",
       "language": "es"
    },
@@ -2069,7 +2075,8 @@
       "language": "es"
    },
    "ganar": {
-      "en": "win",
+      "en": "to win",
+      "type": "verb",
       "soundex": "G690",
       "language": "es"
    },
@@ -2089,7 +2096,7 @@
       "language": "es"
    },
    "gracias": {
-      "en": "Thank you",
+      "en": "thank you",
       "soundex": "G944",
       "language": "es"
    },
@@ -2116,7 +2123,7 @@
    "ha": {
       "en": "he has",
       "soundex": "H000",
-      "stem": "1",
+      "stem": [1],
       "language": "es"
    },
    "he": {
@@ -2160,7 +2167,8 @@
       "language": "es"
    },
    "hablar": {
-      "en": "talk",
+      "en": "to talk",
+      "type": "verb",
       "soundex": "H159",
       "language": "es"
    },
@@ -2297,11 +2305,11 @@
    "hay": {
       "en": "there are",
       "soundex": "H500",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "hola": {
-      "en": "Hello",
+      "en": "hello",
       "soundex": "H500",
       "language": "es"
    },
@@ -2554,7 +2562,7 @@
       "language": "es"
    },
    "jesús": {
-      "en": "Jesus",
+      "en": "jesus",
       "soundex": "J440",
       "language": "es"
    },
@@ -2564,7 +2572,7 @@
       "language": "es"
    },
    "jamás": {
-      "en": "Never",
+      "en": "never",
       "soundex": "J640",
       "language": "es"
    },
@@ -2575,6 +2583,7 @@
    },
    "jugar": {
       "en": "to play",
+      "type": "verb",
       "soundex": "J890",
       "language": "es"
    },
@@ -2586,19 +2595,19 @@
    "la": {
       "en": "the",
       "soundex": "L000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "lo": {
       "en": "the",
       "soundex": "L000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "le": {
       "en": "you",
       "soundex": "L000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "lleva": {
@@ -2627,7 +2636,8 @@
       "language": "es"
    },
    "llevar": {
-      "en": "carry",
+      "en": "to carry",
+      "type": "verb",
       "soundex": "L190",
       "language": "es"
    },
@@ -2644,13 +2654,13 @@
    "los": {
       "en": "the",
       "soundex": "L400",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "las": {
       "en": "the",
       "soundex": "L400",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "les": {
@@ -2713,7 +2723,7 @@
       "language": "es"
    },
    "luna": {
-      "en": "Moon",
+      "en": "moon",
       "soundex": "L600",
       "language": "es"
    },
@@ -2751,6 +2761,7 @@
    },
    "llamar": {
       "en": "to call",
+      "type": "verb",
       "soundex": "L690",
       "language": "es"
    },
@@ -2780,7 +2791,8 @@
       "language": "es"
    },
    "llegar": {
-      "en": "arrive",
+      "en": "to arrive",
+      "type": "verb",
       "soundex": "L890",
       "language": "es"
    },
@@ -2792,13 +2804,13 @@
    "me": {
       "en": "me",
       "soundex": "M000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "mi": {
       "en": "my",
       "soundex": "M000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "mí": {
@@ -2858,13 +2870,14 @@
    },
    "matar": {
       "en": "to kill",
+      "type": "verb",
       "soundex": "M390",
       "language": "es"
    },
    "más": {
       "en": "plus",
       "soundex": "M400",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "mis": {
@@ -2903,7 +2916,7 @@
       "language": "es"
    },
    "muchos": {
-      "en": "Many",
+      "en": "many",
       "soundex": "M424",
       "language": "es"
    },
@@ -2951,7 +2964,7 @@
    "muy": {
       "en": "very",
       "soundex": "M500",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "mal": {
@@ -3036,7 +3049,7 @@
       "language": "es"
    },
    "mientras": {
-      "en": "While",
+      "en": "while",
       "soundex": "M639",
       "language": "es"
    },
@@ -3102,7 +3115,7 @@
       "language": "es"
    },
    "mire": {
-      "en": "Look",
+      "en": "look",
       "soundex": "M900",
       "language": "es"
    },
@@ -3161,7 +3174,7 @@
    "no": {
       "en": "do not",
       "soundex": "N000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "ni": {
@@ -3197,14 +3210,14 @@
       "language": "es"
    },
    "navidad": {
-      "en": "Christmas",
+      "en": "christmas",
       "soundex": "N133",
       "language": "es"
    },
    "nada": {
       "en": "nothing",
       "soundex": "N300",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "nadie": {
@@ -3220,7 +3233,7 @@
    "nos": {
       "en": "us",
       "soundex": "N400",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "noche": {
@@ -3483,7 +3496,7 @@
    "puedo": {
       "en": "may l",
       "soundex": "P300",
-      "stem": "1",
+      "stem": [1],
       "language": "es"
    },
    "puede": {
@@ -3578,7 +3591,7 @@
       "language": "es"
    },
    "pasó": {
-      "en": "He passed",
+      "en": "he passed",
       "soundex": "P400",
       "language": "es"
    },
@@ -3588,7 +3601,7 @@
       "language": "es"
    },
    "paso": {
-      "en": "He passed",
+      "en": "he passed",
       "soundex": "P400",
       "language": "es"
    },
@@ -3630,7 +3643,7 @@
       "language": "es"
    },
    "puesto": {
-      "en": "Market Stall",
+      "en": "market stall",
       "soundex": "P430",
       "language": "es"
    },
@@ -3640,7 +3653,8 @@
       "language": "es"
    },
    "pasar": {
-      "en": "happen",
+      "en": "to happen",
+      "type": "verb",
       "soundex": "P490",
       "language": "es"
    },
@@ -3650,7 +3664,7 @@
       "language": "es"
    },
    "pelea": {
-      "en": "Fight",
+      "en": "fight",
       "soundex": "P500",
       "language": "es"
    },
@@ -3739,7 +3753,8 @@
       "language": "es"
    },
    "pensar": {
-      "en": "think",
+      "en": "to think",
+      "type": "verb",
       "soundex": "P649",
       "language": "es"
    },
@@ -3761,26 +3776,27 @@
       "language": "es"
    },
    "pagar": {
-      "en": "pay",
+      "en": "to pay",
+      "type": "verb",
       "soundex": "P890",
       "language": "es"
    },
    "por": {
       "en": "by",
       "soundex": "P900",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "para": {
       "en": "for",
       "soundex": "P900",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "pero": {
       "en": "but",
       "soundex": "P900",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "perro": {
@@ -3882,7 +3898,7 @@
       "language": "es"
    },
    "presidente": {
-      "en": "President",
+      "en": "president",
       "soundex": "P943",
       "language": "es"
    },
@@ -3932,7 +3948,7 @@
       "language": "es"
    },
    "primero": {
-      "en": "First",
+      "en": "first",
       "soundex": "P969",
       "language": "es"
    },
@@ -3952,7 +3968,7 @@
       "language": "es"
    },
    "pregunta": {
-      "en": "Question",
+      "en": "question",
       "soundex": "P986",
       "language": "es"
    },
@@ -3962,20 +3978,20 @@
       "language": "es"
    },
    "programa": {
-      "en": "Program",
+      "en": "program",
       "soundex": "P989",
       "language": "es"
    },
    "que": {
       "en": "what",
       "soundex": "Q000",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "qué": {
       "en": "what",
       "soundex": "Q000",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "queda": {
@@ -4021,7 +4037,7 @@
    "quiero": {
       "en": "I want",
       "soundex": "Q900",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "quiere": {
@@ -4040,12 +4056,12 @@
       "language": "es"
    },
    "querida": {
-      "en": "Dear",
+      "en": "dear",
       "soundex": "Q930",
       "language": "es"
    },
    "querido": {
-      "en": "Dear",
+      "en": "dear",
       "soundex": "Q930",
       "language": "es"
    },
@@ -4080,7 +4096,7 @@
       "language": "es"
    },
    "rápido": {
-      "en": "Quick",
+      "en": "quick",
       "type": "adjective",
       "soundex": "R300",
       "language": "es"
@@ -4132,7 +4148,7 @@
       "language": "es"
    },
    "realmente": {
-      "en": "Really",
+      "en": "really",
       "soundex": "R566",
       "language": "es"
    },
@@ -4143,6 +4159,7 @@
    },
    "regresar": {
       "en": "to return",
+      "type": "verb",
       "soundex": "R894",
       "language": "es"
    },
@@ -4159,31 +4176,31 @@
    "se": {
       "en": "herself",
       "soundex": "S000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "si": {
       "en": "yes",
       "soundex": "S000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "sí": {
       "en": "yes",
       "soundex": "S000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "su": {
       "en": "his",
       "soundex": "S000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "sé": {
       "en": "know",
       "soundex": "S000",
-      "stem": "1",
+      "stem": [1],
       "language": "es"
    },
    "sea": {
@@ -4301,13 +4318,13 @@
       "en": "alone",
       "type": "adjective",
       "soundex": "S500",
-      "stem": "4",
+      "stem": [4],
       "language": "es"
    },
    "soy": {
       "en": "I am",
       "soundex": "S500",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "solo": {
@@ -4323,12 +4340,12 @@
       "language": "es"
    },
    "sal": {
-      "en": "Salt",
+      "en": "salt",
       "soundex": "S500",
       "language": "es"
    },
    "sol": {
-      "en": "Sun",
+      "en": "sun",
       "soundex": "S500",
       "language": "es"
    },
@@ -4353,7 +4370,8 @@
       "language": "es"
    },
    "salvar": {
-      "en": "save",
+      "en": "to save",
+      "type": "verb",
       "soundex": "S519",
       "language": "es"
    },
@@ -4368,7 +4386,7 @@
       "language": "es"
    },
    "son": {
-      "en": "They are",
+      "en": "they are",
       "soundex": "S600",
       "language": "es"
    },
@@ -4429,7 +4447,7 @@
       "language": "es"
    },
    "siéntate": {
-      "en": "Sit down",
+      "en": "sit down",
       "soundex": "S633",
       "language": "es"
    },
@@ -4488,7 +4506,7 @@
       "language": "es"
    },
    "señor": {
-      "en": "Mr",
+      "en": "mr",
       "soundex": "S690",
       "language": "es"
    },
@@ -4498,7 +4516,7 @@
       "language": "es"
    },
    "señora": {
-      "en": "Mrs",
+      "en": "mrs",
       "soundex": "S690",
       "language": "es"
    },
@@ -4565,7 +4583,7 @@
       "language": "es"
    },
    "sr": {
-      "en": "Mr",
+      "en": "mr",
       "soundex": "S900",
       "language": "es"
    },
@@ -4585,7 +4603,7 @@
       "language": "es"
    },
    "sra": {
-      "en": "Mrs",
+      "en": "mrs",
       "soundex": "S900",
       "language": "es"
    },
@@ -4602,7 +4620,7 @@
       "language": "es"
    },
    "srta": {
-      "en": "Ms",
+      "en": "ms",
       "soundex": "S930",
       "language": "es"
    },
@@ -4621,19 +4639,19 @@
    "te": {
       "en": "tea",
       "soundex": "T000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "tu": {
       "en": "you",
       "soundex": "T000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "tú": {
       "en": "you",
       "soundex": "T000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "ti": {
@@ -4657,14 +4675,14 @@
       "language": "es"
    },
    "tuvo": {
-      "en": "He had",
+      "en": "he had",
       "soundex": "T100",
       "language": "es"
    },
    "todo": {
       "en": "all",
       "soundex": "T300",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "toda": {
@@ -4832,7 +4850,7 @@
    "tengo": {
       "en": "I have",
       "soundex": "T680",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "tenga": {
@@ -4851,12 +4869,13 @@
       "language": "es"
    },
    "tomar": {
-      "en": "drink",
+      "en": "to drink",
+      "type": "verb",
       "soundex": "T690",
       "language": "es"
    },
    "tierra": {
-      "en": "Earth",
+      "en": "earth",
       "type": "noun",
       "soundex": "T900",
       "language": "es"
@@ -4937,7 +4956,7 @@
       "language": "es"
    },
    "terminar": {
-      "en": "end up",
+      "en": "to end up",
       "type": "verb",
       "soundex": "T966",
       "language": "es"
@@ -4960,12 +4979,12 @@
       "language": "es"
    },
    "ud": {
-      "en": "You",
+      "en": "you",
       "soundex": "U300",
       "language": "es"
    },
    "uds": {
-      "en": "You",
+      "en": "you",
       "soundex": "U340",
       "language": "es"
    },
@@ -4980,7 +4999,7 @@
       "language": "es"
    },
    "usar": {
-      "en": "use",
+      "en": "to use",
       "type": "verb",
       "soundex": "U490",
       "language": "es"
@@ -5000,13 +5019,13 @@
    "un": {
       "en": "a",
       "soundex": "U600",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "una": {
       "en": "a",
       "soundex": "U600",
-      "stem": "3",
+      "stem": [3],
       "language": "es"
    },
    "uno": {
@@ -5071,6 +5090,12 @@
       "soundex": "V100",
       "language": "es"
    },
+   "vivo": {
+      "en": "I live",
+      "type": "verb",
+      "soundex": "V100",
+      "language": "es"
+   },
    "vive": {
       "en": "lives",
       "type": "verb",
@@ -5078,7 +5103,7 @@
       "language": "es"
    },
    "vivir": {
-      "en": "live",
+      "en": "to live",
       "type": "verb",
       "soundex": "V190",
       "language": "es"
@@ -5131,7 +5156,7 @@
       "language": "es"
    },
    "viste": {
-      "en": "Dresses",
+      "en": "dresses",
       "soundex": "V430",
       "language": "es"
    },
@@ -5238,7 +5263,7 @@
       "en": "come on",
       "type": "verb",
       "soundex": "V640",
-      "stem": "5",
+      "stem": [5],
       "language": "es"
    },
    "vemos": {
@@ -5329,19 +5354,19 @@
    "y": {
       "en": "and",
       "soundex": "Y000",
-      "stem": "1",
+      "stem": [1],
       "language": "es"
    },
    "yo": {
-      "en": "I",
+      "en": "i",
       "soundex": "Y000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "ya": {
       "en": "already",
       "soundex": "Y000",
-      "stem": "2",
+      "stem": [2],
       "language": "es"
    },
    "york": {

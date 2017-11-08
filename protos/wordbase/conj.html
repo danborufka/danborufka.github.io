@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Word Base: Conjucation Test</title>
+	<link href="css/libs/bootstrap.min.css" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" type="text/css" href="css/libs/bootstrap.min.css"> -->
+	<style type="text/css">
+		body {
+			padding-top: 10px;
+		}
+		table thead {
+			font-weight: bold;
+		}
+		td.type .filter {
+			cursor: pointer;
+			float: right;
+		}
+		td.type .filter:hover {
+			color: #173FC5;
+		}
+		label.chk.active {
+			color: #71BD13;
+		}
+		label.chk.inactive {
+			color: crimson;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<form class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label>starts with:</label>
+					<input class="form-control param" type="search" name="words_startsWith_str" id="words_startsWith_str">
+				</div>
+				<div class="form-group">
+					<label>ends with:</label>
+					<input class="form-control param" type="search" id="words_endsWith_str">
+				</div>
+				<div class="form-group">
+					<label>contains:</label>
+					<input class="form-control param" type="search" id="words_contains_str" data-params="true">
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label>translates to:</label>
+					<input class="form-control param" type="search" id="words_en.contains_str" data-params="true">
+				</div>
+				<div class="form-group">
+					<label class="chk"><input type="checkbox" id="words_hasDiacritic_chk"> with diacritic</label>
+					<label class="chk"><input type="checkbox" id="words_hasAccent_chk"> with accent</label>
+				</div>
+			</div>
+			<div class="col-12">
+				<button class="form-control" id="reset-btn">Reset!</button>
+			</div>
+		</form>
+		<div class="row">
+			<table class="table words">
+				<thead>
+					<tr>
+						<td>word</td>
+						<td>type</td>
+						<td>translation (EN)</td>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+	<script src="js/libs/jquery-3.2.1.min.js"></script>
+<script src="js/libs/popper.min.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../swipe/js/libs/lodash.js"></script>
+	<script type="text/javascript" src="js/wordbase.js"></script>
+	<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			var $words = $('.words tbody');
+			var query = {};
+
+			function _wordsToTable(base) {
+				$words.empty().append(_.map(base.words, function(word) {
+					return '<tr><td>' + word.name + '</td>' + 
+						'<td class="type">' + _.get(word, 'type','(unknown)') + '<a class="fa fa-filter filter" data-prop="type" data-value="' + _.get(word, 'type', '') + '"></a></td>' +
+						'<td>' + _.get(word, 'en', 	'(unknown)') + '</td></tr>';
+				}));
+			}
+
+			$(document)
+				.on('click', '#reset-btn', function(event) {
+					query = {};
+					$words.trigger('update');
+					$('.active').removeClass('active');
+					$('.inactive').removeClass('inactive');
+					event.preventDefault();
+				})
+				.on('change', ':checkbox', function() {
+					var method = this.id.split('_')[1];
+					var checker = _.clone(query);
+
+					if(this.readOnly) {
+						this.checked = this.readOnly = false;
+  						delete query[method];
+					}
+  					else if(!this.checked) {
+  						this.readOnly = this.indeterminate = true;
+  						query[method] = false;
+  					}
+  					else {
+  						query[method] = this.checked;
+  					}
+
+					if(!_.isEqual(checker, query)) {
+						$words.trigger('update');
+					}
+
+					$(this).parent().toggleClass('active', this.checked).toggleClass('inactive', this.indeterminate);
+				})
+				.on('reset', ':checkbox', function() {
+					var method = this.id.split('_')[1];
+					delete query[method];
+					this.indeterminate = true;
+					$(this).parent().removeClass('inactive active');
+					$words.trigger('update');
+				})
+				.on('dblclick', '.chk', function() {
+					$(':checkbox', this).trigger('reset');
+				})
+				.on('update', $words, function() {
+					_wordsToTable(wordBase.get(query));
+				})
+				.on('input', '.param', function(event) {
+					var $this = $(this);
+					var value = $this.val();
+					var active = !!value.length;
+					var method = this.id.split('_')[1];
+					var params = [value];
+
+					if(_.isString(params)) {
+						params = params.concat($this.data('params').split(','));
+					} else {
+						params = params.concat(_.castArray($this.data('params')));
+					}
+
+					var checker = _.clone(query);
+
+
+					if(active && value.length) {
+						query[method] = params;
+					} else {
+						delete query[method];
+					}
+
+					if(!_.isEqual(checker, query)) {
+						$words.trigger('update');
+					}
+				})
+				.on('click', '.filter', function() {
+					var $this = $(this);
+					var value = $this.data('value');
+					var prop = $this.data('prop');
+
+					if(value.length && query[prop] !== value) {
+						query[prop] = value;
+					} else {
+						delete query[prop];
+					}
+					$words.trigger('update');
+				});
+
+			$.get('../swipe/js/es-freq1k.json', function(result) {
+				window.wordBase = new WordBase( _.map(result, Word.fromPair) );
+				_wordsToTable(wordBase);
+			});
+		});
+	</script>
+</body>
+</html>
